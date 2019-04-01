@@ -10,9 +10,6 @@ import javax.swing.JFrame
 import javax.swing.JLabel
 import javax.swing.WindowConstants
 
-// Step 1) Run ffmpeg -i he2019_teaser.mp4 -s 1x1 $pic%06d.jpg
-// Step 2) Run this program
-
 private const val WIDTH = 480
 private const val HEIGHT = 480
 
