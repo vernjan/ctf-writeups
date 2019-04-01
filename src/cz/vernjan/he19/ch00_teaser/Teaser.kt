@@ -1,4 +1,4 @@
-package cz.vernjan.teaser
+package cz.vernjan.he19.ch00_teaser
 
 import java.awt.image.BufferedImage
 import java.nio.file.Files
