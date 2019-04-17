@@ -1,4 +1,4 @@
-# Challenge 07
+# 07 - Shell we Argument
 I started with analysis of `eggi.sh`. The code is obviously obfuscated but applying a set of string replacements
 will do the trick. I wrote a simple Kotlin program to help with that. Once deobfuscated, we can read
 

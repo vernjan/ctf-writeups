@@ -1,4 +1,4 @@
-# Challenge 03
+# 03 - Sloppy Encryption
 I started with analyzing `sloppy.rb`. This [Ruby online REPL](https://repl.it/languages/ruby) helped me a lot.
 I added a few debugging prints and learnt how the encryption works. Then I wrote a simple Kotlin program for decryption. 
 
