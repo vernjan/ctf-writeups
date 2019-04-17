@@ -1,6 +1,6 @@
 # Challenge 07
 I started with analysis of `eggi.sh`. The code is obviously obfuscated but applying a set of string replacements
-will do the trick. I wrote a simple Kotlin program to help with that. Once deobfuscated, we can ren
+will do the trick. I wrote a simple Kotlin program to help with that. Once deobfuscated, we can read
 
 ```$bash
 if [ $# -lt 1 ]
@@ -91,3 +91,5 @@ Ahhhh, finally! Let's discuss your arguments
 Great, that are the perfect arguments. It took some time, but I'm glad, you see it now, too!
 Find your egg at https://hackyeaster.hacking-lab.com/hackyeaster/images/eggs/a61ef3e975acb7d88a127ecd6e156242c74af38c.png
 ```
+
+Get the egg here^^
