@@ -8,13 +8,17 @@
 I started with 
 ```
 $ file evihcra.piz
-TODO output
+evihcra.piz: DIY-Thermocam raw data (Lepton 3.x), scale 24575-64617, spot sensor temperature 0.000000, color scheme 163, minimum point enabled, maximum point enabled, calibration: offset -0.000000, slope 6523.970215
 ```
 
-Unfortunately, this was a blind alley. I tried to open the camera RAW data using ThermalDataViewer and
-ThermoVision but it took me nowhere.
+Unfortunately, this was a blind alley. I tried to open the camera RAW data using
+[ThermalDataViewer](https://github.com/maxritter/DIY-Thermocam/tree/master/Software/Thermal%20Data%20Viewer) and
+[ThermoVision](https://github.com/maxritter/DIY-Thermocam/tree/master/Software/Thermal%20Analysis%20Software)
+but it took me nowhere.
 
-Then I started to wonder why the name of the challenge is in reverse. Actually, if you reverse `evihcra.piz`
+So back to beginning..
+
+I started to wonder why the name of the challenge is in reverse. Actually, if you reverse `evihcra.piz`
 you get `archive.zip`. The trick is you also need to reverse the file content. I used this bash oneliner:
 
 `< evihcra.piz xxd -p -c1 | tac | xxd -p -r > archive.zip`
