@@ -24,16 +24,20 @@ read `HELLO`.
 dots looks like it has been cut from the full picture so basically we are just restoring it.
 
    Here is 90° clock-wise rotation forming a word `CHOCOL`
+   
    ![dots-combined-rot90.png](dots-combined-rot90.png)
    
    Here is 180° clock-wise rotation forming a word `WHITE`
+   
    ![dots-combined-rot180.png](dots-combined-rot180.png)
    
    Here is 270° clock-wise rotation forming a word `PASSWO`
+   
    ![dots-combined-rot1270.png](dots-combined-rot270.png)
   
   
 This is the final result with letters colored. Each color represents one rotation.
+
 ![dots-colored.png](dots-colored.png)
 
 It's not perfect but with a bit of scrabbling we can guess the message:
