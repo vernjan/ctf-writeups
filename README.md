@@ -12,4 +12,6 @@ Solutions for CTF [Hacky Easter](https://hackyeaster.hacking-lab.com/hackyeaster
 - [08 - Modern Art](src/cz/vernjan/he19/ch08/README.md)
 - [09 - rorriM rorriM](src/cz/vernjan/he19/ch09/README.md)
 - [11 - Memeory 2.0](src/cz/vernjan/he19/ch11/README.md)
+- [13 - Symphony in HEX](src/cz/vernjan/he19/ch13/README.md)
 - [15 - Seen in Steem](src/cz/vernjan/he19/ch15/README.md)
+- [25 - Hidden Egg 1](src/cz/vernjan/he19/ch25/README.md)

@@ -16,4 +16,7 @@ fun String.hexToAscii(): String {
 
 fun String.asciiToHex(): String = toCharArray().joinToString { Integer.toHexString(it.toInt()) }
 
+// TODO maybe we could be faster
+fun Int.toAscii() = Integer.toHexString(this).hexToAscii()
+
 fun readFile(path: String): String = Files.readString(Paths.get("src/cz/vernjan/he19/$path"))

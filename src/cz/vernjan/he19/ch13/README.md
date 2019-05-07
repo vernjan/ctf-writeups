@@ -12,7 +12,10 @@
 
 Being a total musical analphabet, I was not looking forward to this one. For no reason though!
 
-I started with a few YouTube (**TODO links**) videos to learn what the hell are *quavers* and *semibreves*.
+I started with a few YouTube videos to learn what the hell are *quavers* and *semibreves*.
+- [The Semibreve, Minim and Crotchet](https://www.youtube.com/watch?v=ZcThdL2CQpI)
+- [Quavers!](https://www.youtube.com/watch?v=yoAkkFa0Kto)
+
 
 Now it's actually quite simple, just follow the hint:
 
