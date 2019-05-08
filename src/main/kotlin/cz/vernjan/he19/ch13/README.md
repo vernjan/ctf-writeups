@@ -16,7 +16,6 @@ I started with a few YouTube videos to learn what the hell are *quavers* and *se
 - [The Semibreve, Minim and Crotchet](https://www.youtube.com/watch?v=ZcThdL2CQpI)
 - [Quavers!](https://www.youtube.com/watch?v=yoAkkFa0Kto)
 
-
 Now it's actually quite simple, just follow the hint:
 
 Count the number of *quavers* in each [barline](https://en.wikipedia.org/wiki/Bar_(music) and read the pitch

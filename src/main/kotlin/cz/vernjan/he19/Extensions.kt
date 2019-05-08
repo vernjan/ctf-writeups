@@ -2,6 +2,9 @@ package cz.vernjan.he19
 
 import java.nio.file.Files
 import java.nio.file.Paths
+import java.sql.DriverManager
+import java.sql.SQLException
+import java.util.*
 
 fun String.hexToAscii(): String {
     val output = StringBuilder()
@@ -19,4 +22,6 @@ fun String.asciiToHex(): String = toCharArray().joinToString { Integer.toHexStri
 // TODO maybe we could be faster
 fun Int.toAscii() = Integer.toHexString(this).hexToAscii()
 
-fun readFile(path: String): String = Files.readString(Paths.get("src/cz/vernjan/he19/$path"))
+// TODO lepe
+fun readFile(path: String): String = Files.readString(Paths.get("src/main/kotlin/cz/vernjan/he19/$path"))
+fun readTestFile(path: String): String = Files.readString(Paths.get("src/test/kotlin/cz/vernjan/he19/$path"))
