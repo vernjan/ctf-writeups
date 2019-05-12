@@ -1,0 +1,24 @@
+func (result i32)
+(local i32)
+  loop
+    get_local 0
+    get_local 0
+    i32.load8_u offset=0 align=1
+    i32.const 24
+    get_local 0
+    i32.add
+    i32.load8_u offset=0 align=1
+    i32.xor
+    i32.store8 offset=0 align=1
+    get_local 0
+    i32.const 1
+    i32.add
+    set_local 0
+    get_local 0
+    i32.const 24
+    i32.le_s
+    br_if 0
+  end
+  i32.const 1337
+  return
+end

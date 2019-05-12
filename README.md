@@ -17,5 +17,6 @@ Solutions for CTF [Hacky Easter](https://hackyeaster.hacking-lab.com/hackyeaster
 - [13 - Symphony in HEX](src/main/kotlin/cz/vernjan/he19/ch13/README.md)
 - [15 - Seen in Steem](src/main/kotlin/cz/vernjan/he19/ch15/README.md)
 - [16 - Every-Thing](src/main/kotlin/cz/vernjan/he19/ch16/README.md)
+- [18 - Egg Storage](src/main/kotlin/cz/vernjan/he19/ch18/README.md)
 - [24 - CAPTEG](src/main/kotlin/cz/vernjan/he19/ch24/README.md)
 - [25 - Hidden Egg 1](src/main/kotlin/cz/vernjan/he19/ch25/README.md)
