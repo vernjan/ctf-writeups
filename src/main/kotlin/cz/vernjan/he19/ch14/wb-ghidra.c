@@ -30,71 +30,86 @@ encrypt() { // sub_400b8d
 }
 
 undefined8 encryptBlock(undefined8 *block) { // sub_400b0d
-  undefined local_28 [28];
+  undefined some [28];
   
-  FUN_00400735(block, local_28); // sub_400735
+  copyAndSwapRowsWithColumns(block, some); // sub_400735
   
   int i = 0;
   while (i < 9) { // 9 times
-    FUN_00400812(local_28);
-    FUN_00400947(i, local_28);
+    shiftRows(some);
+    FUN_00400947(i, some);
     i++;
   }
   
-  FUN_00400812(local_28);
-  FUN_00400a7a(local_28);
-  FUN_004007a5(local_28, block);
+  shiftRows(some);
+  readFrom0x602060(some); // lookup encrypted bytes in the DATA section
+  copyAndReverseSwapRowsWithColumns(some, block); // rewrites plain text with the encrypted version
   
   return block;
 }
 
-// TODO FUN_00400735
-void FUN_00400735(long lParm1,long lParm2)
+// byte by byte ..
+// 0 -> 0
+// 1 -> 4
+// 2 -> 8
+// 3 -> c
 
-{
-  int local_10;
-  int local_c;
+// 4 -> 1
+// 5 -> 5
+// 6 -> 9
+// 7 -> d
 
-  local_c = 0;
-  while (local_c < 4) {
-    local_10 = 0;
-    while (local_10 < 4) {
-      *(undefined *)(lParm2 + (long)local_c * 4 + (long)local_10) =
-           *(undefined *)(lParm1 + (long)(local_c + local_10 * 4));
-      local_10 = local_10 + 1;
-    }
-    local_c = local_c + 1;
-  }
+// 8 -> 2
+// 9 -> 6
+// a -> a
+// b -> e
+
+// c -> 3
+// d -> 7
+// e -> b
+// f -> f
+
+// 0, 1, 2, 3
+// 4, 5, 6, 7
+// 8, 9, a, b
+// c, d, e, f
+
+// 0, 4, 8, c
+// 1, 5, 9, d
+// 2, 6, a, e
+// 3, 7, b, f
+
+
+void shiftRows(long *some) { // 400812
+
+  undefined temp;
+
+  // shift 2nd row by 1
+  temp = *(some + 4);
+  *(some + 4) = *(some + 5);
+  *(some + 5) = *(some + 6);
+  *(some + 6) = *(some + 7);
+  *(some + 7) = temp;
+  
+  // shift 3rd row by 2
+  temp = *(some + 8);
+  *(some + 8) = *(some + 10);
+  *(some + 10) = temp;
+  temp = *(some + 9);
+  *(some + 9) = *(some + 0xb);
+  *(some + 0xb) = temp;
+  
+  // shift 4th row by 3
+  temp = *(some + 0xc);
+  *(some + 0xc) = *(some + 0xf);
+  *(some + 0xf) = *(some + 0xe);
+  *(some + 0xe) = *(some + 0xd);
+  *(some + 0xd) = temp;
+  
   return;
 }
 
-void FUN_00400812(long lParm1)
-
-{
-  undefined uVar1;
-
-  uVar1 = *(undefined *)(lParm1 + 4);
-  *(undefined *)(lParm1 + 4) = *(undefined *)(lParm1 + 5);
-  *(undefined *)(lParm1 + 5) = *(undefined *)(lParm1 + 6);
-  *(undefined *)(lParm1 + 6) = *(undefined *)(lParm1 + 7);
-  *(undefined *)(lParm1 + 7) = uVar1;
-  uVar1 = *(undefined *)(lParm1 + 8);
-  *(undefined *)(lParm1 + 8) = *(undefined *)(lParm1 + 10);
-  *(undefined *)(lParm1 + 10) = uVar1;
-  uVar1 = *(undefined *)(lParm1 + 9);
-  *(undefined *)(lParm1 + 9) = *(undefined *)(lParm1 + 0xb);
-  *(undefined *)(lParm1 + 0xb) = uVar1;
-  uVar1 = *(undefined *)(lParm1 + 0xc);
-  *(undefined *)(lParm1 + 0xc) = *(undefined *)(lParm1 + 0xf);
-  *(undefined *)(lParm1 + 0xf) = *(undefined *)(lParm1 + 0xe);
-  *(undefined *)(lParm1 + 0xe) = *(undefined *)(lParm1 + 0xd);
-  *(undefined *)(lParm1 + 0xd) = uVar1;
-  return;
-}
-
-void FUN_00400947(int iParm1,long lParm2)
-
-{
+void FUN_00400947(int iParm1,long lParm2) {
   undefined auStack56 [24];
   int local_20;
   int local_1c;
@@ -135,71 +150,46 @@ void FUN_00400947(int iParm1,long lParm2)
   return;
 }
 
-void FUN_00400812(long lParm1)
 
-{
-  undefined uVar1;
 
-  uVar1 = *(undefined *)(lParm1 + 4);
-  *(undefined *)(lParm1 + 4) = *(undefined *)(lParm1 + 5);
-  *(undefined *)(lParm1 + 5) = *(undefined *)(lParm1 + 6);
-  *(undefined *)(lParm1 + 6) = *(undefined *)(lParm1 + 7);
-  *(undefined *)(lParm1 + 7) = uVar1;
-  uVar1 = *(undefined *)(lParm1 + 8);
-  *(undefined *)(lParm1 + 8) = *(undefined *)(lParm1 + 10);
-  *(undefined *)(lParm1 + 10) = uVar1;
-  uVar1 = *(undefined *)(lParm1 + 9);
-  *(undefined *)(lParm1 + 9) = *(undefined *)(lParm1 + 0xb);
-  *(undefined *)(lParm1 + 0xb) = uVar1;
-  uVar1 = *(undefined *)(lParm1 + 0xc);
-  *(undefined *)(lParm1 + 0xc) = *(undefined *)(lParm1 + 0xf);
-  *(undefined *)(lParm1 + 0xf) = *(undefined *)(lParm1 + 0xe);
-  *(undefined *)(lParm1 + 0xe) = *(undefined *)(lParm1 + 0xd);
-  *(undefined *)(lParm1 + 0xd) = uVar1;
-  return;
-}
-
-void FUN_00400a7a(long lParm1)
-
-{
-  int local_10;
-  int local_c;
-
-  local_c = 0;
-  while (local_c < 4) {
-    local_10 = 0;
-    while (local_10 < 4) {
-      *(undefined *)((long)local_c * 4 + lParm1 + (long)local_10) =
-           (&DAT_00602060)
-           [(long)(int)(uint)*(byte *)((long)local_c * 4 + lParm1 + (long)local_10) +
-            ((long)local_10 + (long)local_c * 4) * 0x100];
-      local_10 = local_10 + 1;
+void readFrom0x602060(long *some) { // 400a7a
+  int i = 0;
+  while (i < 4) {
+    int j = 0;
+    while (j < 4) {
+    // FIXME rewrite so this makes sense (once I'm sure about it)
+      *(some + i * 4 + j) = (&DAT_00602060) [*(byte *) (some + i * 4 + j) + (i * 4 + j) * 0x100]; // 256 // TODO maybe this is a value from some .. ! WOULD MAKE SENSE: DATA[some[i] + 256*i] YES: 512*256 = 131,072
+      j++;
     }
-    local_c = local_c + 1;
+    i++;
   }
-  return;
 }
 
-void FUN_004007a5(long lParm1,long lParm2)
-
-{
-  int local_10;
-  int local_c;
-
-  local_c = 0;
-  while (local_c < 4) {
-    local_10 = 0;
-    while (local_10 < 4) {
-      *(undefined *)(lParm2 + (long)(local_c + local_10 * 4)) =
-           *(undefined *)((long)local_c * 4 + lParm1 + (long)local_10);
-      local_10 = local_10 + 1;
+void copyAndSwapRowsWithColumns(long *block,long *some) { // 400735
+  int i = 0;
+  while (i < 4) {
+    int j = 0;
+    while (j < 4) {
+      *(some + i * 4 + j) = *(block + i + j * 4);
+      j++;
     }
-    local_c = local_c + 1;
+    i++;
   }
-  return;
 }
 
-void printHex(long *plainText,int totalSize) { // sub_400677
+void copyAndReverseSwapRowsWithColumns(long *some,long *block) { // 4007a5
+  int i = 0;
+  while (i < 4) {
+    int j = 0;
+    while (j < 4) {
+      *(block + i + j * 4) = *(some + i * 4 + j);
+      j++;
+    }
+    i++;
+  }
+}
+
+void printHex(long *plainText,int totalSize) { // 400677
   int i = 0;
   while (i < totalSize) {
     printf("%02x",(ulong)((int)*(char *)(plainText + (long)i) & 0xff));

@@ -97,32 +97,13 @@ void sub_400947(int arg0, int arg1) {
     return;
 }
 
-int sub_400812(int arg0) {
-    var_1 = *(int8_t *)(arg0 + 0x4) & 0xff;
-    *(int8_t *)(arg0 + 0x4) = *(int8_t *)(arg0 + 0x5) & 0xff;
-    *(int8_t *)(arg0 + 0x5) = *(int8_t *)(arg0 + 0x6) & 0xff;
-    *(int8_t *)(arg0 + 0x6) = *(int8_t *)(arg0 + 0x7) & 0xff;
-    *(int8_t *)(arg0 + 0x7) = var_1 & 0xff;
-    var_1 = *(int8_t *)(arg0 + 0x8) & 0xff;
-    *(int8_t *)(arg0 + 0x8) = *(int8_t *)(arg0 + 0xa) & 0xff;
-    *(int8_t *)(arg0 + 0xa) = var_1 & 0xff;
-    var_1 = *(int8_t *)(arg0 + 0x9) & 0xff;
-    *(int8_t *)(arg0 + 0x9) = *(int8_t *)(arg0 + 0xb) & 0xff;
-    *(int8_t *)(arg0 + 0xb) = var_1 & 0xff;
-    var_1 = *(int8_t *)(arg0 + 0xc) & 0xff;
-    *(int8_t *)(arg0 + 0xc) = *(int8_t *)(arg0 + 0xf) & 0xff;
-    *(int8_t *)(arg0 + 0xf) = *(int8_t *)(arg0 + 0xe) & 0xff;
-    *(int8_t *)(arg0 + 0xe) = *(int8_t *)(arg0 + 0xd) & 0xff;
-    rax = var_1 & 0xff;
-    *(int8_t *)(arg0 + 0xd) = rax;
-    return rax;
-}
-
 void sub_400a7a(int arg0) {
     var_18 = arg0;
     for (var_4 = 0x0; var_4 <= 0x3; var_4 = var_4 + 0x1) {
             for (var_8 = 0x0; var_8 <= 0x3; var_8 = var_8 + 0x1) {
-                    *(int8_t *)(sign_extend_32(var_8) + sign_extend_64(var_4) * 0x4 + var_18) = *(int8_t *)(0x602060 + sign_extend_32(*(int8_t *)(sign_extend_32(var_8) + sign_extend_32(var_4) * 0x4 + var_18) & 0xff & 0xff) + (sign_extend_64(var_8) + (sign_extend_64(var_4) << 0x2) << 0x8)) & 0xff;
+
+                    *(int8_t *)(sign_extend_32(var_8) + sign_extend_64(var_4) * 0x4 + var_18) =
+                        *(int8_t *)(0x602060 + sign_extend_32(*(int8_t *)(sign_extend_32(var_8) + sign_extend_32(var_4) * 0x4 + var_18) & 0xff & 0xff) + (sign_extend_64(var_8) + (sign_extend_64(var_4) << 0x2) << 0x8)) & 0xff;
             }
     }
     return;
