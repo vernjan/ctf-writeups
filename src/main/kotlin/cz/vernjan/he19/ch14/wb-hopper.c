@@ -78,17 +78,20 @@ int sub_400812(int arg0) {
 }
 
 void sub_400947(int arg0, int arg1) {
-    var_34 = arg0;
-    var_40 = arg1;
-    for (var_4 = 0x0; var_4 <= 0x3; var_4 = var_4 + 0x1) {
-            var_8 = 0x0;
-            for (var_C = 0x0; var_C <= 0x3; var_C = var_C + 0x1) {
-                    var_8 = var_8 ^ *(int32_t *)((sign_extend_32(*(int8_t *)(sign_extend_32(var_4) + sign_extend_32(var_C) * 0x4 + var_40) & 0xff & 0xff) + (sign_extend_64(var_4) + ((sign_extend_64(var_34) << 0x2) + sign_extend_64(var_C) << 0x2) << 0x8)) * 0x4 + 0x603060);
+    round = arg0;
+    some = arg1;
+    for (i = 0x0; i <= 0x3; i = i + 0x1) {
+            acc = 0x0;
+
+            for (j = 0x0; j <= 0x3; j = j + 0x1) {
+                    acc = acc ^ *(int32_t *)((sign_extend_32(*(int8_t *)(i + j * 4 + some)) + (i + ((round * 4) + j * 4) *256)) * 4 + 0x603060);
             }
-            for (var_10 = 0x0; var_10 <= 0x3; var_10 = var_10 + 0x1) {
-                    *(int8_t *)(sign_extend_32(var_4) + (sign_extend_64(var_10) << 0x2) + rbp - 0x30) = var_8 >> var_10 << 0x3;
+
+            for (j = 0x0; j <= 0x3; j = j + 0x1) {
+                    *(int8_t *)(i + j * 4) + rbp - 0x30) = acc >> j << 0x3;
             }
     }
+
     for (var_14 = 0x0; var_14 <= 0x3; var_14 = var_14 + 0x1) {
             for (var_18 = 0x0; var_18 <= 0x3; var_18 = var_18 + 0x1) {
                     *(int8_t *)(sign_extend_32(var_18) + sign_extend_32(var_14) * 0x4 + var_40) = *(int8_t *)(sign_extend_32(var_18) + (sign_extend_64(var_14) << 0x2) + rbp - 0x30) & 0xff;

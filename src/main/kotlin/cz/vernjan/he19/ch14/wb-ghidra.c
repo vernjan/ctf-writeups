@@ -34,11 +34,11 @@ undefined8 encryptBlock(undefined8 *block) { // sub_400b0d
   
   copyAndSwapRowsWithColumns(block, some); // sub_400735
   
-  int i = 0;
-  while (i < 9) { // 9 times
+  int round = 0;
+  while (round < 9) { // 9 rounds
     shiftRows(some);
-    FUN_00400947(i, some);
-    i++;
+    FUN_00400947(round, some); // The real encryption here ..
+    round++;
   }
   
   shiftRows(some);
@@ -109,57 +109,61 @@ void shiftRows(long *some) { // 400812
   return;
 }
 
-void FUN_00400947(int iParm1,long lParm2) {
-  undefined auStack56 [24];
-  int local_20;
-  int local_1c;
-  int local_18;
-  int local_14;
-  uint local_10;
-  int local_c;
+void FUN_00400947(int round,long *some) {
 
-  local_c = 0;
-  while (local_c < 4) {
+  undefined auStack56 [24];
+  uint local_10; // TODO UINT !!!
+
+  int i = 0;
+  while (i < 4) {
     local_10 = 0;
-    local_14 = 0;
-    while (local_14 < 4) {
-      local_10 = local_10 ^
-                 *(uint *)(&DAT_00603060 +
-                          ((long)(int)(uint)*(byte *)((long)local_14 * 4 + lParm2 + (long)local_c) +
-                          ((long)local_c + ((long)iParm1 * 4 + (long)local_14) * 4) * 0x100) * 4);
-      local_14 = local_14 + 1;
+
+    int j = 0;
+    while (j < 4) {
+      local_10 = local_10 ^ // XOR !!!
+      // 0x603060 - 0x603060 = 0x1000 = 4094 = 16 * 256
+                 *(uint *)(&DAT_00603060 + // TODO I READ INT HERE !!!
+                          ( (long)(int)(uint)*(byte *) (some + i + 4 * j) + (i + (round * 4 + j) * 4) * 0x100) * 4);
+
+                          // DATA[256*i + some[i]]
+
+
+
+      j++;
     }
-    local_18 = 0;
-    while (local_18 < 4) {
-      auStack56[(long)local_c + (long)local_18 * 4] =
-           (char)(local_10 >> ((byte)(local_18 << 3) & 0x1f));
-      local_18 = local_18 + 1;
+
+//          *(some + i * 4 + j) = (&DAT_00602060) [*(byte *) (some + i * 4 + j) + (i * 4 + j) * 0x100];
+
+    // DO SMTH with local_10 and put 16 bytes to auStack (swap COL and ROWS)
+    j = 0;
+    while (j < 4) { // SPLIT INT INTO ARRAY DOING SOME SHIFTING
+      auStack56[i + j * 4] = (char)(local_10 >> ((byte)(j << 3) & 0x1f)); // local_10 / ((j * 8) & 0b00011111) ==> local_10 / 0, 8, 16, 24 (??)
+      j++;
     }
-    local_c = local_c + 1;
+    i++;
   }
-  local_1c = 0;
-  while (local_1c < 4) {
-    local_20 = 0;
-    while (local_20 < 4) {
-      *(undefined *)((long)local_1c * 4 + lParm2 + (long)local_20) =
-           auStack56[(long)local_20 + (long)local_1c * 4];
-      local_20 = local_20 + 1;
+
+  // copy auStack to some
+  int i = 0;
+  while (i < 4) {
+    int j = 0;
+    while (j < 4) {
+      *(some + i * 4 + j) = auStack56[i * 4 + j];
+      j++;
     }
-    local_1c = local_1c + 1;
+    i++;
   }
-  return;
 }
 
 
-
+// The last round
 void readFrom0x602060(long *some) { // 400a7a
   int i = 0;
   while (i < 4) {
     int j = 0;
     while (j < 4) {
     // FIXME rewrite so this makes sense (once I'm sure about it)
-      *(some + i * 4 + j) = (&DAT_00602060) [*(byte *) (some + i * 4 + j) + (i * 4 + j) * 0x100]; // 256
-      // TODO maybe this is a value from some .. ! WOULD MAKE SENSE: DATA[some[i] + 256*i] YES: 512*256 = 131,072
+      *(some + i * 4 + j) = (&DAT_00602060) [ *(byte *)(some + i * 4 + j) + (i * 4 + j) * 0x100]; // 256 // TODO maybe this is a value from some .. ! WOULD MAKE SENSE: DATA[256*i + some[i]] YES: 512*256 = 131,072
       j++;
     }
     i++;
