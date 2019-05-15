@@ -32,7 +32,7 @@ class WhiteBoxKtTest {
 
         shiftRows(state)
 
-        assertEquals("01237456ab89defc", String(state))
+        assertEquals("01235674ab89fcde", String(state))
     }
 
     @Test
@@ -56,10 +56,10 @@ class WhiteBoxKtTest {
 
     @Test
     fun encryptBlock2() {
-        val text = "aaaaaaaaaaaaaaaa"
+        val text = "abcdefghijklmnop"
 
         val encrypted = encryptBlock(text.toByteArray())
 
-        assertEquals("31925cd8f88ae453fd715aff8e6a23a1", Hex.encodeHexString(encrypted))
+        assertEquals("7ec041d65b2ff88c35b8626d8c2208d2", Hex.encodeHexString(encrypted))
     }
 }
