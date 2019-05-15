@@ -1,74 +1,72 @@
 package cz.vernjan.he19.ch14
 
 import org.apache.commons.codec.binary.Hex
+import java.nio.ByteBuffer
 
 const val BLOCK_SIZE = 16
 
 fun main() {
-    val text = "Hello, encrypt me, nice please!!"
+    val text = "aaaaaaaaaaaaaaaa"
 
-    // TODO padding
+    // TODO Add padding
 
     val blockCount = text.length / BLOCK_SIZE
     for (i in (0 until blockCount)) {
         val blockStart = i * BLOCK_SIZE
         val blockEnd = blockStart + BLOCK_SIZE
         val block = text.substring(blockStart, blockEnd)
+
         val encrypted: ByteArray = encryptBlock(block.toByteArray())
+
         println("Encrypted: '$block' -> ${Hex.encodeHexString(encrypted)}")
     }
 }
 
-// TODO to Extensions
+// TODO Move to Extensions
 class DataLoader {
 
-//    val data: ByteArray = this::class.java.getResourceAsStream("key.data").readAllBytes()
-//
     companion object {
-        val data: ByteArray = this::class.java.getResourceAsStream("key.data").readAllBytes()
-//        fun readKeyData(): ByteArray = this::class.java.getResourceAsStream("key.data").readAllBytes()
+
+        private const val OFFSET = 16 * 256 // TODO docs, name ..
+
+        private val data: ByteArray = this::class.java.getResourceAsStream("key.data").readAllBytes()
+
+        val data1: ByteArray = data.copyOfRange(0, OFFSET)
+        val data2: ByteArray = data.copyOfRange(OFFSET, data.size)
     }
 }
-
 
 fun encryptBlock(block: ByteArray): ByteArray {
     println("Encrypting block '${String(block)}'")
 
-    var state = copyAndSwap(block)
+    val state = block.copyOf()
 
-    for (i in (0 until 9)) {
-        state = shiftRows(state)
+    swapRowsWithColumns(state)
+
+    for (round in (0 until 9)) {
+        shiftRows(state)
+        encryptionRound(round, state)
     }
 
-    state = shiftRows(state)
-    // TODO
-    state = copyAndReverseSwap(state)
+    shiftRows(state)
+    lastEncryptionRound(state)
+    swapRowsWithColumns(state)
 
-    return block
+    return state
 }
 
 
 /**
  * Copy the byte array and swap rows with columns.
  */
-fun copyAndSwap(source: ByteArray): ByteArray { // TODO all methods void??
-    val copy = ByteArray(BLOCK_SIZE)
+fun swapRowsWithColumns(state: ByteArray) { // TODO docs up smehwre: state is 4*4 matrix
+    val temp = ByteArray(BLOCK_SIZE)
 
-    for (i in (0..3))
+    for (i in (0..3)) // TODO unite .. vs. until
         for (j in (0..3))
-            copy[4 * i + j] = source[i + 4 * j]
+            temp[4 * i + j] = state[i + 4 * j]
 
-    return copy
-}
-
-fun copyAndReverseSwap(source: ByteArray): ByteArray { // TODO all methods void??
-    val copy = ByteArray(BLOCK_SIZE)
-
-    for (i in (0..3))
-        for (j in (0..3))
-            copy[i + 4 * j] = source[4 * i + j]
-
-    return copy
+    temp.copyInto(state)
 }
 
 /**
@@ -78,52 +76,74 @@ fun copyAndReverseSwap(source: ByteArray): ByteArray { // TODO all methods void?
  * 2nd row -> Shift by 2
  * 3rd row -> Shift by 3
  */
-fun shiftRows(source: ByteArray): ByteArray {
-    val copy = ByteArray(BLOCK_SIZE)
+fun shiftRows(state: ByteArray) {
+    val temp = ByteArray(BLOCK_SIZE)
 
-    copy[0] = source[0]
-    copy[1] = source[1]
-    copy[2] = source[2]
-    copy[3] = source[3]
+    temp[0] = state[0]
+    temp[1] = state[1]
+    temp[2] = state[2]
+    temp[3] = state[3]
 
-    copy[4] = source[7]
-    copy[5] = source[4]
-    copy[6] = source[5]
-    copy[7] = source[6]
+    temp[4] = state[7]
+    temp[5] = state[4]
+    temp[6] = state[5]
+    temp[7] = state[6]
 
-    copy[8] = source[10]
-    copy[9] = source[11]
-    copy[10] = source[8]
-    copy[11] = source[9]
+    temp[8] = state[10]
+    temp[9] = state[11]
+    temp[10] = state[8]
+    temp[11] = state[9]
 
-    copy[12] = source[13]
-    copy[13] = source[14]
-    copy[14] = source[15]
-    copy[15] = source[12]
+    temp[12] = state[13]
+    temp[13] = state[14]
+    temp[14] = state[15]
+    temp[15] = state[12]
 
-    return copy
+    temp.copyInto(state)
 }
 
-fun loadKey(state: ByteArray) {
-//    val copy = ByteArray(BLOCK_SIZE)
+// TODO Endianity ..
+@ExperimentalUnsignedTypes
+fun encryptionRound(round: Int, state: ByteArray) {
 
-    for (i in (0..3))
-        for (j in (0..3)) {
-            val index = i * 4 + j // TODO we could just do (0..15)
-            state[index] = DataLoader.data[256 * index + state[index]] // Note: access from 0 to 16*256 (ie 4096)
+    val temp = ByteArray(BLOCK_SIZE)
+
+    for (i in (0 until 4)) {
+        var acc = 0x00000000
+
+        for (j in (0 until 4)) {
+
+            // i.e. 256 integers byte
+            val pos = (state[i + 4 * j].toUByte().toInt() + 256 * (16 * round + i + 4 * j)) * 4 // SHOULD BE OK !!!
+            println("Position: ${Integer.toHexString(pos + 4096)}")
+
+            val byteArray =  DataLoader.data2.copyOfRange(pos, pos + 4)
+//            println("Array: ${Hex.encodeHexString(byteArray)}")
+
+            val retrievedInt = ByteBuffer.wrap(byteArray).int
+//            println("Value ${retrievedInt.toHex()}")
+
+            acc = acc xor retrievedInt
         }
+
+        println("XORED ${Integer.toHexString(acc)}")
+        val bytes = ByteBuffer.allocate(4).putInt(acc).array().reversedArray()
+//        println("XORED ${Hex.encodeHexString(bytes)}")
+
+        for (j in (0 until 4)) {
+            temp[i + 4 * j] = bytes[j]
+        }
+    }
+
+    for (i in (0 until 16)) {
+        state[i] = temp[i]
+    }
 }
 
-//void readFrom0x602060(long *state) { // 400a7a
-//    int i = 0;
-//    while (i < 4) {
-//        int j = 0;
-//        while (j < 4) {
-//            // FIXME rewrite so this makes sense (once I'm sure about it)
-//            *(state + i * 4 + j) = (&DAT_00602060) [*(byte *) (state + i * 4 + j) + (i * 4 + j) * 0x100]; // 256
-//            // TODO maybe this is a value from state .. ! WOULD MAKE SENSE: DATA[state[i] + 256*i] YES: 512*256 = 131,072
-//            j++;
-//        }
-//        i++;
-//    }
-//}
+@ExperimentalUnsignedTypes
+fun lastEncryptionRound(state: ByteArray) {
+    for (i in (0 until 16)) {
+        state[i] = DataLoader.data1[256 * i + state[i].toUByte().toInt()] // SHOULD BE OK !!!
+    }
+}
+

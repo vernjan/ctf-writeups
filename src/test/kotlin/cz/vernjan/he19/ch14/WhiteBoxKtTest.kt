@@ -4,46 +4,62 @@ import org.apache.commons.codec.binary.Hex
 import org.junit.Test
 
 import org.junit.Assert.*
+import java.util.*
 
 class WhiteBoxKtTest {
 
     @Test
-    fun copyAndSwap() {
-        val source: ByteArray = "0123456789abcdef".toByteArray()
+    fun swapRowsWithColumns() {
+        val state = "0123456789abcdef".toByteArray()
 
-        assertEquals("048c159d26ae37bf", String(copyAndSwap(source)))
+        swapRowsWithColumns(state)
+
+        assertEquals("048c159d26ae37bf", String(state))
     }
 
     @Test
-    fun copyAndReverseSwap() {
-        val source: ByteArray = "048c159d26ae37bf".toByteArray()
+    fun undoSwapRowsWithColumns() {
+        val state = "048c159d26ae37bf".toByteArray()
 
-        assertEquals("0123456789abcdef", String(copyAndSwap(source)))
+        swapRowsWithColumns(state)
+
+        assertEquals("0123456789abcdef", String(state))
     }
-
 
     @Test
     fun shiftRows() {
-        val source: ByteArray = "0123456789abcdef".toByteArray()
+        val state = "0123456789abcdef".toByteArray()
 
-        assertEquals("01237456ab89defc", String(shiftRows(source)))
+        shiftRows(state)
+
+        assertEquals("01237456ab89defc", String(state))
     }
 
     @Test
-    fun encryptBlock() {
+    fun lastEncryptionRound() {
+        val state = "0123456789abcdef".toByteArray()
+
+        lastEncryptionRound(state)
+
+        assertArrayEquals(
+            byteArrayOf(-49, 124, -52, -27, -71, 20, 120, -120, -71, -126, -10, -96, -32, 97, 33, -27), state)
+    }
+
+    @Test
+    fun encryptBlock1() {
         val text = "One nice block!!"
 
-        val encrypted: ByteArray = encryptBlock(text.toByteArray())
+        val encrypted = encryptBlock(text.toByteArray())
 
-        assertEquals("de20759da69aef1a0d2f309a37ac334b67160e5673ae393ce6c5fb77a8d7eb44", Hex.encodeHexString(encrypted))
+        assertEquals("de20759da69aef1a0d2f309a37ac334b", Hex.encodeHexString(encrypted))
     }
 
     @Test
     fun encryptBlock2() {
-        val text = "One nice block!"
+        val text = "aaaaaaaaaaaaaaaa"
 
-        val encrypted: ByteArray = encryptBlock(text.toByteArray())
+        val encrypted = encryptBlock(text.toByteArray())
 
-        assertEquals("a20cfb16a3482d71bc96fec97bebaf62", Hex.encodeHexString(encrypted))
+        assertEquals("31925cd8f88ae453fd715aff8e6a23a1", Hex.encodeHexString(encrypted))
     }
 }
