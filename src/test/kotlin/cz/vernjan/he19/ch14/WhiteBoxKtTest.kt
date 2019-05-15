@@ -4,7 +4,6 @@ import org.apache.commons.codec.binary.Hex
 import org.junit.Test
 
 import org.junit.Assert.*
-import java.util.*
 
 class WhiteBoxKtTest {
 
@@ -62,4 +61,15 @@ class WhiteBoxKtTest {
 
         assertEquals("7ec041d65b2ff88c35b8626d8c2208d2", Hex.encodeHexString(encrypted))
     }
+
+    @Test
+    fun decrypt() {
+        val text = "9771a6a9aea773a93edc1b9e82b74503"
+
+        val decrypted = encryptBlock(Hex.decodeHex(text))
+
+        println(String(decrypted))
+    }
+
+
 }

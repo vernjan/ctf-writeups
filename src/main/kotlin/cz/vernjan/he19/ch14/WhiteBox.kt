@@ -1,11 +1,23 @@
 package cz.vernjan.he19.ch14
 
+import cz.vernjan.he19.toHex
 import org.apache.commons.codec.binary.Hex
 import java.nio.ByteBuffer
 
 const val BLOCK_SIZE = 16
 
 fun main() {
+
+    val count = (0 until 163840 step 4)
+        .map { i -> DataLoader.readInt2(i) }
+        .groupBy { it.toHex() }
+        .mapValues { it.value.size }
+        .count()
+//        .forEach { println(it) }
+
+
+    println(count)
+
     val text = "aaaaaaaaaaaaaaaa"
 
     // TODO Add padding
@@ -35,6 +47,7 @@ class DataLoader {
         val data2: ByteArray = data.copyOfRange(OFFSET, data.size)
 
         fun readInt(position: Int): Int = ByteBuffer.wrap(data2.copyOfRange(position, position + 4)).int
+        fun readInt2(position: Int): Int = ByteBuffer.wrap(data.copyOfRange(position, position + 4)).int
     }
 }
 
@@ -128,4 +141,3 @@ fun lastEncryptionRound(state: ByteArray) {
     for (i in (0 until 16))
         state[i] = DataLoader.data1[256 * i + state[i].toUByte().toInt()]
 }
-
