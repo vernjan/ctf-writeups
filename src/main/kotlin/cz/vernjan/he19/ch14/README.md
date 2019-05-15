@@ -9,3 +9,12 @@
 
 ---
 
+Data start: 0x602060
+
+Data start: 0x603060
+Data end: 0x62b060
+==> 163840 = 256 * 640 = 256 * 16 * 40
+
+==> 167936 = 256 * 656 = 256 * 16 * 41
+
+dd if=WhiteBox of=key.data bs=1 skip=8288 count=167936

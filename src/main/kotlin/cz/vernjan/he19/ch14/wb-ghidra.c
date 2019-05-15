@@ -158,7 +158,8 @@ void readFrom0x602060(long *some) { // 400a7a
     int j = 0;
     while (j < 4) {
     // FIXME rewrite so this makes sense (once I'm sure about it)
-      *(some + i * 4 + j) = (&DAT_00602060) [*(byte *) (some + i * 4 + j) + (i * 4 + j) * 0x100]; // 256 // TODO maybe this is a value from some .. ! WOULD MAKE SENSE: DATA[some[i] + 256*i] YES: 512*256 = 131,072
+      *(some + i * 4 + j) = (&DAT_00602060) [*(byte *) (some + i * 4 + j) + (i * 4 + j) * 0x100]; // 256
+      // TODO maybe this is a value from some .. ! WOULD MAKE SENSE: DATA[some[i] + 256*i] YES: 512*256 = 131,072
       j++;
     }
     i++;
