@@ -21,7 +21,7 @@ fun String.asciiToHex(): String = toCharArray().joinToString { Integer.toHexStri
 
 // TODO maybe we could be faster
 fun Int.toAscii() = Integer.toHexString(this).hexToAscii()
-fun Int.toHex() = Integer.toHexString(this)
+fun Int.toHex() = Integer.toHexString(this).padStart(8, '0')
 
 // TODO lepe
 fun readFile(path: String): String = Files.readString(Paths.get("src/main/kotlin/cz/vernjan/he19/$path"))
