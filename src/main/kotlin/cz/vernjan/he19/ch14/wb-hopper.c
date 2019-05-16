@@ -1,24 +1,3 @@
-void sub_400947(int arg0, int arg1) {
-    var_34 = arg0;
-    var_40 = arg1;
-    for (var_4 = 0x0; var_4 <= 0x3; var_4 = var_4 + 0x1) {
-            var_8 = 0x0;
-            for (var_C = 0x0; var_C <= 0x3; var_C = var_C + 0x1) {
-                    var_8 = var_8 ^ *(int32_t *)((sign_extend_32(*(int8_t *)(sign_extend_32(var_4) + sign_extend_32(var_C) * 0x4 + var_40) & 0xff & 0xff) + (sign_extend_64(var_4) + ((sign_extend_64(var_34) << 0x2) + sign_extend_64(var_C) << 0x2) << 0x8)) * 0x4 + 0x603060);
-            }
-            for (var_10 = 0x0; var_10 <= 0x3; var_10 = var_10 + 0x1) {
-                    *(int8_t *)(sign_extend_32(var_4) + (sign_extend_64(var_10) << 0x2) + rbp - 0x30) = var_8 >> var_10 << 0x3;
-            }
-    }
-    for (var_14 = 0x0; var_14 <= 0x3; var_14 = var_14 + 0x1) {
-            for (var_18 = 0x0; var_18 <= 0x3; var_18 = var_18 + 0x1) {
-                    *(int8_t *)(sign_extend_32(var_18) + sign_extend_32(var_14) * 0x4 + var_40) = *(int8_t *)(sign_extend_32(var_18) + (sign_extend_64(var_14) << 0x2) + rbp - 0x30) & 0xff;
-            }
-    }
-    return;
-}
-
-
 int sub_400b8d(int arg0, int arg1) {
 
     puts("WhiteBox Test");

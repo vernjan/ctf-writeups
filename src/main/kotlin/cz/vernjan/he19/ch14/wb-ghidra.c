@@ -1,67 +1,3 @@
-
-
-      *(undefined *)(i * 4 + &state + j) = auStack56[j + i * 4];
-
-
-
-   auStack56[i + j * 4]                          = acc >>   ((byte)(j << 3) & 0x1f);
-
-   *(int8_t *)(i + j * 4 + rbp - 0x30)          =  acc >>    j << 0x3; //0, 8, 16, 24
-
-
-
-
-(*(int8_t *)(&state + i + j * 4)     +   (i + ((round * 4 + j) * 4) << 0x8))    * 4;
-
-
-(  *(byte *)(&state + i + j * 4)     +   (i + (round * 4 + j) * 4) * 0x100)           * 4;
-
-
-void FUN_00400947(int iParm1,long lParm2) {
-  undefined auStack56 [24];
-  int local_20;
-  int local_1c;
-  int local_18;
-  int local_14;
-  uint local_10;
-  int local_c;
-
-  local_c = 0;
-  while (local_c < 4) {
-    local_10 = 0;
-    local_14 = 0;
-    while (local_14 < 4) {
-      local_10 = local_10 ^
-                 *(uint *)(&DAT_00603060 +
-                          ((long)(int)(uint)*(byte *)((long)local_14 * 4 + lParm2 + (long)local_c) +
-                          ((long)local_c + ((long)iParm1 * 4 + (long)local_14) * 4) * 0x100) * 4);
-      local_14 = local_14 + 1;
-    }
-
-    local_18 = 0;
-    while (local_18 < 4) {
-      auStack56[(long)local_c + (long)local_18 * 4] =
-           (char)(local_10 >> ((byte)(local_18 << 3) & 0x1f));
-      local_18 = local_18 + 1;
-    }
-    local_c = local_c + 1;
-  }
-
-  local_1c = 0;
-  while (local_1c < 4) {
-    local_20 = 0;
-    while (local_20 < 4) {
-      *(undefined *)((long)local_1c * 4 + lParm2 + (long)local_20) =
-           auStack56[(long)local_20 + (long)local_1c * 4];
-      local_20 = local_20 + 1;
-    }
-    local_1c = local_1c + 1;
-  }
-  return;
-}
-
-
-
 encrypt() { // sub_400b8d
   puts("WhiteBox Test");
   printf("Enter Message to encrypt: ");
@@ -87,7 +23,7 @@ encrypt() { // sub_400b8d
     j++;
   }
   
-  printHex(plainText, blockCount * 16); // TODO pritint "plaint text" - it's not PT anymore
+  printHex(plainText, blockCount * 16);
   
   putchar(0xa); // new line
   return 0;
@@ -176,7 +112,7 @@ void shiftRows(long *some) { // 400812
 void FUN_00400947(int round,long *some) {
 
   undefined auStack56 [24];
-  uint local_10; // TODO UINT !!!
+  uint local_10; // UINT !!!
 
   int i = 0;
   while (i < 4) {
@@ -186,7 +122,7 @@ void FUN_00400947(int round,long *some) {
     while (j < 4) {
       local_10 = local_10 ^ // XOR !!!
       // 0x603060 - 0x603060 = 0x1000 = 4094 = 16 * 256
-                 *(uint *) (&DAT_00603060 + // TODO I READ INT HERE !!!
+                 *(uint *) (&DAT_00603060 + // I READ UINT HERE !!!
                           ( (long)(int)(uint)*(byte *) (some + i + 4 * j) + (i + (round * 4 + j) * 4) * 0x100) * 4);
 
                           // DATA[256*i + some[i]]
@@ -226,8 +162,7 @@ void readFrom0x602060(long *some) { // 400a7a
   while (i < 4) {
     int j = 0;
     while (j < 4) {
-    // FIXME rewrite so this makes sense (once I'm sure about it)
-      *(some + i * 4 + j) = (&DAT_00602060) [ *(byte *)(some + i * 4 + j) + (i * 4 + j) * 0x100]; // 256 // TODO maybe this is a value from some .. ! WOULD MAKE SENSE: DATA[256*i + some[i]]
+      *(some + i * 4 + j) = (&DAT_00602060) [ *(byte *)(some + i * 4 + j) + (i * 4 + j) * 0x100]; // 256 // DATA[256*i + some[i]]
       j++;
     }
     i++;

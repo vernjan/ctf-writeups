@@ -15,6 +15,7 @@ Solutions for CTF [Hacky Easter](https://hackyeaster.hacking-lab.com/hackyeaster
 - [11 - Memeory 2.0](src/main/kotlin/cz/vernjan/he19/ch11/README.md)
 - [12 - Decrypt0r](src/main/kotlin/cz/vernjan/he19/ch12/README.md)
 - [13 - Symphony in HEX](src/main/kotlin/cz/vernjan/he19/ch13/README.md)
+- [14 - White Box](src/main/kotlin/cz/vernjan/he19/ch14/README.md)
 - [15 - Seen in Steem](src/main/kotlin/cz/vernjan/he19/ch15/README.md)
 - [16 - Every-Thing](src/main/kotlin/cz/vernjan/he19/ch16/README.md)
 - [18 - Egg Storage](src/main/kotlin/cz/vernjan/he19/ch18/README.md)
