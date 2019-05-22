@@ -25,4 +25,5 @@ fun Int.toHex() = Integer.toHexString(this).padStart(8, '0')
 
 // TODO lepe
 fun readFile(path: String): String = Files.readString(Paths.get("src/main/kotlin/cz/vernjan/he19/$path"))
+fun readAllBytes(path: String): ByteArray = Files.readAllBytes(Paths.get("src/main/resources/cz/vernjan/he19/$path")) // FIXME !!!
 fun readTestFile(path: String): String = Files.readString(Paths.get("src/test/kotlin/cz/vernjan/he19/$path"))
