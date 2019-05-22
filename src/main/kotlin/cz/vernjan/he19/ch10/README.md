@@ -6,6 +6,8 @@
 
 ---
 
+Sql inject. Question params.. ??
+
 
 Email username !!!
 Built on Express
@@ -27,3 +29,9 @@ http://whale.hacking-lab.com:3371/robots.txt
 Maybe the_admin knows more about the flag.
 
 site:http://whale.hacking-lab.com:3371/
+
+curl http://example.com:8080/endpoint?name=Itchy&name=Scratchy
+
+Cookies
+
+https://medium.com/bugbountywriteup/celestial-a-node-js-deserialization-hackthebox-walk-through-c71a4da14eaa
