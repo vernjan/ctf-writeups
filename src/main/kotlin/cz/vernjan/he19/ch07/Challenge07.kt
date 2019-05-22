@@ -1,6 +1,6 @@
 package cz.vernjan.he19.ch07
 
-import cz.vernjan.he19.readFile
+import cz.vernjan.readFile
 
 fun main() {
     val replacements = readFile("ch07/replacements.txt")

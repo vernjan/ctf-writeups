@@ -1,6 +1,6 @@
 package cz.vernjan.he19.ch14
 
-import cz.vernjan.he19.toHex
+import cz.vernjan.toHex
 import org.apache.commons.codec.binary.Hex
 import java.nio.ByteBuffer
 import java.util.*

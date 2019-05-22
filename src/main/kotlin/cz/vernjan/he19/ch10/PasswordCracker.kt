@@ -1,7 +1,7 @@
 package cz.vernjan.he19.ch10
 
 
-import cz.vernjan.he19.readFile
+import cz.vernjan.readFile
 import java.math.BigInteger
 import java.net.URI
 import java.net.http.HttpClient

@@ -18,6 +18,7 @@ Solutions for CTF [Hacky Easter](https://hackyeaster.hacking-lab.com/hackyeaster
 - [14 - White Box](src/main/kotlin/cz/vernjan/he19/ch14/README.md)
 - [15 - Seen in Steem](src/main/kotlin/cz/vernjan/he19/ch15/README.md)
 - [16 - Every-Thing](src/main/kotlin/cz/vernjan/he19/ch16/README.md)
+- [17 - New Egg Design](src/main/kotlin/cz/vernjan/he19/ch17/README.md)
 - [18 - Egg Storage](src/main/kotlin/cz/vernjan/he19/ch18/README.md)
 - [24 - CAPTEG](src/main/kotlin/cz/vernjan/he19/ch24/README.md)
 - [25 - Hidden Egg 1](src/main/kotlin/cz/vernjan/he19/ch25/README.md)

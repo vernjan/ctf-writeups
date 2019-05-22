@@ -1,4 +1,4 @@
-package cz.vernjan.he19.ch17
+package cz.vernjan
 
 import java.io.ByteArrayOutputStream
 import java.io.File
@@ -10,10 +10,11 @@ import java.util.zip.DataFormatException
 import java.util.zip.Deflater
 import java.util.zip.Inflater
 
-// TODO to global utils
-object CompressionUtils {
-    //    private val LOG = Logger.getLogger(CompressionUtils::class.java)
-    @Throws(IOException::class)
+/**
+ * Thanks to https://dzone.com/articles/how-compress-and-uncompress
+ */
+object ZlibUtils {
+
     fun compress(data: ByteArray): ByteArray {
         val deflater = Deflater()
         deflater.setInput(data)
@@ -31,7 +32,6 @@ object CompressionUtils {
         return output
     }
 
-    @Throws(IOException::class, DataFormatException::class)
     fun decompress(data: ByteArray): ByteArray {
         val inflater = Inflater()
         inflater.setInput(data)
