@@ -22,3 +22,4 @@ Solutions for CTF [Hacky Easter](https://hackyeaster.hacking-lab.com/hackyeaster
 - [18 - Egg Storage](src/main/kotlin/cz/vernjan/he19/ch18/README.md)
 - [24 - CAPTEG](src/main/kotlin/cz/vernjan/he19/ch24/README.md)
 - [25 - Hidden Egg 1](src/main/kotlin/cz/vernjan/he19/ch25/README.md)
+- [26 - Hidden Egg 2](src/main/kotlin/cz/vernjan/he19/ch26/README.md)
