@@ -25,12 +25,15 @@ fun main() {
         .map { it.changeColorSchema() }
         .map(Row::toIntArray)
 
-
     val sortedRows2 = rows
         .sortedBy { it.alphaValue() }
 //        .map { it.printAlpha2(); it }
+        .map { it.shiftRow() }
         .map { it.changeColorSchema() }
+        .map { it.removeAlpha() }
         .map(Row::toIntArray)
+
+
 
 //    sortedRows2.forEach { it.printAlpha2() }
 
@@ -101,7 +104,7 @@ data class Row(val pixels: List<Color>) {
     }
 
     fun detectColorSchema(): ColorSchema {
-        println(pixels)
+//        println(pixels)
         var schema = pixels
             .filter { it.alpha == 0 }
             .map {
@@ -117,13 +120,19 @@ data class Row(val pixels: List<Color>) {
         if (schema == "???")  schema = "RGB"
         return ColorSchema.valueOf(schema)
     }
+    fun removeAlpha() = Row(pixels.filter { it.alpha != 0 })
 
     fun changeColorSchema(): Row {
         val schema = detectColorSchema()
-        println("Changing schema from $schema")
-        return Row(pixels.filter { it.alpha != 0 }.map { schema.convertToRGB(it) })
+//        println("Changing schema from $schema")
+        return Row(pixels.map { schema.convertToRGB(it) })
     }
 
+    fun shiftRow(): Row {
+        val shift = pixels.mapIndexed { i, value -> Pair(i, value) }.filter { it.second.alpha == 0 }[0].first
+        println("Shifting by $shift")
+        return Row(pixels.subList(shift, pixels.size) + pixels.subList(0, shift))
+    }
 
     fun printAlpha2() {
         println(pixels
