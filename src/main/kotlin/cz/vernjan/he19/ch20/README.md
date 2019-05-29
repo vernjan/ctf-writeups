@@ -6,3 +6,7 @@
 ![](egg.png)
 
 ---
+
+TODO show pictures for partial steps
+Step 1 ROWS
+Step 2 Color - show histogram after re-coloring

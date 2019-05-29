@@ -7,6 +7,9 @@ import javax.swing.ImageIcon
 import javax.swing.JFrame
 import javax.swing.JLabel
 import javax.swing.WindowConstants
+import java.io.File
+
+
 
 fun main() {
     val imageIn: BufferedImage = ImageIO.read(ImageReader::class.java.getResourceAsStream("egg.png"))
@@ -19,17 +22,26 @@ fun main() {
 
     val random = rows.random()
     val sortedRows: List<IntArray> = sort(listOf(random), rows.toSet())
+        .map { it.changeColorSchema() }
         .map(Row::toIntArray)
 
 
-    val sortedRows2: List<IntArray> = rows
+    val sortedRows2 = rows
         .sortedBy { it.alphaValue() }
-        .map { it.printAlpha2(); it }
+//        .map { it.printAlpha2(); it }
+        .map { it.changeColorSchema() }
         .map(Row::toIntArray)
 
+//    sortedRows2.forEach { it.printAlpha2() }
 
-    val imageOut: BufferedImage = rowsToImage(sortedRows2, imageIn.width)
+
+
+
+    val imageOut: BufferedImage = rowsToImage(sortedRows2, 256)
     showImage(imageOut)
+
+    val outputfile = File("saved.png")
+    ImageIO.write(imageOut, "png", outputfile)
 }
 
 fun sort(sorted: List<Row>, unsorted: Set<Row>): List<Row> {
@@ -49,8 +61,6 @@ fun findBestMatch(base: Row, rows: Set<Row>): Row = rows
 //    .first()
 
 
-
-
 // TODO refaktor
 class ImageReader(private val image: BufferedImage) {
 
@@ -58,9 +68,9 @@ class ImageReader(private val image: BufferedImage) {
         .map { i -> Row(readRow(i)) }
 
     private fun readRow(rowIndex: Int): List<Color> = (0 until image.width)
-            .map { columnIndex -> image.getRGB(columnIndex, rowIndex) }
-            .map { Color(it, true) }
-            .map { Color(0, it.green, 0) }
+        .map { columnIndex -> image.getRGB(columnIndex, rowIndex) }
+        .map { Color(it, true) }
+//        .map { Color(0, it.green, 0) }
 }
 
 data class Row(val pixels: List<Color>) {
@@ -84,15 +94,40 @@ data class Row(val pixels: List<Color>) {
 
     fun printAlpha() {
         println(pixels
-            .mapIndexed{ i, value -> Pair(i, value) }
-            .filter { it.second.alpha == 0}
+            .mapIndexed { i, value -> Pair(i, value) }
+            .filter { it.second.alpha == 0 }
             .joinToString())
 //        println(pixels.map { it.alpha }.joinToString())
     }
 
+    fun detectColorSchema(): ColorSchema {
+        println(pixels)
+        var schema = pixels
+            .filter { it.alpha == 0 }
+            .map {
+                when {
+                    it.red != 0 -> 'R'
+                    it.green != 0 -> 'G'
+                    it.blue != 0 -> 'B'
+                    else -> '?'
+                }
+            }
+            .joinToString(separator = "")
+
+        if (schema == "???")  schema = "RGB"
+        return ColorSchema.valueOf(schema)
+    }
+
+    fun changeColorSchema(): Row {
+        val schema = detectColorSchema()
+        println("Changing schema from $schema")
+        return Row(pixels.filter { it.alpha != 0 }.map { schema.convertToRGB(it) })
+    }
+
+
     fun printAlpha2() {
         println(pixels
-            .mapIndexed{ i, value -> Pair(i, value) }
+            .mapIndexed { i, value -> Pair(i, value) }
             .filter { it.second.alpha == 0 }
             .map {
                 if (it.second.red != 0) format('R', it.first)
@@ -101,26 +136,15 @@ data class Row(val pixels: List<Color>) {
                 else "?"
             }
             .joinToString(separator = " "))
-//        println(pixels.map { it.alpha }.joinToString())
     }
 
-    fun format(color: Char, position: Int) = position.toString().padStart(3, ' ') + color
+    private fun format(color: Char, position: Int) = position.toString().padStart(3, ' ') + color
 
 
     fun alphaValue(): Int = pixels
-        .filter { it.alpha == 0}
+        .filter { it.alpha == 0 }
         .map { it.red + it.green + it.blue }
         .sum()
-
-//    fun sort() {
-//        for (i in (0 until pixels.size)){
-//            if (pixels[i].alpha == 0 && pixels[i].red != 0) {
-//
-//            }
-//        }
-//
-//            .
-//    }
 
 
     private fun diffPixels(base: Color, pixel: Color): Color {
@@ -134,6 +158,19 @@ data class Row(val pixels: List<Color>) {
     private fun diffChannels(base: Int, channel: Int) = Math.abs(base - channel)
 
     fun toIntArray() = pixels.map { it.rgb }.toIntArray()
+}
+
+enum class ColorSchema {
+    RGB, RBG, GBR, GRB, BGR, BRG;
+
+    fun convertToRGB(color: Color): Color = when (this) {
+        RGB -> Color(color.red, color.green, color.blue, color.alpha)
+        RBG -> Color(color.red, color.blue, color.green, color.alpha)
+        GBR -> Color(color.green, color.blue, color.red, color.alpha)
+        GRB -> Color(color.green, color.red, color.blue, color.alpha)
+        BGR -> Color(color.blue, color.green, color.red, color.alpha)
+        BRG -> Color(color.blue, color.red, color.green, color.alpha)
+    }
 }
 
 data class RowDiff(
@@ -151,7 +188,6 @@ data class RowDiff(
         diffA + color.alpha
     )
 }
-
 
 
 private fun rowsToImage(rows: List<IntArray>, width: Int): BufferedImage {
