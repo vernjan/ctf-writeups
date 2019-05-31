@@ -2,6 +2,8 @@
 
 Solutions for CTF [Hacky Easter](https://hackyeaster.hacking-lab.com/hackyeaster/) 2019
 
+## TODO - move to he19 package
+
 - [00 - Teaser](src/main/kotlin/cz/vernjan/he19/ch00_teaser/README.md)
 - [01 - Twisted](src/main/kotlin/cz/vernjan/he19/ch01/README.md)
 - [02 - Just Watch](src/main/kotlin/cz/vernjan/he19/ch02/README.md)
@@ -20,6 +22,7 @@ Solutions for CTF [Hacky Easter](https://hackyeaster.hacking-lab.com/hackyeaster
 - [16 - Every-Thing](src/main/kotlin/cz/vernjan/he19/ch16/README.md)
 - [17 - New Egg Design](src/main/kotlin/cz/vernjan/he19/ch17/README.md)
 - [18 - Egg Storage](src/main/kotlin/cz/vernjan/he19/ch18/README.md)
+- [20 - Scrambled Egg](src/main/kotlin/cz/vernjan/he19/ch20/README.md)
 - [24 - CAPTEG](src/main/kotlin/cz/vernjan/he19/ch24/README.md)
 - [25 - Hidden Egg 1](src/main/kotlin/cz/vernjan/he19/ch25/README.md)
 - [26 - Hidden Egg 2](src/main/kotlin/cz/vernjan/he19/ch26/README.md)
