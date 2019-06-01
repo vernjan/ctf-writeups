@@ -1,29 +1,4 @@
-# Hacky Easter 2019
+# CTF Write-ups
 
-Solutions for CTF [Hacky Easter](https://hackyeaster.hacking-lab.com/hackyeaster/) 2019.
+- [Hacky Easter 2019](src/main/kotlin/cz/vernjan/ctf/he19/README.md)
 
-I had no time to solve challenges 19, 21, 22, 23 and 27.
-
-- [00 - Teaser](src/main/kotlin/cz/vernjan/he19/ch00_teaser/README.md)
-- [01 - Twisted](src/main/kotlin/cz/vernjan/he19/ch01/README.md)
-- [02 - Just Watch](src/main/kotlin/cz/vernjan/he19/ch02/README.md)
-- [03 - Sloppy Encryption](src/main/kotlin/cz/vernjan/he19/ch03/README.md)
-- [04 - Disco 2](src/main/kotlin/cz/vernjan/he19/ch04/README.md)
-- [05 - Call for Papers](src/main/kotlin/cz/vernjan/he19/ch05/README.md)
-- [06 - Dots](src/main/kotlin/cz/vernjan/he19/ch06/README.md)
-- [07 - Shell we Argument](src/main/kotlin/cz/vernjan/he19/ch07/README.md)
-- [08 - Modern Art](src/main/kotlin/cz/vernjan/he19/ch08/README.md)
-- [09 - rorriM rorriM](src/main/kotlin/cz/vernjan/he19/ch09/README.md)
-- [10 - Stackunderflow](src/main/kotlin/cz/vernjan/he19/ch10/README.md)
-- [11 - Memeory 2.0](src/main/kotlin/cz/vernjan/he19/ch11/README.md)
-- [12 - Decrypt0r](src/main/kotlin/cz/vernjan/he19/ch12/README.md)
-- [13 - Symphony in HEX](src/main/kotlin/cz/vernjan/he19/ch13/README.md)
-- [14 - White Box](src/main/kotlin/cz/vernjan/he19/ch14/README.md)
-- [15 - Seen in Steem](src/main/kotlin/cz/vernjan/he19/ch15/README.md)
-- [16 - Every-Thing](src/main/kotlin/cz/vernjan/he19/ch16/README.md)
-- [17 - New Egg Design](src/main/kotlin/cz/vernjan/he19/ch17/README.md)
-- [18 - Egg Storage](src/main/kotlin/cz/vernjan/he19/ch18/README.md)
-- [20 - Scrambled Egg](src/main/kotlin/cz/vernjan/he19/ch20/README.md)
-- [24 - CAPTEG](src/main/kotlin/cz/vernjan/he19/ch24/README.md)
-- [25 - Hidden Egg 1](src/main/kotlin/cz/vernjan/he19/ch25/README.md)
-- [26 - Hidden Egg 2](src/main/kotlin/cz/vernjan/he19/ch26/README.md)

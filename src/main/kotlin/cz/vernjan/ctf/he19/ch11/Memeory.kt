@@ -1,4 +1,4 @@
-package cz.vernjan.he19.ch11
+package cz.vernjan.ctf.he19.ch11
 
 import java.lang.Exception
 import java.net.CookieManager

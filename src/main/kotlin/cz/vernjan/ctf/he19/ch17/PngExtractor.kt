@@ -1,4 +1,4 @@
-package cz.vernjan.he19.ch17
+package cz.vernjan.ctf.he19.ch17
 
 import cz.vernjan.Resources
 import cz.vernjan.ZlibUtils

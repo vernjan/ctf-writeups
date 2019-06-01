@@ -1,4 +1,4 @@
-package cz.vernjan.he19.ch14
+package cz.vernjan.ctf.he19.ch14
 
 import org.apache.commons.codec.binary.Hex
 import org.junit.Test

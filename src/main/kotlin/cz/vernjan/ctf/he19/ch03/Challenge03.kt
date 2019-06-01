@@ -1,4 +1,4 @@
-package cz.vernjan.he19.ch03
+package cz.vernjan.ctf.he19.ch03
 
 import cz.vernjan.hexToAscii
 import java.math.BigInteger

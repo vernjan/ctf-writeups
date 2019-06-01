@@ -1,4 +1,4 @@
-package cz.vernjan.he19.ch15
+package cz.vernjan.ctf.he19.ch15
 
 import java.net.URI
 import java.net.http.HttpClient
@@ -7,7 +7,6 @@ import java.net.http.HttpRequest.BodyPublishers
 import java.net.http.HttpResponse.BodyHandlers
 import java.nio.file.Files
 import java.nio.file.Path
-import java.nio.file.Paths
 import java.time.Duration
 import java.util.concurrent.CompletableFuture
 import java.util.concurrent.Executors

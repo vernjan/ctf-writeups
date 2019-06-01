@@ -1,4 +1,4 @@
-package cz.vernjan.he19.ch10
+package cz.vernjan.ctf.he19.ch10
 
 import java.net.URI
 import java.net.http.HttpClient

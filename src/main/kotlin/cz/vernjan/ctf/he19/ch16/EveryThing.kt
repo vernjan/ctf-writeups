@@ -1,4 +1,4 @@
-package cz.vernjan.he19.ch16
+package cz.vernjan.ctf.he19.ch16
 
 import java.nio.file.*
 import java.sql.Connection

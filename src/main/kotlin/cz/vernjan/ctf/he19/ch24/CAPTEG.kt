@@ -1,4 +1,4 @@
-package cz.vernjan.he19.ch24
+package cz.vernjan.ctf.he19.ch24
 
 import okhttp3.*
 import org.json.simple.JSONArray
