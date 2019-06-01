@@ -22,7 +22,7 @@ object ZlibUtils {
         deflater.finish()
         val buffer = ByteArray(1024)
         while (!deflater.finished()) {
-            val count = deflater.deflate(buffer) // returns the generated code... index
+            val count = deflater.deflate(buffer)
             outputStream.write(buffer, 0, count)
         }
         outputStream.close()

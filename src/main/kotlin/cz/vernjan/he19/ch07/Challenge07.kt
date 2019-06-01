@@ -1,10 +1,10 @@
 package cz.vernjan.he19.ch07
 
-import cz.vernjan.readFile
+import cz.vernjan.Resources
 
 fun main() {
-    val replacements = readFile("ch07/replacements.txt")
-    val obfuscated: String = readFile("ch07/obfuscated.txt")
+    val replacements: String = Resources.asString("he19/ch07/replacements.txt")
+    val obfuscated: String = Resources.asString("he19/ch07/obfuscated.txt")
 
     var plain = obfuscated
 

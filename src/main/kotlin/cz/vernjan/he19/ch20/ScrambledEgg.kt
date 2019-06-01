@@ -1,13 +1,14 @@
 package cz.vernjan.he19.ch20
 
 import cz.vernjan.Resources
+import cz.vernjan.saveImageToTemp
 import cz.vernjan.showImage
 import java.awt.Color
 import java.awt.image.BufferedImage
 import java.util.function.Predicate
 
 fun main() {
-    val scrambledEggImage: BufferedImage = Resources.loadImage("he19/ch20/egg.png")
+    val scrambledEggImage: BufferedImage = Resources.asImage("he19/ch20/egg.png")
     val rows: List<Row> = readAllRows(scrambledEggImage)
 
     rows.forEach { it.printAlphaChannel() }
@@ -21,7 +22,7 @@ fun main() {
 
     val unscrambledEggImage: BufferedImage = rowsToImage(unscrambledRows)
     showImage(unscrambledEggImage)
-    Resources.saveImage(unscrambledEggImage, "png", "he19/ch20/egg-final.png")
+    saveImageToTemp(unscrambledEggImage, "png", "egg-final")
 }
 
 fun readAllRows(image: BufferedImage): List<Row> {

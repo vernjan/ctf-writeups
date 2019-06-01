@@ -1,5 +1,6 @@
 package cz.vernjan.he19.ch17
 
+import cz.vernjan.Resources
 import cz.vernjan.ZlibUtils
 import java.nio.ByteBuffer
 
@@ -8,7 +9,7 @@ private const val CHANNELS = 4 // RGBA
 private const val BYTES_PER_ROW = WIDTH * CHANNELS
 
 fun main() {
-    val data = PngExtractor::class.java.getResourceAsStream("eggdesign.png").readAllBytes()
+    val data: ByteArray = Resources.asBytes("he19/ch17/eggdesign.png")
     val imageData: ByteArray = PngExtractor.extractImageData(data)
     val decompressedImageData: ByteArray = ZlibUtils.decompress(imageData)
     val filterTypeBytes = PngExtractor.extractFilterTypes(decompressedImageData)

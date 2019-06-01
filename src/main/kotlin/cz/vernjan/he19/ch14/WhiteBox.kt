@@ -1,6 +1,6 @@
 package cz.vernjan.he19.ch14
 
-import cz.vernjan.toHex
+import cz.vernjan.Resources
 import org.apache.commons.codec.binary.Hex
 import java.nio.ByteBuffer
 import java.util.*
@@ -12,9 +12,9 @@ class DataLoader {
 
     companion object {
 
-        private const val OFFSET = 16 * 256 // TODO docs, naming (data1, data2) ..
+        private const val OFFSET = 16 * 256 // TODO docs, naming (data1, data2) ..`
 
-        private val data: ByteArray = this::class.java.getResourceAsStream("key.data").readAllBytes()
+        private val data: ByteArray = Resources.asBytes("he19/ch14/key.data")
 
         val data1: ByteArray = data.copyOfRange(0, OFFSET)
         val data2: ByteArray = data.copyOfRange(OFFSET, data.size)
@@ -173,13 +173,13 @@ fun encryptionRound(round: Int, state: ByteArray) {
             println(
                 "Index ${index.toString().padStart(2, '0')}\t->" +
                         " $intPosition (0x${Integer.toHexString(intPosition + 4096)})\t" +
-                        "-> $int ${int.toHex()}"
+                        "-> $int ${Integer.toHexString(int).padStart(8, '0')}"
             )
 
             xorAccumulator = xorAccumulator xor int
         }
 
-        println("Xor: $xorAccumulator (${xorAccumulator.toHex()})")
+        println("Xor: $xorAccumulator (${Integer.toHexString(xorAccumulator).padStart(8, '0')})")
 
         val bytes = ByteBuffer.allocate(4).putInt(xorAccumulator).array().reversedArray()
         for (j in (0 until 4)) {
@@ -260,7 +260,7 @@ fun undoLastEncryptionRound(state: ByteArray) { // TODO need to search indexes .
 
 // TODO new Class / File
 fun undoXor(round: Int, i: Int, xorResult: Int): IntArray {
-    println("Reversing XOR of ${xorResult.toHex()}")
+    println("Reversing XOR of ${Integer.toHexString(xorResult).padStart(8, '0')}")
 
     val array0 = loadArray(round, i, 0)
     val array1 = loadArray(round, i, 1)
@@ -276,7 +276,7 @@ fun undoXor(round: Int, i: Int, xorResult: Int): IntArray {
                         return intArrayOf(a, b, c, d)
                     }
 
-    throw AssertionError("Failed to undo XOR for round: $round, i: $i and number: ${xorResult.toHex()}")
+    throw AssertionError("Failed to undo XOR for round: $round, i: $i and number: ${Integer.toHexString(xorResult).padStart(8, '0')}")
 }
 
 fun loadArray(round: Int, i: Int, j: Int): IntArray {
