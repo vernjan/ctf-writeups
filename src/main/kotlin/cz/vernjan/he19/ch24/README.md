@@ -18,7 +18,7 @@ This is the challenge:
 The goal is to count the correct number of eggs in the picture. The trick is not to make any
 mistake (42 consecutive rounds) and to solve each round in less than 8 seconds.
 
-We will need some counting robot for this ..
+We will need some counting robot for this!
 
 After searching for a while for *object detection* services, I have stumbled upon
 [Nanosets](https://nanonets.com/) and decided to give a try.

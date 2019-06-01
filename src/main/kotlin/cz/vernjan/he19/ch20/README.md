@@ -25,7 +25,7 @@ of transparent pixels (i.e. the small white dots in the image) from the first 5 
 3) Transparent pixels in the same row always have the same value in one of the RGB channels and 
 this value is unique. For those first 5 rows we have `23, 214, 175, 223 and 53`. 
 4) Positions of the transparent pixels in each row are random. We can associate each position with
-exactly one of RGB channels. For the first row we have `G 13, R 23, B 133`.
+exactly one of the RGB channels. For the first row we have `G 13, R 23, B 133`.
 
 ## Step 1: Sort rows
 Observation **3)** encourages to sort the rows by the RGB values in the alpha channel.

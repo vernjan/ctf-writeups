@@ -12,9 +12,9 @@ but unfortunately the QR codes got unreadable. Can you help him?!*
 ## Blind alleys
 This one gave me a hard time. I started with finding out what's on the picture. With a little help
 from Google I learnt it is [High-pass filter](https://en.wikipedia.org/wiki/High-pass_filter), i.e.
-a filter which passes signals with high frequencies and blocks signals low frequencies.
+a filter which passes signals with high frequencies and blocks signals with low frequencies.
 
-I misunderstood the hint (as I believe many others did)) and started to manipulate the picture in
+I misunderstood the hint (as I believe many others did) and started to manipulate the picture in
 Gimp. It was a dead end.
 
 I analyzed the picture to get some clues. At first I used *Stegsolve* and combine it (XOR) with an the egg
@@ -22,12 +22,12 @@ picture from challenge 14. Except the centers and numbers they were identical.
 
 ![](stegsolve-combined.bmp)
 
-Ok, it looks nothing is hidden in the egg.
+Ok, it looks nothing is hidden in the surrounding egg.
 
 Then I used this awesome tool [Forensically](https://29a.ch/photo-forensics) to check if something
 is not hidden in the center of the picture. Again, I found nothing interesting.
 
-I was getting convinces there's nothing hidden in the picture itself.
+I was getting convinced there's really nothing hidden in the picture itself.
 
 ## Going deeper
 

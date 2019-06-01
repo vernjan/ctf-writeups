@@ -14,10 +14,10 @@ I spent too much time with this one. Going over all the nitty-gritty details of
 [OOXML](https://en.wikipedia.org/wiki/Office_Open_XML) format and even `zip` archives.
 
 After a small hint to focus on the document's metadata, I googled for the document's author - `SCIpher`.
-Wish I had pay more attention it before! And here is the solution
+Wish I had pay more attention to it before! And here is the solution
 [SCIpher - A Scholarly Message Encoder](https://pdos.csail.mit.edu/archive/scigen/scipher.html).
  
-Just paste the document's content and get the solution
+Just paste the document's content and get the solution:
 
 `https://hackyeaster.hacking-lab.com/hackyeaster/images/eggs/5e171aa074f390965a12fdc240.png`
 

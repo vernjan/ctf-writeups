@@ -10,8 +10,7 @@ The smaller QR codes read `remove me` so I started with that:
 
 ![modernart-fixed.jpg](modernart-fixed.jpg)
 
-However, this doesn't seem to be helpful at all. The message is now
-`Isn't that a bit too easy?`
+However, that didn't help at all. The message is now: `Isn't that a bit too easy?`
 
 Time to get hands dirty!
 
@@ -32,7 +31,7 @@ there is definitely more than a single image in this file.
 This is what I found:
 
 - The second image which looks pretty much the same except there are some artifacts.
-To get this image, you must delete the first image data (i.e. between offsets `B8` and `11352`).
+To get this image, you must delete the first image data (i.e. between offsets `0xB8` and `0x11352`).
 
   ![modernart2.jpg](modernart2.jpg)
  

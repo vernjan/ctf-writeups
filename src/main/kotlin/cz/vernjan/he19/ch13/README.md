@@ -18,7 +18,7 @@ I started with a few YouTube videos to learn what the hell are *quavers* and *se
 
 Now it's actually quite simple, just follow the hint:
 
-Count the number of *quavers* in each [barline](https://en.wikipedia.org/wiki/Bar_(music) and read the pitch
+Count the number of *quavers* in each [barline](https://en.wikipedia.org/wiki/Bar_%28music%29) and read the pitch
 (A, B, C, D, E, F, G) of *quavers*.
 
 ![](symphonyinhex-solved.png)

@@ -133,7 +133,7 @@ No we need to guess the output. I assumed that the text could start (the first 4
 To my surprise, I really found a string `Hell` as one of the possible results. Also, other parts of this first
 data set were looking good. See below.
 
-Step 1: Password characters 1,2,3 and 4 (set 1):
+**Step 1**: Password characters `1,2,3 and 4` (set 1):
 ```
 x0r_: Hell s-yu ommo elf, pher s. I ther ://e ircu th N " an ithe D ga n XN y in th a ki/X
 ```
@@ -141,12 +141,12 @@ x0r_: Hell s-yu ommo elf, pher s. I ther ://e ircu th N " an ithe D ga n XN y in
 The cool thing is that partial passwords overlap (`13 mod 4`). So the 4th dataset uses the same password with just 1 different
 letter.
 
-Step 2: Password characters d,1,2,3 (set 4):
+**Step 2**: Password characters `d,1,2,3` (set 4):
 ```
 dx0r: rats bN8U ompo  con vial nten wn t dia. e ma NOR  gica ogic repl  whi the  OR g 
 ```
 
-Step 3: Password characters c,d,1,2 (set 7):
+**Step 3**: Password characters `c,d,1,2` (set 7):
 ```
 ndx0: nd t  XOR more peat oken  mes key  /XOR four e so on c logi NOR  e co r on (htt 
 ```

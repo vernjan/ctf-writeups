@@ -9,7 +9,7 @@
 
 ---
 
-The first step is obvious, les's run it.
+The first step is obvious, let's run it.
 ```
 $ ./WhiteBox
 WhiteBox Test
@@ -17,7 +17,7 @@ Enter Message to encrypt: hello world!
 c0d59c645ae4b0b91e6c64f1d2358a3d
 ```
 
-Nothing surprising, we got an *encryptor* a we will have to reverse it somehow. The output is 16 bytes so
+Nothing surprising, we got an *encryptor* and we will have to reverse it somehow. The output is 16 bytes so
 we are most likely dealing with a block cipher.
 
 Doesn't hurt to learn a bit about [White-box cryptography](http://www.whiteboxcrypto.com/). Basically, we can't
@@ -29,7 +29,7 @@ Let's get started and fire up the favorite combo of [Hopper Disassembler](https:
 and [Ghidra](https://ghidra-sre.org/).
 
 Partially annotated and rewritten source code is available in [wb-ghidra.c](wb-ghidra.c) and
-[wb-hopper.c](wb-hopper.c). It's messy, to see how the encryption works, go to the next step.
+[wb-hopper.c](wb-hopper.c). It's messy. To see how the encryption works, go to the next step.
 
 
 ## Step 2 - Copy the encryption algorithm

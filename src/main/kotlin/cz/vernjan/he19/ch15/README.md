@@ -10,9 +10,9 @@
 I started with looking up info about [Steem](https://en.wikipedia.org/wiki/Steem). I found this link to [Steem block
 explorer](https://steemblockexplorer.com/) to be very useful.
 
-Another key information is when was Easter in 2018 and it was on **1th April**.
+Another key information to know is when *Easter* took place in 2018 and it was on **1th April**.
 
-Now using the *Steem block explorer* and binary search I was quickly determined that I need to go through blocks from
+Now using the *Steem block explorer* and binary search I quickly determined that I need to go through blocks from
 21,170,000 to 21,200,000. That's only 30,000 blocks.
 
 I wrote a small Kotlin program [SteemCrawler](SteemCrawler.kt) which helped me with that. The crawler

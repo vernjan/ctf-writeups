@@ -1,8 +1,8 @@
 # Hacky Easter 2019
 
-Solutions for CTF [Hacky Easter](https://hackyeaster.hacking-lab.com/hackyeaster/) 2019
+Solutions for CTF [Hacky Easter](https://hackyeaster.hacking-lab.com/hackyeaster/) 2019.
 
-## TODO - move to he19 package
+I had no time to solve challenges 19, 21, 22, 23 and 27.
 
 - [00 - Teaser](src/main/kotlin/cz/vernjan/he19/ch00_teaser/README.md)
 - [01 - Twisted](src/main/kotlin/cz/vernjan/he19/ch01/README.md)

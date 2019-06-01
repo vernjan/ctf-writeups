@@ -1,6 +1,13 @@
 # 07 - Shell we Argument
+
+*Let's see if you have the right arguments to get the egg.*
+
+[eggi.sh](eggi.sh)
+
+---
+
 I started with analysis of `eggi.sh`. The code is obviously obfuscated but applying a set of string replacements
-will do the trick. I wrote a simple Kotlin program to help with that. Once deobfuscated, we can read
+will do the trick. I wrote a simple [Kotlin program](Challenge07.kt) to help with that. Once deobfuscated, we can read
 
 ```$bash
 if [ $# -lt 1 ]

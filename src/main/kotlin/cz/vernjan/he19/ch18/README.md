@@ -26,6 +26,9 @@ function callWasm(instance) {
 There is a nice article on the topic of
 [reverse engineering WebAssembly](https://medium.com/@pnfsoftware/reverse-engineering-webassembly-ed184a099931).
 
+Cool this is that Google Chrome is now able to decompile & debug WebAssembly right in DevTools!
+![](chrome-webassembly.PNG)
+
 The validation logic is mainly implemented in [wasm-d986c06a-2](challenges/wasm/wasm-d986c06a-2)
 and consists of the following steps:
 
@@ -34,7 +37,7 @@ and consists of the following steps:
 
 2) The password starts with `Th3P`
 
-3) The following rules must hold true (Xth means the Xth character of the password):
+3) The following rules must hold true (*X*th means the *X*th character of the password):
     ```
     24th = 18th
     13th = 17th
@@ -79,8 +82,4 @@ and consists of the following steps:
 5) XOR of all characters is `44`
 
 I skipped the last 2 conditions and was able to guess the password:
-`Th3 P4r4d0X 0f cH01c3 15 4 L13` (The paradox of choice is a lie).
-
-Here is the egg:
-
-![](challenges/images/eggs/2929dac4326ad3553872c6a7.png)
+`Th3 P4r4d0X 0f cH01c3 15 4 L13` (*The paradox of choice is a lie*).

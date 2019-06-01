@@ -7,7 +7,7 @@
 ---
 
 The first one took me a while. I really didn't want to re-draw the QR code by hand.
-I've been there and it's no fun! At first I tried to un-twist the egg using
+I've done it before and it's no fun! At first I tried to un-twist the egg using
 [Zoner Photo Studio](https://www.zoner.com/en/spectacular-free-photo-editor) but it turned out
 to be (nearly) impossible.
  
