@@ -1,6 +1,6 @@
 package cz.vernjan.ctf.he19.ch07
 
-import cz.vernjan.Resources
+import cz.vernjan.ctf.Resources
 
 fun main() {
     val replacements: String = Resources.asString("he19/ch07/replacements.txt")

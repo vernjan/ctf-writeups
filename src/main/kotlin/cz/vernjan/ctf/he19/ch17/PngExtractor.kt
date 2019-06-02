@@ -1,7 +1,7 @@
 package cz.vernjan.ctf.he19.ch17
 
-import cz.vernjan.Resources
-import cz.vernjan.ZlibUtils
+import cz.vernjan.ctf.Resources
+import cz.vernjan.ctf.ZlibUtils
 import java.nio.ByteBuffer
 
 private const val WIDTH = 480

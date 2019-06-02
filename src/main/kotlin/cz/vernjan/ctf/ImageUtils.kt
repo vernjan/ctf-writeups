@@ -1,4 +1,4 @@
-package cz.vernjan
+package cz.vernjan.ctf
 
 import java.awt.image.BufferedImage
 import java.nio.file.Files

@@ -1,6 +1,6 @@
 package cz.vernjan.ctf.he19.ch03
 
-import cz.vernjan.hexToAscii
+import cz.vernjan.ctf.hexToAscii
 import java.math.BigInteger
 import java.util.*
 

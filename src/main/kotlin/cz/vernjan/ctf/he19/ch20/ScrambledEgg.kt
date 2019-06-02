@@ -1,8 +1,8 @@
 package cz.vernjan.ctf.he19.ch20
 
-import cz.vernjan.Resources
-import cz.vernjan.saveImageToTemp
-import cz.vernjan.showImage
+import cz.vernjan.ctf.Resources
+import cz.vernjan.ctf.saveImageToTemp
+import cz.vernjan.ctf.showImage
 import java.awt.Color
 import java.awt.image.BufferedImage
 import java.util.function.Predicate

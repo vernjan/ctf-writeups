@@ -1,5 +1,9 @@
 package cz.vernjan
 
+import cz.vernjan.ctf.asciiToHex
+import cz.vernjan.ctf.hexToAscii
+import cz.vernjan.ctf.hexToByteArray
+import cz.vernjan.ctf.toHex
 import org.junit.Assert.assertArrayEquals
 import org.junit.Assert.assertEquals
 import org.junit.jupiter.api.Test
@@ -26,5 +30,9 @@ class ExtensionsKtTest {
         assertEquals("Hello", "48656c6c6f".hexToAscii())
     }
 
+    @Test
+    fun toHex() {
+        assertEquals("1000", 4096.toHex())
+    }
 }
 
