@@ -46,14 +46,14 @@ I made a silly mistake in rows shifting but with the help of Hopper **debugger**
 dd if=WhiteBox of=key.data bs=1 skip=8288 count=167936
 ```
 
-See how encryption works [WhiteBoxEncrypt0r](WhiteBoxEncrypt0r.kt).
+See how encryption works [WhiteBoxEncrypt0r](../../../src/main/kotlin/cz/vernjan/ctf/he19/ch14/WhiteBoxEncrypt0r.kt).
 
 ## Step 3 - Create the decryption algorithm
 Reverting the encryption is quite straight forward with the exception of undoing the XOR operations.
 Luckily, the key space is small (256^4) and XOR is damn fast on modern CPUs. I took the approach of brute
 forcing the original quartet of integers. It took just a few seconds!
 
-See how decryption works [WhiteBoxDecrypt0r](WhiteBoxDecrypt0r.kt).
+See how decryption works [WhiteBoxDecrypt0r](../../../src/main/kotlin/cz/vernjan/ctf/he19/ch14/WhiteBoxDecrypt0r.kt).
    
 And the decrypted message is:
 ```

@@ -7,7 +7,7 @@
 ---
 
 I started with analysis of `eggi.sh`. The code is obviously obfuscated but applying a set of string replacements
-will do the trick. I wrote a simple [Kotlin program](Challenge07.kt) to help with that. Once deobfuscated, we can read
+will do the trick. I wrote a simple [Kotlin program](../../../src/main/kotlin/cz/vernjan/ctf/he19/ch07/Challenge07.kt) to help with that. Once deobfuscated, we can read
 
 ```$bash
 if [ $# -lt 1 ]

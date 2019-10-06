@@ -6,6 +6,7 @@ import java.net.http.HttpRequest
 import java.net.http.HttpRequest.BodyPublishers
 import java.net.http.HttpResponse.BodyHandlers
 import java.time.Duration
+import kotlin.system.exitProcess
 
 private val CHARS: List<Char> = ('0'..'9') + ('a'..'z') + ('A'..'Z') + '_'
 
@@ -24,7 +25,7 @@ fun main() {
                 passwordChars.add(char)
                 if (PasswordCrackerClient.login(username, "\"$partialPassword\"")) {
                     println("The password is $partialPassword")
-                    System.exit(0)
+                    exitProcess(0)
                 } else {
                     println("Partial password is $partialPassword")
                 }

@@ -43,4 +43,4 @@ The secret message is
 Congratulation, here is your flag: he19-TKii-2aVa-cKJo-9QCj
 ```
 
-You can check the full solution in [EggDesign.kt](PngExtractor.kt).
+You can check the full solution in [EggDesign.kt](../../../src/main/kotlin/cz/vernjan/ctf/he19/ch17/PngExtractor.kt).

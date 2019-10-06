@@ -34,7 +34,8 @@ The first results were quite good:
 
 ![](nanosets-scoring.png)
 
-Once I was convinced this could work, I wrote a [client](CAPTEG.kt) for CAPTEG and Nanosets API to do
+Once I was convinced this could work, I wrote a [client](../../../src/main/kotlin/cz/vernjan/ctf/he19/ch24/CAPTEG.kt)
+for CAPTEG and Nanosets API to do
 the job for me. The object detecting model was not perfect and made a mistake time to time.
 It took a few tries and strong nerves to watch the progress but in the end the CAPTEG was beated.  
 

@@ -37,7 +37,7 @@ I was curious what is the admin's password. This payload helped me to guess the 
 curl -H "Content-Type: application/json" -d '{ "username": "the_admin", "password": {"$regex": "^[A-Za-z0-9_]*$"} }' http://whale.hacking-lab.com:3371/login
 ```
 
-And with help of my [PasswordCracker](PasswordCracker.kt) I was able to recover the admin's password: `76eKxMEQFcfG3fPe`
+And with help of my [PasswordCracker](../../../src/main/kotlin/cz/vernjan/ctf/he19/ch10/PasswordCracker.kt) I was able to recover the admin's password: `76eKxMEQFcfG3fPe`
 
 I logged in and learnt that I need to recover the password of user `null`.
 
@@ -50,5 +50,5 @@ Let's do it after the migration!
 The migration is done but the password is still the same...
 ```
 
-Just changing the username and running [PasswordCracker](PasswordCracker.kt) once more.
+Just changing the username and running [PasswordCracker](../../../src/main/kotlin/cz/vernjan/ctf/he19/ch10/PasswordCracker.kt) once more.
 The null's password (and also the flag) is: `N0SQL_injections_are_a_thing`

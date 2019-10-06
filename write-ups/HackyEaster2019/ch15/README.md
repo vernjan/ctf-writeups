@@ -15,7 +15,7 @@ Another key information to know is when *Easter* took place in 2018 and it was o
 Now using the *Steem block explorer* and binary search I quickly determined that I need to go through blocks from
 21,170,000 to 21,200,000. That's only 30,000 blocks.
 
-I wrote a small Kotlin program [SteemCrawler](SteemCrawler.kt) which helped me with that. The crawler
+I wrote a small Kotlin program [SteemCrawler](../../../src/main/kotlin/cz/vernjan/ctf/he19/ch15/SteemCrawler.kt) which helped me with that. The crawler
 downloaded all the blocks to my local filesystem.
 
 This is the example of the call to get the block

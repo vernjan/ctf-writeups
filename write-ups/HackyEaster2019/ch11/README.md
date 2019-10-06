@@ -32,4 +32,4 @@ This is the final message:
 
 `200 ok, here is your flag: 1-m3m3-4-d4y-k33p5-7h3-d0c70r-4w4y`
 
-Check out the full solution [Memeory.kt](Memeory.kt).
+Check out the full solution [Memeory.kt](../../../src/main/kotlin/cz/vernjan/ctf/he19/ch11/Memeory.kt).

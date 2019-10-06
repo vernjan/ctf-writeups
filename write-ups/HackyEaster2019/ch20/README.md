@@ -43,4 +43,4 @@ Wow, the egg is showing up! And after shifting green and blue channel:
 
 ![](egg-step2-final.png)
 
-See [ScrambledEgg.kt](ScrambledEgg.kt) for implementation details.
+See [ScrambledEgg.kt](../../../src/main/kotlin/cz/vernjan/ctf/he19/ch20/ScrambledEgg.kt) for implementation details.

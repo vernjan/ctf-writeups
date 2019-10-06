@@ -24,6 +24,6 @@ fun main() {
 }
 ```
 
-Full source code [here](Challenge03.kt).
+Full source code [here](../../../src/main/kotlin/cz/vernjan/ctf/he19/ch03/Challenge03.kt).
 
 And the password is `n00b_style_crypto`

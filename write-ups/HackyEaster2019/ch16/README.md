@@ -97,6 +97,6 @@ ORDER BY t1.ord, t2.ord, t3.ord
 
 We have 11 `PNG` pictures split into [chunks](https://en.wikipedia.org/wiki/Portable_Network_Graphics#%22Chunks%22_within_the_file)
 (according to the model design).
-I wrote this [simple program](EveryThing.kt) to join them back together. One of the pictures is our egg:
+I wrote this [simple program](../../../src/main/kotlin/cz/vernjan/ctf/he19/ch16/EveryThing.kt) to join them back together. One of the pictures is our egg:
 
 ![](pictures/A%20strange%20car.png)
