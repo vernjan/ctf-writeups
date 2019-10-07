@@ -4,11 +4,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>cz.vernjan</groupId>
-    <artifactId>hacky-easter-2019</artifactId>
+    <artifactId>ctf-writeups</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>Hacky Easter 2019</name>
+    <name>CTF Write-ups</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
