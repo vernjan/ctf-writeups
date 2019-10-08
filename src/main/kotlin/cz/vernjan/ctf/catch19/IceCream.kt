@@ -6,8 +6,10 @@ import java.net.URL
 import java.nio.file.Files
 import java.nio.file.Paths
 
+/**
+ * Blind alley ..
+ */
 fun main() {
-
     val httpUrl: URL = Resources::class.java.getResource("catch19/http")
     val httpPath = Paths.get(httpUrl.toURI())
     Files.list(httpPath).forEach {

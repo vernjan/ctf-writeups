@@ -20,7 +20,6 @@ The first image I obtained was not perfect though..
 The last letter was _weird_. After a moment, I realized that the flag is partially distorted because our planet
 is a globe. I thought I would use [Google Earth](https://www.google.com/intl/cs/earth/) but, luckily, just changing
 the format from _Leaflet_ to _Google Maps_ gave me the answer.
-
 ![](drone-flight2.png)
 
 The flag is: `FLAG{70Q3-d8yW-9aeT-V7IV}`
