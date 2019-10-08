@@ -6,7 +6,7 @@ import java.net.http.HttpClient
 import java.net.http.HttpRequest
 import java.net.http.HttpResponse.BodyHandlers
 
-val THINGS = mapOf(
+private val THINGS = mapOf(
     "artificial intelligence" to 1,
     "automatic transmission" to 1,
     "yumy food" to 0,
@@ -25,7 +25,7 @@ val THINGS = mapOf(
     "resistor 10 Ohm" to 1
 )
 
-const val CHALLENGE_URL = "http://challenges.thecatch.cz/c2619b989b7ae5eaf6df8047e6893405/"
+private const val CHALLENGE_URL = "http://challenges.thecatch.cz/c2619b989b7ae5eaf6df8047e6893405/"
 
 fun main() {
     val httpClient = HttpClient.newBuilder()
