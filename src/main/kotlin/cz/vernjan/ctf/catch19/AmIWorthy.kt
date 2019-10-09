@@ -3,7 +3,6 @@ package cz.vernjan.ctf.catch19
 import java.net.URI
 import java.net.URLEncoder
 import java.net.http.HttpClient
-import java.net.http.HttpRequest
 import java.net.http.HttpRequest.*
 import java.net.http.HttpResponse.BodyHandlers
 

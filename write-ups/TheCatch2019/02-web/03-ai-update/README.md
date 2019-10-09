@@ -14,6 +14,8 @@ _Good luck!`_
 
 ---
 
+FLAG{PpyH-16Ib-qH1Z-Pbov}
+
 [Sample response](assignment-sample.txt) from the _Berserker's web_.
 
 Decoding base64 yields:
