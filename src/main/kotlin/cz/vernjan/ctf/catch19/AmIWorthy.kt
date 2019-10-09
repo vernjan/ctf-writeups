@@ -1,60 +1,60 @@
 package cz.vernjan.ctf.catch19
 
-import java.net.CookieManager
 import java.net.URI
+import java.net.URLEncoder
 import java.net.http.HttpClient
 import java.net.http.HttpRequest
+import java.net.http.HttpRequest.*
 import java.net.http.HttpResponse.BodyHandlers
 
-private const val CHALLENGE_URL = "http://challenges.thecatch.cz/70af21e71285ab0bc894ef84b6692ae1/"
-
 fun main() {
-    val httpClient = HttpClient.newBuilder()
-        .cookieHandler(CookieManager())
-        .build()
+    val client = BerserkerClient("70af21e71285ab0bc894ef84b6692ae1")
+    val assignment = client.fetchAssignment()
 
-    val requestCaptcha = HttpRequest.newBuilder()
-        .GET()
-        .uri(URI.create(CHALLENGE_URL)).build()
+    val unknownVar = assignment.substringAfter("'").substringBefore("'")
+    println("Unknown variable is: $unknownVar")
 
-    val captchaBody = httpClient.send(requestCaptcha, BodyHandlers.ofString()).body()
-    println(captchaBody)
-
-    val equationStr = captchaBody
-        .substringAfter("equation ")
-        .substringBefore(",")
-
-    println(equationStr)
-
-    val (var1, var2) = captchaBody
+    val (var1, var2) = assignment
         .substringAfter("where ")
         .substringBefore("\n")
         .split(", ")
 
-    val equation = Equation(equationStr)
+    val equation: String = Equation(parseEquation(assignment))
         .substituteVariable(Variable.parse(var1))
-        .substituteVariable(Variable.parse(var2))
-
+        .substituteVariable(Variable.parse(var2)).asString()
     println(equation)
 
-    // TODO https://www.mathpapa.com/equation-solver/
-    val answer = 42000
+    val answer = solveEquation(equation, unknownVar)
 
-    println("Sending $CHALLENGE_URL?answer=$answer")
-
-    val requestAnswer = HttpRequest.newBuilder()
-        .GET()
-        .uri(URI.create("$CHALLENGE_URL?answer=$answer")).build()
-
-    val solution = httpClient.send(requestAnswer, BodyHandlers.ofString()).body()
-    println(solution)
+    client.sendAnswer(answer)
 }
 
-private data class Equation(val equation: String) {
+private fun parseEquation(assignment: String) = assignment
+    .substringAfter("equation ")
+    .substringBefore(",")
+
+private fun solveEquation(equation: String, unknownVar: String): String {
+    val equationPayload =
+        "cmd=solve_stepssolveequation&expression=${URLEncoder.encode(equation, "UTF-8")}&variables=$unknownVar"
+    println(equationPayload)
+
+    val requestEquationCalculation = newBuilder()
+        .POST(BodyPublishers.ofString(equationPayload))
+        .header("Content-Type", "application/x-www-form-urlencoded")
+        .uri(URI.create("https://quickmath.com/msolver/apply_cmd.php")).build()
+
+    val equationSolution = HttpClient.newHttpClient().send(requestEquationCalculation, BodyHandlers.ofString()).body()
+    println(equationSolution)
+    return equationSolution.substringAfter("$unknownVar=").substringBefore("-")
+}
+
+private data class Equation(private val equation: String) {
     fun substituteVariable(variable: Variable): Equation {
         println("Substituting $variable")
         return Equation(equation.replace(variable.name, "*${variable.value}"))
     }
+
+    fun asString() = equation
 }
 
 private data class Variable(val name: String, val value: Int) {

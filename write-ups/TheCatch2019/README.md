@@ -6,6 +6,7 @@ Solutions for CTF [The Catch 2019](https://www.thecatch.cz/)
 - **Berserker's Web**
     - [01 - Who am I](02-web/01-whoami/README.md)
     - [02 - Am I worthy?](02-web/02-am-i-worthy/README.md)
+    - [03 - AI Update](02-web/03-ai-update/README.md)
 - **Berserker's Communication**
     - [01 - Drone flight](03-communications/01-drone-flight/README.md)
 - **Berserker's Devices**

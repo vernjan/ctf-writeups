@@ -1,12 +1,6 @@
 package cz.vernjan.ctf.catch19
 
-import java.net.CookieManager
-import java.net.URI
-import java.net.http.HttpClient
-import java.net.http.HttpRequest
-import java.net.http.HttpResponse.BodyHandlers
-
-private val THINGS = mapOf(
+private val ITEMS = mapOf(
     "artificial intelligence" to 1,
     "automatic transmission" to 1,
     "yumy food" to 0,
@@ -25,33 +19,16 @@ private val THINGS = mapOf(
     "resistor 10 Ohm" to 1
 )
 
-private const val CHALLENGE_URL = "http://challenges.thecatch.cz/c2619b989b7ae5eaf6df8047e6893405/"
-
 fun main() {
-    val httpClient = HttpClient.newBuilder()
-        .cookieHandler(CookieManager())
-        .build()
+    val client = BerserkerClient("c2619b989b7ae5eaf6df8047e6893405")
+    val assignment = client.fetchAssignment()
 
-    val requestCaptcha = HttpRequest.newBuilder()
-        .GET()
-        .uri(URI.create(CHALLENGE_URL)).build()
-
-    val captchaBody = httpClient.send(requestCaptcha, BodyHandlers.ofString()).body()
-    println(captchaBody)
-
-    val answer = captchaBody
+    val answer = assignment
         .substringAfter('[')
         .substringBefore(']')
         .split(", ")
-        .map { THINGS[it] }
+        .map { ITEMS[it] }
         .joinToString(separator = "")
 
-    println("Sending $CHALLENGE_URL?answer=$answer")
-
-    val requestAnswer = HttpRequest.newBuilder()
-        .GET()
-        .uri(URI.create("$CHALLENGE_URL?answer=$answer")).build()
-
-    val solution = httpClient.send(requestAnswer, BodyHandlers.ofString()).body()
-    println(solution)
+    client.sendAnswer(answer)
 }

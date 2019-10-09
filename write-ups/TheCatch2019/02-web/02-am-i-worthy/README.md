@@ -15,13 +15,14 @@ _Good luck!`_
 
 ---
 
-Sample response from the Berserker's web:
+Sample response from the _Berserker's web_:
 ```
 Challenge task : Return value of variable 'a' in equation 10a + 1i + 4t + (2a + 4i - 9t)/2 + (7a - 8i - 4t)/4 + (8a + 7i - 1t)/5 + (6a + 4i - 1t)/2 = 1118097, where i = 15483, t = 34502
 Challenge timeout (sec) : 2
 ```
 
 I wrote a [Kotlin program](../../../../src/main/kotlin/cz/vernjan/ctf/catch19/AmIWorthy.kt) to fetch the equation,
-call remote service https://www.mathpapa.com/equation-solver/ and post the answer back to Besrekers'web.
+parse it, then call remote service https://quickmath.com/msolver/apply_cmd.php to perform the calculation and finally
+post the answer back to _Berserker's web_.
 
-The flag is: `TODO` 
+The flag is: `FLAG{jyST-xaHl-un3Z-EG3X}` 
