@@ -10,7 +10,7 @@ import java.nio.file.Paths
  * Blind alley ..
  */
 fun main() {
-    val httpUrl: URL = Resources::class.java.getResource("catch19/http")
+    val httpUrl: URL = Resources::class.java.getResource("catch19/ice-cream")
     val httpPath = Paths.get(httpUrl.toURI())
     Files.list(httpPath).forEach {
         println(it)
