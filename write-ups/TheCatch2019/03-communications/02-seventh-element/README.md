@@ -20,12 +20,10 @@ Let's start with the basics:
 $ file seventh_element.dd 
 seventh_element.dd: DOS/MBR boot sector; partition 1 : ID=0xee, start-CHS (0x0,0,2), end-CHS (0x20,227,3), startsector 1, 528383 sectors, extended partition table (last)
 ```
-Yes, that looks a like a copy of flash drive.
 
+Indeed, this looks a like a copy of a flash drive. Now it's time to find out what it contains.
 ```
-$ file seventh_element.dd 
-seventh_element.dd: DOS/MBR boot sector; partition 1 : ID=0xee, start-CHS (0x0,0,2), end-CHS (0x20,227,3), startsector 1, 528383 sectors, extended partition table (last)
-vernjan@vernjan-VirtualBox:~/sf_Shared$ fdisk -l seventh_element.dd 
+$ fdisk -l seventh_element.dd 
 Disk seventh_element.dd: 258 MiB, 270532608 bytes, 528384 sectors
 Units: sectors of 1 * 512 = 512 bytes
 Sector size (logical/physical): 512 bytes / 512 bytes
@@ -40,20 +38,17 @@ seventh_element.dd3    10240  14335    4096   2M Linux filesystem
 seventh_element.dd4    14336  18431    4096   2M Linux filesystem
 seventh_element.dd5    18432  22527    4096   2M Linux filesystem
 seventh_element.dd6    22528  26623    4096   2M Linux filesystem
-seventh_element.dd7    26624  30719    4096   2M Linux filesystem
-seventh_element.dd8    30720  34815    4096   2M Linux filesystem
-seventh_element.dd9    34816  38911    4096   2M Linux filesystem
-seventh_element.dd10   38912  43007    4096   2M Linux filesystem
 ...
 seventh_element.dd128 522240 526335    4096   2M Linux filesystem
 ```
 
-This flash drive is split into 128 partitions.. Let's try to mount them.
+The flash drive is split into 128 partitions.. We need to set up
+[loop devices](https://en.wikipedia.org/wiki/Loop_device) before we can mount them.
 ```
 $ losetup -P -f seventh_element.dd
 ```
-The `-P` option is very useful in this case. It _forces the kernel to scan the partition table on a newly created
-loop device_. Let's see how that worked out:
+The `-P` option is very useful in this case. It _forces the kernel to scan the partition table on
+a newly created loop device_. No need to count partitions offsets by hand.
 ``` 
 $ lsblk
 NAME        MAJ:MIN RM  SIZE RO TYPE MOUNTPOINT
@@ -64,14 +59,11 @@ loop3         7:3    0  258M  0 loop
 ├─loop3p4   259:3    0    2M  0 loop /home/vernjan/seventh/part4
 ├─loop3p5   259:4    0    2M  0 loop /home/vernjan/seventh/part5
 ├─loop3p6   259:5    0    2M  0 loop /home/vernjan/seventh/part6
-├─loop3p7   259:6    0    2M  0 loop /home/vernjan/seventh/part7
-├─loop3p8   259:7    0    2M  0 loop /home/vernjan/seventh/part8
-├─loop3p9   259:8    0    2M  0 loop /home/vernjan/seventh/part9
-├─loop3p10  259:9    0    2M  0 loop /home/vernjan/seventh/part10
 ...
 └─loop3p128 259:127  0    2M  0 loop /home/vernjan/seventh/part128
 ```
-Good. Now it's time to mount the all!
+
+Good. Now mount the all!
 ```
 $ for i in {1..128}; do
 > mkdir part$i
@@ -79,6 +71,7 @@ $ for i in {1..128}; do
 > done
 ```
 
+And finally, let's see what's hidden inside.
 ```
 $ tree -a
 .
@@ -101,10 +94,10 @@ $ tree -a
     └── .file
 ```
 
-Each mounted partition contains a single hidden file `.file`. The only exceptions are partitions 66 and 82
-which are empty!
+Each mounted partition contains a single hidden file `.file`. The only exceptions are partitions
+**66** and **82** which are empty!
 
-Let's see what's inside of those files..
+What's inside of those files..
 ```
 $ part1/.file
 6865
@@ -114,16 +107,33 @@ $ part2/.file
 0x6d
 ```
 
-A message was split into pieces and one piece was saved into each partition. 
-(first line, 2 ASCII encoded chars)
-The hex number (second line) points to the next piece of a message. I search for strings `FL` and confirmed that it
-points to `AG`. It would be quite easy to recover the flag by hand but I was curious what else is hidden
-so I wrote a Kotlin program to recover the message.
+Apparently, a message was split into pieces and one piece was saved into each partition in a random order.
+The first line (2 ASCII encoded chars) is a part of the message and the second line (hex number) points to
+the next part of the message.
 
-find . -type f -printf "%T@ %p\n" | sort -n | cut -d ' ' -f2 | xargs cat {} \; > pieces.txt
+I searched for string `FL` and confirmed that it points to `AG`. It would be quite easy to recover the
+flag by hand but I was keen to get the whole message.
 
+The first step was to grep all message pieces.
+```
+$ find . -type f -printf "%T@ %p\n" | sort -n | cut -d ' ' -f2 | xargs cat {} \;
+6865
+0x1b
+6e21
+0x6d
+7179
+0x2c
+5225
+0x64
+7931
+0x3e
+...
+```
 
-The messages are actually two:
+Then I wrote a [Kotlin program](../../../../src/main/kotlin/cz/vernjan/ctf/catch19/SeventhElement.kt) 
+to recover the full message.
+
+Actually, there are 2 messages (2 cycles):
 ```
 WARNING{Indexing from 1? Are you pathetic human?} .'3a|7ZCbHU[`waP[JoHdKj5bdMWB$tR#5s\MV?ORZ|GHx4l9;d6_2iR$Y1I_CPPMv3/u;R%stA=qy:W6@Pn\r"fD+}09<][ Nmj,@>Evyn!IP]qTL-0wtHo_$ofW'<=Y=QH-4-N^lf9S2VjW4X#6G8PHUuY*?y1'\&/o2(bBru6U1? 
 FLAG{tPJ4-idCH-GWlh-JjL8} 
