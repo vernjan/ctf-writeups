@@ -18,172 +18,29 @@ Challenge task : IyEvdXNyL2Jpbi9lbnYgcHl0aG9uMwojIC0qLSBjb2Rpbmc6dXRmLTggLSotCgo
 Challenge timeout (sec) : 2
 ```
 
-Let's _Base64_ decode the task:
-```
-#!/usr/bin/env python3
-# -*- coding:utf-8 -*-
+Here are a few of the decoded tasks: [infiltration1.py](infiltration1.txt),
+[infiltration2.py](infiltration2.txt) and [infiltration3.py](infiltration3.txt).
 
-"""
-Initiation ritual challenge - solve it and you can join us.
-"""
+The issue is that the Python code contains errors:
+- misspelled keywords (`import`, `def` and `return`),
+- missing double colons after `if` and `else`,
+- extra space in compound operator `+ =`,
+- and wrong indentation.
 
-import sys
-import argparse
-
-def get_args():
-	"""
-	Cmd line argument parsing (preprocessing)
-	"""
-	parser = argparse.ArgumentParser(\
-		description='Initiation challenge')
-	parser.add_argument(\
-		'-n',
-		'--number',
-		type=int,
-		help='Unique initiation number',
-		required=True)
-	return parser.parse_args().number
-
-edf finetune(code):
-"""
-	Undocumented function
-	"""
-	code = code[:int(len(code) / 2)] + code[int(len(code) / 2):]
-	return code
-
-def finish(code):
-	"""
-	Undocumented function
-	"""
-	res = ''
-	for i, v in enumerate(code):
-	if i % 2 == 0
-			res + = v
-	code = res
-	return code
-
-def convert(init):
-	"""
-	Converting initiation number to B-code string.
-	"""
-
-	value = ''
-	if len(str(init)) > 0
-		if int(str(init)[0]) % 2 == 0
-			value += "vO"
-		else:
-			value + = "o7"
-	if len(str(init)) > 1
-		if int(str(init)[1]) % 2 == 0
-			value + = "Cv"
-		else
-			value += "a7"
-	if len(str(init)) > 2
-		if int(str(init)[2]) % 2 == 0:
-			value + = "Kj"
-		else
-			value + = "f2"
-	if len(str(init)) > 3:
-		if int(str(init)[3]) % 2 == 0
-			value += "ZX"
-		else
-			value += "K6"
-	if len(str(init)) > 4:
-		if int(str(init)[4]) % 2 == 0
-			value += "wC"
-		else:
-			value += "k2"
-	if len(str(init)) > 5
-		if int(str(init)[5]) % 2 == 0:
-			value + = "yv"
-		else:
-		value + = "C6"
-	if len(str(init)) > 6
-		if int(str(init)[6]) % 2 == 0:
-			value + = "bA"
-		else
-			value + = "p1"
-	if len(str(init)) < 7:
-		return value
-	if value[2] < "L":
-		value + = "2x"
-	else
-		value + = "M8"
-	if value[6] < "p":
-		value += "5u"
-	else
-		value += "l8"
-	if value[8] < "d"
-		value + = "8V"
-	else:
-		value + = "D2"
-	if value[8] < "K":
-		value += "8k"
-	else
-		value += "G7"
-	if value[7] < "o"
-		value += "4b"
-	else:
-		value + = "T5"
-	if value[21] < "K":
-		value += "1R"
-	else
-		value += "g5"
-	if value[14] < "X"
-		value + = "2G"
-	else
-		value += "T4"
-	if value[1] < "d"
-		value + = "4L"
-	else:
-		value + = "a2"
-	if value[19] < "h"
-		value + = "8P"
-	else
-		value += "F3"
-	if value[4] < "Q"
-		value += "4m"
-	else
-		value + = "S0"
-	if value[23] < "w":
-		value += "6F"
-	else:
-		value + = "k7"
-	if value[17] < "f"
-		value += "0F"
-	else:
-		value += "L2"
-	if value[13] < "k"
-		value += "1L"
-	else:
-		value + = "r2"
-	if value[16] < "y":
-		value += "1f"
-	else:
-		value + = "L9"
-	if value[2] < "F":
-		value += "1p"
-	else:
-		value += "z5"
-	if value[23] < "y":
-		value + = "0K"
-	else:
-		value + = "T5"
-	value = finetune(value)
-	value = finetune(value)
-	value = finish(value)
-	return value
-
-def main():
-	if sys.version_info[0] < 3:
-		print("ERROR: Python3 required.")
-		exit(1)
-	init_number = get_args()
-	print("Your B-code: {}".format(convert(init_number)))
-
-amin()
-
-#EOF
+So let's fix them:
+```kotlin
+val codeFixed = code
+    .replace("^[import]{6} ".toRegex(), "import ")
+    .replace("^[def]{3} ".toRegex(), "def ")
+    .replace("^[main]{4}".toRegex(), "main")
+    .replace("[return]{6} ".toRegex(), "return ")
+    .replace("else$".toRegex(), "else:")
+    .replace("if .*[^:]$".toRegex()) { "${it.value}:" }
+    .replace("+ =", "+=")
 ```
 
-And the second part of the challenge decodes to: `5734592`
+Fixing the indentation is a bit more complicate. See the full
+[code](../../../../src/main/kotlin/cz/vernjan/ctf/catch19/Infiltration.kt) here.
+
+Once we have an error-free script, we can execute it, parse the `B-Code` and grab
+the flag: `FLAG{A92w-i3vS-jBJB-B8A6}`
