@@ -15,14 +15,17 @@ _Good luck!_
 
 ---
 
+Let's start with the basics:
 ```
 $ file seventh_element.dd 
 seventh_element.dd: DOS/MBR boot sector; partition 1 : ID=0xee, start-CHS (0x0,0,2), end-CHS (0x20,227,3), startsector 1, 528383 sectors, extended partition table (last)
 ```
+Yes, that looks a like a copy of flash drive.
 
 ```
-$ fdisk -l seventh_element.dd 
-fdisk -l seventh_element.dd
+$ file seventh_element.dd 
+seventh_element.dd: DOS/MBR boot sector; partition 1 : ID=0xee, start-CHS (0x0,0,2), end-CHS (0x20,227,3), startsector 1, 528383 sectors, extended partition table (last)
+vernjan@vernjan-VirtualBox:~/sf_Shared$ fdisk -l seventh_element.dd 
 Disk seventh_element.dd: 258 MiB, 270532608 bytes, 528384 sectors
 Units: sectors of 1 * 512 = 512 bytes
 Sector size (logical/physical): 512 bytes / 512 bytes
@@ -41,45 +44,87 @@ seventh_element.dd7    26624  30719    4096   2M Linux filesystem
 seventh_element.dd8    30720  34815    4096   2M Linux filesystem
 seventh_element.dd9    34816  38911    4096   2M Linux filesystem
 seventh_element.dd10   38912  43007    4096   2M Linux filesystem
-seventh_element.dd11   43008  47103    4096   2M Linux filesystem
-seventh_element.dd12   47104  51199    4096   2M Linux filesystem
-seventh_element.dd13   51200  55295    4096   2M Linux filesystem
-seventh_element.dd14   55296  59391    4096   2M Linux filesystem
-seventh_element.dd15   59392  63487    4096   2M Linux filesystem
 ...
 seventh_element.dd128 522240 526335    4096   2M Linux filesystem
-
 ```
 
-$losetup -P -f seventh_element.dd
-
+This flash drive is split into 128 partitions.. Let's try to mount them.
 ```
-lsblk
+$ losetup -P -f seventh_element.dd
+```
+The `-P` option is very useful in this case. It _forces the kernel to scan the partition table on a newly created
+loop device_. Let's see how that worked out:
+``` 
+$ lsblk
 NAME        MAJ:MIN RM  SIZE RO TYPE MOUNTPOINT
-loop0         7:0    0  258M  0 loop 
-├─loop0p1   259:0    0    2M  0 part /media/root/0x00
-├─loop0p2   259:1    0    2M  0 part /media/root/0x01
-├─loop0p3   259:2    0    2M  0 part /media/root/0x02
-├─loop0p4   259:3    0    2M  0 part /media/root/0x03
-├─loop0p5   259:4    0    2M  0 part /media/root/0x04
-├─loop0p6   259:5    0    2M  0 part /media/root/0x05
-├─loop0p7   259:6    0    2M  0 part /media/root/0x06
-├─loop0p8   259:7    0    2M  0 part /media/root/0x07
-├─loop0p9   259:8    0    2M  0 part /media/root/0x08
-├─loop0p10  259:9    0    2M  0 part /media/root/0x09
-├─loop0p11  259:10   0    2M  0 part /media/root/0x0a
-├─loop0p12  259:11   0    2M  0 part /media/root/0x0b
-├─loop0p13  259:12   0    2M  0 part /media/root/0x0c
-├─loop0p14  259:13   0    2M  0 part /media/root/0x0d
-├─loop0p15  259:14   0    2M  0 part /media/root/0x0e
-├─loop0p16  259:15   0    2M  0 part /media/root/0x0f
-├─loop0p17  259:16   0    2M  0 part /media/root/0x10
-├─loop0p18  259:17   0    2M  0 part /media/root/0x11
-├─loop0p19  259:18   0    2M  0 part /media/root/0x12
+loop3         7:3    0  258M  0 loop 
+├─loop3p1   259:0    0    2M  0 loop /home/vernjan/seventh/part1
+├─loop3p2   259:1    0    2M  0 loop /home/vernjan/seventh/part2
+├─loop3p3   259:2    0    2M  0 loop /home/vernjan/seventh/part3
+├─loop3p4   259:3    0    2M  0 loop /home/vernjan/seventh/part4
+├─loop3p5   259:4    0    2M  0 loop /home/vernjan/seventh/part5
+├─loop3p6   259:5    0    2M  0 loop /home/vernjan/seventh/part6
+├─loop3p7   259:6    0    2M  0 loop /home/vernjan/seventh/part7
+├─loop3p8   259:7    0    2M  0 loop /home/vernjan/seventh/part8
+├─loop3p9   259:8    0    2M  0 loop /home/vernjan/seventh/part9
+├─loop3p10  259:9    0    2M  0 loop /home/vernjan/seventh/part10
 ...
-
+└─loop3p128 259:127  0    2M  0 loop /home/vernjan/seventh/part128
+```
+Good. Now it's time to mount the all!
+```
+$ for i in {1..128}; do
+> mkdir part$i
+> sudo mount /dev/loop3p$i part$i
+> done
 ```
 
-find /media/root/ -type f -exec cat {} \; > pieces.txt
+```
+$ tree -a
+.
+├── part1
+│   └── .file
+├── part10
+│   └── .file
+├── part100
+│   └── .file
+├── part101
+│   └── .file
+├── part102
+│   └── .file
+├── part103
+│   └── .file
+├── part104
+│   └── .file
+...
+└── part99
+    └── .file
+```
 
-66 a 82 empty ..
+Each mounted partition contains a single hidden file `.file`. The only exceptions are partitions 66 and 82
+which are empty!
+
+Let's see what's inside of those files..
+```
+$ part1/.file
+6865
+0x1b
+$ part2/.file
+6e21
+0x6d
+```
+
+A message was split into pieces and one piece was saved into each partition. 
+(first line, 2 ASCII encoded chars)
+The hex number (second line) points to the next piece of a message. I search for strings `FL` and confirmed that it
+points to `AG`. It would be quite easy to recover the flag by hand but I was curious what else is hidden
+so I wrote a Kotlin program to recover the message.
+
+find . -type f -printf "%T@ %p\n" | sort -n | cut -d ' ' -f2 | xargs cat {} \; > pieces.txt
+
+
+The messages are actually two:
+```
+WARNING{Indexing from 1? Are you pathetic human?} .'3a|7ZCbHU[`waP[JoHdKj5bdMWB$tR#5s\MV?ORZ|GHx4l9;d6_2iR$Y1I_CPPMv3/u;R%stA=qy:W6@Pn\r"fD+}09<][ Nmj,@>Evyn!IP]qTL-0wtHo_$ofW'<=Y=QH-4-N^lf9S2VjW4X#6G8PHUuY*?y1'\&/o2(bBru6U1? 
+FLAG{tPJ4-idCH-GWlh-JjL8} 
+```
