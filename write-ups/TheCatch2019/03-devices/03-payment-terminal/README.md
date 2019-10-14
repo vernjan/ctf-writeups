@@ -12,11 +12,11 @@ security problem in data transfer, and acquire the configuration file(s). Good l
 ---
 
 Fire up _Wireshark_ and let's see what's hidden! I like to start with _Statistics/Protocol Hierarchy_ and
-_Statistics/Conversations_ to get a big picture. In this case the picture is:
+_Statistics/Conversations_ to get the big picture. In this case, the big picture is:
 - `10.10.1.110` opens SSH connection to `172.16.66.15`
 - `172.16.66.15` is authenticating the user with `172.16.66.14`. It uses `TACACS+` protocol.
 - Login succeeds
-- User updates the configuration of `TACACS+` using `TFTP`
+- User updates the configuration of `TACACS+` using `TFTP` (plain text)
 
 Here is the [dump of TFTP transer](TFTP.txt).
 
@@ -26,8 +26,8 @@ tacacs-server host 172.16.66.14
 tacacs-server key 7 0804545A1B18360300040203641B256C770272010355
 ```
 
-The transfer leaks the _pre-shared key_ whichis used for encrypting `TACACS+` messages.
-Unfortunately, the
+The transfer leaks the _pre-shared key_ which is used for encrypting `TACACS+` messages.
+Unfortunately, option `7` means that the
 [key is encrypted](https://www.cisco.com/c/m/en_us/techdoc/dc/reference/cli/n5k/commands/tacacs-server-key.html).
 Fortunately, the encryption can be [easily reverted](http://www.ifm.net.nz/cookbooks/passwordcracker.html).
 The pre-shared key is: `ExtraStrong.Pa$$W0rd#`
