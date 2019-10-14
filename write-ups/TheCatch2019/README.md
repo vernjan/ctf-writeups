@@ -16,3 +16,4 @@ Solutions for CTF [The Catch 2019](https://www.thecatch.cz/)
 - **Berserker's Communication**
     - [01 - Drone flight (2p)](04-communication/01-drone-flight/README.md)
     - [02 - Seventh element (4p)](04-communication/02-seventh-element/README.md)
+    - [03 - Colonel Roche (5p)](04-communication/03-colonel-roche/README.md)
