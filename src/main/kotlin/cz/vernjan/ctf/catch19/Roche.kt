@@ -1,28 +1,26 @@
 package cz.vernjan.ctf.catch19
 
-import cz.vernjan.ctf.catch19.GridType.COLUMNS
-import cz.vernjan.ctf.catch19.GridType.ROWS
+import cz.vernjan.ctf.catch19.TranspositionType.COLUMNS
+import cz.vernjan.ctf.catch19.TranspositionType.ROWS
 
+private val printDetails = false
 
-private val ciphertext =
-    "463216327617246f67406f1266075ec622606c6671765537066636596e621e64e622c2b006066961c66e621f067676e77c6e665167a462c4b50477433617754222d7043542885747df6dd575970417d435223000"
-
-enum class GridType {
+enum class TranspositionType {
     ROWS, COLUMNS
 }
 
 @Suppress("ArrayInDataClass")
-data class Grid(val data: Array<CharArray>, val gridType: GridType) {
+data class Grid(val data: Array<CharArray>, val type: TranspositionType) {
 
     fun readByRows(): String {
-        return when (gridType) {
+        return when (type) {
             ROWS -> print()
             COLUMNS -> printInverted()
         }
     }
 
     fun readByColumns(): String {
-        return when (gridType) {
+        return when (type) {
             ROWS -> printInverted()
             COLUMNS -> print()
         }
@@ -49,24 +47,51 @@ data class Grid(val data: Array<CharArray>, val gridType: GridType) {
     }
 }
 
+fun tryAllTranspositions(input: String, key: IntArray): List<String> {
+    val result = mutableListOf<String>()
+    result.add(transposeColumns(input, key).readByColumns())
+    result.add(transposeColumns(input, key).readByRows())
+    result.add(transposeRows(input, key).readByColumns())
+    result.add(transposeRows(input, key).readByRows())
+    return result
+}
 
-fun transposeColumns(input: String, key: IntArray): Grid {
-    require(input.length % key.size == 0) { "Invalid key length" }
+// Convenient method for deciphering all combinations
+fun transpose(
+    input: String,
+    key: IntArray,
+    transposeType: TranspositionType,
+    readType: TranspositionType,
+    padding: Boolean = false
+): String = when (transposeType) {
+    ROWS -> when (readType) {
+        ROWS -> transposeRows(input, key, padding).readByRows()
+        COLUMNS -> transposeRows(input, key, padding).readByColumns()
+    }
+    COLUMNS -> when (readType) {
+        ROWS -> transposeColumns(input, key, padding).readByRows()
+        COLUMNS -> transposeColumns(input, key, padding).readByColumns()
+    }
+}
+
+
+fun transposeColumns(input: String, key: IntArray, padding: Boolean = false): Grid {
+    val inputPadded = handlePadding(input, key, padding)
 
     val numberOfColumns = key.size
-    val numberOfRows = input.length / numberOfColumns
-
-    println("Rows: $numberOfRows, Columns: $numberOfColumns")
+    val numberOfRows = inputPadded.length / numberOfColumns
 
     // read into array of columns
     val columns = Array(numberOfColumns) { columnIndex ->
         CharArray(numberOfRows) { rowIndex ->
-            input[numberOfColumns * rowIndex + columnIndex]
+            inputPadded[numberOfColumns * rowIndex + columnIndex]
         }
     }
 
-    println()
-    columns.forEach { println(it.contentToString()) }
+    if (printDetails) {
+        println()
+        print2DimArray(columns)
+    }
 
     // swap columns
     val invertKey = invertKey(key)
@@ -74,29 +99,42 @@ fun transposeColumns(input: String, key: IntArray): Grid {
         columns[invertKey[columnIndex] - 1]
     }
 
-    println()
-    columnsShuffled.forEach { println(it.contentToString()) }
-
+    if (printDetails) {
+        println()
+        print2DimArray(columnsShuffled)
+    }
     return Grid(columnsShuffled, COLUMNS)
 }
 
-fun transposeRows(input: String, key: IntArray): Grid {
-    require(input.length % key.size == 0) { "Invalid key length" }
+private fun handlePadding(input: String, key: IntArray, padding: Boolean): String {
+    var inputWithPadding = input
+    if (padding) {
+        while (inputWithPadding.length % key.size != 0) {
+            inputWithPadding += "*"
+        }
+    } else {
+        require(input.length % key.size == 0) { "Invalid key length" }
+    }
+    return inputWithPadding
+}
+
+fun transposeRows(input: String, key: IntArray, padding: Boolean = false): Grid {
+    val inputPadded = handlePadding(input, key, padding)
 
     val numberOfRows = key.size
-    val numberOfColumns = input.length / numberOfRows
-
-    println("Rows: $numberOfRows, Columns: $numberOfColumns")
+    val numberOfColumns = inputPadded.length / numberOfRows
 
     // read into array of rows
     val rows = Array(numberOfRows) { rowIndex ->
         CharArray(numberOfColumns) { columnIndex ->
-            input[numberOfColumns * rowIndex + columnIndex]
+            inputPadded[numberOfColumns * rowIndex + columnIndex]
         }
     }
 
-    println()
-    rows.forEach { println(it.contentToString()) }
+    if (printDetails) {
+        println()
+        print2DimArray(rows)
+    }
 
     // swap rows
     val invertKey = invertKey(key)
@@ -104,10 +142,16 @@ fun transposeRows(input: String, key: IntArray): Grid {
         rows[invertKey[rowIndex] - 1]
     }
 
-    println()
-    rowsShuffled.forEach { println(it.contentToString()) }
+    if (printDetails) {
+        println()
+        print2DimArray(rowsShuffled)
+    }
 
     return Grid(rowsShuffled, ROWS)
+}
+
+private fun print2DimArray(columns: Array<CharArray>) {
+    columns.forEach { println(it.contentToString()) }
 }
 
 fun invertKey(key: IntArray): IntArray {
