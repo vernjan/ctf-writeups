@@ -12,7 +12,6 @@ Solutions for CTF [The Catch 2019](https://www.thecatch.cz/)
     - [01 - Autonomous car (2p)](03-devices/01-autonomous-car/README.md)
     - [02 - Ice-cream selling machine (3p)](03-devices/02-ice-cream/README.md)
     - [03 - Payment Terminal (4p)](03-devices/03-payment-terminal/README.md)
-    - [04 - Vacuum cleaner (5p)](03-devices/04-vacuum-cleaner/README.md)
 - **Berserker's Communication**
     - [01 - Drone flight (2p)](04-communication/01-drone-flight/README.md)
     - [02 - Seventh element (4p)](04-communication/02-seventh-element/README.md)
