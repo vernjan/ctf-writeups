@@ -1,7 +1,7 @@
-package cz.vernjan.ctf.catch19
+package cz.vernjan.ctf
 
-import cz.vernjan.ctf.catch19.TranspositionType.COLUMNS
-import cz.vernjan.ctf.catch19.TranspositionType.ROWS
+import cz.vernjan.ctf.TranspositionType.COLUMNS
+import cz.vernjan.ctf.TranspositionType.ROWS
 
 private val printDetails = false
 
@@ -78,7 +78,6 @@ fun transpose(
     println(result)
     return result
 }
-
 
 fun transposeColumns(input: String, key: IntArray, padding: Boolean = false): Grid {
     val inputPadded = handlePadding(input, key, padding)

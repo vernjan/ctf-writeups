@@ -17,53 +17,57 @@ _Good luck!_
 
 ---
 
-84 bytes (672 bits) ? IV?
-84 = 3 * 7 * 2 * 2
+This is the ciphertext
 ```
-                                                                                                         x      x   xx     xx
-46321632 7617246f 67406f12 66075ec6 22606c66 71765537 06663659 6e621e64 e622c2b0 06066961c66e621f067676e77c6e665167a462c4b50477433617754222d7043542885747df6dd575970417d435223000
-                                                                                                           464c41477b316236662d3272656a2d306e6f372d657763347d
-
-4632 1632 7617 246f 6740 6f12 66075ec622606c6671765537066636596e621e64e622c2b006066961c66e621f067676e77c6e665167a462c4b50477433617754222d7043542885747df6dd575970417d435223000
-    
-{ 7b                                                                                                       F L A G {
-- 2d
-} 7d
-
-
-463216327617246f67406f1266075ec622606c6671765537066636596e621e64e622c2b006066961c66e621f067676e77c6e665167a4XXLLYYGG{{43361775--d7043542--542747df--d5759704--d4352230}}
-FLAG{1b6f-2rej-0no7-ewc4}
-
-
-323436363333313132323734363737363066363634366630313732363635326536633236303736316336353737363035333336353639363632366565363631323463653236323662363036303063393636653136663636323731306536373763363736363165363635363763613434323462373534303731333733353637323437323032643434383338353237356637363464376439643735353730343433316433353032303230
-24663311227467760f6646f01726652e6c260761c65776053365696626ee66124ce2626b60600c966e16f662710e677c67661e66567ca4424b754071373567247202d448385275f764d7d9d755704431d3502020
-
-46 32 16 32 76 17 24 6f 67 40 6f 12 66 07 5e c6 22 60 6c 66 71 76 55 37 06 66 36 59 6e 62 1e 64 e6 22 c2 b0 06 06 69 61 c6 6e 62 1f 06 76 76 e7 7c 6e 66 51 67 a4 62 c4 b5 04 77 43 36 17 75 42 22 d7 04 35 42 88 57 47 df 6d d5 75 97 04 17 d4 35 22 30 00
-
-70 50 22 50 118 23 36 111 103 64 111 18 102 7 94 198 34 96 108 102 113 118 85 55 6 102 54 89 110 98 30 100 230 34 194 176 6 6 105 97 198 110 98 31 6 118 118 231 124 110 102 81 103 164 98 196 181 4 119 67 54 23 117 66 34 215 4 53 66 136 87 71 223 109 213 117 151 4 23 212 53 34 48 0
+463216327617246f67406f1266075ec622606c6671765537066636596e621e64e622c2b006066961c66e621f067676e77c6e665167a462c4b50477433617754222d7043542885747df6dd575970417d435223000
 ```
 
-```
-46 32 16 32 76 17 24 6f 67 40 6f 12 66 07 5e c6
-22 60 6c 66 71 76 55 37 06 66 36 59 6e 62 1e 64 
-e6 22 c2 b0 06 06 69 61 c6 6e 62 1f 06 76 76 e7 
-7c 6e 66 51 67 a4 62 c4 b5 04 77 43 36 17 75 42 
-22 d7 04 35 42 88 57 47 df 6d d5 75 97 04 17 d4 
-35 22 30 00
-```
+Let's do some analysis:
+1) 84 bytes in hex, unlikely a block cipher, or with a small blocks
+2) Divisors = 2 * 2 * 3 * 7
+3) Frequency analysis
+    ```
+    Occurency and Frequency Analysis
+    6	39×	23.21%
+    7	22×	13.1%
+    2	18×	10.71%
+    4	14×	8.33%
+    0	14×	8.33%
+    5	12×	7.14%
+    1	10×	5.95%
+    3	9×	5.36%
+    E	7×	4.17%
+    C	6×	3.57%
+    D	5×	2.98%
+    F	4×	2.38%
+    9	3×	1.79%
+    B	2×	1.19%
+    8	2×	1.19%
+    A	1×	0.6%
+    #N : 16	Σ = 168.00	Σ = 100.00
+    ```
 
-https://link.springer.com/chapter/10.1007/978-3-642-31284-7_19
+This looks like standard ASCII text (lots of 6s and 7s and also 2s and 0s which represents spaces).
+Ok, could be a [transposition cipher](https://en.wikipedia.org/wiki/Transposition_cipher) of hex encoded test.
 
-Frequency bytes:
-56 unique bytes (out of 84)
-```
-06	4×	4.76%
-22	4×	4.76%
-66	4×	4.76%
-76	4×	4.76%
-62	3×	3.57%
-04	3×	3.57%
-17	3×	3.57%
-```
+Unlikely running XOR cipher, the key would have to be non-ASCII.
 
-C6, C4, D7, B5, D7, DF, D5, D4, A4, C2,
+There is also an obvious hint in the text to Google for `Colonel Roche`.
+The hint points to [Jean-Baptiste Roche](https://fr.wikipedia.org/wiki/Jean-Baptiste_Roche). I was not sure
+about it since I couldn't find anything useful about this person but the official hint confirms it:
+
+_Full name of the mentioned famous human is `Colonel Jean-Baptiste Roche`, he lived in years 1861-1954 and his hobby was cryptography._
+
+I Googled a lot to find something useful but I didn't find much so I settle for the fact that he lived
+before the era of modern cryptography and that he was Frenchman.
+
+This strengthen my faith to go with the _transposition cipher_. I tried a few online tools but none of them
+worked so I took a deep dive and studied how the cipher works including it's various mutations. Then I
+[programmed](../../../../src/main/kotlin/cz/vernjan/ctf/TranspositionCipher.kt) my own version of
+transposition cipher. I tried all combinations of the weekdays, of course trying double transpositions
+and brute-forcing all possible keys of reasonable length. However, I failed to decipher it ..
+
+I got back to studying the ciphertext. I learnt that the it's most likely NOT a classic columnar transposition
+cipher (read by columns) nor even double transposition cipher because the last ~60 chars are surely
+a permutation of characters `FLAG{xxxx-xxxx-xxxx-xxxx}`. This encouraged me once again to continue with
+trying lots of possible permutations. I failed again, ran out of time and gave up :/
