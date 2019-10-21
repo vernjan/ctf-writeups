@@ -63,15 +63,20 @@ fun transpose(
     transposeType: TranspositionType,
     readType: TranspositionType,
     padding: Boolean = false
-): String = when (transposeType) {
-    ROWS -> when (readType) {
-        ROWS -> transposeRows(input, key, padding).readByRows()
-        COLUMNS -> transposeRows(input, key, padding).readByColumns()
+): String  {
+    println("Transposing by $transposeType, readType: $readType")
+    val result = when (transposeType) {
+        ROWS -> when (readType) {
+            ROWS -> transposeRows(input, key, padding).readByRows()
+            COLUMNS -> transposeRows(input, key, padding).readByColumns()
+        }
+        COLUMNS -> when (readType) {
+            ROWS -> transposeColumns(input, key, padding).readByRows()
+            COLUMNS -> transposeColumns(input, key, padding).readByColumns()
+        }
     }
-    COLUMNS -> when (readType) {
-        ROWS -> transposeColumns(input, key, padding).readByRows()
-        COLUMNS -> transposeColumns(input, key, padding).readByColumns()
-    }
+    println(result)
+    return result
 }
 
 
