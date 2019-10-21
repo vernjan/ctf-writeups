@@ -169,121 +169,39 @@ class RocheKtTest {
     @Test
     fun `permutes`() {
         val ct =
-            "24663311227467760f6646f01726652e6c260761c65776053365696626ee66124ce2626b60600c966e16f662710e677c67661e66567ca4424b754071373567247202d448385275f764d7d9d755704431d3502020"
+            "463216327617246f67406f1266075ec622606c6671765537066636596e621e64e622c2b006066961c66e621f067676e77c6e665167a462c4b50477433617754222d7043542885747df6dd575970417d435223000"
 
         //println("asasFLAG{1b6f-2rej-0no7-ewc4}sadasd".contains("""FLAG\{.{4}-.{4}-.{4}-.{4}}""".toRegex()))
 
         var counter = 0
-        val permutations1 = PermutationIterator(setOf(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12))
+        val permutations1 = PermutationIterator(setOf(1, 2, 3, 4, 5, 6, 7, 8))
         while (permutations1.hasNext()) {
             counter++
             val key = permutations1.next().toIntArray()
             var decrypted = transposeColumns(ct, key).readByRows()
-            if (counter % 1000000 == 0) {
+            if (counter % 100 == 0) {
                 println(">>> Counter: $counter")
             }
 
-            //    transpose(plaintext, key, transposeBy, readType)
-
-//            val permutations2 = PermutationIterator(setOf(1, 2, 3, 4, 5, 6, 7))
-//            while (permutations2.hasNext()) {
-//                val key2 = permutations2.next().toIntArray()
-//                val decrypted2 = transposeColumns(decrypted, key2).readByRows()
+            val permutations2 = PermutationIterator(setOf(1, 2, 3, 4, 5, 6, 7))
+            while (permutations2.hasNext()) {
+                val key2 = permutations2.next().toIntArray()
+                decrypted = transposeColumns(decrypted, key2).readByRows()
 
 
-            if (decrypted.contains("464c41477b")) {
-                val pt = decrypted.hexToAscii()
-                if (pt.contains("""FLAG\{.{4}-.{4}-.{4}-.{4}}""".toRegex())) {
+                if (decrypted.contains("464c41477b")) {
+                    val pt = decrypted.hexToAscii()
+//                if (pt.contains("""FLAG\{.{4}-.{4}-.{4}-.{4}}""".toRegex())) {
 //                    println("${key.contentToString()} / ${key2.contentToString()}")
                     println("${key.contentToString()}")
                     println(decrypted)
                     println(decrypted.hexToAscii())
 //                    }
+//                }
                 }
             }
         }
-    }
 
-
-    @Test
-    fun `foo1`() {
-        val ct =
-            "24663311227467760f6646f01726652e6c260761c65776053365696626ee66124ce2626b60600c966e16f662710e677c67661e66567ca4424b754071373567247202d448385275f764d7d9d755704431d3502020"
-
-        val size = 7
-        val key = IntArray(size)
-
-        for (a in 1..size) {
-            println("Level 1: $a")
-            key[0] = a
-            for (b in (a + 1)..size) {
-                println("Level 2: $b")
-                key[1] = b
-                for (c in (b + 1)..size) {
-                    key[2] = c
-                    for (d in (c + 1)..size) {
-                        key[3] = d
-                        for (e in (d + 1)..size) {
-                            key[4] = e
-                            for (f in (e + 1)..size) {
-                                key[5] = f
-                                for (g in (f + 1)..size) {
-                                    key[6] = g
-//                                    for (h in (g + 1)..size) {
-//                                        key[7] = h
-
-                                    val decrypted = transposeColumns(ct, key).readByRows()
-                                    println(decrypted)
-                                    foo2(decrypted)
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
     }
 }
-
-
-fun `foo2`(ct: String) {
-    val size = 8
-    val key = IntArray(size)
-
-    for (a in 1..size) {
-        println("Level 1: $a")
-        key[0] = a
-        for (b in (a + 1)..size) {
-            println("Level 2: $b")
-            key[1] = b
-            for (c in (b + 1)..size) {
-                key[2] = c
-                for (d in (c + 1)..size) {
-                    key[3] = d
-                    for (e in (d + 1)..size) {
-                        key[4] = e
-                        for (f in (e + 1)..size) {
-                            key[5] = f
-                            for (g in (f + 1)..size) {
-                                key[6] = g
-                                for (h in (g + 1)..size) {
-                                    key[7] = h
-
-                                    val decrypted = transposeColumns(ct, key).readByRows()
-                                    if (decrypted.contains("464c4147")) {
-                                        println("$key")
-                                        println(decrypted.hexToAscii())
-                                    }
-
-
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-}
-
 
