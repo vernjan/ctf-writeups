@@ -19,6 +19,7 @@ is [here](../../../../src/main/kotlin/cz/vernjan/ctf/catch19/IceCream.kt).
 Then I focused on the RTP protocol and after a while, I was able to export it into [audio](RTP-Audio.au).
 
 The flag is encoded using _phonetic alphabet_
+
 ![](phonetic-alphabet.png)
 
 Here is the transcript: `The flag is one bravo six foxtrot dash two romeo echo juliett dash zero november oscar seven

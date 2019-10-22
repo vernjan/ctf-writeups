@@ -17,14 +17,14 @@ _Good luck!_
 
 ---
 
-This is the ciphertext
+This is the ciphertext:
 ```
 463216327617246f67406f1266075ec622606c6671765537066636596e621e64e622c2b006066961c66e621f067676e77c6e665167a462c4b50477433617754222d7043542885747df6dd575970417d435223000
 ```
 
 Let's do some analysis:
 1) 84 bytes in hex, unlikely a block cipher, or with a small blocks
-2) Divisors = 2 * 2 * 3 * 7
+2) Divisors are `2 * 2 * 3 * 7` (and `* 2` if considering the original hex)
 3) Frequency analysis
     ```
     Occurency and Frequency Analysis
@@ -48,20 +48,23 @@ Let's do some analysis:
     ```
 
 This looks like standard ASCII text (lots of 6s and 7s and also 2s and 0s which represents spaces).
-Ok, could be a [transposition cipher](https://en.wikipedia.org/wiki/Transposition_cipher) of hex encoded test.
+Ok, this could be a [transposition cipher](https://en.wikipedia.org/wiki/Transposition_cipher#Columnar_transposition)
+of hex encoded test!
 
-Unlikely running XOR cipher, the key would have to be non-ASCII.
+Unlikely a running XOR cipher, the key would have to be non-ASCII.
 
 There is also an obvious hint in the text to Google for `Colonel Roche`.
 The hint points to [Jean-Baptiste Roche](https://fr.wikipedia.org/wiki/Jean-Baptiste_Roche). I was not sure
-about it since I couldn't find anything useful about this person but the official hint confirms it:
+about the hint since I couldn't find anything useful about this person but the official hint confirms it:
 
 _Full name of the mentioned famous human is `Colonel Jean-Baptiste Roche`, he lived in years 1861-1954 and his hobby was cryptography._
 
 I Googled a lot to find something useful but I didn't find much so I settle for the fact that he lived
-before the era of modern cryptography and that he was Frenchman.
+before the era of modern cryptography and that he was a Frenchman.
 
-This strengthen my faith to go with the _transposition cipher_. I tried a few online tools but none of them
+This strengthen my faith to go with the [transposition cipher](https://en.wikipedia.org/wiki/Transposition_cipher#Columnar_transposition).
+The wiki says: _The system was regularly solved by the French .._
+I tried a few online tools but none of them
 worked so I took a deep dive and studied how the cipher works including it's various mutations. Then I
 [programmed](../../../../src/main/kotlin/cz/vernjan/ctf/TranspositionCipher.kt) my own version of
 transposition cipher. I tried all combinations of the weekdays, of course trying double transpositions
@@ -69,5 +72,6 @@ and brute-forcing all possible keys of reasonable length. However, I failed to d
 
 I got back to studying the ciphertext. I learnt that the it's most likely NOT a classic columnar transposition
 cipher (read by columns) nor even double transposition cipher because the last ~60 chars are surely
-a permutation of characters `FLAG{xxxx-xxxx-xxxx-xxxx}`. This encouraged me once again to continue with
+a permutation of characters `FLAG{xxxx-xxxx-xxxx-xxxx}`. If this would be a classic transposition cipher,
+the characters would be spread all over the ciphertext. This encouraged me once again to continue with
 trying lots of possible permutations. I failed again, ran out of time and gave up :/

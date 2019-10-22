@@ -1,6 +1,7 @@
 # The Catch 2019
 
-Solutions for CTF [The Catch 2019](https://www.thecatch.cz/)
+I attended[The Catch 2019](https://www.thecatch.cz/) on my own. Unfortunately, I wasn't able to solve
+all the challenges. I totally stuck with [Colonel Roche (5p)](04-communication/03-colonel-roche/README.md) ..
 
 - [The Academy](01-academy/README.md)
 - **Berserker's Web**

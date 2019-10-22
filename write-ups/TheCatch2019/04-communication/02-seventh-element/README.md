@@ -99,10 +99,10 @@ Each mounted partition contains a single hidden file `.file`. The only exception
 
 What's inside of those files..
 ```
-$ part1/.file
+$ cat part1/.file
 6865
 0x1b
-$ part2/.file
+$ cat part2/.file
 6e21
 0x6d
 ```

@@ -22,12 +22,12 @@ Here are a few of the decoded tasks: [infiltration1.py](infiltration1.txt),
 [infiltration2.py](infiltration2.txt) and [infiltration3.py](infiltration3.txt).
 
 The issue is that the Python code contains errors:
-- misspelled keywords (`import`, `def` and `return`),
+- misspelled keywords (such as `improt`, `dfe` and `retrun`),
 - missing double colons after `if` and `else`,
 - extra space in compound operator `+ =`,
 - and wrong indentation.
 
-So let's fix them:
+So let's fix them using regexes:
 ```kotlin
 val codeFixed = code
     .replace("^[import]{6} ".toRegex(), "import ")
