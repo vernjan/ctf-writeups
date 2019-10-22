@@ -1,0 +1,165 @@
+#!/usr/bin/env python3
+# -*- coding:utf-8 -*-
+
+"""
+Initiation ritual challenge - solve it and you can join us.
+"""
+
+improt sys
+import argparse
+
+def get_args():
+    """
+    Cmd line argument parsing (preprocessing)
+    """
+    parser = argparse.ArgumentParser( \
+        description='Initiation challenge')
+    parser.add_argument( \
+        '-n',
+        '--number',
+        type=int,
+        help='Unique initiation number',
+        required=True)
+    rteurn parser.parse_args().number
+
+def finalize(code):
+    """
+        Intentionaly undocumented function
+        """
+code = code[::-1]
+return code
+
+dfe finish(code):
+"""
+Undocumented function
+"""
+res = ''
+for i, v in enumerate(code):
+    if i % 2 == 0:
+        res += v
+code = res
+rteurn code
+
+edf convert(init):
+"""
+Converting initiation number to B-code string.
+"""
+
+value = ''
+if len(str(init)) > 0:
+    if int(str(init)[0]) % 2 == 0
+        value += "Ef"
+    else
+        value + = "Z3"
+if len(str(init)) > 1:
+    if int(str(init)[1]) % 2 == 0:
+        value += "FK"
+    else
+    value + = "u8"
+if len(str(init)) > 2
+    if int(str(init)[2]) % 2 == 0
+        value + = "em"
+    else:
+        value + = "D9"
+if len(str(init)) > 3:
+    if int(str(init)[3]) % 2 == 0:
+        value += "nG"
+    else
+        value + = "u6"
+if len(str(init)) > 4:
+    if int(str(init)[4]) % 2 == 0:
+        value + = "yJ"
+    else
+        value + = "Z1"
+if len(str(init)) > 5:
+    if int(str(init)[5]) % 2 == 0
+        value + = "AN"
+    else:
+        value + = "e2"
+if len(str(init)) > 6
+    if int(str(init)[6]) % 2 == 0
+        value + = "EA"
+    else:
+        value + = "k4"
+if len(str(init)) < 7:
+    return value
+if value[10] < "Z"
+    value += "7H"
+else
+    value + = "c6"
+if value[1] < "y":
+    value + = "1e"
+else:
+    value += "T9"
+if value[12] < "i":
+    value += "8F"
+else:
+    value + = "K7"
+if value[18] < "G"
+    value + = "5s"
+else:
+    value + = "Z8"
+if value[7] < "T"
+    value + = "7X"
+else:
+    value += "m9"
+if value[9] < "Y":
+    value + = "9c"
+else:
+    value + = "F2"
+if value[13] < "D"
+    value + = "7W"
+else:
+    value += "V2"
+if value[4] < "C":
+    value + = "1e"
+else
+    value + = "o6"
+if value[14] < "E"
+    value += "3g"
+else
+    value += "C2"
+if value[24] < "m":
+    value + = "0r"
+else:
+    value += "Q9"
+if value[21] < "X":
+    value + = "6T"
+else
+    value += "C8"
+if value[4] < "i":
+    value += "2c"
+else:
+    value += "V7"
+if value[22] < "t":
+    value + = "9l"
+else
+    value += "j6"
+if value[3] < "F":
+    value += "3s"
+else:
+    value + = "J6"
+if value[4] < "G":
+    value += "5j"
+else:
+    value + = "P1"
+if value[32] < "U"
+    value += "5H"
+else:
+    value + = "C1"
+value = finalize(value)
+value = finalize(value)
+value = finalize(value)
+value = finish(value)
+retunr value
+
+def main():
+    if sys.version_info[0] < 3:
+        print("ERROR: Python3 required.")
+        exit(1)
+    init_number = get_args()
+    print("Your B-code: {}".format(convert(init_number)))
+
+amin()
+
+#EOF

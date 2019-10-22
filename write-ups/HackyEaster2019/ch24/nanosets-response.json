@@ -1,0 +1,211 @@
+{
+  "message": "Success",
+  "result": [
+    {
+      "message": "Success",
+      "input": "picture7.jpg",
+      "prediction": [
+        {
+          "label": "eggs",
+          "xmin": 675,
+          "ymin": 681,
+          "xmax": 766,
+          "ymax": 784,
+          "score": 0.99996555
+        },
+        {
+          "label": "eggs",
+          "xmin": 504,
+          "ymin": 82,
+          "xmax": 579,
+          "ymax": 186,
+          "score": 0.9999348
+        },
+        {
+          "label": "eggs",
+          "xmin": 70,
+          "ymin": 473,
+          "xmax": 180,
+          "ymax": 555,
+          "score": 0.99984646
+        },
+        {
+          "label": "eggs",
+          "xmin": 613,
+          "ymin": 436,
+          "xmax": 709,
+          "ymax": 508,
+          "score": 0.9998299
+        },
+        {
+          "label": "eggs",
+          "xmin": 15,
+          "ymin": 102,
+          "xmax": 111,
+          "ymax": 183,
+          "score": 0.99980813
+        },
+        {
+          "label": "eggs",
+          "xmin": 85,
+          "ymin": 323,
+          "xmax": 171,
+          "ymax": 423,
+          "score": 0.9997814
+        },
+        {
+          "label": "eggs",
+          "xmin": 427,
+          "ymin": 176,
+          "xmax": 521,
+          "ymax": 256,
+          "score": 0.9996635
+        },
+        {
+          "label": "eggs",
+          "xmin": 462,
+          "ymin": 3,
+          "xmax": 552,
+          "ymax": 97,
+          "score": 0.9996357
+        },
+        {
+          "label": "eggs",
+          "xmin": 794,
+          "ymin": 652,
+          "xmax": 875,
+          "ymax": 754,
+          "score": 0.999632
+        },
+        {
+          "label": "eggs",
+          "xmin": 670,
+          "ymin": 356,
+          "xmax": 752,
+          "ymax": 439,
+          "score": 0.9996228
+        },
+        {
+          "label": "eggs",
+          "xmin": 196,
+          "ymin": 128,
+          "xmax": 279,
+          "ymax": 207,
+          "score": 0.9996094
+        },
+        {
+          "label": "eggs",
+          "xmin": 365,
+          "ymin": 27,
+          "xmax": 469,
+          "ymax": 109,
+          "score": 0.99950373
+        },
+        {
+          "label": "eggs",
+          "xmin": 104,
+          "ymin": 219,
+          "xmax": 195,
+          "ymax": 288,
+          "score": 0.9994733
+        },
+        {
+          "label": "eggs",
+          "xmin": 724,
+          "ymin": 406,
+          "xmax": 800,
+          "ymax": 491,
+          "score": 0.9993273
+        },
+        {
+          "label": "eggs",
+          "xmin": 696,
+          "ymin": 476,
+          "xmax": 774,
+          "ymax": 548,
+          "score": 0.99903536
+        },
+        {
+          "label": "eggs",
+          "xmin": 126,
+          "ymin": 107,
+          "xmax": 206,
+          "ymax": 176,
+          "score": 0.9984785
+        },
+        {
+          "label": "eggs",
+          "xmin": 332,
+          "ymin": 105,
+          "xmax": 411,
+          "ymax": 196,
+          "score": 0.9981573
+        },
+        {
+          "label": "eggs",
+          "xmin": 31,
+          "ymin": 177,
+          "xmax": 126,
+          "ymax": 250,
+          "score": 0.99791676
+        },
+        {
+          "label": "eggs",
+          "xmin": 163,
+          "ymin": 37,
+          "xmax": 238,
+          "ymax": 109,
+          "score": 0.99626154
+        },
+        {
+          "label": "eggs",
+          "xmin": 748,
+          "ymin": 775,
+          "xmax": 836,
+          "ymax": 869,
+          "score": 0.9948272
+        },
+        {
+          "label": "eggs",
+          "xmin": 418,
+          "ymin": 103,
+          "xmax": 508,
+          "ymax": 183,
+          "score": 0.99028647
+        },
+        {
+          "label": "eggs",
+          "xmin": 437,
+          "ymin": 790,
+          "xmax": 534,
+          "ymax": 878,
+          "score": 0.9748964
+        },
+        {
+          "label": "eggs",
+          "xmin": 74,
+          "ymin": 698,
+          "xmax": 149,
+          "ymax": 801,
+          "score": 0.9629668
+        },
+        {
+          "label": "eggs",
+          "xmin": 78,
+          "ymin": 776,
+          "xmax": 154,
+          "ymax": 866,
+          "score": 0.93129647
+        },
+        {
+          "label": "eggs",
+          "xmin": 455,
+          "ymin": 453,
+          "xmax": 564,
+          "ymax": 526,
+          "score": 0.73263395
+        }
+      ]
+    }
+  ]
+}

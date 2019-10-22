@@ -1,0 +1,55 @@
+func (param i32) (result i32)
+  i32.const 48
+  get_local 0
+  i32.eq
+  i32.const 49
+  get_local 0
+  i32.eq
+  i32.or
+  i32.const 51
+  get_local 0
+  i32.eq
+  i32.or
+  i32.const 52
+  get_local 0
+  i32.eq
+  i32.or
+  i32.const 53
+  get_local 0
+  i32.eq
+  i32.or
+  i32.const 72
+  get_local 0
+  i32.eq
+  i32.or
+  i32.const 76
+  get_local 0
+  i32.eq
+  i32.or
+  i32.const 88
+  get_local 0
+  i32.eq
+  i32.or
+  i32.const 99
+  get_local 0
+  i32.eq
+  i32.or
+  i32.const 100
+  get_local 0
+  i32.eq
+  i32.or
+  i32.const 102
+  get_local 0
+  i32.eq
+  i32.or
+  i32.const 114
+  get_local 0
+  i32.eq
+  i32.or
+  if
+    i32.const 1
+    return
+  end
+  i32.const 0
+  return
+end
