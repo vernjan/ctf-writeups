@@ -1,6 +1,6 @@
 # Hacky Easter 2019
 
-Solutions for CTF [Hacky Easter2019](https://hackyeaster.hacking-lab.com/hackyeaster/)
+Solutions for CTF [Hacky Easter 2019](https://hackyeaster.hacking-lab.com/hackyeaster/)
 
 I had no time to solve challenges 19, 21, 22, 23 and 27.
 
