@@ -1,6 +1,5 @@
 # Hackvent 2019
 
-#TODO Fix link
-Solutions for CTF [Hackvent 2019](https://hackyeaster.hacking-lab.com/hackyeaster/) 
+Solutions for CTF [Hackvent 2019](https://academy.hacking-lab.com/events/6) 
 
-- [Day 01 - XXX](ch01/README.md)
+- [HV19.01 censored](day01/README.md)
