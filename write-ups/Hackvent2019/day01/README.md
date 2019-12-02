@@ -1,4 +1,4 @@
-# HV19.01 censored
+# HV19.01 censored (easy)
 
 _I got this little image, but it looks like the best part got censored on the way.
 Even the tiny preview icon looks clearer than this! Maybe they missed something that
