@@ -5,7 +5,7 @@ _The elves can't remember such long passwords, so they found a way to continue t
 
 `merry christmas geeks`
 
-[HV19-PPC.zip](6473254e-1cb3-444e-9dac-5baeaaaf6d11.zip)
+[HV19-PPC.zip](HV19-PPC.zip)
 
 ---
 
