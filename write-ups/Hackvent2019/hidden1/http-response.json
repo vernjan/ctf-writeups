@@ -1,0 +1,34 @@
+{
+  "id": 47,
+  "title": "HV19.06 bacon and eggs",
+  "level": {
+    "id": 2,
+    "name": "easy"
+  },
+  "categories": [
+    {
+      "name": "crypto"
+    },
+    {
+      "name": "fun"
+    }
+  ],
+  "content": "Autor: T.B.",
+  "sections": [
+    {
+      "id": "afa0dad3-b456-45e6-b587-3f158b33f14b",
+      "content": "\n![Bacon_vs_Parliament.jpg](media/challenge/jpg/9bb928c6-491c-49aa-948b-cdf95496d073.jpg)\n\n*F*ra*n*cis Baco*n* *w*a*s* *a*n E*ng*lish ph*i*l*os*o*p*her a*n*d *s*tat*e*sm*a*n w*h*o se*rve*d *a*s At*t*or*n*ey Gen*e*ral and as *L*or*d* *Ch*an*ce*l*l*or of *En*g*l*an*d*. Hi*s* *w*orks ar*e* c*red*it*e*d w*ith* d*e*ve*lo*pi*ng* *t*h*e* sci*e*nt*i*fic me*t*hod and re*m*ai*ned* in*fl*u*en*ti*al* th*rou*gh *t*he s*cien*tific *r*ev*o*l*u*ti*o*n.\n*B*a*co*n h*as* *b*e*e*n ca*l*led *th*e *f*ath*e*r o*f* emp*iric*i*s*m. *Hi*s *wor*ks ar*g*ued for th*e* po*ssi*bi*li*t*y* of s*c*ie*n*tifi*c* *kno*wl*edg*e b*a*se*d* onl*y* u*p*on i*n*du*c*t*i*ve *r*ea*s*onin*g* *a*nd c*aref*u*l* o*bs*er*v*ation o*f* *e*v*e*nt*s* in *na*tur*e*. Mo*st* *i*mp*ort*an*t*l*y*, *he* a*rgue*d sc*i*en*c*e co*uld* *b*e *a*c*hi*eved by us*e* of a *s*ce*p*t*ical* a*nd* me*t*hod*i*ca*l* *a*pp*roa*ch wh*er*eby *s*cientist*s* ai*m* t*o* avo*i*d m*i*sl*ead*in*g* themsel*ve*s. *A*lth*oug*h *h*is *p*ra*c*tic*a*l i*d*e*a*s ab*out* *s*u*ch* *a* *m*et*h*od, *t*he B*a*con*i*an meth*o*d, d*i*d no*t* have *a* l*o*n*g*-*la*s*t*ing *i*nfluen*c*e, *th*e *g*e*ne*ral *i*dea *of* *t*he imp*o*rta*n*ce and pos*s*i*b*il*it*y o*f* a s*c*ept*i*cal methodology makes Bacon the father of the scientific method. This method was a new rhetorical and theoretical framework for science, the practical details of which are still central in debates about science and methodology.\n\nBacon was the first recipient of the Queen's counsel designation, which was conferred in 1597 when Elizabeth I of England reserved Bacon as her legal advisor. After the accession of James VI and I in 1603, Bacon was knighted. He was later created Baron Verulam in 1618 and Viscount St. Alban in 1621.\nBecause he had no heirs, both titles became extinct upon his death in 1626, at 65 years. Bacon died of pneumonia, with one account by John Aubrey stating that he had contracted the condition while studying the effects of freezing on the preservation of meat. He is buried at St Michael's Church, St Albans, Hertfordshire.\n```\nBorn: January 22\t     \t \t   \t   \t \t       \t     \t  \t  \nDied: April 9   \t  \t \t    \t  \t      \t   \t\t  \t  \nMother: Lady Anne   \t\t \t   \t   \t      \t  \t      \t  \nFather: Sir Nicholas\t \t      \t\t    \t    \t  \t  \t      \t      \nSecrets: unknown      \t \t  \t \t    \t    \t   \t       \t  \n```"
+    }
+  ],
+  "trainingMode": false,
+  "eventId": 6,
+  "maxPoints": 90,
+  "useFlag": true,
+  "endTime": "2019-12-31T22:59:00Z",
+  "resources": [],
+  "solution": {
+    "id": 2924,
+    "state": "FULL_POINTS",
+    "points": 100
+  }
+}

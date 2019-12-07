@@ -17,9 +17,9 @@ Secrets: unknown
 ---
 
 I know [Bacon's cipher](https://en.wikipedia.org/wiki/Bacon%27s_cipher) so this was one was
-easy for me. I copied the first paragraph with letters in italics from the [HTTP response](bacon.json) and
-converted it into ones and zeros. I used a
-[simple script](../../../src/main/kotlin/cz/vernjan/ctf/hv19/day06/Bacon.kt) to do the conversion.
+easy for me. I copied the first paragraph with letters in italics from the
+[HTTP response](http-response.json) and converted it into ones and zeros using a
+[simple program](../../../src/main/kotlin/cz/vernjan/ctf/hv19/day06/Bacon.kt) in Kotlin.
 
 This is the output:
 ```
@@ -31,4 +31,4 @@ Finally, I used https://www.dcode.fr/bacon-cipher for decryption:
 SANTALIKESHISBACONBUTALSOTHISBACONTHEPASSWORDISHVXBACONCIPHERISSIMPLEBUTCOOLXREPLACEXWITHBRACKETSANDUSEUPPERCASEFORALLCHARACTERAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 ```
 
-The flag is `HV19{BACONCIPHERISSIMPLEBUTCOOL}` (I figured out I should add `19` myself)
+The flag is `HV19{BACONCIPHERISSIMPLEBUTCOOL}` (I figured out I should add `19`)
