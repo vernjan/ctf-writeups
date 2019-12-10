@@ -10,7 +10,7 @@ Solutions for CTF [Hackvent 2019](https://academy.hacking-lab.com/events/6)
 - [HV19.06 bacon and eggs (easy)](day06/README.md)
 - [HV19.07 Santa Rider (easy)](day07/README.md)
 - [HV19.08 SmileNcryptor 4.0 (medium)](day08/README.md)
-- [HV19.09 Santas Quick Response 3.0 (medium)](day08/README.md)
+- [HV19.09 Santas Quick Response 3.0 (medium)](day09/README.md)
 
 ## Hiddens
 - [HV19.H1 Hidden One (novice)](hidden1/README.md)

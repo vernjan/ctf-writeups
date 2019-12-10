@@ -8,7 +8,7 @@ Dump-File: [dump.zip](dump.zip)
 
 ## Goal
 
-Analyze the "Encryption"-method and try to decrypt the flag.
+_Analyze the "Encryption"-method and try to decrypt the flag._
 
 ---
 
