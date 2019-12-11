@@ -1,0 +1,46 @@
+
+<!-- saved from url=(0035)http://whale.hacking-lab.com:10101/ -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<title>FSJA API Description</title>
+<link rel="stylesheet" type="text/css" href="fsja.css">
+</head>
+<body>
+  <div class="content col-md-8">
+    <h1>FSJA API Description</h1>
+
+    <p>This is the official FSJA (Frolicsome Santa Jokes API) provided by a couple of crazy
+      Elves.</p>
+
+
+    <h2>Register new User</h2>
+    
+    <p>To use this API you have to register with username / password  first.</p>
+
+    <pre><code>POST /fsja/register</code></pre>
+
+    <p>Example:</p>
+    <pre><code>curl -s -X POST -H 'Content-Type: application/json' http://whale.hacking-lab.com:10101/fsja/register --data '{"username":"testuser", "password": "passwordpassword"}'</code></pre>
+
+    <h2>Login as User (get a token)</h2>
+
+    <p>
+    With this method you will get a token to access the api. The token is valid for 1h, then you need to get a new token.
+    </p>
+
+    <pre><code>POST /fsja/login</code></pre>
+
+    <p>Example:</p>
+    <pre><code>curl -s -X POST -H 'Content-Type: application/json' http://whale.hacking-lab.com:10101/fsja/login --data '{"username":"testuser", "password": "passwordpassword"}'</code></pre>
+
+    <h2>Get a Joke</h2>
+    <p>With a valid token you can get a random santa joke.</p>
+    
+
+    <pre><code>GET /fsja/random</code></pre>
+
+    <p>Example:</p>
+    <pre><code>curl -X GET "http://whale.hacking-lab.com:10101/fsja/random?token=[your token]"</code></pre>
+
+  </div>
+
+</body></html>
