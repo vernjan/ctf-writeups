@@ -14,6 +14,7 @@ Solutions for CTF [Hackvent 2019](https://academy.hacking-lab.com/events/6)
 - [HV19.10 Guess what (medium)](day10/README.md)
 - [HV19.11 Frolicsome Santa Jokes API (medium)](day11/README.md)
 - [HV19.12 back to basic (medium)](day12/README.md)
+- [HV19.13 TrieMec (medium)](day13/README.md)
 
 ## Hiddens
 - [HV19.H1 Hidden One (novice)](hidden1/README.md)
