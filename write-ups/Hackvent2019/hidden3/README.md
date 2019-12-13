@@ -51,4 +51,6 @@ while true; do
   sleep 3600
 done
 ```
-And waited ..
+And waited for 24 hours .. .. .. .. .. Then I could finally read the flag from `flag.txt`.
+
+The flag is `HV19{an0ther_DAILY_fl4g}`
