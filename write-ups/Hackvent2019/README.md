@@ -16,6 +16,8 @@ Solutions for CTF [Hackvent 2019](https://academy.hacking-lab.com/events/6)
 - [HV19.12 back to basic (medium)](day12/README.md)
 - [HV19.13 TrieMec (medium)](day13/README.md)
 - [HV19.14 Achtung das Flag (medium)](day14/README.md)
+- [HV19.15 Santa's Workshop (medium)](day15/README.md)
+
 
 ## Hiddens
 - [HV19.H1 Hidden One (novice)](hidden1/README.md)

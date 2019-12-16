@@ -16,7 +16,7 @@ Facility: http://whale.hacking-lab.com:8888/trieme/
 Another tough nut to crack for me.. I started totally wrong and spent quite a lot of time
 on this one.
 
-## Failed trials
+## Failed attempts
 
 ### Dir Busting (using _dirb_)
 
