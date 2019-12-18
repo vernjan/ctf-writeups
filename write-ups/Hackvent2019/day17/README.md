@@ -73,13 +73,13 @@ site is about Unicode so I focused on that. I registered a new user named `hell�
 But how come that the name I see on the screen is not UPPER cased?
 
 The next thing I tried is how the site handles [diacritics](https://en.wikipedia.org/wiki/Diacritic).
-Being a Czech was kinda an advantage here, we use diacritics in half the words :-) So I tried
-to register one more user named `Včela`. It worked again. The name was however still displayed
+Being a Czech was kinda an advantage here, we use diacritics in half of the words :-) So I tried
+to register one more user named `Včela`. It worked again. The name was, however, still displayed
 in the original case..
 
 So I tried to login as `VČELA` and `včela` and all worked. Then I tried `vcela`. Worked. Ok, now I
 get it. All usernames are stored in UPPER case and stripped from diacritics (the side
-effect of UPPER conversion with inappropriate collation) but being displayed as typed into the login
+effect of UPPER conversion with an inappropriate collation) but being displayed as typed into the login
 form.
 
 I registered the user named `sanťa` with password `qqq`. According to the source code, this should
