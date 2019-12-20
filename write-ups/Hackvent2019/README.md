@@ -20,6 +20,7 @@ Solutions for CTF [Hackvent 2019](https://academy.hacking-lab.com/events/6)
 - [HV19.16 B0rked Calculator (hard)](day16/README.md)
 - [HV19.17 Unicode Portal (hard)](day17/README.md)
 - [HV19.18 Dance with me (hard)](day18/README.md)
+- [HV19.19 🎅 (hard)](day19/README.md)
 
 
 ## Hiddens
