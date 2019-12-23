@@ -7,13 +7,11 @@ your wish is my command._
 
 ---
 
-
-
 I decompile the game in [Ghidra](https://ghidra-sre.org/). The code is quite readable. The only issue
 is that DATA addresses are invalid. Nevertheless, there isn't much data and so it can be guessed quite easily.
 
 Here is the code with comments:
-```C-Like
+```c
 undefined8 _main(void)
 
 {

@@ -1,0 +1,964 @@
+0000:	0C-94-35-00 	jmp 0x6a              ; Jump
+0004:	0C-94-5D-00 	jmp 0xba              ; Jump
+0008:	0C-94-5D-00 	jmp 0xba              ; Jump
+000C:	0C-94-5D-00 	jmp 0xba              ; Jump
+0010:	0C-94-5D-00 	jmp 0xba              ; Jump
+0014:	0C-94-5D-00 	jmp 0xba              ; Jump
+0018:	0C-94-5D-00 	jmp 0xba              ; Jump
+001C:	0C-94-5D-00 	jmp 0xba              ; Jump
+0020:	0C-94-5D-00 	jmp 0xba              ; Jump
+0024:	0C-94-5D-00 	jmp 0xba              ; Jump
+0028:	0C-94-5D-00 	jmp 0xba              ; Jump
+002C:	0C-94-5D-00 	jmp 0xba              ; Jump
+0030:	0C-94-5D-00 	jmp 0xba              ; Jump
+0034:	0C-94-5D-00 	jmp 0xba              ; Jump
+0038:	0C-94-5D-00 	jmp 0xba              ; Jump
+003C:	0C-94-5D-00 	jmp 0xba              ; Jump
+0040:	0C-94-EA-01 	jmp 0x3d4             ; Jump
+0044:	0C-94-5D-00 	jmp 0xba              ; Jump
+0048:	0C-94-5A-02 	jmp 0x4b4             ; Jump
+004C:	0C-94-34-02 	jmp 0x468             ; Jump
+0050:	0C-94-5D-00 	jmp 0xba              ; Jump
+0054:	0C-94-5D-00 	jmp 0xba              ; Jump
+0058:	0C-94-5D-00 	jmp 0xba              ; Jump
+005C:	0C-94-5D-00 	jmp 0xba              ; Jump
+0060:	0C-94-5D-00 	jmp 0xba              ; Jump
+0064:	0C-94-5D-00 	jmp 0xba              ; Jump
+0068:	A6-03       	fmuls r18, r22        ; Fractional Multiply Signed
+006A:	11-24       	clr r17               ; Clear Register
+006C:	1F-BE       	out 0x3f, r1          ; Store Register to I/O Location
+006E:	CF-EF       	ldi r28, 0xff         ; Load Immediate
+0070:	D8-E0       	ldi r29, 0x08         ; Load Immediate
+0072:	DE-BF       	out 0x3e, r29         ; Store Register to I/O Location
+0074:	CD-BF       	out 0x3d, r28         ; Store Register to I/O Location
+0076:	11-E0       	ldi r17, 0x01         ; Load Immediate
+0078:	A0-E0       	ldi r26, 0x00         ; Load Immediate
+007A:	B1-E0       	ldi r27, 0x01         ; Load Immediate
+007C:	EE-E9       	ldi r30, 0x9e         ; Load Immediate
+007E:	F8-E0       	ldi r31, 0x08         ; Load Immediate
+0080:	02-C0       	rjmp .+4              ; Relative Jump
+0082:	05-90       	lpm r0, Z+            ; Load Program Memory
+0084:	0D-92       	st X+, r0             ; Store Indirect From Register to Data Space
+0086:	A8-35       	cpi r26, 0x58         ; Compare with Immediate
+0088:	B1-07       	cpc r27, r17          ; Compare with Carry
+008A:	D9-F7       	brbc 1, .-10          ; Branch if Bit in SREG is Cleared
+008C:	21-E0       	ldi r18, 0x01         ; Load Immediate
+008E:	A8-E5       	ldi r26, 0x58         ; Load Immediate
+0090:	B1-E0       	ldi r27, 0x01         ; Load Immediate
+0092:	01-C0       	rjmp .+2              ; Relative Jump
+0094:	1D-92       	st X+, r1             ; Store Indirect From Register to Data Space
+0096:	AE-3F       	cpi r26, 0xfe         ; Compare with Immediate
+0098:	B2-07       	cpc r27, r18          ; Compare with Carry
+009A:	E1-F7       	brbc 1, .-8           ; Branch if Bit in SREG is Cleared
+009C:	10-E0       	ldi r17, 0x00         ; Load Immediate
+009E:	C5-E3       	ldi r28, 0x35         ; Load Immediate
+00A0:	D0-E0       	ldi r29, 0x00         ; Load Immediate
+00A2:	04-C0       	rjmp .+8              ; Relative Jump
+00A4:	21-97       	sbiw r28, 0x01        ; Subtract Immediate from Word
+00A6:	FE-01       	movw r30, r28         ; Copy Register Word
+00A8:	0E-94-47-04 	call 0x88e            ; Long Call to a Subroutine
+00AC:	C4-33       	cpi r28, 0x34         ; Compare with Immediate
+00AE:	D1-07       	cpc r29, r17          ; Compare with Carry
+00B0:	C9-F7       	brbc 1, .-14          ; Branch if Bit in SREG is Cleared
+00B2:	0E-94-D3-03 	call 0x7a6            ; Long Call to a Subroutine
+00B6:	0C-94-4D-04 	jmp 0x89a             ; Jump
+00BA:	0C-94-00-00 	jmp 0x00              ; Jump
+00BE:	0F-93       	push r16              ; Push Register on Stack
+00C0:	1F-93       	push r17              ; Push Register on Stack
+00C2:	CF-93       	push r28              ; Push Register on Stack
+00C4:	DF-93       	push r29              ; Push Register on Stack
+00C6:	EC-01       	movw r28, r24         ; Copy Register Word
+00C8:	E8-81       	ld r30, Y             ; Load Indirect from Data Space to Register
+00CA:	F9-81       	ldd r31, Y+1          ; Load Indirect from Data Space to Register
+00CC:	01-90       	ld r0, Z+             ; Load Indirect from Data Space to Register
+00CE:	F0-81       	ld r31, Z             ; Load Indirect from Data Space to Register
+00D0:	E0-2D       	mov r30, r0           ; Copy Register
+00D2:	09-95       	icall                 ; Indirect Call to Subroutine
+00D4:	8C-01       	movw r16, r24         ; Copy Register Word
+00D6:	E8-81       	ld r30, Y             ; Load Indirect from Data Space to Register
+00D8:	F9-81       	ldd r31, Y+1          ; Load Indirect from Data Space to Register
+00DA:	02-80       	ldd r0, Y+2           ; Load Indirect from Data Space to Register
+00DC:	F3-81       	ldd r31, Y+3          ; Load Indirect from Data Space to Register
+00DE:	E0-2D       	mov r30, r0           ; Copy Register
+00E0:	42-E0       	ldi r20, 0x02         ; Load Immediate
+00E2:	50-E0       	ldi r21, 0x00         ; Load Immediate
+00E4:	65-E5       	ldi r22, 0x55         ; Load Immediate
+00E6:	71-E0       	ldi r23, 0x01         ; Load Immediate
+00E8:	CE-01       	movw r24, r28         ; Copy Register Word
+00EA:	09-95       	icall                 ; Indirect Call to Subroutine
+00EC:	80-0F       	add r24, r16          ; Add without Carry
+00EE:	91-1F       	adc r25, r17          ; Add with Carry
+00F0:	DF-91       	pop r29               ; Pop Register from Stack
+00F2:	CF-91       	pop r28               ; Pop Register from Stack
+00F4:	1F-91       	pop r17               ; Pop Register from Stack
+00F6:	0F-91       	pop r16               ; Pop Register from Stack
+00F8:	08-95       	ret                   ; Return from Subroutine
+00FA:	AF-92       	push r10              ; Push Register on Stack
+00FC:	BF-92       	push r11              ; Push Register on Stack
+00FE:	CF-92       	push r12              ; Push Register on Stack
+0100:	DF-92       	push r13              ; Push Register on Stack
+0102:	EF-92       	push r14              ; Push Register on Stack
+0104:	FF-92       	push r15              ; Push Register on Stack
+0106:	0F-93       	push r16              ; Push Register on Stack
+0108:	1F-93       	push r17              ; Push Register on Stack
+010A:	CF-93       	push r28              ; Push Register on Stack
+010C:	DF-93       	push r29              ; Push Register on Stack
+010E:	6C-01       	movw r12, r24         ; Copy Register Word
+0110:	7B-01       	movw r14, r22         ; Copy Register Word
+0112:	8B-01       	movw r16, r22         ; Copy Register Word
+0114:	04-0F       	add r16, r20          ; Add without Carry
+0116:	15-1F       	adc r17, r21          ; Add with Carry
+0118:	EB-01       	movw r28, r22         ; Copy Register Word
+011A:	5E-01       	movw r10, r28         ; Copy Register Word
+011C:	AE-18       	sub r10, r14          ; Subtract Without Carry
+011E:	BF-08       	sbc r11, r15          ; Subtract with Carry
+0120:	C0-17       	cp r28, r16           ; Compare
+0122:	D1-07       	cpc r29, r17          ; Compare with Carry
+0124:	59-F0       	brbs 1, .+22          ; Branch if Bit in SREG is Set
+0126:	69-91       	ld r22, Y+            ; Load Indirect from Data Space to Register
+0128:	D6-01       	movw r26, r12         ; Copy Register Word
+012A:	ED-91       	ld r30, X+            ; Load Indirect from Data Space to Register
+012C:	FC-91       	ld r31, X             ; Load Indirect from Data Space to Register
+012E:	01-90       	ld r0, Z+             ; Load Indirect from Data Space to Register
+0130:	F0-81       	ld r31, Z             ; Load Indirect from Data Space to Register
+0132:	E0-2D       	mov r30, r0           ; Copy Register
+0134:	C6-01       	movw r24, r12         ; Copy Register Word
+0136:	09-95       	icall                 ; Indirect Call to Subroutine
+0138:	89-2B       	or r24, r25           ; Logical OR
+013A:	79-F7       	brbc 1, .-34          ; Branch if Bit in SREG is Cleared
+013C:	C5-01       	movw r24, r10         ; Copy Register Word
+013E:	DF-91       	pop r29               ; Pop Register from Stack
+0140:	CF-91       	pop r28               ; Pop Register from Stack
+0142:	1F-91       	pop r17               ; Pop Register from Stack
+0144:	0F-91       	pop r16               ; Pop Register from Stack
+0146:	FF-90       	pop r15               ; Pop Register from Stack
+0148:	EF-90       	pop r14               ; Pop Register from Stack
+014A:	DF-90       	pop r13               ; Pop Register from Stack
+014C:	CF-90       	pop r12               ; Pop Register from Stack
+014E:	BF-90       	pop r11               ; Pop Register from Stack
+0150:	AF-90       	pop r10               ; Pop Register from Stack
+0152:	08-95       	ret                   ; Return from Subroutine
+0154:	FC-01       	movw r30, r24         ; Copy Register Word
+0156:	53-8D       	std Y+27, r21         ; Store Indirect From Register to Data Space
+0158:	44-8D       	std Y+28, r20         ; Store Indirect From Register to Data Space
+015A:	25-2F       	mov r18, r21          ; Copy Register
+015C:	30-E0       	ldi r19, 0x00         ; Load Immediate
+015E:	84-2F       	mov r24, r20          ; Copy Register
+0160:	90-E0       	ldi r25, 0x00         ; Load Immediate
+0162:	82-1B       	sub r24, r18          ; Subtract Without Carry
+0164:	93-0B       	sbc r25, r19          ; Subtract with Carry
+0166:	54-17       	cp r21, r20           ; Compare
+0168:	10-F0       	brbs 0, .+4           ; Branch if Bit in SREG is Set
+016A:	CF-96       	adiw r24, 0x3f        ; Add Immediate to Word
+016C:	08-95       	ret                   ; Return from Subroutine
+016E:	01-97       	sbiw r24, 0x01        ; Subtract Immediate from Word
+0170:	08-95       	ret                   ; Return from Subroutine
+0172:	FC-01       	movw r30, r24         ; Copy Register Word
+0174:	91-8D       	std Y+25, r25         ; Store Indirect From Register to Data Space
+0176:	82-8D       	std Y+26, r24         ; Store Indirect From Register to Data Space
+0178:	98-17       	cp r25, r24           ; Compare
+017A:	61-F0       	brbs 1, .+24          ; Branch if Bit in SREG is Set
+017C:	A2-8D       	std Y+26, r26         ; Store Indirect From Register to Data Space
+017E:	AE-0F       	add r26, r30          ; Add without Carry
+0180:	BF-2F       	mov r27, r31          ; Copy Register
+0182:	B1-1D       	adc r27, r1           ; Add with Carry
+0184:	5D-96       	adiw r26, 0x1d        ; Add Immediate to Word
+0186:	8C-91       	ld r24, X             ; Load Indirect from Data Space to Register
+0188:	92-8D       	std Y+26, r25         ; Store Indirect From Register to Data Space
+018A:	9F-5F       	subi r25, 0xff        ; Subtract Immediate
+018C:	9F-73       	andi r25, 0x3f        ; Logical AND with Immediate
+018E:	92-8F       	std Y+26, r25         ; Store Indirect From Register to Data Space
+0190:	90-E0       	ldi r25, 0x00         ; Load Immediate
+0192:	08-95       	ret                   ; Return from Subroutine
+0194:	8F-EF       	ldi r24, 0xff         ; Load Immediate
+0196:	9F-EF       	ldi r25, 0xff         ; Load Immediate
+0198:	08-95       	ret                   ; Return from Subroutine
+019A:	FC-01       	movw r30, r24         ; Copy Register Word
+019C:	91-8D       	std Y+25, r25         ; Store Indirect From Register to Data Space
+019E:	82-8D       	std Y+26, r24         ; Store Indirect From Register to Data Space
+01A0:	98-17       	cp r25, r24           ; Compare
+01A2:	31-F0       	brbs 1, .+12          ; Branch if Bit in SREG is Set
+01A4:	82-8D       	std Y+26, r24         ; Store Indirect From Register to Data Space
+01A6:	E8-0F       	add r30, r24          ; Add without Carry
+01A8:	F1-1D       	adc r31, r1           ; Add with Carry
+01AA:	85-8D       	std Y+29, r24         ; Store Indirect From Register to Data Space
+01AC:	90-E0       	ldi r25, 0x00         ; Load Immediate
+01AE:	08-95       	ret                   ; Return from Subroutine
+01B0:	8F-EF       	ldi r24, 0xff         ; Load Immediate
+01B2:	9F-EF       	ldi r25, 0xff         ; Load Immediate
+01B4:	08-95       	ret                   ; Return from Subroutine
+01B6:	FC-01       	movw r30, r24         ; Copy Register Word
+01B8:	91-8D       	std Y+25, r25         ; Store Indirect From Register to Data Space
+01BA:	22-8D       	std Y+26, r18         ; Store Indirect From Register to Data Space
+01BC:	89-2F       	mov r24, r25          ; Copy Register
+01BE:	90-E0       	ldi r25, 0x00         ; Load Immediate
+01C0:	80-5C       	subi r24, 0xc0        ; Subtract Immediate
+01C2:	9F-4F       	sbci r25, 0xff        ; Subtract Immediate with Carry SBI
+01C4:	82-1B       	sub r24, r18          ; Subtract Without Carry
+01C6:	91-09       	sbc r25, r1           ; Subtract with Carry
+01C8:	8F-73       	andi r24, 0x3f        ; Logical AND with Immediate
+01CA:	99-27       	clr r921              ; Clear Register
+01CC:	08-95       	ret                   ; Return from Subroutine
+01CE:	88-E5       	ldi r24, 0x58         ; Load Immediate
+01D0:	91-E0       	ldi r25, 0x01         ; Load Immediate
+01D2:	0E-94-DB-00 	call 0x1b6            ; Long Call to a Subroutine
+01D6:	21-E0       	ldi r18, 0x01         ; Load Immediate
+01D8:	89-2B       	or r24, r25           ; Logical OR
+01DA:	09-F4       	brbc 1, .+2           ; Branch if Bit in SREG is Cleared
+01DC:	20-E0       	ldi r18, 0x00         ; Load Immediate
+01DE:	82-2F       	mov r24, r18          ; Copy Register
+01E0:	08-95       	ret                   ; Return from Subroutine
+01E2:	80-E0       	ldi r24, 0x00         ; Load Immediate
+01E4:	90-E0       	ldi r25, 0x00         ; Load Immediate
+01E6:	89-2B       	or r24, r25           ; Logical OR
+01E8:	29-F0       	brbs 1, .+10          ; Branch if Bit in SREG is Set
+01EA:	0E-94-E7-00 	call 0x1ce            ; Long Call to a Subroutine
+01EE:	81-11       	cpse r24, r1          ; Compare Skip if Equal
+01F0:	0C-94-00-00 	jmp 0x00              ; Jump
+01F4:	08-95       	ret                   ; Return from Subroutine
+01F6:	FC-01       	movw r30, r24         ; Copy Register Word
+01F8:	A4-8D       	std Y+28, r26         ; Store Indirect From Register to Data Space
+01FA:	A8-0F       	add r26, r24          ; Add without Carry
+01FC:	B9-2F       	mov r27, r25          ; Copy Register
+01FE:	B1-1D       	adc r27, r1           ; Add with Carry
+0200:	A3-5A       	subi r26, 0xa3        ; Subtract Immediate
+0202:	BF-4F       	sbci r27, 0xff        ; Subtract Immediate with Carry SBI
+0204:	2C-91       	ld r18, X             ; Load Indirect from Data Space to Register
+0206:	84-8D       	std Y+28, r24         ; Store Indirect From Register to Data Space
+0208:	90-E0       	ldi r25, 0x00         ; Load Immediate
+020A:	01-96       	adiw r24, 0x01        ; Add Immediate to Word
+020C:	8F-73       	andi r24, 0x3f        ; Logical AND with Immediate
+020E:	99-27       	clr r921              ; Clear Register
+0210:	84-8F       	std Y+28, r24         ; Store Indirect From Register to Data Space
+0212:	A6-89       	std Y+22, r26         ; Store Indirect From Register to Data Space
+0214:	B7-89       	std Y+23, r27         ; Store Indirect From Register to Data Space
+0216:	2C-93       	st X, r18             ; Store Indirect From Register to Data Space
+0218:	A0-89       	std Y+16, r26         ; Store Indirect From Register to Data Space
+021A:	B1-89       	std Y+17, r27         ; Store Indirect From Register to Data Space
+021C:	8C-91       	ld r24, X             ; Load Indirect from Data Space to Register
+021E:	83-70       	andi r24, 0x03        ; Logical AND with Immediate
+0220:	80-64       	ori r24, 0x40         ; Logical OR with Immediate
+0222:	8C-93       	st X, r24             ; Store Indirect From Register to Data Space
+0224:	93-8D       	std Y+27, r25         ; Store Indirect From Register to Data Space
+0226:	84-8D       	std Y+28, r24         ; Store Indirect From Register to Data Space
+0228:	98-13       	cpse r25, r24         ; Compare Skip if Equal
+022A:	06-C0       	rjmp .+12             ; Relative Jump
+022C:	02-88       	std Y+18, r0          ; Store Indirect From Register to Data Space
+022E:	F3-89       	std Y+19, r31         ; Store Indirect From Register to Data Space
+0230:	E0-2D       	mov r30, r0           ; Copy Register
+0232:	80-81       	ld r24, Z             ; Load Indirect from Data Space to Register
+0234:	8F-7D       	andi r24, 0xdf        ; Logical AND with Immediate
+0236:	80-83       	st Z, r24             ; Store Indirect From Register to Data Space
+0238:	08-95       	ret                   ; Return from Subroutine
+023A:	EF-92       	push r14              ; Push Register on Stack
+023C:	FF-92       	push r15              ; Push Register on Stack
+023E:	0F-93       	push r16              ; Push Register on Stack
+0240:	1F-93       	push r17              ; Push Register on Stack
+0242:	CF-93       	push r28              ; Push Register on Stack
+0244:	DF-93       	push r29              ; Push Register on Stack
+0246:	EC-01       	movw r28, r24         ; Copy Register Word
+0248:	81-E0       	ldi r24, 0x01         ; Load Immediate
+024A:	88-8F       	std Y+24, r24         ; Store Indirect From Register to Data Space
+024C:	9B-8D       	std Y+27, r25         ; Store Indirect From Register to Data Space
+024E:	8C-8D       	std Y+28, r24         ; Store Indirect From Register to Data Space
+0250:	98-13       	cpse r25, r24         ; Compare Skip if Equal
+0252:	1A-C0       	rjmp .+52             ; Relative Jump
+0254:	E8-89       	std Y+16, r30         ; Store Indirect From Register to Data Space
+0256:	F9-89       	std Y+17, r31         ; Store Indirect From Register to Data Space
+0258:	80-81       	ld r24, Z             ; Load Indirect from Data Space to Register
+025A:	85-FF       	sbrs r24, 5           ; Skip if Bit in Register is Set
+025C:	15-C0       	rjmp .+42             ; Relative Jump
+025E:	9F-B7       	in r25, 0x3f          ; Load an I/O Location to Register
+0260:	F8-94       	bclr 7                ; Bit Clear in SREG
+0262:	EE-89       	std Y+22, r30         ; Store Indirect From Register to Data Space
+0264:	FF-89       	std Y+23, r31         ; Store Indirect From Register to Data Space
+0266:	60-83       	st Z, r22             ; Store Indirect From Register to Data Space
+0268:	E8-89       	std Y+16, r30         ; Store Indirect From Register to Data Space
+026A:	F9-89       	std Y+17, r31         ; Store Indirect From Register to Data Space
+026C:	80-81       	ld r24, Z             ; Load Indirect from Data Space to Register
+026E:	83-70       	andi r24, 0x03        ; Logical AND with Immediate
+0270:	80-64       	ori r24, 0x40         ; Logical OR with Immediate
+0272:	80-83       	st Z, r24             ; Store Indirect From Register to Data Space
+0274:	9F-BF       	out 0x3f, r25         ; Store Register to I/O Location
+0276:	81-E0       	ldi r24, 0x01         ; Load Immediate
+0278:	90-E0       	ldi r25, 0x00         ; Load Immediate
+027A:	DF-91       	pop r29               ; Pop Register from Stack
+027C:	CF-91       	pop r28               ; Pop Register from Stack
+027E:	1F-91       	pop r17               ; Pop Register from Stack
+0280:	0F-91       	pop r16               ; Pop Register from Stack
+0282:	FF-90       	pop r15               ; Pop Register from Stack
+0284:	EF-90       	pop r14               ; Pop Register from Stack
+0286:	08-95       	ret                   ; Return from Subroutine
+0288:	F6-2E       	mov r15, r22          ; Copy Register
+028A:	0B-8D       	std Y+27, r16         ; Store Indirect From Register to Data Space
+028C:	10-E0       	ldi r17, 0x00         ; Load Immediate
+028E:	0F-5F       	subi r16, 0xff        ; Subtract Immediate
+0290:	1F-4F       	sbci r17, 0xff        ; Subtract Immediate with Carry SBI
+0292:	0F-73       	andi r16, 0x3f        ; Logical AND with Immediate
+0294:	11-27       	clr r785              ; Clear Register
+0296:	E0-2E       	mov r14, r16          ; Copy Register
+0298:	8C-8D       	std Y+28, r24         ; Store Indirect From Register to Data Space
+029A:	8E-11       	cpse r24, r14         ; Compare Skip if Equal
+029C:	0C-C0       	rjmp .+24             ; Relative Jump
+029E:	0F-B6       	in r0, 0x3f           ; Load an I/O Location to Register
+02A0:	07-FC       	sbrc r0, 7            ; Skip if Bit in Register is Cleared
+02A2:	FA-CF       	rjmp .-12             ; Relative Jump
+02A4:	E8-89       	std Y+16, r30         ; Store Indirect From Register to Data Space
+02A6:	F9-89       	std Y+17, r31         ; Store Indirect From Register to Data Space
+02A8:	80-81       	ld r24, Z             ; Load Indirect from Data Space to Register
+02AA:	85-FF       	sbrs r24, 5           ; Skip if Bit in Register is Set
+02AC:	F5-CF       	rjmp .-22             ; Relative Jump
+02AE:	CE-01       	movw r24, r28         ; Copy Register Word
+02B0:	0E-94-FB-00 	call 0x1f6            ; Long Call to a Subroutine
+02B4:	F1-CF       	rjmp .-30             ; Relative Jump
+02B6:	EB-8D       	std Y+27, r30         ; Store Indirect From Register to Data Space
+02B8:	EC-0F       	add r30, r28          ; Add without Carry
+02BA:	FD-2F       	mov r31, r29          ; Copy Register
+02BC:	F1-1D       	adc r31, r1           ; Add with Carry
+02BE:	E3-5A       	subi r30, 0xa3        ; Subtract Immediate
+02C0:	FF-4F       	sbci r31, 0xff        ; Subtract Immediate with Carry SBI
+02C2:	F0-82       	st Z, r15             ; Store Indirect From Register to Data Space
+02C4:	9F-B7       	in r25, 0x3f          ; Load an I/O Location to Register
+02C6:	F8-94       	bclr 7                ; Bit Clear in SREG
+02C8:	0B-8F       	std Y+27, r16         ; Store Indirect From Register to Data Space
+02CA:	EA-89       	std Y+18, r30         ; Store Indirect From Register to Data Space
+02CC:	FB-89       	std Y+19, r31         ; Store Indirect From Register to Data Space
+02CE:	80-81       	ld r24, Z             ; Load Indirect from Data Space to Register
+02D0:	80-62       	ori r24, 0x20         ; Logical OR with Immediate
+02D2:	CF-CF       	rjmp .-98             ; Relative Jump
+02D4:	CF-93       	push r28              ; Push Register on Stack
+02D6:	DF-93       	push r29              ; Push Register on Stack
+02D8:	EC-01       	movw r28, r24         ; Copy Register Word
+02DA:	88-8D       	std Y+24, r24         ; Store Indirect From Register to Data Space
+02DC:	88-23       	and r24, r24          ; Logical AND
+02DE:	B9-F0       	brbs 1, .+46          ; Branch if Bit in SREG is Set
+02E0:	AA-89       	std Y+18, r26         ; Store Indirect From Register to Data Space
+02E2:	BB-89       	std Y+19, r27         ; Store Indirect From Register to Data Space
+02E4:	E8-89       	std Y+16, r30         ; Store Indirect From Register to Data Space
+02E6:	F9-89       	std Y+17, r31         ; Store Indirect From Register to Data Space
+02E8:	8C-91       	ld r24, X             ; Load Indirect from Data Space to Register
+02EA:	85-FD       	sbrc r24, 5           ; Skip if Bit in Register is Cleared
+02EC:	03-C0       	rjmp .+6              ; Relative Jump
+02EE:	80-81       	ld r24, Z             ; Load Indirect from Data Space to Register
+02F0:	86-FD       	sbrc r24, 6           ; Skip if Bit in Register is Cleared
+02F2:	0D-C0       	rjmp .+26             ; Relative Jump
+02F4:	0F-B6       	in r0, 0x3f           ; Load an I/O Location to Register
+02F6:	07-FC       	sbrc r0, 7            ; Skip if Bit in Register is Cleared
+02F8:	F7-CF       	rjmp .-18             ; Relative Jump
+02FA:	8C-91       	ld r24, X             ; Load Indirect from Data Space to Register
+02FC:	85-FF       	sbrs r24, 5           ; Skip if Bit in Register is Set
+02FE:	F2-CF       	rjmp .-28             ; Relative Jump
+0300:	80-81       	ld r24, Z             ; Load Indirect from Data Space to Register
+0302:	85-FF       	sbrs r24, 5           ; Skip if Bit in Register is Set
+0304:	ED-CF       	rjmp .-38             ; Relative Jump
+0306:	CE-01       	movw r24, r28         ; Copy Register Word
+0308:	0E-94-FB-00 	call 0x1f6            ; Long Call to a Subroutine
+030C:	E9-CF       	rjmp .-46             ; Relative Jump
+030E:	DF-91       	pop r29               ; Pop Register from Stack
+0310:	CF-91       	pop r28               ; Pop Register from Stack
+0312:	08-95       	ret                   ; Return from Subroutine
+0314:	CF-92       	push r12              ; Push Register on Stack
+0316:	DF-92       	push r13              ; Push Register on Stack
+0318:	EF-92       	push r14              ; Push Register on Stack
+031A:	FF-92       	push r15              ; Push Register on Stack
+031C:	CF-93       	push r28              ; Push Register on Stack
+031E:	DF-93       	push r29              ; Push Register on Stack
+0320:	EC-01       	movw r28, r24         ; Copy Register Word
+0322:	6A-01       	movw r12, r20         ; Copy Register Word
+0324:	7B-01       	movw r14, r22         ; Copy Register Word
+0326:	E8-89       	std Y+16, r30         ; Store Indirect From Register to Data Space
+0328:	F9-89       	std Y+17, r31         ; Store Indirect From Register to Data Space
+032A:	82-E0       	ldi r24, 0x02         ; Load Immediate
+032C:	80-83       	st Z, r24             ; Store Indirect From Register to Data Space
+032E:	C1-14       	cp r12, r1            ; Compare
+0330:	81-EE       	ldi r24, 0xe1         ; Load Immediate
+0332:	D8-06       	cpc r13, r24          ; Compare with Carry
+0334:	E1-04       	cpc r14, r1           ; Compare with Carry
+0336:	F1-04       	cpc r15, r1           ; Compare with Carry
+0338:	A1-F0       	brbs 1, .+40          ; Branch if Bit in SREG is Set
+033A:	60-E0       	ldi r22, 0x00         ; Load Immediate
+033C:	79-E0       	ldi r23, 0x09         ; Load Immediate
+033E:	8D-E3       	ldi r24, 0x3d         ; Load Immediate
+0340:	90-E0       	ldi r25, 0x00         ; Load Immediate
+0342:	A7-01       	movw r20, r14         ; Copy Register Word
+0344:	96-01       	movw r18, r12         ; Copy Register Word
+0346:	0E-94-25-04 	call 0x84a            ; Long Call to a Subroutine
+034A:	21-50       	subi r18, 0x01        ; Subtract Immediate
+034C:	31-09       	sbc r19, r1           ; Subtract with Carry
+034E:	41-09       	sbc r20, r1           ; Subtract with Carry
+0350:	51-09       	sbc r21, r1           ; Subtract with Carry
+0352:	56-95       	lsr r21               ; Logical Shift Right
+0354:	47-95       	ror r20               ; Rotate Right through Carry
+0356:	37-95       	ror r19               ; Rotate Right through Carry
+0358:	27-95       	ror r18               ; Rotate Right through Carry
+035A:	21-15       	cp r18, r1            ; Compare
+035C:	80-E1       	ldi r24, 0x10         ; Load Immediate
+035E:	38-07       	cpc r19, r24          ; Compare with Carry
+0360:	98-F0       	brbs 0, .+38          ; Branch if Bit in SREG is Set
+0362:	E8-89       	std Y+16, r30         ; Store Indirect From Register to Data Space
+0364:	F9-89       	std Y+17, r31         ; Store Indirect From Register to Data Space
+0366:	10-82       	st Z, r1              ; Store Indirect From Register to Data Space
+0368:	60-E8       	ldi r22, 0x80         ; Load Immediate
+036A:	74-E8       	ldi r23, 0x84         ; Load Immediate
+036C:	8E-E1       	ldi r24, 0x1e         ; Load Immediate
+036E:	90-E0       	ldi r25, 0x00         ; Load Immediate
+0370:	A7-01       	movw r20, r14         ; Copy Register Word
+0372:	96-01       	movw r18, r12         ; Copy Register Word
+0374:	0E-94-25-04 	call 0x84a            ; Long Call to a Subroutine
+0378:	21-50       	subi r18, 0x01        ; Subtract Immediate
+037A:	31-09       	sbc r19, r1           ; Subtract with Carry
+037C:	41-09       	sbc r20, r1           ; Subtract with Carry
+037E:	51-09       	sbc r21, r1           ; Subtract with Carry
+0380:	56-95       	lsr r21               ; Logical Shift Right
+0382:	47-95       	ror r20               ; Rotate Right through Carry
+0384:	37-95       	ror r19               ; Rotate Right through Carry
+0386:	27-95       	ror r18               ; Rotate Right through Carry
+0388:	EC-85       	std Y+12, r30         ; Store Indirect From Register to Data Space
+038A:	FD-85       	std Y+13, r31         ; Store Indirect From Register to Data Space
+038C:	30-83       	st Z, r19             ; Store Indirect From Register to Data Space
+038E:	EE-85       	std Y+14, r30         ; Store Indirect From Register to Data Space
+0390:	FF-85       	std Y+15, r31         ; Store Indirect From Register to Data Space
+0392:	20-83       	st Z, r18             ; Store Indirect From Register to Data Space
+0394:	18-8E       	std Y+24, r1          ; Store Indirect From Register to Data Space
+0396:	EC-89       	std Y+20, r30         ; Store Indirect From Register to Data Space
+0398:	FD-89       	std Y+21, r31         ; Store Indirect From Register to Data Space
+039A:	86-E0       	ldi r24, 0x06         ; Load Immediate
+039C:	80-83       	st Z, r24             ; Store Indirect From Register to Data Space
+039E:	EA-89       	std Y+18, r30         ; Store Indirect From Register to Data Space
+03A0:	FB-89       	std Y+19, r31         ; Store Indirect From Register to Data Space
+03A2:	80-81       	ld r24, Z             ; Load Indirect from Data Space to Register
+03A4:	80-61       	ori r24, 0x10         ; Logical OR with Immediate
+03A6:	80-83       	st Z, r24             ; Store Indirect From Register to Data Space
+03A8:	EA-89       	std Y+18, r30         ; Store Indirect From Register to Data Space
+03AA:	FB-89       	std Y+19, r31         ; Store Indirect From Register to Data Space
+03AC:	80-81       	ld r24, Z             ; Load Indirect from Data Space to Register
+03AE:	88-60       	ori r24, 0x08         ; Logical OR with Immediate
+03B0:	80-83       	st Z, r24             ; Store Indirect From Register to Data Space
+03B2:	EA-89       	std Y+18, r30         ; Store Indirect From Register to Data Space
+03B4:	FB-89       	std Y+19, r31         ; Store Indirect From Register to Data Space
+03B6:	80-81       	ld r24, Z             ; Load Indirect from Data Space to Register
+03B8:	80-68       	ori r24, 0x80         ; Logical OR with Immediate
+03BA:	80-83       	st Z, r24             ; Store Indirect From Register to Data Space
+03BC:	EA-89       	std Y+18, r30         ; Store Indirect From Register to Data Space
+03BE:	FB-89       	std Y+19, r31         ; Store Indirect From Register to Data Space
+03C0:	80-81       	ld r24, Z             ; Load Indirect from Data Space to Register
+03C2:	8F-7D       	andi r24, 0xdf        ; Logical AND with Immediate
+03C4:	80-83       	st Z, r24             ; Store Indirect From Register to Data Space
+03C6:	DF-91       	pop r29               ; Pop Register from Stack
+03C8:	CF-91       	pop r28               ; Pop Register from Stack
+03CA:	FF-90       	pop r15               ; Pop Register from Stack
+03CC:	EF-90       	pop r14               ; Pop Register from Stack
+03CE:	DF-90       	pop r13               ; Pop Register from Stack
+03D0:	CF-90       	pop r12               ; Pop Register from Stack
+03D2:	08-95       	ret                   ; Return from Subroutine
+03D4:	1F-92       	push r1               ; Push Register on Stack
+03D6:	0F-92       	push r0               ; Push Register on Stack
+03D8:	0F-B6       	in r0, 0x3f           ; Load an I/O Location to Register
+03DA:	0F-92       	push r0               ; Push Register on Stack
+03DC:	11-24       	clr r17               ; Clear Register
+03DE:	2F-93       	push r18              ; Push Register on Stack
+03E0:	3F-93       	push r19              ; Push Register on Stack
+03E2:	8F-93       	push r24              ; Push Register on Stack
+03E4:	9F-93       	push r25              ; Push Register on Stack
+03E6:	AF-93       	push r26              ; Push Register on Stack
+03E8:	BF-93       	push r27              ; Push Register on Stack
+03EA:	80-91-FA-01 	lds r24, 0x01fa       ; Load Direct from Data Space (32-bit)
+03EE:	90-91-FB-01 	lds r25, 0x01fb       ; Load Direct from Data Space (32-bit)
+03F2:	A0-91-FC-01 	lds r26, 0x01fc       ; Load Direct from Data Space (32-bit)
+03F6:	B0-91-FD-01 	lds r27, 0x01fd       ; Load Direct from Data Space (32-bit)
+03FA:	30-91-F9-01 	lds r19, 0x01f9       ; Load Direct from Data Space (32-bit)
+03FE:	23-E0       	ldi r18, 0x03         ; Load Immediate
+0400:	23-0F       	add r18, r19          ; Add without Carry
+0402:	2D-37       	cpi r18, 0x7d         ; Compare with Immediate
+0404:	58-F5       	brbc 0, .+86          ; Branch if Bit in SREG is Cleared
+0406:	01-96       	adiw r24, 0x01        ; Add Immediate to Word
+0408:	A1-1D       	adc r26, r1           ; Add with Carry
+040A:	B1-1D       	adc r27, r1           ; Add with Carry
+040C:	20-93-F9-01 	sts 0x01f9, r18       ; Store Direct to Data Space
+0410:	80-93-FA-01 	sts 0x01fa, r24       ; Store Direct to Data Space
+0414:	90-93-FB-01 	sts 0x01fb, r25       ; Store Direct to Data Space
+0418:	A0-93-FC-01 	sts 0x01fc, r26       ; Store Direct to Data Space
+041C:	B0-93-FD-01 	sts 0x01fd, r27       ; Store Direct to Data Space
+0420:	80-91-F5-01 	lds r24, 0x01f5       ; Load Direct from Data Space (32-bit)
+0424:	90-91-F6-01 	lds r25, 0x01f6       ; Load Direct from Data Space (32-bit)
+0428:	A0-91-F7-01 	lds r26, 0x01f7       ; Load Direct from Data Space (32-bit)
+042C:	B0-91-F8-01 	lds r27, 0x01f8       ; Load Direct from Data Space (32-bit)
+0430:	01-96       	adiw r24, 0x01        ; Add Immediate to Word
+0432:	A1-1D       	adc r26, r1           ; Add with Carry
+0434:	B1-1D       	adc r27, r1           ; Add with Carry
+0436:	80-93-F5-01 	sts 0x01f5, r24       ; Store Direct to Data Space
+043A:	90-93-F6-01 	sts 0x01f6, r25       ; Store Direct to Data Space
+043E:	A0-93-F7-01 	sts 0x01f7, r26       ; Store Direct to Data Space
+0442:	B0-93-F8-01 	sts 0x01f8, r27       ; Store Direct to Data Space
+0446:	BF-91       	pop r27               ; Pop Register from Stack
+0448:	AF-91       	pop r26               ; Pop Register from Stack
+044A:	9F-91       	pop r25               ; Pop Register from Stack
+044C:	8F-91       	pop r24               ; Pop Register from Stack
+044E:	3F-91       	pop r19               ; Pop Register from Stack
+0450:	2F-91       	pop r18               ; Pop Register from Stack
+0452:	0F-90       	pop r0                ; Pop Register from Stack
+0454:	0F-BE       	out 0x3f, r0          ; Store Register to I/O Location
+0456:	0F-90       	pop r0                ; Pop Register from Stack
+0458:	1F-90       	pop r1                ; Pop Register from Stack
+045A:	18-95       	reti                  ; Return from Interrupt
+045C:	26-E8       	ldi r18, 0x86         ; Load Immediate
+045E:	23-0F       	add r18, r19          ; Add without Carry
+0460:	02-96       	adiw r24, 0x02        ; Add Immediate to Word
+0462:	A1-1D       	adc r26, r1           ; Add with Carry
+0464:	B1-1D       	adc r27, r1           ; Add with Carry
+0466:	D2-CF       	rjmp .-92             ; Relative Jump
+0468:	1F-92       	push r1               ; Push Register on Stack
+046A:	0F-92       	push r0               ; Push Register on Stack
+046C:	0F-B6       	in r0, 0x3f           ; Load an I/O Location to Register
+046E:	0F-92       	push r0               ; Push Register on Stack
+0470:	11-24       	clr r17               ; Clear Register
+0472:	2F-93       	push r18              ; Push Register on Stack
+0474:	3F-93       	push r19              ; Push Register on Stack
+0476:	4F-93       	push r20              ; Push Register on Stack
+0478:	5F-93       	push r21              ; Push Register on Stack
+047A:	6F-93       	push r22              ; Push Register on Stack
+047C:	7F-93       	push r23              ; Push Register on Stack
+047E:	8F-93       	push r24              ; Push Register on Stack
+0480:	9F-93       	push r25              ; Push Register on Stack
+0482:	AF-93       	push r26              ; Push Register on Stack
+0484:	BF-93       	push r27              ; Push Register on Stack
+0486:	EF-93       	push r30              ; Push Register on Stack
+0488:	FF-93       	push r31              ; Push Register on Stack
+048A:	88-E5       	ldi r24, 0x58         ; Load Immediate
+048C:	91-E0       	ldi r25, 0x01         ; Load Immediate
+048E:	0E-94-FB-00 	call 0x1f6            ; Long Call to a Subroutine
+0492:	FF-91       	pop r31               ; Pop Register from Stack
+0494:	EF-91       	pop r30               ; Pop Register from Stack
+0496:	BF-91       	pop r27               ; Pop Register from Stack
+0498:	AF-91       	pop r26               ; Pop Register from Stack
+049A:	9F-91       	pop r25               ; Pop Register from Stack
+049C:	8F-91       	pop r24               ; Pop Register from Stack
+049E:	7F-91       	pop r23               ; Pop Register from Stack
+04A0:	6F-91       	pop r22               ; Pop Register from Stack
+04A2:	5F-91       	pop r21               ; Pop Register from Stack
+04A4:	4F-91       	pop r20               ; Pop Register from Stack
+04A6:	3F-91       	pop r19               ; Pop Register from Stack
+04A8:	2F-91       	pop r18               ; Pop Register from Stack
+04AA:	0F-90       	pop r0                ; Pop Register from Stack
+04AC:	0F-BE       	out 0x3f, r0          ; Store Register to I/O Location
+04AE:	0F-90       	pop r0                ; Pop Register from Stack
+04B0:	1F-90       	pop r1                ; Pop Register from Stack
+04B2:	18-95       	reti                  ; Return from Interrupt
+04B4:	1F-92       	push r1               ; Push Register on Stack
+04B6:	0F-92       	push r0               ; Push Register on Stack
+04B8:	0F-B6       	in r0, 0x3f           ; Load an I/O Location to Register
+04BA:	0F-92       	push r0               ; Push Register on Stack
+04BC:	11-24       	clr r17               ; Clear Register
+04BE:	2F-93       	push r18              ; Push Register on Stack
+04C0:	8F-93       	push r24              ; Push Register on Stack
+04C2:	9F-93       	push r25              ; Push Register on Stack
+04C4:	EF-93       	push r30              ; Push Register on Stack
+04C6:	FF-93       	push r31              ; Push Register on Stack
+04C8:	E0-91-68-01 	lds r30, 0x0168       ; Load Direct from Data Space (32-bit)
+04CC:	F0-91-69-01 	lds r31, 0x0169       ; Load Direct from Data Space (32-bit)
+04D0:	80-81       	ld r24, Z             ; Load Indirect from Data Space to Register
+04D2:	E0-91-6E-01 	lds r30, 0x016e       ; Load Direct from Data Space (32-bit)
+04D6:	F0-91-6F-01 	lds r31, 0x016f       ; Load Direct from Data Space (32-bit)
+04DA:	82-FD       	sbrc r24, 2           ; Skip if Bit in Register is Cleared
+04DC:	1B-C0       	rjmp .+54             ; Relative Jump
+04DE:	90-81       	ld r25, Z             ; Load Indirect from Data Space to Register
+04E0:	80-91-71-01 	lds r24, 0x0171       ; Load Direct from Data Space (32-bit)
+04E4:	8F-5F       	subi r24, 0xff        ; Subtract Immediate
+04E6:	8F-73       	andi r24, 0x3f        ; Logical AND with Immediate
+04E8:	20-91-72-01 	lds r18, 0x0172       ; Load Direct from Data Space (32-bit)
+04EC:	82-17       	cp r24, r18           ; Compare
+04EE:	41-F0       	brbs 1, .+16          ; Branch if Bit in SREG is Set
+04F0:	E0-91-71-01 	lds r30, 0x0171       ; Load Direct from Data Space (32-bit)
+04F4:	F0-E0       	ldi r31, 0x00         ; Load Immediate
+04F6:	E8-5A       	subi r30, 0xa8        ; Subtract Immediate
+04F8:	FE-4F       	sbci r31, 0xfe        ; Subtract Immediate with Carry SBI
+04FA:	95-8F       	std Y+29, r25         ; Store Indirect From Register to Data Space
+04FC:	80-93-71-01 	sts 0x0171, r24       ; Store Direct to Data Space
+0500:	FF-91       	pop r31               ; Pop Register from Stack
+0502:	EF-91       	pop r30               ; Pop Register from Stack
+0504:	9F-91       	pop r25               ; Pop Register from Stack
+0506:	8F-91       	pop r24               ; Pop Register from Stack
+0508:	2F-91       	pop r18               ; Pop Register from Stack
+050A:	0F-90       	pop r0                ; Pop Register from Stack
+050C:	0F-BE       	out 0x3f, r0          ; Store Register to I/O Location
+050E:	0F-90       	pop r0                ; Pop Register from Stack
+0510:	1F-90       	pop r1                ; Pop Register from Stack
+0512:	18-95       	reti                  ; Return from Interrupt
+0514:	80-81       	ld r24, Z             ; Load Indirect from Data Space to Register
+0516:	F4-CF       	rjmp .-24             ; Relative Jump
+0518:	CF-93       	push r28              ; Push Register on Stack
+051A:	DF-93       	push r29              ; Push Register on Stack
+051C:	00-D0       	rcall .+0             ; Relative Call to Subroutine
+051E:	00-D0       	rcall .+0             ; Relative Call to Subroutine
+0520:	CD-B7       	in r28, 0x3d          ; Load an I/O Location to Register
+0522:	DE-B7       	in r29, 0x3e          ; Load an I/O Location to Register
+0524:	89-E2       	ldi r24, 0x29         ; Load Immediate
+0526:	90-E0       	ldi r25, 0x00         ; Load Immediate
+0528:	FC-01       	movw r30, r24         ; Copy Register Word
+052A:	80-81       	ld r24, Z             ; Load Indirect from Data Space to Register
+052C:	88-2F       	mov r24, r24          ; Copy Register
+052E:	90-E0       	ldi r25, 0x00         ; Load Immediate
+0530:	80-78       	andi r24, 0x80        ; Logical AND with Immediate
+0532:	99-27       	clr r921              ; Clear Register
+0534:	9C-83       	std Y+4, r25          ; Store Indirect From Register to Data Space
+0536:	8B-83       	std Y+3, r24          ; Store Indirect From Register to Data Space
+0538:	8B-81       	ldd r24, Y+3          ; Load Indirect from Data Space to Register
+053A:	9C-81       	ldd r25, Y+4          ; Load Indirect from Data Space to Register
+053C:	89-2B       	or r24, r25           ; Logical OR
+053E:	B9-F4       	brbc 1, .+46          ; Branch if Bit in SREG is Cleared
+0540:	1A-82       	std Y+2, r1           ; Store Indirect From Register to Data Space
+0542:	19-82       	std Y+1, r1           ; Store Indirect From Register to Data Space
+0544:	89-81       	ldd r24, Y+1          ; Load Indirect from Data Space to Register
+0546:	9A-81       	ldd r25, Y+2          ; Load Indirect from Data Space to Register
+0548:	8C-97       	sbiw r24, 0x2c        ; Subtract Immediate from Word
+054A:	88-F4       	brbc 0, .+34          ; Branch if Bit in SREG is Cleared
+054C:	89-81       	ldd r24, Y+1          ; Load Indirect from Data Space to Register
+054E:	9A-81       	ldd r25, Y+2          ; Load Indirect from Data Space to Register
+0550:	89-5E       	subi r24, 0xe9        ; Subtract Immediate
+0552:	9E-4F       	sbci r25, 0xfe        ; Subtract Immediate with Carry SBI
+0554:	FC-01       	movw r30, r24         ; Copy Register Word
+0556:	80-81       	ld r24, Z             ; Load Indirect from Data Space to Register
+0558:	68-2F       	mov r22, r24          ; Copy Register
+055A:	88-E5       	ldi r24, 0x58         ; Load Immediate
+055C:	91-E0       	ldi r25, 0x01         ; Load Immediate
+055E:	0E-94-5F-00 	call 0xbe             ; Long Call to a Subroutine
+0562:	89-81       	ldd r24, Y+1          ; Load Indirect from Data Space to Register
+0564:	9A-81       	ldd r25, Y+2          ; Load Indirect from Data Space to Register
+0566:	01-96       	adiw r24, 0x01        ; Add Immediate to Word
+0568:	9A-83       	std Y+2, r25          ; Store Indirect From Register to Data Space
+056A:	89-83       	std Y+1, r24          ; Store Indirect From Register to Data Space
+056C:	EB-CF       	rjmp .-42             ; Relative Jump
+056E:	0F-90       	pop r0                ; Pop Register from Stack
+0570:	0F-90       	pop r0                ; Pop Register from Stack
+0572:	0F-90       	pop r0                ; Pop Register from Stack
+0574:	0F-90       	pop r0                ; Pop Register from Stack
+0576:	DF-91       	pop r29               ; Pop Register from Stack
+0578:	CF-91       	pop r28               ; Pop Register from Stack
+057A:	08-95       	ret                   ; Return from Subroutine
+057C:	CF-93       	push r28              ; Push Register on Stack
+057E:	DF-93       	push r29              ; Push Register on Stack
+0580:	CD-B7       	in r28, 0x3d          ; Load an I/O Location to Register
+0582:	DE-B7       	in r29, 0x3e          ; Load an I/O Location to Register
+0584:	80-91-02-01 	lds r24, 0x0102       ; Load Direct from Data Space (32-bit)
+0588:	80-93-34-01 	sts 0x0134, r24       ; Store Direct to Data Space
+058C:	80-91-14-01 	lds r24, 0x0114       ; Load Direct from Data Space (32-bit)
+0590:	80-93-1B-01 	sts 0x011b, r24       ; Store Direct to Data Space
+0594:	80-91-11-01 	lds r24, 0x0111       ; Load Direct from Data Space (32-bit)
+0598:	80-93-2A-01 	sts 0x012a, r24       ; Store Direct to Data Space
+059C:	80-91-02-01 	lds r24, 0x0102       ; Load Direct from Data Space (32-bit)
+05A0:	80-93-25-01 	sts 0x0125, r24       ; Store Direct to Data Space
+05A4:	80-91-00-01 	lds r24, 0x0100       ; Load Direct from Data Space (32-bit)
+05A8:	80-93-3C-01 	sts 0x013c, r24       ; Store Direct to Data Space
+05AC:	80-91-02-01 	lds r24, 0x0102       ; Load Direct from Data Space (32-bit)
+05B0:	80-93-22-01 	sts 0x0122, r24       ; Store Direct to Data Space
+05B4:	80-91-13-01 	lds r24, 0x0113       ; Load Direct from Data Space (32-bit)
+05B8:	80-93-1E-01 	sts 0x011e, r24       ; Store Direct to Data Space
+05BC:	80-91-12-01 	lds r24, 0x0112       ; Load Direct from Data Space (32-bit)
+05C0:	80-93-38-01 	sts 0x0138, r24       ; Store Direct to Data Space
+05C4:	80-91-10-01 	lds r24, 0x0110       ; Load Direct from Data Space (32-bit)
+05C8:	80-93-3D-01 	sts 0x013d, r24       ; Store Direct to Data Space
+05CC:	DF-91       	pop r29               ; Pop Register from Stack
+05CE:	CF-91       	pop r28               ; Pop Register from Stack
+05D0:	08-95       	ret                   ; Return from Subroutine
+05D2:	CF-93       	push r28              ; Push Register on Stack
+05D4:	DF-93       	push r29              ; Push Register on Stack
+05D6:	CD-B7       	in r28, 0x3d          ; Load an I/O Location to Register
+05D8:	DE-B7       	in r29, 0x3e          ; Load an I/O Location to Register
+05DA:	80-91-02-01 	lds r24, 0x0102       ; Load Direct from Data Space (32-bit)
+05DE:	80-93-2D-01 	sts 0x012d, r24       ; Store Direct to Data Space
+05E2:	80-91-02-01 	lds r24, 0x0102       ; Load Direct from Data Space (32-bit)
+05E6:	80-93-28-01 	sts 0x0128, r24       ; Store Direct to Data Space
+05EA:	80-91-11-01 	lds r24, 0x0111       ; Load Direct from Data Space (32-bit)
+05EE:	80-93-39-01 	sts 0x0139, r24       ; Store Direct to Data Space
+05F2:	80-91-0F-01 	lds r24, 0x010f       ; Load Direct from Data Space (32-bit)
+05F6:	80-93-3E-01 	sts 0x013e, r24       ; Store Direct to Data Space
+05FA:	80-91-09-01 	lds r24, 0x0109       ; Load Direct from Data Space (32-bit)
+05FE:	80-93-3B-01 	sts 0x013b, r24       ; Store Direct to Data Space
+0602:	80-91-07-01 	lds r24, 0x0107       ; Load Direct from Data Space (32-bit)
+0606:	80-93-3A-01 	sts 0x013a, r24       ; Store Direct to Data Space
+060A:	80-91-0D-01 	lds r24, 0x010d       ; Load Direct from Data Space (32-bit)
+060E:	80-93-21-01 	sts 0x0121, r24       ; Store Direct to Data Space
+0612:	80-91-07-01 	lds r24, 0x0107       ; Load Direct from Data Space (32-bit)
+0616:	80-93-31-01 	sts 0x0131, r24       ; Store Direct to Data Space
+061A:	80-91-07-01 	lds r24, 0x0107       ; Load Direct from Data Space (32-bit)
+061E:	80-93-2E-01 	sts 0x012e, r24       ; Store Direct to Data Space
+0622:	80-91-0A-01 	lds r24, 0x010a       ; Load Direct from Data Space (32-bit)
+0626:	80-93-23-01 	sts 0x0123, r24       ; Store Direct to Data Space
+062A:	80-91-03-01 	lds r24, 0x0103       ; Load Direct from Data Space (32-bit)
+062E:	80-93-1A-01 	sts 0x011a, r24       ; Store Direct to Data Space
+0632:	DF-91       	pop r29               ; Pop Register from Stack
+0634:	CF-91       	pop r28               ; Pop Register from Stack
+0636:	08-95       	ret                   ; Return from Subroutine
+0638:	CF-93       	push r28              ; Push Register on Stack
+063A:	DF-93       	push r29              ; Push Register on Stack
+063C:	CD-B7       	in r28, 0x3d          ; Load an I/O Location to Register
+063E:	DE-B7       	in r29, 0x3e          ; Load an I/O Location to Register
+0640:	80-91-02-01 	lds r24, 0x0102       ; Load Direct from Data Space (32-bit)
+0644:	80-93-3F-01 	sts 0x013f, r24       ; Store Direct to Data Space
+0648:	80-91-06-01 	lds r24, 0x0106       ; Load Direct from Data Space (32-bit)
+064C:	80-93-18-01 	sts 0x0118, r24       ; Store Direct to Data Space
+0650:	80-91-10-01 	lds r24, 0x0110       ; Load Direct from Data Space (32-bit)
+0654:	80-93-40-01 	sts 0x0140, r24       ; Store Direct to Data Space
+0658:	80-91-0B-01 	lds r24, 0x010b       ; Load Direct from Data Space (32-bit)
+065C:	80-93-24-01 	sts 0x0124, r24       ; Store Direct to Data Space
+0660:	80-91-0E-01 	lds r24, 0x010e       ; Load Direct from Data Space (32-bit)
+0664:	80-93-27-01 	sts 0x0127, r24       ; Store Direct to Data Space
+0668:	80-91-08-01 	lds r24, 0x0108       ; Load Direct from Data Space (32-bit)
+066C:	80-93-2F-01 	sts 0x012f, r24       ; Store Direct to Data Space
+0670:	80-91-15-01 	lds r24, 0x0115       ; Load Direct from Data Space (32-bit)
+0674:	80-93-41-01 	sts 0x0141, r24       ; Store Direct to Data Space
+0678:	80-91-11-01 	lds r24, 0x0111       ; Load Direct from Data Space (32-bit)
+067C:	80-93-30-01 	sts 0x0130, r24       ; Store Direct to Data Space
+0680:	80-91-07-01 	lds r24, 0x0107       ; Load Direct from Data Space (32-bit)
+0684:	80-93-1F-01 	sts 0x011f, r24       ; Store Direct to Data Space
+0688:	80-91-02-01 	lds r24, 0x0102       ; Load Direct from Data Space (32-bit)
+068C:	80-93-37-01 	sts 0x0137, r24       ; Store Direct to Data Space
+0690:	80-91-0F-01 	lds r24, 0x010f       ; Load Direct from Data Space (32-bit)
+0694:	80-93-36-01 	sts 0x0136, r24       ; Store Direct to Data Space
+0698:	80-91-02-01 	lds r24, 0x0102       ; Load Direct from Data Space (32-bit)
+069C:	80-93-29-01 	sts 0x0129, r24       ; Store Direct to Data Space
+06A0:	DF-91       	pop r29               ; Pop Register from Stack
+06A2:	CF-91       	pop r28               ; Pop Register from Stack
+06A4:	08-95       	ret                   ; Return from Subroutine
+06A6:	CF-93       	push r28              ; Push Register on Stack
+06A8:	DF-93       	push r29              ; Push Register on Stack
+06AA:	CD-B7       	in r28, 0x3d          ; Load an I/O Location to Register
+06AC:	DE-B7       	in r29, 0x3e          ; Load an I/O Location to Register
+06AE:	80-91-0E-01 	lds r24, 0x010e       ; Load Direct from Data Space (32-bit)
+06B2:	80-93-2C-01 	sts 0x012c, r24       ; Store Direct to Data Space
+06B6:	80-91-07-01 	lds r24, 0x0107       ; Load Direct from Data Space (32-bit)
+06BA:	80-93-26-01 	sts 0x0126, r24       ; Store Direct to Data Space
+06BE:	80-91-04-01 	lds r24, 0x0104       ; Load Direct from Data Space (32-bit)
+06C2:	80-93-1C-01 	sts 0x011c, r24       ; Store Direct to Data Space
+06C6:	80-91-01-01 	lds r24, 0x0101       ; Load Direct from Data Space (32-bit)
+06CA:	80-93-19-01 	sts 0x0119, r24       ; Store Direct to Data Space
+06CE:	80-91-07-01 	lds r24, 0x0107       ; Load Direct from Data Space (32-bit)
+06D2:	80-93-35-01 	sts 0x0135, r24       ; Store Direct to Data Space
+06D6:	80-91-04-01 	lds r24, 0x0104       ; Load Direct from Data Space (32-bit)
+06DA:	80-93-17-01 	sts 0x0117, r24       ; Store Direct to Data Space
+06DE:	80-91-05-01 	lds r24, 0x0105       ; Load Direct from Data Space (32-bit)
+06E2:	80-93-20-01 	sts 0x0120, r24       ; Store Direct to Data Space
+06E6:	80-91-0C-01 	lds r24, 0x010c       ; Load Direct from Data Space (32-bit)
+06EA:	80-93-33-01 	sts 0x0133, r24       ; Store Direct to Data Space
+06EE:	80-91-07-01 	lds r24, 0x0107       ; Load Direct from Data Space (32-bit)
+06F2:	80-93-2B-01 	sts 0x012b, r24       ; Store Direct to Data Space
+06F6:	80-91-02-01 	lds r24, 0x0102       ; Load Direct from Data Space (32-bit)
+06FA:	80-93-1D-01 	sts 0x011d, r24       ; Store Direct to Data Space
+06FE:	80-91-11-01 	lds r24, 0x0111       ; Load Direct from Data Space (32-bit)
+0702:	80-93-32-01 	sts 0x0132, r24       ; Store Direct to Data Space
+0706:	DF-91       	pop r29               ; Pop Register from Stack
+0708:	CF-91       	pop r28               ; Pop Register from Stack
+070A:	08-95       	ret                   ; Return from Subroutine
+070C:	CF-93       	push r28              ; Push Register on Stack
+070E:	DF-93       	push r29              ; Push Register on Stack
+0710:	CD-B7       	in r28, 0x3d          ; Load an I/O Location to Register
+0712:	DE-B7       	in r29, 0x3e          ; Load an I/O Location to Register
+0714:	0E-94-53-03 	call 0x6a6            ; Long Call to a Subroutine
+0718:	0E-94-1C-03 	call 0x638            ; Long Call to a Subroutine
+071C:	0E-94-E9-02 	call 0x5d2            ; Long Call to a Subroutine
+0720:	0E-94-BE-02 	call 0x57c            ; Long Call to a Subroutine
+0724:	DF-91       	pop r29               ; Pop Register from Stack
+0726:	CF-91       	pop r28               ; Pop Register from Stack
+0728:	08-95       	ret                   ; Return from Subroutine
+072A:	CF-93       	push r28              ; Push Register on Stack
+072C:	DF-93       	push r29              ; Push Register on Stack
+072E:	CD-B7       	in r28, 0x3d          ; Load an I/O Location to Register
+0730:	DE-B7       	in r29, 0x3e          ; Load an I/O Location to Register
+0732:	4C-E2       	ldi r20, 0x2c         ; Load Immediate
+0734:	51-E0       	ldi r21, 0x01         ; Load Immediate
+0736:	60-E0       	ldi r22, 0x00         ; Load Immediate
+0738:	70-E0       	ldi r23, 0x00         ; Load Immediate
+073A:	88-E5       	ldi r24, 0x58         ; Load Immediate
+073C:	91-E0       	ldi r25, 0x01         ; Load Immediate
+073E:	0E-94-8A-01 	call 0x314            ; Long Call to a Subroutine
+0742:	0E-94-86-03 	call 0x70c            ; Long Call to a Subroutine
+0746:	DF-91       	pop r29               ; Pop Register from Stack
+0748:	CF-91       	pop r28               ; Pop Register from Stack
+074A:	08-95       	ret                   ; Return from Subroutine
+074C:	E8-E5       	ldi r30, 0x58         ; Load Immediate
+074E:	F1-E0       	ldi r31, 0x01         ; Load Immediate
+0750:	13-82       	std Y+3, r1           ; Store Indirect From Register to Data Space
+0752:	12-82       	std Y+2, r1           ; Store Indirect From Register to Data Space
+0754:	88-EE       	ldi r24, 0xe8         ; Load Immediate
+0756:	93-E0       	ldi r25, 0x03         ; Load Immediate
+0758:	A0-E0       	ldi r26, 0x00         ; Load Immediate
+075A:	B0-E0       	ldi r27, 0x00         ; Load Immediate
+075C:	84-83       	std Y+4, r24          ; Store Indirect From Register to Data Space
+075E:	95-83       	std Y+5, r25          ; Store Indirect From Register to Data Space
+0760:	A6-83       	std Y+6, r26          ; Store Indirect From Register to Data Space
+0762:	B7-83       	std Y+7, r27          ; Store Indirect From Register to Data Space
+0764:	87-E4       	ldi r24, 0x47         ; Load Immediate
+0766:	91-E0       	ldi r25, 0x01         ; Load Immediate
+0768:	91-83       	std Y+1, r25          ; Store Indirect From Register to Data Space
+076A:	80-83       	st Z, r24             ; Store Indirect From Register to Data Space
+076C:	85-EC       	ldi r24, 0xc5         ; Load Immediate
+076E:	90-E0       	ldi r25, 0x00         ; Load Immediate
+0770:	95-87       	std Y+13, r25         ; Store Indirect From Register to Data Space
+0772:	84-87       	std Y+12, r24         ; Store Indirect From Register to Data Space
+0774:	84-EC       	ldi r24, 0xc4         ; Load Immediate
+0776:	90-E0       	ldi r25, 0x00         ; Load Immediate
+0778:	97-87       	std Y+15, r25         ; Store Indirect From Register to Data Space
+077A:	86-87       	std Y+14, r24         ; Store Indirect From Register to Data Space
+077C:	80-EC       	ldi r24, 0xc0         ; Load Immediate
+077E:	90-E0       	ldi r25, 0x00         ; Load Immediate
+0780:	91-8B       	std Y+17, r25         ; Store Indirect From Register to Data Space
+0782:	80-8B       	std Y+16, r24         ; Store Indirect From Register to Data Space
+0784:	81-EC       	ldi r24, 0xc1         ; Load Immediate
+0786:	90-E0       	ldi r25, 0x00         ; Load Immediate
+0788:	93-8B       	std Y+19, r25         ; Store Indirect From Register to Data Space
+078A:	82-8B       	std Y+18, r24         ; Store Indirect From Register to Data Space
+078C:	82-EC       	ldi r24, 0xc2         ; Load Immediate
+078E:	90-E0       	ldi r25, 0x00         ; Load Immediate
+0790:	95-8B       	std Y+21, r25         ; Store Indirect From Register to Data Space
+0792:	84-8B       	std Y+20, r24         ; Store Indirect From Register to Data Space
+0794:	86-EC       	ldi r24, 0xc6         ; Load Immediate
+0796:	90-E0       	ldi r25, 0x00         ; Load Immediate
+0798:	97-8B       	std Y+23, r25         ; Store Indirect From Register to Data Space
+079A:	86-8B       	std Y+22, r24         ; Store Indirect From Register to Data Space
+079C:	11-8E       	std Y+25, r1          ; Store Indirect From Register to Data Space
+079E:	12-8E       	std Y+26, r1          ; Store Indirect From Register to Data Space
+07A0:	13-8E       	std Y+27, r1          ; Store Indirect From Register to Data Space
+07A2:	14-8E       	std Y+28, r1          ; Store Indirect From Register to Data Space
+07A4:	08-95       	ret                   ; Return from Subroutine
+07A6:	78-94       	bset 7                ; Bit Set in SREG
+07A8:	84-B5       	in r24, 0x24          ; Load an I/O Location to Register
+07AA:	82-60       	ori r24, 0x02         ; Logical OR with Immediate
+07AC:	84-BD       	out 0x24, r24         ; Store Register to I/O Location
+07AE:	84-B5       	in r24, 0x24          ; Load an I/O Location to Register
+07B0:	81-60       	ori r24, 0x01         ; Logical OR with Immediate
+07B2:	84-BD       	out 0x24, r24         ; Store Register to I/O Location
+07B4:	85-B5       	in r24, 0x25          ; Load an I/O Location to Register
+07B6:	82-60       	ori r24, 0x02         ; Logical OR with Immediate
+07B8:	85-BD       	out 0x25, r24         ; Store Register to I/O Location
+07BA:	85-B5       	in r24, 0x25          ; Load an I/O Location to Register
+07BC:	81-60       	ori r24, 0x01         ; Logical OR with Immediate
+07BE:	85-BD       	out 0x25, r24         ; Store Register to I/O Location
+07C0:	80-91-6E-00 	lds r24, 0x006e       ; Load Direct from Data Space (32-bit)
+07C4:	81-60       	ori r24, 0x01         ; Logical OR with Immediate
+07C6:	80-93-6E-00 	sts 0x006e, r24       ; Store Direct to Data Space
+07CA:	10-92-81-00 	sts 0x0081, r1        ; Store Direct to Data Space
+07CE:	80-91-81-00 	lds r24, 0x0081       ; Load Direct from Data Space (32-bit)
+07D2:	82-60       	ori r24, 0x02         ; Logical OR with Immediate
+07D4:	80-93-81-00 	sts 0x0081, r24       ; Store Direct to Data Space
+07D8:	80-91-81-00 	lds r24, 0x0081       ; Load Direct from Data Space (32-bit)
+07DC:	81-60       	ori r24, 0x01         ; Logical OR with Immediate
+07DE:	80-93-81-00 	sts 0x0081, r24       ; Store Direct to Data Space
+07E2:	80-91-80-00 	lds r24, 0x0080       ; Load Direct from Data Space (32-bit)
+07E6:	81-60       	ori r24, 0x01         ; Logical OR with Immediate
+07E8:	80-93-80-00 	sts 0x0080, r24       ; Store Direct to Data Space
+07EC:	80-91-B1-00 	lds r24, 0x00b1       ; Load Direct from Data Space (32-bit)
+07F0:	84-60       	ori r24, 0x04         ; Logical OR with Immediate
+07F2:	80-93-B1-00 	sts 0x00b1, r24       ; Store Direct to Data Space
+07F6:	80-91-B0-00 	lds r24, 0x00b0       ; Load Direct from Data Space (32-bit)
+07FA:	81-60       	ori r24, 0x01         ; Logical OR with Immediate
+07FC:	80-93-B0-00 	sts 0x00b0, r24       ; Store Direct to Data Space
+0800:	80-91-7A-00 	lds r24, 0x007a       ; Load Direct from Data Space (32-bit)
+0804:	84-60       	ori r24, 0x04         ; Logical OR with Immediate
+0806:	80-93-7A-00 	sts 0x007a, r24       ; Store Direct to Data Space
+080A:	80-91-7A-00 	lds r24, 0x007a       ; Load Direct from Data Space (32-bit)
+080E:	82-60       	ori r24, 0x02         ; Logical OR with Immediate
+0810:	80-93-7A-00 	sts 0x007a, r24       ; Store Direct to Data Space
+0814:	80-91-7A-00 	lds r24, 0x007a       ; Load Direct from Data Space (32-bit)
+0818:	81-60       	ori r24, 0x01         ; Logical OR with Immediate
+081A:	80-93-7A-00 	sts 0x007a, r24       ; Store Direct to Data Space
+081E:	80-91-7A-00 	lds r24, 0x007a       ; Load Direct from Data Space (32-bit)
+0822:	80-68       	ori r24, 0x80         ; Logical OR with Immediate
+0824:	80-93-7A-00 	sts 0x007a, r24       ; Store Direct to Data Space
+0828:	10-92-C1-00 	sts 0x00c1, r1        ; Store Direct to Data Space
+082C:	0E-94-95-03 	call 0x72a            ; Long Call to a Subroutine
+0830:	C0-E0       	ldi r28, 0x00         ; Load Immediate
+0832:	D0-E0       	ldi r29, 0x00         ; Load Immediate
+0834:	0E-94-8C-02 	call 0x518            ; Long Call to a Subroutine
+0838:	20-97       	sbiw r28, 0x00        ; Subtract Immediate from Word
+083A:	E1-F3       	brbs 1, .-8           ; Branch if Bit in SREG is Set
+083C:	0E-94-E7-00 	call 0x1ce            ; Long Call to a Subroutine
+0840:	88-23       	and r24, r24          ; Logical AND
+0842:	C1-F3       	brbs 1, .-16          ; Branch if Bit in SREG is Set
+0844:	0E-94-00-00 	call 0x00             ; Long Call to a Subroutine
+0848:	F5-CF       	rjmp .-22             ; Relative Jump
+084A:	A1-E2       	ldi r26, 0x21         ; Load Immediate
+084C:	1A-2E       	mov r1, r26           ; Copy Register
+084E:	AA-1B       	sub r26, r26          ; Subtract Without Carry
+0850:	BB-1B       	sub r27, r27          ; Subtract Without Carry
+0852:	FD-01       	movw r30, r26         ; Copy Register Word
+0854:	0D-C0       	rjmp .+26             ; Relative Jump
+0856:	AA-1F       	adc r26, r26          ; Add with Carry
+0858:	BB-1F       	adc r27, r27          ; Add with Carry
+085A:	EE-1F       	adc r30, r30          ; Add with Carry
+085C:	FF-1F       	adc r31, r31          ; Add with Carry
+085E:	A2-17       	cp r26, r18           ; Compare
+0860:	B3-07       	cpc r27, r19          ; Compare with Carry
+0862:	E4-07       	cpc r30, r20          ; Compare with Carry
+0864:	F5-07       	cpc r31, r21          ; Compare with Carry
+0866:	20-F0       	brbs 0, .+8           ; Branch if Bit in SREG is Set
+0868:	A2-1B       	sub r26, r18          ; Subtract Without Carry
+086A:	B3-0B       	sbc r27, r19          ; Subtract with Carry
+086C:	E4-0B       	sbc r30, r20          ; Subtract with Carry
+086E:	F5-0B       	sbc r31, r21          ; Subtract with Carry
+0870:	66-1F       	adc r22, r22          ; Add with Carry
+0872:	77-1F       	adc r23, r23          ; Add with Carry
+0874:	88-1F       	adc r24, r24          ; Add with Carry
+0876:	99-1F       	adc r25, r25          ; Add with Carry
+0878:	1A-94       	dec r1                ; Decrement
+087A:	69-F7       	brbc 1, .-38          ; Branch if Bit in SREG is Cleared
+087C:	60-95       	com r22               ; One's Complement
+087E:	70-95       	com r23               ; One's Complement
+0880:	80-95       	com r24               ; One's Complement
+0882:	90-95       	com r25               ; One's Complement
+0884:	9B-01       	movw r18, r22         ; Copy Register Word
+0886:	AC-01       	movw r20, r24         ; Copy Register Word
+0888:	BD-01       	movw r22, r26         ; Copy Register Word
+088A:	CF-01       	movw r24, r30         ; Copy Register Word
+088C:	08-95       	ret                   ; Return from Subroutine
+088E:	EE-0F       	add r30, r30          ; Add without Carry
+0890:	FF-1F       	adc r31, r31          ; Add with Carry
+0892:	05-90       	lpm r0, Z+            ; Load Program Memory
+0894:	F4-91       	lpm r31, Z            ; Load Program Memory
+0896:	E0-2D       	mov r30, r0           ; Copy Register
+0898:	09-94       	ijmp                  ; Indirect Jump
+089A:	F8-94       	bclr 7                ; Bit Clear in SREG
+089C:	FF-CF       	rjmp .-2              ; Relative Jump
+089E:	30-31       	cpi r19, 0x10         ; Compare with Immediate
+08A0:	33-39       	cpi r19, 0x93         ; Compare with Immediate
+08A2:	48-53       	subi r20, 0x38        ; Subtract Immediate
+08A4:	56-5F       	subi r21, 0xf6        ; Subtract Immediate
+08A6:	61-63       	ori r22, 0x31         ; Logical OR with Immediate
+08A8:	64-67       	ori r22, 0x74         ; Logical OR with Immediate
+08AA:	68-6C       	ori r22, 0xc8         ; Logical OR with Immediate
+08AC:	6D-6E       	ori r22, 0xed         ; Logical OR with Immediate
+08AE:	72-74       	andi r23, 0x42        ; Logical AND with Immediate
+08B0:	78-79       	andi r23, 0x98        ; Logical AND with Immediate
+08B2:	7B-7D       	andi r23, 0xdb        ; Logical AND with Immediate
+08B4:	00-20       	and r0, r0            ; Logical AND
+08B6:	20-20       	and r2, r0            ; Logical AND
+08B8:	20-20       	and r2, r0            ; Logical AND
+08BA:	20-20       	and r2, r0            ; Logical AND
+08BC:	20-20       	and r2, r0            ; Logical AND
+08BE:	20-20       	and r2, r0            ; Logical AND
+08C0:	20-20       	and r2, r0            ; Logical AND
+08C2:	20-20       	and r2, r0            ; Logical AND
+08C4:	20-20       	and r2, r0            ; Logical AND
+08C6:	20-20       	and r2, r0            ; Logical AND
+08C8:	20-20       	and r2, r0            ; Logical AND
+08CA:	20-20       	and r2, r0            ; Logical AND
+08CC:	20-20       	and r2, r0            ; Logical AND
+08CE:	20-20       	and r2, r0            ; Logical AND
+08D0:	20-20       	and r2, r0            ; Logical AND
+08D2:	20-20       	and r2, r0            ; Logical AND
+08D4:	20-20       	and r2, r0            ; Logical AND
+08D6:	20-20       	and r2, r0            ; Logical AND
+08D8:	20-20       	and r2, r0            ; Logical AND
+08DA:	20-20       	and r2, r0            ; Logical AND
+08DC:	20-20       	and r2, r0            ; Logical AND
+08DE:	20-20       	and r2, r0            ; Logical AND
+08E0:	00-00       	nop                   ; No Operation
+08E2:	00-00       	nop                   ; No Operation
+08E4:	00-1D       	adc r16, r0           ; Add with Carry
+08E6:	01-7D       	andi r16, 0xd1        ; Logical AND with Immediate
+08E8:	00-AA       	std Y+48, r0          ; Store Indirect From Register to Data Space
+08EA:	00-6A       	ori r16, 0xa0         ; Logical OR with Immediate
+08EC:	01-DB       	rcall .+5634          ; Relative Call to Subroutine
+08EE:	00-B9       	out 0x00, r16         ; Store Register to I/O Location
+08F0:	00-CD       	rjmp .-1536           ; Relative Jump
+08F2:	00-0D       	add r16, r0           ; Add without Carry
+08F4:	0A-00       	.data 0x000a          ; Binary data
