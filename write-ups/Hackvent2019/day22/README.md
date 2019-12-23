@@ -10,55 +10,79 @@ to know the old command. So, now it's on you to help out Santa._
 
 ---
 
-https://en.wikipedia.org/wiki/ATmega328
+The first leet challenge, let's see!
 
-https://electronics.stackexchange.com/questions/16670/avr-disassembler-with-named-register-support
+Googling for `100000000C9435000C945D000C945D000C945D0024` points us to [Arduino](https://www.arduino.cc/).
+We know from the challenge description that Santa _bought this gadget when it was released in 2010_ which
+points us specifically to [Arduino Uno](https://en.wikipedia.org/wiki/Arduino_Uno) and 
+[Microchip ATmega328P](https://en.wikipedia.org/wiki/ATmega328). The important thing is that we should focus on `avr5`
+architecture.
 
-https://github.com/twinearthsoftware/AVRDisassembler
+The next I was googling for some info on how to reverse it. Turns out that the support is not so good but there
+is a couple of tools. Namely, I used:
+- [disassembler.io](https://onlinedisassembler.com/static/home/index.html)
+- [avr-objdump](http://ccrma.stanford.edu/planetccrma/man/man1/avr-objdump.1.html)
+- [AVRDisassembler](https://github.com/twinearthsoftware/AVRDisassembler)
 
-avr-objdump -s -m avr5 thecommand7.hex > thecommand7.dump
+## disassembler.io
+Not so great for actual reversing (or maybe I had use it improperly) but helped me a lot by showing me the alphabet
+for the flag:
 
+![](disassembler.io.png)
 
-avr-objdump -d -j .sec1 -m avr5 thecommand7.hex
+This data is surely used for constructing the flag!
 
-https://github.com/twinearthsoftware/AVRDisassembler
+I got a similar output using `avr-objdump`: 
+```
+$ avr-objdump -s -m avr5 thecommand7.data
+...
+0870 661f771f 881f991f 1a9469f7 60957095  f.w.......i.`.p.
+0880 80959095 9b01ac01 bd01cf01 0895ee0f  ................
+0890 ff1f0590 f491e02d 0994f894 ffcf3031  .......-......01
+08a0 33394853 565f6163 6467686c 6d6e7274  39HSV_acdghlmnrt
+08b0 78797b7d 00202020 20202020 20202020  xy{}.           
+08c0 20202020 20202020 20202020 20202020                  
+08d0 20202020 20202020 20202020 20202020                  
+08e0 00000000 001d017d 00aa006a 01db00b9  .......}...j....
+08f0 00cd000d 0a00                        ......   
+```
+See [thecommand7.dump](thecommand7.dump)
 
+## AVRDisassembler
+For the actual disassembling I used [AVRDisassembler](https://github.com/twinearthsoftware/AVRDisassembler) and
+`avr-objdump -d -j .sec1 -m avr5 thecommand7.data`. The output is quite similar but I liked AVRDisassembler a bit 
+better. See [AVRDisassembler.txt](AVRDisassembler.txt). I don't why but none of the tools was able to identify
+the DATA section correctly. Luckily, I already knew it's there from the previous step.
 
-089E:	30-31       	cpi r19, 0x10   
-08A0:	33-39       	cpi r19, 0x93   
-08A2:	48-53       	subi r20, 0x38  
-08A4:	56-5F       	subi r21, 0xf6  
-08A6:	61-63       	ori r22, 0x31   
-08A8:	64-67       	ori r22, 0x74   
-08AA:	68-6C       	ori r22, 0xc8   
-08AC:	6D-6E       	ori r22, 0xed   
-08AE:	72-74       	andi r23, 0x42  
-08B0:	78-79       	andi r23, 0x98  
-08B2:	7B-7D       	andi r23, 0xdb  
+Now, the idea was to simply look for the parts which are assembling the flag. And indeed there is something very
+suspicious:
+```
+0584:	80-91-02-01 	lds r24, 0x0102       ; Load Direct from Data Space (32-bit)
+0588:	80-93-34-01 	sts 0x0134, r24       ; Store Direct to Data Space
+058C:	80-91-14-01 	lds r24, 0x0114       ; Load Direct from Data Space (32-bit)
+0590:	80-93-1B-01 	sts 0x011b, r24       ; Store Direct to Data Space
+0594:	80-91-11-01 	lds r24, 0x0111       ; Load Direct from Data Space (32-bit)
+0598:	80-93-2A-01 	sts 0x012a, r24       ; Store Direct to Data Space
+059C:	80-91-02-01 	lds r24, 0x0102       ; Load Direct from Data Space (32-bit)
+05A0:	80-93-25-01 	sts 0x0125, r24       ; Store Direct to Data Space
+05A4:	80-91-00-01 	lds r24, 0x0100       ; Load Direct from Data Space (32-bit)
+05A8:	80-93-3C-01 	sts 0x013c, r24       ; Store Direct to Data Space
+05AC:	80-91-02-01 	lds r24, 0x0102       ; Load Direct from Data Space (32-bit)
+05B0:	80-93-22-01 	sts 0x0122, r24       ; Store Direct to Data Space
+05B4:	80-91-13-01 	lds r24, 0x0113       ; Load Direct from Data Space (32-bit)
+05B8:	80-93-1E-01 	sts 0x011e, r24       ; Store Direct to Data Space
+05BC:	80-91-12-01 	lds r24, 0x0112       ; Load Direct from Data Space (32-bit)
+05C0:	80-93-38-01 	sts 0x0138, r24       ; Store Direct to Data Space
+05C4:	80-91-10-01 	lds r24, 0x0110       ; Load Direct from Data Space (32-bit)
+...
+```
 
-:1008 9E00 30 31 33 39 48 53 56 5F 61 63 64 67 6 8 6C 6D 6E EF
-:1008 AE00 72 74 78 79 7B 7D 00 2020202020202020204B
+The code is loading data (bytes) from similar addresses (`0x0102`, `0x0114`, `0x0111` ..) and storing it again into
+a close range of addresses (`0x0134`, `0x011b`, `0x012a`, ..). The "DATA" addresses are reused (which is expected - some
+letters will surely repeat) but the _storage_ addresses are unique. That looks good!
 
-089E: 01
-08A0: 39
-08A2: HS
-08A4: V_
-08A6: ac
-08A8: dg
-08AA: hl
-08AC: mn
-08AE: rt
-08B0: xy
-08B2: {}
-
-
-HV19{S...}
-HV19{Santa_...}
-
-x, x+2, x-3, x-1, x18.. 
-
-HV19{H3y_Sl3dg3_m33t_m3_at_th3_n3xt_c0rn3r}
-
+I recovered it by hand and ordered by the _storage_ address:
+```
 0x0117  0x0104  H
 0x0118  0x0106  V
 0x0119  0x0101  1
@@ -102,3 +126,6 @@ HV19{H3y_Sl3dg3_m33t_m3_at_th3_n3xt_c0rn3r}
 0x013f  0x0102  3
 0x0140  0x0110  r
 0x0141  0x0115  }
+```  
+ 
+The flag is `HV19{H3y_Sl3dg3_m33t_m3_at_th3_n3xt_c0rn3r}`
