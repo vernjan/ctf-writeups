@@ -25,6 +25,7 @@ Solutions for CTF [HACKvent 2019](https://academy.hacking-lab.com/events/6)
 - [HV19.21 Happy Christmas 256 (hard)](day21/README.md)
 - [HV19.22 The command ... is lost (leet)](day22/README.md)
 - [HV19.23 Internet Data Archive (leet)](day23/README.md)
+- [HV19.24 ham radio (leet)](day24/README.md)
 
 
 ## Hiddens
