@@ -1,10 +1,11 @@
-# 06 - E(gg)-Mail
+# 07 - E(gg)-Mail
 _A friend of yours sniffed some E-Mail communication, and extracted a message for you. Inspect the file he provided, in order to find an easter egg._
 
 [egg_mail.txt](egg_mail.txt)
 
 ---
 
+Decode from Base64 and extract all PNGs:
 ```
 $ cat egg_mail.txt | tr -d '\n' | base64 -d > egg_mail.bin
 $ binwalk -D 'png image:png' egg_mail.bin 
