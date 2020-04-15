@@ -12,3 +12,4 @@ Some of the original challenges are no longer available in the archive.
 - [07 - E(gg)-Mail](ch07/README.md)
 - [~~09 - Wise Rabbit~~](ch09/README.md)
 - [10 - Hidden Egg](ch10/README.md)
+- [14 - Bunny Research](ch14/README.md)
