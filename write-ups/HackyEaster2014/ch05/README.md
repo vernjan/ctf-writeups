@@ -1,8 +1,8 @@
 # 05 - PetShop 
 
-_Every child would love that shop! You will like it, too, because an easter egg is hidden in it._
+Every child would love that shop! You will like it, too, because an easter egg is hidden in it.
 
-_Hint: hidden does not mean steganography - download the image in full size, and use your eyes._
+Hint: hidden does not mean steganography - download the image in full size, and use your eyes.
 
 ![](pet_shop.jpg)
 

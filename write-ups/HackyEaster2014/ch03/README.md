@@ -1,6 +1,6 @@
 # 03 - Whooo whooo!
 
-_This feathered friend's hint will guide you to an easter egg..._
+This feathered friend's hint will guide you to an easter egg...
 
 ![](whooowhooo.png)
 

@@ -1,8 +1,8 @@
 # 02 - Challenge Two
 
-_Dude, where's challenge 2?_
+Dude, where's challenge 2?
 
-_It should be here: [Challenge Two](https://he-archive.sieber.space/challenge-two)_
+It should be here: [Challenge Two](https://he-archive.sieber.space/challenge-two)
 
 ![](challenge_two.png)
 

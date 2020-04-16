@@ -1,6 +1,6 @@
 # 04 - Nothing to see here
 
-_There's nothing to see here. Go back. Please follow the order. Go back._
+There's nothing to see here. Go back. Please follow the order. Go back.
 
 ![](nothingtoseehere.jpg)
 
