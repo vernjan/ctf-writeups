@@ -15,3 +15,4 @@ Some of the original challenges are no longer available in the archive.
 - [09 - Bunny Research](ch09/README.md)
 - [~~10 - Paper Chase~~](ch10/README.md)
 - [11 - Broken Egg](ch11/README.md)
+- [12 - Number Cracker](ch12/README.md)
