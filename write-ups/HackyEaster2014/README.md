@@ -2,9 +2,6 @@
 
 Solutions for [Hacky Easter Archive](https://he-archive.sieber.space/) 2014.
 
-Some original challenges are no longer available in the archive
-and therefore some of them have different numbers.
-
 - [01 - Your First Egg](ch01/README.md)
 - [02 - Challenge Two](ch02/README.md)
 - [03 - Whooo whooo!](ch03/README.md)
@@ -19,3 +16,4 @@ and therefore some of them have different numbers.
 - [12 - Number Cracker](ch12/README.md)
 - [13 - Lost in Transformation](ch13/README.md)
 - [14 - Tap the Xap](ch14/README.md)
+- [15 - Boolean 101](ch15/README.md)

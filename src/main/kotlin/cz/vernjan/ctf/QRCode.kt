@@ -6,9 +6,21 @@ import javax.swing.ImageIcon
 import javax.swing.JFrame
 import javax.swing.JLabel
 
-class QRCode(qr: BufferedImage, squareSizeInPixels: Int) {
+class QRCode(val data: Array<BooleanArray>) {
 
-    val data: Array<BooleanArray> = readQRCode(qr, squareSizeInPixels)
+    companion object {
+        fun fromImage(qr: BufferedImage, squareSizeInPixels: Int): QRCode {
+            val data: Array<BooleanArray> = (0 until qr.height step squareSizeInPixels).map { y ->
+                (0 until qr.width step squareSizeInPixels)
+                    .map { x -> qr.getRGB(x, y) }
+                    .map { Color(it) == Color.BLACK }
+                    .toBooleanArray()
+            }.toTypedArray()
+
+            return QRCode(data)
+        }
+    }
+
     val width = data.size
 
     fun printASCII() {
@@ -35,15 +47,6 @@ class QRCode(qr: BufferedImage, squareSizeInPixels: Int) {
         frame.defaultCloseOperation = JFrame.EXIT_ON_CLOSE
         frame.add(JLabel(ImageIcon(image)))
         frame.pack()
-    }
-
-    private fun readQRCode(qr: BufferedImage, squareSizeInPixels: Int): Array<BooleanArray> {
-        return (0 until qr.height step squareSizeInPixels).map { y ->
-            (0 until qr.width step squareSizeInPixels)
-                .map { x -> qr.getRGB(x, y) }
-                .map { Color(it) == Color.BLACK }
-                .toBooleanArray()
-        }.toTypedArray()
     }
 
 }

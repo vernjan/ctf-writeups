@@ -6,7 +6,7 @@ import java.awt.image.BufferedImage
 
 fun main() {
     val codeImage: BufferedImage = Resources.asImage("hv19/day09/barcode.png")
-    val qrCode = QRCode(codeImage, 5)
+    val qrCode = QRCode.fromImage(codeImage, 5)
     val rule30: List<List<Boolean>> = generateRule30(33)
 
     qrCode.data.forEachIndexed { rowIndex, row ->
