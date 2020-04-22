@@ -17,3 +17,4 @@ Solutions for [Hacky Easter Archive](https://he-archive.sieber.space/) 2014.
 - [13 - Lost in Transformation](ch13/README.md)
 - [14 - Tap the Xap](ch14/README.md)
 - [15 - Boolean 101](ch15/README.md)
+- [16 - Jurassic Hack](ch16/README.md)
