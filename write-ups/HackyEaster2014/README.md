@@ -19,3 +19,4 @@ Solutions for [Hacky Easter Archive](https://he-archive.sieber.space/) 2014.
 - [15 - Boolean 101](ch15/README.md)
 - [16 - Jurassic Hack](ch16/README.md)
 - [17 - Egg Safe](ch17/README.md)
+- [18 - Paper and Pen](ch18/README.md)
