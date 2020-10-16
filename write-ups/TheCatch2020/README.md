@@ -12,3 +12,4 @@
     - [Malware spreading (2p)](02-malware-research-facility/01-malware-spreading/README.md)
     - [Attachment analysis (3p)](02-malware-research-facility/02-attachment-analysis/README.md)
     - [Downloaded file (3p)](02-malware-research-facility/03-downloaded-file/README.md)
+    - [The Connection (4p)](02-malware-research-facility/04-connection/README.md)
