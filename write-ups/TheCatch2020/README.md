@@ -14,3 +14,4 @@
     - [Downloaded file (3p)](02-malware-research-facility/03-downloaded-file/README.md)
     - [The Connection (4p)](02-malware-research-facility/04-connection/README.md)
     - [Botnet master (4p)](02-malware-research-facility/05-botnet-master/README.md)
+    - [Ransomware (5p)](02-malware-research-facility/06-ransomware/README.md)
