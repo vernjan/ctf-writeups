@@ -28,8 +28,33 @@ class ExtensionsKtTest {
     }
 
     @Test
-    fun toHex() {
+    fun intToHex() {
         assertEquals("1000", 4096.toHex())
+    }
+
+    @Test
+    fun hexToInt() {
+        assertEquals(4096, "1000".hexToInt())
+    }
+
+    @Test
+    fun decodeBase64() {
+        assertEquals("Hello", "SGVsbG8=".decodeBase64())
+    }
+
+    @Test
+    fun encodeBase64() {
+        assertEquals("SGVsbG8=", "Hello".encodeBase64())
+    }
+
+    @Test
+    fun hexToBase64() {
+        assertEquals("SGVsbG8=", "48656c6c6f".hexToBase64())
+    }
+
+    @Test
+    fun base64ToHex() {
+        assertEquals("48656c6c6f", "SGVsbG8=".base64ToHex())
     }
 
     @Test
