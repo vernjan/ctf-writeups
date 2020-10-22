@@ -1,8 +1,11 @@
 # The Catch 2020
 
+This year I was able to crack all the challenges!
+
 - **The Story**
     - [Intro (0p)](00-story/00-intro.md)
     - [Promotion (0p)](00-story/01-promotion.md)
+    - [Epilogue (0p)](00-story/02-epilogue.md)
 - **The Training Ground**
     - [Malicious e-mails (1p)](01-training-ground/01-malicious-emails/README.md)
     - [Spam everywhere (1p)](01-training-ground/02-spam-everywhere/README.md)

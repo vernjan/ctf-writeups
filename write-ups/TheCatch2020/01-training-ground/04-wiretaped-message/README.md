@@ -83,6 +83,8 @@ $ xxd message
 There is an obvious pattern: A list of `Base64` encoded messages separated with __2 bytes__.
 The first byte is always one of `00`, `01` or `02` and the second byte appears to be kind of random.
 
+_Edit: It's not random, it is the message length!_
+
 I split the message by those 2 bytes and decoded with `Base64`
 (see [WiretapedMessages.kt](../../../../src/main/kotlin/cz/vernjan/ctf/catch20/WiretapedMessages.kt)):
 
