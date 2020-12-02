@@ -20,14 +20,6 @@ Let's try [Caesar cihper](https://www.dcode.fr/caesar-cipher):
 Verse 3 done! Off with you! Get back to work! You're not done here...
 ```
 
-💡 Fun fact, the original verse 3 is:
-```
-On the third day of Christmas my true love sent to me
-Three french hens
-Two turtle doves, and
-A partridge in a pear tree
-``` 
-
 Apply the same ROT+23 to the second part of the message (the **Q**uick **R**esponse).
 See [qr-decrypted](qr-decrypted).
 
@@ -43,3 +35,13 @@ Finally, enhance the black color:
 ![](qr-black.jpg)
 
 The first flag is `HV20{34t-sl33p-haxx-rep34t}`
+
+---
+
+💡 Fun fact, the original verse 3 is:
+```
+On the third day of Christmas my true love sent to me
+Three french hens
+Two turtle doves, and
+A partridge in a pear tree
+``` 

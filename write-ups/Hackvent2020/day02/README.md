@@ -20,10 +20,6 @@ how it is encoded in `UTF-16`:
 
 ![](utf16.png)
 
-```
-736D 616C 6C2D 656C 6567 616E 742D 6275 7474 6572 666C 792D 6C6F 7665 732D 6772 6173 732D 6D75 642D 686F 7273
-```
-
 Obviously, those are all ASCII characters glued together:
 ```
 73 6D 61 6C 6C 2D 65 6C 65 67 61 6E 74 2D 62 75 74 74 65 72 66 6C 79 2D 6C 6F 76 65 73 2D 67 72 61 73 73 2D 6D 75 64 2D 68 6F 72 73
@@ -35,6 +31,8 @@ small-elegant-butterfly-loves-grass-mud-hors
 ```
 
 The flag is `HV20{small-elegant-butterfly-loves-grass-mud-horse}`
+
+---
 
 💡 Fun fact, `恭喜！收旗爲：` is a real Chinese and translates to:
 
