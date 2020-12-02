@@ -18,4 +18,4 @@ Easy start. Let's see what's in the _alpha_ channel. I used [Stegsolve](http://w
 
 ![](hackvent-solved.png)
 
-The flag is: `HV20{7vxFXB-ItHnqf-PuGNqZ}` 
+The flag is `HV20{7vxFXB-ItHnqf-PuGNqZ}` 

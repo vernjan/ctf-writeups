@@ -20,7 +20,7 @@ Let's try [Caesar cihper](https://www.dcode.fr/caesar-cipher):
 Verse 3 done! Off with you! Get back to work! You're not done here...
 ```
 
-BTW, the original verse 3 is:
+💡 Fun fact, the original verse 3 is:
 ```
 On the third day of Christmas my true love sent to me
 Three french hens
@@ -42,4 +42,4 @@ Finally, enhance the black color:
 
 ![](qr-black.jpg)
 
-The first flag is: `HV20{34t-sl33p-haxx-rep34t}`
+The first flag is `HV20{34t-sl33p-haxx-rep34t}`
