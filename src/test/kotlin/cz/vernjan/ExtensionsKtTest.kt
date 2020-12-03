@@ -71,5 +71,14 @@ class ExtensionsKtTest {
     fun rot13AllChars() {
         assertEquals("[nN1-mM2]", "[aA1-zZ2]".rot13())
     }
+
+    @Test
+    fun transpose() {
+        val array = arrayOf(arrayOf('A', 'B', 'C'), arrayOf('D', 'E', 'F'))
+
+        val transposed = array.transpose()
+
+        assertArrayEquals(arrayOf(arrayOf('A', 'D'), arrayOf('B', 'E'), arrayOf('C', 'F')), transposed)
+    }
 }
 

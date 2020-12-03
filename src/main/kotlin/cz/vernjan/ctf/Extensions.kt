@@ -36,3 +36,25 @@ fun String.rot13(): String = this
 
 private fun rotateChar(char: Char, shift: Int, lowerBound: Char, upperBound: Char): Char =
         if (char + shift <= upperBound) char + shift else lowerBound - 1 + (char + shift - upperBound)
+
+
+
+inline fun <reified T : Any> Array<Array<T>>.transpose(): Array<Array<T>> {
+    val width = first().size
+    val height = size
+
+    val result = Array(width) { arrayOfNulls<T>(height) }
+
+    for (i in 0 until width) {
+        for (j in 0 until height) {
+            val ch = this[j][i]
+            result[i][j] = ch
+        }
+    }
+
+    return result.map { it.requireNoNulls() }.toTypedArray()
+}
+
+fun <T> Array<Array<T>>.print() {
+    forEach { println(it.contentToString()) }
+}
