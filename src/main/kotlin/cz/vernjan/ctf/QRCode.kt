@@ -9,9 +9,9 @@ import javax.swing.JLabel
 class QRCode(val data: Array<BooleanArray>) {
 
     companion object {
-        fun fromImage(qr: BufferedImage, squareSizeInPixels: Int): QRCode {
-            val data: Array<BooleanArray> = (0 until qr.height step squareSizeInPixels).map { y ->
-                (0 until qr.width step squareSizeInPixels)
+        fun fromImage(qr: BufferedImage, squareSizeInPixels: Int, margin: Int = 0): QRCode {
+            val data: Array<BooleanArray> = (margin until (qr.height - margin) step squareSizeInPixels).map { y ->
+                (margin until (qr.width - margin) step squareSizeInPixels)
                     .map { x -> qr.getRGB(x, y) }
                     .map { Color(it) == Color.BLACK }
                     .toBooleanArray()
