@@ -162,3 +162,39 @@ $ unzip decrypted.zip flag.bin
 $ cat flag.bin | base64 -d
 HV20{ZipCrypt0_w1th_kn0wn_pla1ntext_1s_easy_t0_decrypt}
 ```
+
+## HV20.H1 It's a secret!
+
+The flag is hidden in one of the files from the password protected archive:
+```
+$ unzip decrypted.zip
+$ for f in 00*.bin; do cat $f | base64 -d; done | strings -n 20
+��=Y�=��BP�p(�v��j/P�
+�T��rC�5���g�tw�c�0��
+�y��3d�>.�(�)Lu�fH�zv
+��j�k���>O�i2M�g&�`��Ѻ
+;>>>>   HV20{it_is_always_worth_checking_everywhere_and_congratulations,_you_have_found_a_hidden_flag}   <<<<�
+|�j�T4\OQbj�ptŲEX�
+```
+
+The flag is `HV20{it_is_always_worth_checking_everywhere_and_congratulations,_you_have_found_a_hidden_flag}`
+
+---
+
+💡 Fun fact, you can guess which file contains the hidden flag by the compression ratio
+(which is higher for compressed plain text in comparison to random data):
+```
+$ unzip -lv package2.zip 
+Archive:  package2.zip
+  Length   Method    Size  Cmpr    Date    Time   CRC-32   Name
+ --------  ------  ------- ---- ---------- ----- --------  ----
+...
+     172  Defl:N      158   8% 11-24-2020 09:07 f66aa2d4  0040.bin
+     172  Defl:N      158   8% 11-24-2020 09:07 13caa955  0041.bin
+     172  Defl:N      152  12% 11-24-2020 09:07 073b6ebc  0042.bin
+     172  Defl:N      159   8% 11-24-2020 09:07 c7431488  0043.bin
+     172  Defl:N      159   8% 11-24-2020 09:07 af1a231d  0044.bin
+
+$ cat 0042.bin | base64 -d
+ُ�F�U�>>>>   HV20{it_is_always_worth_checking_everywhere_and_congratulations,_you_have_found_a_hidden_flag}   <<<<���i�aO�^7%
+```
