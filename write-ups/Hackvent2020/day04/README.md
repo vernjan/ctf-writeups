@@ -51,7 +51,7 @@ GB  -> 0110
 
 To avoid stupid mistakes, I wrote a small decoder:
 ```kotlin
-fun main() {
+fun cz.vernjan.ctf.hv20.cz.vernjan.ctf.hv20.cz.vernjan.ctf.hv20.main() {
     val beads = "GPRYPGBPRGPGBPRGBYPGBYPGBPBYPBYPGBYPRYPBYPPGBYPGYPGYPBYPBYPGPGBPRGBPBYPGBYPBYPGP"
 
     val flag = beads.split('P').dropLast(1)

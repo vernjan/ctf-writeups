@@ -29,7 +29,7 @@ I used both [Hopper Disassembler](https://www.hopperapp.com/download.html) and [
 Here is the relevant output from Hopper:
 
 ```
-int main(int arg0, int arg1) {
+int cz.vernjan.ctf.hv20.cz.vernjan.ctf.hv20.cz.vernjan.ctf.hv20.main(int arg0, int arg1) {
     printf("Enter Password: ");
     fgets(&var_10, 0x10, *__TMC_END__); // Read the password from CLI
     rax = hash(&var_10); // Do some magic

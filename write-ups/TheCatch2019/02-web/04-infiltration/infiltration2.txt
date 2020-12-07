@@ -153,7 +153,7 @@ value = finalize(value)
 value = finish(value)
 retunr value
 
-def main():
+def cz.vernjan.ctf.hv20.cz.vernjan.ctf.hv20.cz.vernjan.ctf.hv20.main():
     if sys.version_info[0] < 3:
         print("ERROR: Python3 required.")
         exit(1)

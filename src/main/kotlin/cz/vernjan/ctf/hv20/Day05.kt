@@ -1,3 +1,5 @@
+package cz.vernjan.ctf.hv20
+
 import java.lang.AssertionError
 
 fun main() {

@@ -3,7 +3,7 @@ _Hi Commander,_
 
 _our scanners have discovered new webserver in Berserker's network. According to the rumours, there should be a lot of
 interesting stuff - mysterious `Berserker's manifest`, tutorials for other rebelling machines, etc. We want to download
-these materials, but the main page contains something like inverse captcha - the visitor has to prove that he is not
+these materials, but the cz.vernjan.ctf.hv20.cz.vernjan.ctf.hv20.cz.vernjan.ctf.hv20.main page contains something like inverse captcha - the visitor has to prove that he is not
 human. You have to overcame this obstacle and gain the access to the Berserker's web._
   
 _On the [Berserker's web](http://challenges.thecatch.cz/c2619b989b7ae5eaf6df8047e6893405/), there you get a list of

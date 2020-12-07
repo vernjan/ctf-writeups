@@ -72,7 +72,7 @@ class Updater():
 			return "{}-{}".format(self.bid, code)
 		else:
 			return "{}-{}".format(self.bid, "bae60998ffe4923b131e3d6e4c19993e")
-def main():
+def cz.vernjan.ctf.hv20.cz.vernjan.ctf.hv20.cz.vernjan.ctf.hv20.main():
 	updater = Updater('http://challenges.thecatch.cz/b41de9c55512b0169b6d284b2ea61845', 'Radecky_0279', '4s8xdqw54rqhaaht')
 	updater.unlock_interface()
 	updater.fix_the_laws()
@@ -80,7 +80,7 @@ def main():
 	print(updater.integrity_check())
 </NEW CODE>
 <RUN>
-main()
+cz.vernjan.ctf.hv20.cz.vernjan.ctf.hv20.cz.vernjan.ctf.hv20.main()
 </RUN>
 ```
 

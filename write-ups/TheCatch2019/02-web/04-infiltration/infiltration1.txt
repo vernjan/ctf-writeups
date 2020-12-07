@@ -152,7 +152,7 @@ def convert(init):
     value = finish(value)
     return value
 
-def main():
+def cz.vernjan.ctf.hv20.cz.vernjan.ctf.hv20.cz.vernjan.ctf.hv20.main():
     if sys.version_info[0] < 3:
         print("ERROR: Python3 required.")
         exit(1)

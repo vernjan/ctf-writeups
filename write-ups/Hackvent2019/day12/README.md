@@ -109,7 +109,7 @@ very simple - bytes from `06` to `33`.
 
 Finally, I wrote simple reversing program:
 ```kotlin
-fun main() {
+fun cz.vernjan.ctf.hv20.cz.vernjan.ctf.hv20.cz.vernjan.ctf.hv20.main() {
 
     // 6klzic<=bPBtdvff'yFI~on//N    
     val data = listOf(

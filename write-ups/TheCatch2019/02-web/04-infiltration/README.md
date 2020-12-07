@@ -32,7 +32,7 @@ So let's fix them using regexes:
 val codeFixed = code
     .replace("^[import]{6} ".toRegex(), "import ")
     .replace("^[def]{3} ".toRegex(), "def ")
-    .replace("^[main]{4}".toRegex(), "main")
+    .replace("^[cz.vernjan.ctf.hv20.cz.vernjan.ctf.hv20.cz.vernjan.ctf.hv20.main]{4}".toRegex(), "cz.vernjan.ctf.hv20.cz.vernjan.ctf.hv20.cz.vernjan.ctf.hv20.main")
     .replace("[return]{6} ".toRegex(), "return ")
     .replace("else$".toRegex(), "else:")
     .replace("if .*[^:]$".toRegex()) { "${it.value}:" }

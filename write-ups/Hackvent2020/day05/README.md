@@ -41,14 +41,14 @@ many options. I applied some guess work:
 
 Only 2 options left for `T` an `A`. Here is the program to decode the flag:
 ```kotlin
-fun main() {
+fun cz.vernjan.ctf.hv20.cz.vernjan.ctf.hv20.cz.vernjan.ctf.hv20.main() {
     val dna1 =
         "CTGTCGCGAGCGGATACATTCAAACAATCCTGGGTACAAAGAATAAAACCTGGGCAATAATTCACCCAAACAAGGAAAGTAGCGAAAAAGTTCCAGAGGCCAAA"
 
     val dna2 =
         "ATATATAAACCAGTTAATCAATATCTCTATATGCTTATATGTCTCGTCCGTCTACGCACCTAATATAACGTCCATGCGTCACCCCTAGACTAATTACCTCATTC"
 
-    val flag = dnaToBinary(dna1).zip(dnaToBinary(dna2))
+    val flag = cz.vernjan.ctf.hv20.dnaToBinary(dna1).zip(cz.vernjan.ctf.hv20.dnaToBinary(dna2))
         .joinToString("") {
             if (it.first == it.second) "0" else "1" // XOR
         }
@@ -60,7 +60,7 @@ fun main() {
     println(flag)
 }
 
-private fun dnaToBinary(dna: String) = dna.map {
+private fun cz.vernjan.ctf.hv20.dnaToBinary(dna: String) = dna.map {
     when (it) {
         'A' -> "00"
         'C' -> "01"
