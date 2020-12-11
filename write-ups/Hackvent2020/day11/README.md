@@ -10,13 +10,13 @@ _He also sent [this image](miami.png), but that doesn't look like Miami's skylin
 
 ---
 
-Staring at the musical sheet sparked no idea, and so I moved to the _image_.
+Staring at the musical sheet sparked no idea, and so I moved to the _image_:
 
 ![](miami.png)
 
-One of the usual things I do when doing steganalysis is a reverse search. This time it was a good call.
-I used https://tineye.com/ and was pointed here https://www.mobilefish.com/services/steganography/steganography.php.
-There is **exactly the same image** (md5s matches). So, we can rule out any deep analysis of this image
+One of the usual things I do when doing steganalysis is an image reverse search. This time it was a good call.
+I used https://tineye.com/ and it pointed me to https://www.mobilefish.com/services/steganography/steganography.php.
+On this page, there is **exactly the same image** (md5s matches). So, we can rule out any deep analysis of this image
 and save some time. Apparently, the only purpose of this image was to bring us to this site. 
 
 This site offers a steganography tool. I tried to use it on the musical sheet. The UI is rather bad, and so
@@ -27,7 +27,7 @@ I totally missed for the first time, that a file [flag.zip](flag.zip) was extrac
 The file is, of course, protected by a password. Back to the musical sheet!
 
 I had a really hard time cracking it. After some hints, here is how you do it:
-Each note has the name (a, b, c, d, e, f, g) based on its position (I knew that) but also a number
+Each note has a name (a, b, c, d, e, f, g) based on its vertical position (I knew that) but also a number
 depending on the [octave](https://en.wikipedia.org/wiki/Octave)! See the wiki for more details.
 
 ![](carol-solved.jpeg)
@@ -72,4 +72,6 @@ fun main() {
 }
 
 fun decodeColor(value: Int) = if (value == 254) "1" else "0"
+
+// h>RS8tJTNeryiwAAA==`8MC/BmZjFmYGRIZlDq7ApkAAJDI ...
 ```
