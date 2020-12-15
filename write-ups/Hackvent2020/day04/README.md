@@ -24,11 +24,13 @@ R	5×	6.25%
 TOTAL=80
 ```
 
-Purple is by far the most common. I got the idea when I highlighted purple bead positions:
+Purple is by far the most common.
+ 
+I got the idea when I highlighted purple bead positions:
 
 ![](purple-beads.png)
 
-- They are rather evenly distributed. 
+- Purple beads are rather evenly distributed. 
 - Colors NEVER repeat between purple beads.
 - Once, two purple beads are neighbors. No other color can do that.
 
