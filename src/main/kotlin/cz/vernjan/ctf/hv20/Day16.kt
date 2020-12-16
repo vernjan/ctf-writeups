@@ -1,6 +1,8 @@
 package cz.vernjan.ctf.hv20
 
-val grid = arrayOf(
+import java.lang.StringBuilder
+
+var grid = arrayOf(
     charArrayOf('#', '#', '#', '6', '_', 'e', '#', '#', '#', '#', '#', '#'),
     charArrayOf('#', '#', '#', 'i', '{', 'a', '#', '#', '#', '#', '#', '#'),
     charArrayOf('#', '#', '#', 'e', 's', '3', '#', '#', '#', '#', '#', '#'),
@@ -8,7 +10,7 @@ val grid = arrayOf(
     charArrayOf('h', '_', 'e', '0', 'k', '_', '_', 't', '_', 'n', 's', 'o'),
     charArrayOf('o', 'a', '_', 'c', 'd', 'a', '4', 'r', '5', '2', 'c', '_'),
     charArrayOf('#', '#', '#', '_', 'n', 's', '#', '#', '#', '#', '#', '#'),
-    charArrayOf('#', '#', '#', '1', '1', 't', '#', '#', '#', '#', '#', '#'),
+    charArrayOf('#', '#', '#', 'l', 'l', 't', '#', '#', '#', '#', '#', '#'),
     charArrayOf('#', '#', '#', '}', 'p', 'h', '#', '#', '#', '#', '#', '#')
 )
 
@@ -71,74 +73,219 @@ fun B() = linkedMapOf(
 )
 
 fun main() {
-    printAsGrid()
-    doSomeTests()
+//    printGrid()
+//    MoveCube.R.move()
+//    printGrid()
 
+    // System.exit(0)
+
+//    for (moveCube in MoveCube.values()) {
+//        grid = gridClone.map { it.clone() }.toTypedArray()
+//        println("Move cube: $moveCube")
+
+    for (move1 in Move.values()) {
+        println("Move: $move1")
+        for (move2 in Move.values()) {
+            for (move3 in Move.values()) {
+                for (move4 in Move.values()) {
+                    for (move5 in Move.values()) {
+                        grid = gridClone.map { it.clone() }.toTypedArray()
+                        move1.move()
+                        move2.move()
+                        move3.move()
+                        move4.move()
+                        move5.move()
+                        val result = gridToString()
+                        if (result.contains("HV20{")) {
+                            println(result)
+                            //printGrid()
+                        }
+//                        for (move6 in Move.values()) {
+//                            move6.move()
+//                            val result = gridToString()
+//                            if (result.contains("HV20{")) {
+//                                println(result)
+//                            }
+//                        }
+
+                    }
+//                    }
+                }
+
+            }
+        }
+    }
 }
 
 /**
  * Operations:
  */
 
-fun left() {
-    rotFaceRight(3, 0)
-    rotSide(LR(3, 11))
+enum class Move {
+
+    LEFT {
+        override fun move() {
+            rotFaceRight(3, 0)
+            rotSide(LR(3, 11))
+        }
+    },
+    LEFT2 {
+        override fun move() {
+            LEFT.move()
+            LEFT.move()
+        }
+    },
+    LEFT_R {
+        override fun move() {
+            rotFaceLeft(3, 0)
+            rotSide(reverse(LR(3, 11)))
+        }
+    },
+    RIGHT {
+        override fun move() {
+            rotFaceRight(3, 6)
+            rotSide(reverse(LR(5, 9)))
+        }
+    },
+    RIGHT2 {
+        override fun move() {
+            RIGHT.move()
+            RIGHT.move()
+        }
+    },
+    RIGHT_R {
+        override fun move() {
+            rotFaceLeft(3, 6)
+            rotSide(LR(5, 9))
+        }
+    },
+    UP {
+        override fun move() {
+            rotFaceRight(0, 3)
+            rotSide(UD(3))
+        }
+    },
+    UP2 {
+        override fun move() {
+            UP.move()
+            UP.move()
+        }
+    },
+    UP_R {
+        override fun move() {
+            rotFaceLeft(0, 3)
+            rotSide(reverse(UD(3)))
+        }
+    },
+    DOWN {
+        override fun move() {
+            rotFaceRight(6, 3)
+            rotSide(reverse(UD(5)))
+        }
+    },
+    DOWN2 {
+        override fun move() {
+            DOWN.move()
+            DOWN.move()
+        }
+    },
+    DOWN_R {
+        override fun move() {
+            rotFaceLeft(6, 3)
+            rotSide(UD(5))
+        }
+    },
+    FRONT {
+        override fun move() {
+            rotFaceRight(3, 3)
+            rotSide(F())
+        }
+    },
+    FRONT2 {
+        override fun move() {
+            FRONT.move()
+            FRONT.move()
+        }
+    },
+    FRONT_R {
+        override fun move() {
+            rotFaceLeft(3, 3)
+            rotSide(reverse(F()))
+        }
+    },
+    BACK {
+        override fun move() {
+            rotFaceRight(3, 9)
+            rotSide(B())
+        }
+    },
+    BACK2 {
+        override fun move() {
+            BACK.move()
+            BACK.move()
+        }
+    },
+    BACK_R {
+        override fun move() {
+            rotFaceLeft(3, 9)
+            rotSide(reverse(B()))
+        }
+    };
+
+    abstract fun move()
 }
 
-fun leftReverse() {
-    rotFaceLeft(3, 0)
-    rotSide(reverse(LR(3, 11)))
+enum class MoveSpecial {
+
+    MIDDLE_LR_BOTTOM {
+        override fun move() {
+            rotSide(LR(4, 10))
+        }
+    },
+
+    MIDDLE_UD_LEFT {
+        override fun move() {
+            rotSide(UD(4))
+        }
+    };
+
+    // TODO MIDDLE_FB_RIGHT
+
+    abstract fun move()
+
 }
 
-fun right() {
-    rotFaceRight(3, 6)
-    rotSide(reverse(LR(5, 9)))
+enum class MoveCube {
+    F {
+        override fun move() {
+            // no-op
+        }
+    },
+    R {
+        override fun move() {
+            Move.UP.move()
+            MoveSpecial.MIDDLE_UD_LEFT.move()
+            Move.DOWN_R.move()
+        }
+    },
+    B {
+        override fun move() {
+            R.move()
+            R.move()
+        }
+    },
+    L {
+        override fun move() {
+            R.move()
+            R.move()
+            R.move()
+        }
+    };
+//    T, P;
+
+    abstract fun move()
 }
 
-fun rightReverse() {
-    rotFaceLeft(3, 6)
-    rotSide(LR(5, 9))
-}
-
-fun up() {
-    rotFaceRight(0, 3)
-    rotSide(UD(3))
-}
-
-fun upReverse() {
-    rotFaceLeft(0, 3)
-    rotSide(reverse(UD(3)))
-}
-
-fun down() {
-    rotFaceRight(6, 3)
-    rotSide(reverse(UD(5)))
-}
-
-fun downReverse() {
-    rotFaceLeft(6, 3)
-    rotSide(UD(5))
-}
-
-fun front() {
-    rotFaceRight(3, 3)
-    rotSide(F())
-}
-
-fun frontReverse() {
-    rotFaceLeft(3, 3)
-    rotSide(reverse(F()))
-}
-
-fun back() {
-    rotFaceRight(3, 9)
-    rotSide(B())
-}
-
-fun backReverse() {
-    rotFaceLeft(3, 9)
-    rotSide(reverse(B()))
-}
 
 /**
  * Helper methods:
@@ -185,11 +332,28 @@ private fun rotFaceRight(upperIndex: Int, leftIndex: Int) {
     grid[upperIndex + 1][leftIndex + 2] = temp
 }
 
-fun printAsString() {
-    println(grid.joinToString("") { it.filter { it != '#' }.joinToString("") })
+fun gridToString(): String {
+    val sb = StringBuilder()
+    sb.append(faceToString(3, 3))
+    sb.append(faceToString(3, 6))
+    sb.append(faceToString(3, 9))
+    sb.append(faceToString(3, 0))
+    sb.append(faceToString(0, 3))
+    sb.append(faceToString(6, 3))
+    return sb.toString()
 }
 
-fun printAsGrid() {
+fun faceToString(upperIndex: Int, leftIndex: Int): String {
+    val sb = StringBuilder()
+    for (i in 0..2) {
+        for (j in 0..2) {
+            sb.append(grid[upperIndex + i][leftIndex + j])
+        }
+    }
+    return sb.toString()
+}
+
+fun printGrid() {
     println(grid.joinToString("\n") { it.toList().chunked(3).joinToString(" ") })
     println("")
 }
@@ -199,34 +363,12 @@ fun printAsGrid() {
  */
 
 private fun doSomeTests() {
-    right()
-    rightReverse()
+    Move.RIGHT.move()
+    Move.RIGHT_R.move()
     verifyItIsTheSame()
 
-    left()
-    leftReverse()
-    verifyItIsTheSame()
-
-    up()
-    upReverse()
-    verifyItIsTheSame()
-
-    down()
-    downReverse()
-    verifyItIsTheSame()
-
-    front()
-    frontReverse()
-    verifyItIsTheSame()
-
-    back()
-    backReverse()
-    verifyItIsTheSame()
-
-    right()
-    right()
-    right()
-    right()
+    Move.LEFT.move()
+    Move.LEFT_R.move()
     verifyItIsTheSame()
 }
 
