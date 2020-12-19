@@ -128,7 +128,7 @@ Cracking the file is not that easy. You need to apply all the hints provided in 
   (`rockyou.txt` is a very popular wordlist)
 - **real human** points to a _Smaller Wordlist (Human Passwords Only)_ from CrackStation
 - **thing he remembers is that he used his name in the password** - we can eliminate most of the passwords from the wordlist.
-  This is very important, because cracking a single password is rather slow. It requires 5,000 SHA-512 compuatations.
+  This is very important, because cracking a single password is rather slow. It requires 5,000 SHA-512 computations.
   On my i3 8100 (4 cores), I was able to check ~500 passwords per second.
 - **Use default options** for John The Ripper
 
