@@ -1,0 +1,72 @@
+{
+  "architecture": "amd64",
+  "config": {
+    "User": "bread",
+    "Env": [
+      "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+    ],
+    "Cmd": [
+      "/bin/sh",
+      "-c",
+      "tail -f /dev/null"
+    ],
+    "WorkingDir": "/home/bread/",
+    "ArgsEscaped": true,
+    "OnBuild": null
+  },
+  "created": "2020-12-08T14:41:59.119577934+11:00",
+  "history": [
+    {
+      "created": "2020-10-22T02:19:24.33416307Z",
+      "created_by": "/bin/sh -c #(nop) ADD file:f17f65714f703db9012f00e5ec98d0b2541ff6147c2633f7ab9ba659d0c507f4 in / "
+    },
+    {
+      "created": "2020-10-22T02:19:24.499382102Z",
+      "created_by": "/bin/sh -c #(nop)  CMD [\"/bin/sh\"]",
+      "empty_layer": true
+    },
+    {
+      "created": "2020-12-08T14:41:33.015297112+11:00",
+      "created_by": "RUN /bin/sh -c apk update \u0026\u0026 apk add  --update-cache --repository http://dl-3.alpinelinux.org/alpine/edge/testing/ --allow-untrusted steghide xxd # buildkit",
+      "comment": "buildkit.dockerfile.v0"
+    },
+    {
+      "created": "2020-12-08T14:41:33.4777984+11:00",
+      "created_by": "RUN /bin/sh -c adduser --disabled-password --gecos '' bread # buildkit",
+      "comment": "buildkit.dockerfile.v0"
+    },
+    {
+      "created": "2020-12-08T14:41:33.487504964+11:00",
+      "created_by": "WORKDIR /home/bread/",
+      "comment": "buildkit.dockerfile.v0"
+    },
+    {
+      "created": "2020-12-08T14:41:59.119577934+11:00",
+      "created_by": "RUN /bin/sh -c cp /tmp/t/bunnies12.jpg bunnies12.jpg \u0026\u0026 steghide embed -e loki97 ofb -z 9 -p \"bunnies12.jpg\\\\\\\" -ef /tmp/t/hidden.png -p \\\\\\\"SecretPassword\" -N -cf \"bunnies12.jpg\" -ef \"/tmp/t/hidden.png\" \u0026\u0026 mkdir /home/bread/flimflam \u0026\u0026 xxd -p bunnies12.jpg \u003e flimflam/snoot.hex \u0026\u0026 rm -rf bunnies12.jpg \u0026\u0026 split -l 400 /home/bread/flimflam/snoot.hex /home/bread/flimflam/flom \u0026\u0026 rm -rf /home/bread/flimflam/snoot.hex \u0026\u0026 chmod 0000 /home/bread/flimflam \u0026\u0026 apk del steghide xxd # buildkit",
+      "comment": "buildkit.dockerfile.v0"
+    },
+    {
+      "created": "2020-12-08T14:41:59.119577934+11:00",
+      "created_by": "USER bread",
+      "comment": "buildkit.dockerfile.v0",
+      "empty_layer": true
+    },
+    {
+      "created": "2020-12-08T14:41:59.119577934+11:00",
+      "created_by": "CMD [\"/bin/sh\" \"-c\" \"tail -f /dev/null\"]",
+      "comment": "buildkit.dockerfile.v0",
+      "empty_layer": true
+    }
+  ],
+  "os": "linux",
+  "rootfs": {
+    "type": "layers",
+    "diff_ids": [
+      "sha256:ace0eda3e3be35a979cec764a3321b4c7d0b9e4bb3094d20d3ff6782961a8d54",
+      "sha256:f9a8379022de9f439ace90e2104d99b33559d08c2e21255914d27fdc0051e0af",
+      "sha256:1c50319140b222d353c0d165923ddc72c017da86dc8f56fa77826c53eba9c20d",
+      "sha256:5f70bf18a086007016e948b04aed3b82103a36bea41755b6cddfaf10ace3c6ef",
+      "sha256:56553910173dbbe9836893f8e0a081a58208ad47385b66fbefad69caa5e687e1"
+    ]
+  }
+}
