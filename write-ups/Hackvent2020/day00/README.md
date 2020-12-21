@@ -1,4 +1,4 @@
-# HV20.(-1) Twelve steps of christmas (easy)
+# HV20.(-1) Twelve steps of christmas
 
 _On the third day of christmas my true love sent to me..._
 
