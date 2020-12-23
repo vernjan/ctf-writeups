@@ -69,7 +69,7 @@ Enter the pin `20201225`.
 
 The hint tells us: "If you get stuck, call Shamir".
 
-Browse into contacts. There are 2 contacts:
+Browse into contacts. There are 2 contacts `M` and `N` with interesting notes:
 ```
 M 6344440980251505214334711510534398387022222632429506422215055328147354699502
 N 77534090655128210476812812639070684519317429042401383232913500313570136429769
@@ -94,6 +94,87 @@ I used this handy online tool at https://www.cryptool.org/en/cto/highlights/:
 
 It decrypts into `29757593747455483525592829184976151422656862335100602522242480509` --> `0x485632307B73307272795F6E305F67616D335F746F5F706C61797D`
 --> `HV20{s0rry_n0_gam3_to_play}`
+
+The flag is `HV20{s0rry_n0_gam3_to_play}`
+
+---
+
+## Hidden flag
+
+I decrypted and extracted the backup with [iphone-dataprotection](https://github.com/dinosec/iphone-dataprotection):
+```
+$ ./python_scripts/backup_tool.py 5e8dfbc7f9f29a7645d66ef70b6f2d3f5dad8583/
+Device Name : Santas Phone
+Display Name : Santas Phone
+Last Backup Date : 2020-12-16 20:47:32
+IMEI : 013172009188964
+Serial Number : DQGJ22F8DTD2
+Product Type : iPhone4,1
+Product Version : 9.3.6
+iTunes Version : 12.11.0.26
+Extract backup to 5e8dfbc7f9f29a7645d66ef70b6f2d3f5dad8583_extract ? (y/n)
+y
+Backup is encrypted
+Enter backup password : 
+20201225
+...
+```
+
+All files were extracted into `5e8dfbc7f9f29a7645d66ef70b6f2d3f5dad8583_extract/`:
+```
+$ ls 5e8dfbc7f9f29a7645d66ef70b6f2d3f5dad8583_extract/
+AppDomain-com.apple.AccountAuthenticationDialog                     AppDomainGroup-243LU875E5.groups.com.apple.podcasts               DatabaseDomain
+AppDomain-com.apple.AppStore                                        AppDomainGroup-group.com.apple.icloud.fm                          HealthDomain
+AppDomain-com.apple.calculator                                      AppDomainGroup-group.com.apple.news                               HomeDomain
+AppDomain-com.apple.datadetectors.DDActionsService                  AppDomainGroup-group.com.apple.notes                              HomeKitDomain
+AppDomain-com.apple.facetime                                        AppDomainGroup-group.com.apple.ServerDocuments                    KeyboardDomain
+AppDomain-com.apple.gamecenter                                      AppDomainGroup-group.com.apple.stocks                             KeychainDomain
+AppDomain-com.apple.gamecenter.GameCenterUIService                  AppDomainGroup-group.com.apple.weather                            ManagedPreferencesDomain
+AppDomain-com.apple.Health                                          AppDomainPlugin-com.apple.gamecenter.TTRGameCenter                Manifest.plist
+AppDomain-com.apple.HealthPrivacyService                            AppDomainPlugin-com.apple.Health.DiagnosticExtension              MediaDomain
+AppDomain-com.apple.iBooks                                          AppDomainPlugin-com.apple.mobileme.fmf1.FMFTapToRadarExtension    MobileDeviceDomain
+AppDomain-com.apple.iCloudDriveApp                                  AppDomainPlugin-com.apple.mobileme.fmf1.TodayWidget               RootDomain
+AppDomain-com.apple.ios.StoreKitUIService                           AppDomainPlugin-com.apple.mobileme.fmip1.FMIPTapToRadarExtension  SysContainerDomain-com.apple.adid
+AppDomain-com.apple.Maps                                            AppDomainPlugin-com.apple.mobilenotes.DiagnosticExtension         SysContainerDomain-com.apple.apsd
+AppDomain-com.apple.mobilemail                                      AppDomainPlugin-com.apple.mobilenotes.NotesExtension              SysContainerDomain-com.apple.backboardd
+AppDomain-com.apple.mobileme.fmf1                                   AppDomainPlugin-com.apple.mobilenotes.SharingExtension            SysContainerDomain-com.apple.fairplayd.H1
+AppDomain-com.apple.mobileme.fmip1                                  AppDomainPlugin-com.apple.mobilenotes.SpotlightIndexExtension     SysContainerDomain-com.apple.geod
+AppDomain-com.apple.mobilenotes                                     AppDomainPlugin-com.apple.mobilesafari.SafariDiagnosticExtension  SysContainerDomain-com.apple.icloud.ifccd
+AppDomain-com.apple.mobilephone                                     AppDomainPlugin-com.apple.Music.MediaSocialShareService           SysContainerDomain-com.apple.lsd
+AppDomain-com.apple.mobilesafari                                    AppDomainPlugin-com.apple.Music.MusicCoreSpotlightExtension       SysContainerDomain-com.apple.mobilesafari
+AppDomain-com.apple.MobileStore                                     AppDomainPlugin-com.apple.news.addrssfeed                         SysSharedContainerDomain-systemgroup.com.apple.bluetooth
+AppDomain-com.apple.Music                                           AppDomainPlugin-com.apple.news.diagnosticextension                SysSharedContainerDomain-systemgroup.com.apple.configurationprofiles
+AppDomain-com.apple.news                                            AppDomainPlugin-com.apple.podcasts.DiagnosticExtension            SysSharedContainerDomain-systemgroup.com.apple.icloud.findmydevice.managed
+AppDomain-com.apple.podcasts                                        AppDomainPlugin-com.apple.podcasts.SpotlightIndexExtension        SysSharedContainerDomain-systemgroup.com.apple.icloud.ifccd
+AppDomain-com.apple.SafariViewService                               AppDomainPlugin-com.apple.ServerDocuments.ServerDocumentProvider  SysSharedContainerDomain-systemgroup.com.apple.lsd
+AppDomain-com.apple.ServerDocuments                                 AppDomainPlugin-com.apple.ServerDocuments.ServerFileProvider      SysSharedContainerDomain-systemgroup.com.apple.lsd.iconscache
+AppDomain-com.apple.share                                           AppDomainPlugin-com.apple.share.Facebook.post                     SysSharedContainerDomain-systemgroup.com.apple.media.books.managed
+AppDomain-com.apple.stocks                                          AppDomainPlugin-com.apple.share.Flickr.post                       SysSharedContainerDomain-systemgroup.com.apple.osanalytics
+AppDomain-com.apple.tips                                            AppDomainPlugin-com.apple.share.SinaWeibo.post                    SysSharedContainerDomain-systemgroup.com.apple.pisco.suinfo
+AppDomain-com.apple.weather                                         AppDomainPlugin-com.apple.share.TencentWeibo.post                 SysSharedContainerDomain-systemgroup.com.apple.regulatory_images
+AppDomain-com.apple.webapp                                          AppDomainPlugin-com.apple.share.Twitter.post                      SysSharedContainerDomain-systemgroup.com.apple.sharedpclogging
+AppDomain-com.apple.webapp1                                         AppDomainPlugin-com.apple.share.Vimeo.post                        SystemPreferencesDomain
+AppDomain-com.apple.WebContentFilter.remoteUI.WebContentAnalysisUI  AppDomainPlugin-com.apple.stocks.widget                           WirelessDomain
+AppDomain-com.apple.WebViewService                                  CameraRollDomain
+```
+
+I had no idea where to look, so I was trying some grep patterns such as `grep -Ri HV20 .` or `grep -Ri flag .`.
+No luck. In the end, I got the idea to search for encoded `HV20`. I started with Base64 encoding (`SFYyMA==`):
+```
+$ grep -Ri SFYyM .
+grep: ./HomeDomain/Library/AddressBook/AddressBook.sqlitedb: binary file matches
+```
+
+That looks good!
+
+```
+$ strings -n 8 ./HomeDomain/Library/AddressBook/AddressBook.sqlitedb | grep SFYyM
+http://SFYyMHtpVHVuM3NfYmFja3VwX2YwcmVuc2l4X0ZUV30=C66731B8-44AE-469B-9086-18A3A1F796B0
+http://SFYyMHtpVHVuM3NfYmFja3VwX2YwcmVuc2l4X0ZUV30=
+```
+
+Bingo, the hidden flag is `HV20{iTun3s_backup_f0rensix_FTW}`
+
 
 ---
 
