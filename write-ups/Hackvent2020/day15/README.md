@@ -108,7 +108,7 @@ listening on tap0, link-type EN10MB (Ethernet), capture size 262144 bytes
 
 ### Getting a reverse shell
 
-The fist step is start listening for the incoming connection (in your VM):
+The first step is start listening for the incoming connection (in your VM):
 ```
 $ nc -l -v 10.13.0.6 2797
 Ncat: Version 7.91 ( https://nmap.org/ncat )
