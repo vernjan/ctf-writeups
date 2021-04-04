@@ -16,4 +16,5 @@ Solutions for CTF [Hacky Easter 2021](https://www.hackyeaster.com/)
   - [Sunshine](level3/sunshine/README.md)
 - Level 4
   - [Hidden](level4/hidden/README.md)
+  - [Ansi Art](level4/ansi-art/README.md)
   - [No No No](level4/no-no-no/README.md)
