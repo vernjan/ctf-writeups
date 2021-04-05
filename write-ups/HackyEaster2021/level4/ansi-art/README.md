@@ -3,8 +3,6 @@ Hope you like my ansi art egg!
 
 Get it with `nc 46.101.107.117 2105`
 
-Note: The service is restarted every hour at x:00.
-
 ---
 
 Let's run the command!
