@@ -24,4 +24,5 @@ Solutions for CTF [Hacky Easter 2021](https://www.hackyeaster.com/)
 - Level 5
   - [Social Checker](level5/social-checker/README.md)
   - [😈](level5/smiling-face-horns)
+  - [Bunny Beat](level5/bunny-beat/README.md)
   - [Run Me, Baby!](level5/run-me-baby/README.md)
