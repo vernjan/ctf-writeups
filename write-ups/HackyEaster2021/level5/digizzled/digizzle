@@ -1,0 +1,168 @@
+  1           0 LOAD_CONST               0 (0)
+              2 LOAD_CONST               1 (None)
+              4 IMPORT_NAME              0 (re)
+              6 STORE_NAME               0 (re)
+
+  2           8 LOAD_NAME                0 (re)
+             10 LOAD_METHOD              1 (compile)
+             12 LOAD_CONST               2 ('^he2021\\{([dlsz134]){9}\\}$')
+             14 CALL_METHOD              1
+             16 STORE_NAME               2 (pattern)
+
+  4          18 LOAD_CONST               3 (<code object hizzle at 0x10b3ad270, file "digizzle.py", line 4>)
+             20 LOAD_CONST               4 ('hizzle')
+             22 MAKE_FUNCTION            0
+             24 STORE_NAME               3 (hizzle)
+
+ 12          26 LOAD_CONST               5 (<code object smizzle at 0x10b3ad9c0, file "digizzle.py", line 12>)
+             28 LOAD_CONST               6 ('smizzle')
+             30 MAKE_FUNCTION            0
+             32 STORE_NAME               4 (smizzle)
+
+ 15          34 LOAD_NAME                5 (print)
+             36 LOAD_CONST               7 ('-------------------------------------')
+             38 CALL_FUNCTION            1
+             40 POP_TOP
+
+ 16          42 LOAD_NAME                5 (print)
+             44 LOAD_CONST               8 ('      o                  o           ')
+             46 CALL_FUNCTION            1
+             48 POP_TOP
+
+ 17          50 LOAD_NAME                5 (print)
+             52 LOAD_CONST               9 ('      | o      o         |           ')
+             54 CALL_FUNCTION            1
+             56 POP_TOP
+
+ 18          58 LOAD_NAME                5 (print)
+             60 LOAD_CONST              10 ('    o-O   o--o   o-o o-o | o-o o-o   ')
+             62 CALL_FUNCTION            1
+             64 POP_TOP
+
+ 19          66 LOAD_NAME                5 (print)
+             68 LOAD_CONST              11 ("   |  | | |  | |  /   /  | |-' |     ")
+             70 CALL_FUNCTION            1
+             72 POP_TOP
+
+ 20          74 LOAD_NAME                5 (print)
+             76 LOAD_CONST              12 ('    o-o | o--O | o-o o-o o o-o o     ')
+             78 CALL_FUNCTION            1
+             80 POP_TOP
+
+ 21          82 LOAD_NAME                5 (print)
+             84 LOAD_CONST              13 ('             |                       ')
+             86 CALL_FUNCTION            1
+             88 POP_TOP
+
+ 22          90 LOAD_NAME                5 (print)
+             92 LOAD_CONST              14 ('         o--o                        ')
+             94 CALL_FUNCTION            1
+             96 POP_TOP
+
+ 23          98 LOAD_NAME                5 (print)
+            100 LOAD_CONST               7 ('-------------------------------------')
+            102 CALL_FUNCTION            1
+            104 POP_TOP
+
+ 24         106 LOAD_NAME                6 (input)
+            108 LOAD_CONST              15 ('enter flag:')
+            110 CALL_FUNCTION            1
+            112 STORE_NAME               7 (s)
+
+ 25         114 LOAD_NAME                2 (pattern)
+            116 LOAD_METHOD              8 (match)
+            118 LOAD_NAME                7 (s)
+            120 CALL_METHOD              1
+            122 POP_JUMP_IF_FALSE      174
+
+ 26         124 LOAD_NAME                5 (print)
+            126 LOAD_CONST              16 ('digizzling...')
+            128 CALL_FUNCTION            1
+            130 POP_TOP
+
+ 27         132 LOAD_NAME                3 (hizzle)
+            134 LOAD_NAME                7 (s)
+            136 CALL_FUNCTION            1
+            138 STORE_NAME               9 (a)
+
+ 28         140 LOAD_NAME                3 (hizzle)
+            142 LOAD_NAME                7 (s)
+            144 LOAD_CONST               1 (None)
+            146 LOAD_CONST               1 (None)
+            148 LOAD_CONST              17 (-1)
+            150 BUILD_SLICE              3
+            152 BINARY_SUBSCR
+            154 CALL_FUNCTION            1
+            156 STORE_NAME              10 (b)
+
+ 29         158 LOAD_NAME                5 (print)
+            160 LOAD_NAME                4 (smizzle)
+            162 LOAD_NAME                9 (a)
+            164 LOAD_NAME               10 (b)
+            166 CALL_FUNCTION            2
+            168 CALL_FUNCTION            1
+            170 POP_TOP
+            172 JUMP_FORWARD             8 (to 182)
+
+ 31     >>  174 LOAD_NAME                5 (print)
+            176 LOAD_CONST              18 ('wrong format!')
+            178 CALL_FUNCTION            1
+            180 POP_TOP
+        >>  182 LOAD_CONST               1 (None)
+            184 RETURN_VALUE
+
+Disassembly of <code object hizzle at 0x10b3ad270, file "digizzle.py", line 4>:
+  5           0 LOAD_CONST               1 (13)
+              2 STORE_FAST               1 (s1)
+
+  6           4 LOAD_CONST               2 (37)
+              6 STORE_FAST               2 (s2)
+
+  7           8 SETUP_LOOP              52 (to 62)
+             10 LOAD_GLOBAL              0 (range)
+             12 LOAD_GLOBAL              1 (len)
+             14 LOAD_FAST                0 (s)
+             16 CALL_FUNCTION            1
+             18 CALL_FUNCTION            1
+             20 GET_ITER
+        >>   22 FOR_ITER                36 (to 60)
+             24 STORE_FAST               3 (n)
+
+  8          26 LOAD_FAST                1 (s1)
+             28 LOAD_GLOBAL              2 (ord)
+             30 LOAD_FAST                0 (s)
+             32 LOAD_FAST                3 (n)
+             34 BINARY_SUBSCR
+             36 CALL_FUNCTION            1
+             38 BINARY_ADD
+             40 LOAD_CONST               3 (65521)
+             42 BINARY_MODULO
+             44 STORE_FAST               1 (s1)
+
+  9          46 LOAD_FAST                1 (s1)
+             48 LOAD_FAST                2 (s2)
+             50 BINARY_MULTIPLY
+             52 LOAD_CONST               3 (65521)
+             54 BINARY_MODULO
+             56 STORE_FAST               2 (s2)
+             58 JUMP_ABSOLUTE           22
+        >>   60 POP_BLOCK
+
+ 10     >>   62 LOAD_FAST                2 (s2)
+             64 LOAD_CONST               4 (16)
+             66 BINARY_LSHIFT
+             68 LOAD_FAST                1 (s1)
+             70 BINARY_OR
+             72 RETURN_VALUE
+
+Disassembly of <code object smizzle at 0x10b3ad9c0, file "digizzle.py", line 12>:
+ 13           0 LOAD_GLOBAL              0 (format)
+              2 LOAD_FAST                0 (a)
+              4 LOAD_CONST               1 ('x')
+              6 CALL_FUNCTION            2
+              8 LOAD_GLOBAL              0 (format)
+             10 LOAD_FAST                1 (b)
+             12 LOAD_CONST               1 ('x')
+             14 CALL_FUNCTION            2
+             16 BINARY_ADD
+             18 RETURN_VALUE
