@@ -18,6 +18,8 @@ fun String.encodeBase64(): String = base64Encoder.encodeToString(this.toByteArra
 fun String.hexToBase64(): String = base64Encoder.encodeToString(this.hexToByteArray())
 fun String.base64ToHex(): String = base64Decoder.decode(this).toHex()
 
+fun String.decodeBaseUrl64(): String = String(Base64.getUrlDecoder().decode(this))
+
 fun Int.toHex(): String = Integer.toHexString(this)
 fun String.hexToInt(): Int = Integer.parseInt(this, 16)
 
