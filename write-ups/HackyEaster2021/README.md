@@ -30,6 +30,7 @@ Solutions for CTF [Hacky Easter 2021](https://www.hackyeaster.com/)
   - [Run Me, Baby!](level5/run-me-baby/README.md) (easy)
 - **Level 6**
   - [46 Apes](level6/46-apes/README.md) (medium)
+  - [Eggcryptor](level6/eggcryptor/README.md) (medium)
   - [Taco Cat](level6/taco-cat/README.md) (medium)
   - [Lots of JWTs](level6/lots-of-jwts/README.md) (medium)
   - [Lost](level6/lost/README.md) (medium)
