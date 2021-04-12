@@ -11,23 +11,20 @@ import java.util.Base64;
 
 public class Eggcryptor {
 
-    private static final String alphanum = "abcdefghijklmnopqrstuvwxyz";
-
     private static final byte[] PNG_MAGIC_HEADER = {(byte) 0x89, 0x50, 0x4E, 0x47};
-    private static byte[] IV = new byte[8];
+    private static final byte[] IV = new byte[8];
 
     static {
         for (int i = 0; i < 8; ++i) {
             IV[i] = (byte) i;
         }
     }
-//    private static final byte[] PNG_MAGIC_HEADER = {(byte) 0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A};
 
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
         byte[] data = Base64.getDecoder().decode(
                 Resources.INSTANCE.asString("he21/eggcryptor.raw"));
 
-        for (char ch : "yz".toCharArray()) {
+        for (char ch : "abcdefghijklmnopqrstuvwxyz".toCharArray()) {
             System.out.println("Ch: " + ch);
             for (int i = 0; i < 10_000; i++) {
                 String pin = ch + String.format("%04d", i);
@@ -54,5 +51,4 @@ public class Eggcryptor {
         aes.init(Cipher.DECRYPT_MODE, key);
         return aes.doFinal(data);
     }
-
 }

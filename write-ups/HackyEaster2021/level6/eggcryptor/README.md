@@ -9,7 +9,7 @@ Crack it and get the Easter Egg!
 
 APK stands for [Android application package](https://en.wikipedia.org/wiki/Android_application_package).
 
-There are some good advices how to reverse APK https://stackoverflow.com/questions/1249973/decompiling-dex-into-java-sourcecode/8016997.
+There are some good advices on [how to reverse APK](https://stackoverflow.com/questions/1249973/decompiling-dex-into-java-sourcecode/8016997).
 
 ## Apktool
 
@@ -33,14 +33,15 @@ AndroidManifest.xml  apktool.yml  original  res  smali  smali_classes2
 ```
 
 This does not decompile the source code but recovers all the resources,
-such as [res/values/strings.xml](strings.xml).
+such as [res/values/strings.xml](strings.xml) and [res/raw/raw.raw](raw.raw).
 
 ## dex2jar
 
 Next, I used [dex2jar](https://github.com/pxb1988/dex2jar) to decompile the source code
-(`dex` --> `jar` --> import into [IntelliJ IDEA](https://www.jetbrains.com/idea/)).
+(`dex` → `jar` → import into [IntelliJ IDEA](https://www.jetbrains.com/idea/)).
 However, it throws:
 ```
+$ ./d2j-dex2jar.sh -f -o output_jar.jar eggcryptor.apk
 dex2jar eggcryptor.apk -> output_jar.jar
 com.googlecode.d2j.DexException: not support version.
         at com.googlecode.d2j.reader.DexFileReader.<init>(DexFileReader.java:151)
@@ -64,9 +65,9 @@ I used [Android Studio](https://developer.android.com/studio) for running the ap
 
 ![](eggcryptor.png)
 
----
+## Solution
 
-I imported all the staff into a new project.
+I imported all the staff into a new IntelliJ IDEA project and browsed the decompiled source code.
 
 [MainActivity.java](MainActivity.java):
 ```
@@ -86,9 +87,9 @@ I imported all the staff into a new project.
 }
 ```
 
-- `pattern` is regex pattern `[a-z][0-9]{4}` (look into [res/values/strings.xml](strings.xml)).
-  This is only 36^4 (1,679,616) options to brute-force.
-- `data` is the encrypted bitmap ([res/raw/raw.raw](raw.raw))
+- `pattern` is regex pattern `[a-z][0-9]{4}` (see [res/values/strings.xml](strings.xml)).
+  This is only 26*10^4 = 260,000 options to brute-force.
+- `data` is the encrypted image (see [res/raw/raw.raw](raw.raw))
 
 [Crypto.java](Crypto.java):
 ```
@@ -109,6 +110,55 @@ public static byte[] decrypt(String pin, String data) throws Exception {
 }
 ```
 
-Bingo! Pin is g0717
+Based on this, I create the decryptor:
+```java
+public class Eggcryptor {
 
-he2021{th3r3s_4_h4ck_4_th4t}
+    private static final byte[] PNG_MAGIC_HEADER = {(byte) 0x89, 0x50, 0x4E, 0x47};
+    private static final byte[] IV = new byte[8];
+
+    static {
+        for (int i = 0; i < 8; ++i) {
+            IV[i] = (byte) i;
+        }
+    }
+
+    public static void main(String[] args) {
+        byte[] data = Base64.getDecoder().decode(
+                Resources.INSTANCE.asString("he21/eggcryptor.raw"));
+
+        for (char ch : "abcdefghijklmnopqrstuvwxyz".toCharArray()) {
+            System.out.println("Ch: " + ch);
+            for (int i = 0; i < 10_000; i++) {
+                String pin = ch + String.format("%04d", i);
+                try {
+                    byte[] header = Arrays.copyOf(decrypt(pin, data), 4);
+                    if (Arrays.equals(PNG_MAGIC_HEADER, header)) {
+                        System.out.println("Bingo! Pin is " + pin);
+                        System.exit(0);
+                    }
+                } catch (Exception e) {
+                    // ignore
+                }
+            }
+        }
+    }
+
+    public static byte[] decrypt(String pin, byte[] data) throws Exception {
+        SecretKeySpec key = new SecretKeySpec(
+                SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256")
+                        .generateSecret(new PBEKeySpec(pin.toCharArray(), IV, 10000, 128))
+                        .getEncoded(), "AES");
+
+        Cipher aes = Cipher.getInstance("AES");
+        aes.init(Cipher.DECRYPT_MODE, key);
+        return aes.doFinal(data);
+    }
+}
+```
+
+It outputs: `Bingo! Pin is g0717`
+
+![](eggcryptor-solved.png)
+
+The flag is `he2021{th3r3s_4_h4ck_4_th4t}`
