@@ -29,6 +29,7 @@ Solutions for CTF [Hacky Easter 2021](https://www.hackyeaster.com/)
   - [Bunny Beat](level5/bunny-beat/README.md) (easy)
   - [Run Me, Baby!](level5/run-me-baby/README.md) (easy)
 - **Level 6**
+  - [Memeory 3.0 - The Finale](level6/memoary3/README.md) (hard)
   - [46 Apes](level6/46-apes/README.md) (medium)
   - [Eggcryptor](level6/eggcryptor/README.md) (medium)
   - [Taco Cat](level6/taco-cat/README.md) (medium)

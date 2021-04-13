@@ -7,26 +7,42 @@
 
 ---
 
-58 bytes = 2x29
+I ran into a nice rabbit hole here. Google took me on this page https://monkeysaudio.com/theory.html.
+What a perfect fit! _Monkey Audio_ encoding, and the example uses 46!
+Totally wrong..
 
-d9 0b bd dd 98 49 1d db 0c 18 89 61 99 c8145da80c59ed7d89c98119b9c588ea014d9c088ccec519dd201dd7cd4dbb81d9ae55d97d49cdcb85dccccd41
+Next I was pursuing the reverse - `sepa 64`. Sounded good. Not the right solution but it took me close.
 
-echo "2Qu93ZhJHdsMGIlhmcgUXagMWe19icmBGbnFiOoBTZwIjM7FGd0gHdfNTbuB2a5V2X1JzcuF3MzNQf==" | base64 -d | xxd -b
+The break through came when I tried to reverse the base encoded message (46 --> 64):
+```
+$ echo 2Qu93ZhJHdsMGIlhmcgUXagMWe19icmBGbnFiOoBTZwIjM7FGd0gHdfNTbuB2a5V2X1JzcuF3MzNQf | rev | base64 -d
+}s3qns2u_eyk`nm3_tx4ta{220e0h:!gl`fr/uyc iu rhe c,tragnC
+```
 
-Ideas:
+Not perfect, but the flag is here somehow...
 
-- https://monkeysaudio.com/theory.html
-- Sepa 64
-- https://en.wikipedia.org/wiki/Human_genome
+After some time I realized, that some characters are just swapped. Then and finally understand the challenge:
+```
+4<-->6 a<-->pe<-->s = 64 pase --> 64 base
+```
 
+The characters in the base encoding are swapped. Decrypting is easy:
+```kotlin
+fun main() {
+    val encrypted = "2Qu93ZhJHdsMGIlhmcgUXagMWe19icmBGbnFiOoBTZwIjM7FGd0gHdfNTbuB2a5V2X1JzcuF3MzNQf=="
+    val decrypted = arrayOfNulls<Char>(encrypted.length)
 
-00000000: 11011001 00001011 10111101 11011101 10011000 01001001  .....I
-00000006: 00011101 11011011 00001100 00011000 10001001 01100001  .....a
-0000000c: 10011001 11001000 00010100 01011101 10101000 00001100  ...]..
-00000012: 01011001 11101101 01111101 10001001 11001001 10000001  Y.}...
-00000018: 00011001 10111001 11000101 10001000 11101010 00000001  ......
-0000001e: 01001101 10011100 00001000 10001100 11001110 11000101  M.....
-00000024: 00011001 11011101 00100000 00011101 11010111 11001101  .. ...
-0000002a: 01001101 10111011 10000001 11011001 10101110 01010101  M....U
-00000030: 11011001 01111101 01001001 11001101 11001011 10000101  .}I...
-00000036: 11011100 11001100 11001101 01000001                    ...A
+    encrypted.forEachIndexed { index, _ ->
+        if (index % 2 == 0) {
+            decrypted[index] = encrypted[index + 1]
+            decrypted[index + 1] = encrypted[index]
+        }
+    }
+
+    println(decrypted.joinToString("").decodeBase64())
+}
+```
+
+Outputs: `Congrats, here is your flag: he2021{th4ts_m0nkey_bus1n3ss}`
+
+The flag is `he2021{th4ts_m0nkey_bus1n3ss}`
