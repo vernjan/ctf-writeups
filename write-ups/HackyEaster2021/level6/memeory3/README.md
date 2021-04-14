@@ -1,13 +1,36 @@
-package cz.vernjan.ctf.he21
+# Memeory 3.0 - The Finale
+We finally fixed Memeory 2.0 and proudly release Memeory 3.0 aka the supersecure-Memeory.
 
-import com.twelvemonkeys.image.ImageUtil
-import cz.vernjan.ctf.he19.ch11.MemeoryHttpClient
-import java.awt.image.BufferedImage
-import java.nio.file.Files
-import javax.imageio.ImageIO
-import kotlin.math.abs
-import kotlin.streams.asSequence
+Flagbounty for everyone who can solve 10 successive rounds. Time per round is 30 seconds and only 3 missclicks are allowed.
 
+http://46.101.107.117:2107
+
+---
+
+![](memeory.png)
+
+No way to solve this by hand.
+
+I was able to reuse most of the code from
+[Memeory 2.0](../../../HackyEaster2019/ch11/README.md).
+
+I just had to update the solving algorithm to cope with
+rotated images and different contrast.
+
+At first, I had issues reading the images in Java, but this lib fixed it:
+```
+<dependency>
+    <groupId>com.twelvemonkeys.imageio</groupId>
+    <artifactId>imageio-jpeg</artifactId>
+    <version>3.6.4</version>
+</dependency>
+```
+
+The lib also comes with some nice options for image manipulation.
+
+Here is the source code:
+
+```kotlin
 private const val BASE_URL = "http://46.101.107.117:2107"
 
 fun main() {
@@ -36,6 +59,7 @@ private fun playOneRound(client: MemeoryHttpClient) {
         }
         .toMutableList()
 
+    // Solve the round
     while (cards.isNotEmpty()) {
         if (cards.size == 2) {
             println("Playing last move")
@@ -107,3 +131,25 @@ private fun diffPixels(rgb1: Int, rgb2: Int): Int {
     val b2 = rgb2 and 0xff
     return abs(r1 - r2) + abs(g1 - g2) + abs(b1 - b2)
 }
+```
+
+Output snippet:
+```
+Searching match for 80
+Pair found: 80+37 (diff: 8.669709150326797)
+Play (80, 37): 200 ok
+
+Searching match for 21
+Pair found: 21+27 (diff: 11.248558823529411)
+Play (21, 27): 200 ok
+
+Searching match for 14
+Pair found: 14+47 (diff: 0.0)
+Play (14, 47): 200 ok
+
+Playing last move
+
+Play (5, 79): 200 ok, here is your flag: he2021{0k-1-5u44end3r-y0u-w1n!}
+```
+
+The flag is `he2021{0k-1-5u44end3r-y0u-w1n!}`
