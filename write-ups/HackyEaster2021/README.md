@@ -36,4 +36,6 @@ Solutions for CTF [Hacky Easter 2021](https://www.hackyeaster.com/)
   - [Lots of JWTs](level6/lots-of-jwts/README.md) (medium)
   - [Lost](level6/lost/README.md) (medium)
 - **Level 7**
+  - [Ghost in a Shell 2](level7/ghost-shell2/README.md) (hard)
+  - [Haxxor what 2?](level7/haxxor-what2/README.md) (hard)
 
