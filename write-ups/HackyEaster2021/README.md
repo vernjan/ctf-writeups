@@ -38,9 +38,10 @@ Solutions for CTF [Hacky Easter 2021](https://www.hackyeaster.com/)
 - **Level 7**
   - [Ghost in a Shell 2](level7/ghost-shell2/README.md) (hard)
   - [Haxxor what 2?](level7/haxxor-what2/README.md) (hard)
-  - [Haxxor what 2?](level7/haxxor-what2/README.md) (hard)
+  - [Pix FX](level7/pix-fx/README.md) (hard)
   - [Hunny Bunny](level7/hunny-bunny/README.md) (medium)
   - [Two Yolks](level7/two-yolks/README.md) (medium)
-- ** Level 8**
+- **Level 8**
+  - [The Five Seasons](level8/five-seasons/README.md) (hard)
   - [The Snake](level8/snake/README.md) (hard)
 
