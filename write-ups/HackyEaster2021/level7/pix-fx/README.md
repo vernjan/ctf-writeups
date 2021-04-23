@@ -38,14 +38,14 @@ I was able to get different error messages when I started manipulating the code:
 
 Lastly, some images has a bit weird names - _chaining_ and also _Flipper_.
 
-Carefully evaluating all the information, I was able to guess what's this is about.
+Carefully evaluating all the information, I was able to guess what's this is about:
 
-The code is **AES encrypted** (block cipher with a random IV is a perfect fit).
-AES is in **CBC mode** (the image named _chaining_ is a hint).
+> The code is **AES encrypted** (block cipher with a random IV is a perfect fit).
+> AES is in **CBC mode** (the image named _chaining_ is a hint).
 
 ## Solution
 
-Now, how we get the egg? The idea is simple, **manipulate**
+Now, how we get the egg with a readable QR code? The idea is: **manipulate**
 (using a technique called [bit flipping]([bit flipping attack](https://crypto.stackexchange.com/questions/66085/bit-flipping-attack-on-cbc-mode))) **the code
 to get the egg image with sepia effect** (that's the only effect which doesn't break the QR code).
 
