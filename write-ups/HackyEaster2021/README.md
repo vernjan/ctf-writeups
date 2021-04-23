@@ -42,6 +42,7 @@ Solutions for CTF [Hacky Easter 2021](https://www.hackyeaster.com/)
   - [Hunny Bunny](level7/hunny-bunny/README.md) (medium)
   - [Two Yolks](level7/two-yolks/README.md) (medium)
 - **Level 8**
+  - [Finding Mnemo](level8/five-seasons/README.md) (hard)
   - [The Five Seasons](level8/five-seasons/README.md) (hard)
   - [The Snake](level8/snake/README.md) (hard)
 

@@ -16,53 +16,117 @@ Submitting the form returns a similar code:
 
 ![](pixfx-code.png)
 
-I noticed two interesting things:
-1) the codes for popular FX have different sizes
+The code serves for retrieving the selected image and effect.
+In this example _a cat_ + _oil painting_:
+
+![](cat.png)
 
 A few observations:
-- the **code is always different**, even for the same combinations of the chosen image and effect
-- the **code is always 64 bytes** when submitting the form
-- however, it's only 48 bytes for some _popular FX_
-- one of _popular FX_ codes is`41E5D00E5CECC3019834C99B403DE4B24933AF3087BCE219699D7E3EB178A06F7B4717A36C617760EC0AD8BFD5DF05B2`
+- the **code is always different**, even for the same combinations of the image and effect
+- the **code length is 48 or 64 bytes**
+- one of popular FX codes is`41E5D00E5CECC3019834C99B403DE4B24933AF3087BCE219699D7E3EB178A06F7B4717A36C617760EC0AD8BFD5DF05B2`
   and it points to the egg:
   ![](choco-egg.png)
 
-There are different error messages based on the input:
+I was able to get different error messages when I started manipulating the code:
 - `Decryption Error`
-- `Error processing image null`
-  If input is 32 bytes
 - `Parse error`
-  Skipping first 32 bytes
+- `Error processing image null` for arbitrary 16 bytes message
 
+Lastly, some images has a bit weird names - _chaining_ and also _Flipper_.
 
-a cat contour:
-3B48A7178D79D5620DBBC40272502630
-65F4B859A2441D90BD217A234873CC963B48A7178D79D5620DBBC40272502630 Error processing image null
-94FFC9021EF2EC2C15FD00B2A4529FB565F4B859A2441D90BD217A234873CC963B48A7178D79D5620DBBC40272502630 Parse error
-7C1C3AF5B6BFC49B6A9D5843BB5FD57A94FFC9021EF2EC2C15FD00B2A4529FB565F4B859A2441D90BD217A234873CC963B48A7178D79D5620DBBC40272502630
-6EDA1A70E0022989F1A4DC0FA8347C1FD7D0F4AC5EF96A3F4397A3F0C797FE600F1A15DF4D9289AB1522485F36BE3EF6552A455E0D182161DC4ECAB1CD4D2310
+Carefully evaluating all the information, I was able to guess what's this is about.
 
-Flipper chocolate:
-A67A23D62E049D1089998290B4B6D3A0A5B6EFEDEFFC05B7C2C6F17FBA1CCF4126989A5A1B4D678F222F2C814C63F0B8DEDC69F92CE0A5981FEAAA9826310936
-660DC31DF4C094171EDDD2FC7FD64616A5B6EFEDEFFC05B7C2C6F17FBA1CCF4126989A5A1B4D678F222F2C814C63F0B8DEDC69F92CE0A5981FEAAA9826310936
-CE5C87EAB1059B73A57FBFA1C76B1ACCE96C10B01CF5251E467F02DB8A0DCA820154A792BC2D101A90632312AD18022EC022C77055879342BDC2501742525F63
+The code is **AES encrypted** (block cipher with a random IV is a perfect fit).
+AES is in **CBC mode** (the image named _chaining_ is a hint).
 
-chaining oil painiting:
-660DC31DF4C094171EDDD2FC7FD646168348F28F5878E4937105ED086EDCA7BF03B4E8CD33D1345612D69B885E00BFECBFDDABD0CF705FEE9C0185C679FB2827
-3B460CF2E6BA2A0E6B6DB31A1D5B02C48BB93BF447313D4597C2DE879851621F06C2D113AEC6DD299AF85CB7D5F1DDDF96BB593D322AB089367B80279E5B69DA
+Now, how we get the egg? The idea is simple, **manipulate** (technique called _bit flipping_) **the code
+to get the egg image with sepia effect** (that's the only effect which doesn't break the QR code).
 
-wise rabbit sepia toning
-4DA28E65F0EDA286FAF7D6E886D2EB45D919F98AF2CA9F603CF581D83E9517CE9FD4DCE6DCC320715ED45844EA76274D1B4B1E381415A92CF29DC5E9FF7159A7
-A0D9340C44D824C77BD23FB403E9F4500451158CE1163A9F2C0B83D8D6D0588C7E916867BD730A8297BCC9461B2A022EDCF8652FE6A8C5DF287B8AC570B17002
+To be able to manipulate the correct bytes, I needed to guess the plain text. I wrote a small script
+to fuzz the egg's code:
+```kotlin
+private const val EGG =
+    "41E5D00E5CECC3019834C99B403DE4B24933AF3087BCE219699D7E3EB178A06F7B4717A36C617760EC0AD8BFD5DF05B2"
 
-egg:
-41E5D00E5CECC3019834C99B403DE4B24933AF3087BCE219699D7E3EB178A06F7B4717A36C617760EC0AD8BFD5DF05B2
+// Fuzz the egg code
+fun main() {
+    val httpClient = HttpClient.newHttpClient()
 
-tony the pony countour:
-471AC22004490BD0A16A6D053D4DBC8C4F47307C18DDC22BD33BCDB5B6E1AABC13A64FA00E718BC2B8C2DAAE58DA1DFB
-3DEEF8DBCF07AAFAD8E3FECC35257CD2FC1D98308D6CECFE3FCA1F0B58CD265FA0B202B3E413DB9A46C7AEDBEF457804
-9656E9385A50410D1B516C5F642353F8D006C96DEA9B09FC42726D504384BD1BD89541D3B43DB99368B62F69A7D3A98E
+    for (i in 0 until 32 step 2) {
+        println("Byte position ${i / 2}")
+        for (b in listOf("00", "ff")) {
+            val code = EGG.substring(0, i) + b + EGG.substring(i + 2)
+            println("Sending $code ($b)")
+            
+            val request = HttpRequest.newBuilder()
+                .GET()
+                .uri(URI.create("http://46.101.107.117:2110/picture?code=$code")).build()
 
-000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+            val response = httpClient.send(request, HttpResponse.BodyHandlers.ofString()).body()!!
+            response.lines().filter { it.contains("<span>") }.forEach { println(it) }
+        }
+    }
+}
+```
 
-DCF8652FE6A8C5DF287B8AC570B17002
+It outputs:
+```
+Byte position 0: (41 --> 00)
+          <span>Parser Error.</span>
+Byte position 1: (E5 --> 00)
+          <span>Parser Error.</span>
+Byte position 2: (D0 --> 00)
+          <span>Unknown field &#39;�mage&#39;</span>
+Byte position 3: (0E --> 00)
+          <span>Unknown field &#39;icage&#39;</span>
+Byte position 4: (5C --> 00)
+          <span>Unknown field &#39;im=ge&#39;</span>
+Byte position 5: (EC --> 00)
+          <span>Unknown field &#39;ima�e&#39;</span>
+Byte position 6: (C3 --> 00)
+          <span>Unknown field &#39;imag�&#39;</span>
+Byte position 7: (01 --> 00)
+          <span>Parser Error.</span>
+Byte position 8: (98 --> 00)
+          <span>Parser Error.</span>
+Byte position 9: (34 --> 00)
+          <span>Parser Error.</span>
+Byte position 10: (C9 --> 00)
+          <span>Parser Error.</span>
+Byte position 11: (9B --> 00)
+          <span>Error processing image �gg</span>
+Byte position 12: (40 --> 00)
+          <span>Error processing image e&#39;g</span>
+Byte position 13: (3D --> 00)
+          <span>Error processing image egZ</span>
+Byte position 14: (E4 --> 00)
+          <span>Parser Error.</span>
+Byte position 15: (B2 --> 00)
+          <span>Parser Error.</span>
+```
+
+Okay, this is good enough to recover the plaintext: `{"image": "egg" `.
+
+Finally, let's craft the exploit. We must use one of the codes for _Tony and Pony_ (image name 
+fits into the first encrypted block) and _Sepia effect_ (to preserve the QR code).
+
+Basically, we need to change `{"image": "tony"` into `{"image": "egg" `.
+
+We will use [bit flipping attack](https://crypto.stackexchange.com/questions/66085/bit-flipping-attack-on-cbc-mode).
+
+Original code for Tony:
+```
+EEC938CA92DC0932A048F0 09 94 CA 32 7D B8B500A4B208DE1EDE75F804486C2D76E54BCC4D7358A120438CEFEF5FFF47FA
+```
+
+The payload (`09 94 CA 32 7D` xor `tony"` xor `egg" `):
+```
+EEC938CA92DC0932A048F0 1c 9c c3 69 7f B8B500A4B208DE1EDE75F804486C2D76E54BCC4D7358A120438CEFEF5FFF47FA
+```
+
+Bingo!
+
+![](egg.png)
+
+The flag is `he2021{fl1pp1n_da_b1ts_gr34t_succ355}`
