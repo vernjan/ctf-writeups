@@ -7,6 +7,8 @@ http://46.101.107.117:2110
 
 ---
 
+## Description
+
 ![](pixfx-main.png)
 
 Submitting the form returns a similar code:
@@ -21,12 +23,13 @@ In this example _a cat_ + _oil painting_:
 
 ![](cat.png)
 
-A few observations:
+## Analysis
 - the **code is always different**, even for the same combinations of the image and effect
 - the **code length is 48 or 64 bytes**
 - one of popular FX codes is`41E5D00E5CECC3019834C99B403DE4B24933AF3087BCE219699D7E3EB178A06F7B4717A36C617760EC0AD8BFD5DF05B2`
   and it points to the egg:
-  ![](choco-egg.png)
+  
+![](choco-egg.png)
 
 I was able to get different error messages when I started manipulating the code:
 - `Decryption Error`
@@ -40,7 +43,10 @@ Carefully evaluating all the information, I was able to guess what's this is abo
 The code is **AES encrypted** (block cipher with a random IV is a perfect fit).
 AES is in **CBC mode** (the image named _chaining_ is a hint).
 
-Now, how we get the egg? The idea is simple, **manipulate** (technique called _bit flipping_) **the code
+## Solution
+
+Now, how we get the egg? The idea is simple, **manipulate**
+(using a technique called [bit flipping]([bit flipping attack](https://crypto.stackexchange.com/questions/66085/bit-flipping-attack-on-cbc-mode))) **the code
 to get the egg image with sepia effect** (that's the only effect which doesn't break the QR code).
 
 To be able to manipulate the correct bytes, I needed to guess the plain text. I wrote a small script
@@ -112,8 +118,6 @@ Finally, let's craft the exploit. We must use one of the codes for _Tony and Pon
 fits into the first encrypted block) and _Sepia effect_ (to preserve the QR code).
 
 Basically, we need to change `{"image": "tony"` into `{"image": "egg" `.
-
-We will use [bit flipping attack](https://crypto.stackexchange.com/questions/66085/bit-flipping-attack-on-cbc-mode).
 
 Original code for Tony:
 ```
