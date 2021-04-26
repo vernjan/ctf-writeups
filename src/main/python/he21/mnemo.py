@@ -9,9 +9,12 @@ words = ["adapt", "bind", "bless", "blind", "civil", "craft", "garage", "good", 
 # words = mnemo.generate(strength=256)
 # print(words)
 
-seed = mnemo.to_seed(' '.join(words), passphrase="")
-print(seed)
-print(bytes(seed).hex())
+# seed = mnemo.to_seed(' '.join(words), passphrase="")
+# print(seed)
+# print(bytes(seed).hex())
 
-# entropy = mnemo.to_entropy(mylist)
-# print(entropy)
+entropy = mnemo.to_entropy(words)
+print(entropy)
+
+# words2 = mnemo.generate(strength=128)
+# print(words2)
