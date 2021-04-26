@@ -38,6 +38,7 @@ Solutions for CTF [Hacky Easter 2021](https://www.hackyeaster.com/)
 - **Level 7**
   - [Ghost in a Shell 2](level7/ghost-shell2/README.md) (hard)
   - [Haxxor what 2?](level7/haxxor-what2/README.md) (hard)
+  - [Sailor's Knot](level7/sailors-knot/README.md) (hard)
   - [Pix FX](level7/pix-fx/README.md) (hard)
   - [Hunny Bunny](level7/hunny-bunny/README.md) (medium)
   - [Two Yolks](level7/two-yolks/README.md) (medium)
