@@ -65,9 +65,11 @@ I replaced the entropy value (in a debugger) with a dummy flag `he2021{aaaaaaaaa
 
 This is looking good! The first 5 words are indeed present on Dorie's list:
 ```
-half    1272
-civil   03ec
-metal   770e
-good    d2ba
-bless   8fcf
+half    1272     836    344
+civil   03ec     333    14D
+metal   770e    1121    461
+good    d2ba     804    324
+bless   8fcf     190     BE
 ```
+
+127203ec770ed2ba8fcf
