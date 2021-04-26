@@ -23,6 +23,9 @@ fun String.decodeBaseUrl64(): String = String(Base64.getUrlDecoder().decode(this
 fun Int.toHex(): String = Integer.toHexString(this)
 fun String.hexToInt(): Int = Integer.parseInt(this, 16)
 
+@ExperimentalUnsignedTypes
+fun Byte.toBinary(): String = this.toUByte().toString(2).padStart(8, '0')
+
 fun String.rot13(): String = this
         .map {
             if (it.isLetter()) {

@@ -65,11 +65,31 @@ I replaced the entropy value (in a debugger) with a dummy flag `he2021{aaaaaaaaa
 
 This is looking good! The first 5 words are indeed present on Dorie's list:
 ```
-half    1272     836    344
-civil   03ec     333    14D
-metal   770e    1121    461
-good    d2ba     804    324
-bless   8fcf     190     BE
+half    1272
+civil   03ec
+metal   770e
+good    d2ba
+bless   8fcf
 ```
 
-127203ec770ed2ba8fcf
+I had no idea what the second column (with hex numbers) was good for. Luckily, I was able to get
+the flag without it.
+
+Here is the idea. We know the first 56 bits of entry (`he2021{`). However, to get our first 5 words,
+we need only 55 bits. 1 bit is remaining! Not much, but given there are only 19 words left, the 1 single
+bit can eliminate roughly half of them. So, we test all the words (~10) and eliminate those words which produce
+non-ascii flags.
+
+There are only 3 valid (ascii) options for the first guess!
+Again, some bits will remain unused after the second guess.
+This reduces the search space from insane (`19!`) to a very small subset.
+I wrote [Mnemo.kt](../../../../src/main/kotlin/cz/vernjan/ctf/he21/Mnemo.kt)
+to brute force the search space and check for a valid flag. It spit out 2 possible flags only:
+```
+he2021{f1sh_r_fr1ends_n0t_f00d!}
+he2021{ndsh_pt_r1dd1s_n2_ff01f!}
+```
+
+Obviously, the first one is correct.
+
+The flag is `he2021{f1sh_r_fr1ends_n0t_f00d!}`

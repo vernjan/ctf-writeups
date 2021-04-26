@@ -15,3 +15,5 @@ Get a shell and read the flag.
 This is the next level for the [LOTL](../../level5/lotl) challenge from level 5.
 
 However, this time there is no `profit` method.
+
+https://www.exploit-db.com/docs/english/28479-return-oriented-programming-(rop-ftw).pdf
