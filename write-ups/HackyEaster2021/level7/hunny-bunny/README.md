@@ -40,7 +40,7 @@ Digits are the same, letters are different. However, there is a simple pattern:
 'f' -> 'c'
 ```
 
-The first step is to fix the letters in the hashes:
+The first step is to fix the letters in all the hashes:
 ```kotlin
 fun main() {
     val encrypted = """
@@ -75,7 +75,7 @@ cae2f9fa51459f2ff38f92dc472c3275c8d6e393
 5587dac42d547e141071fbaf7c0347955516db13
 ```
 
-I used https://hashtoolkit.com/decrypt-hash to reverse the hashes:
+Now we can revert them. I used https://hashtoolkit.com/decrypt-hash:
 ```
 4de56415b91b6a5172bb79a9810b30eb5ad8dc18    he2021{
 f19d3fd5251ae76e221048fd0d445cf39ed576d0    hunnybunny

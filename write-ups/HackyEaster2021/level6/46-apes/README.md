@@ -21,9 +21,9 @@ $ echo 2Qu93ZhJHdsMGIlhmcgUXagMWe19icmBGbnFiOoBTZwIjM7FGd0gHdfNTbuB2a5V2X1JzcuF3
 
 Not perfect, but the flag is here somehow...
 
-After some time I realized, that some characters are just swapped. Then and finally understand the challenge:
+After some time I realized, that some characters are just swapped. Then I finally understood the challenge:
 ```
-4<-->6 a<-->pe<-->s = 64 pase --> 64 base
+4<-->6 a<-->p e<-->s = 64 pase --> 64 base
 ```
 
 The characters in the base encoding are swapped. Decrypting is easy:

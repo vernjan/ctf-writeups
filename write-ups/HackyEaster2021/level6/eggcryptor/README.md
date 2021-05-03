@@ -39,7 +39,7 @@ such as [res/values/strings.xml](strings.xml) and [res/raw/raw.raw](raw.raw).
 
 Next, I used [dex2jar](https://github.com/pxb1988/dex2jar) to decompile the source code
 (`dex` → `jar` → import into [IntelliJ IDEA](https://www.jetbrains.com/idea/)).
-However, it throws:
+However, decompiling throws:
 ```
 $ ./d2j-dex2jar.sh -f -o output_jar.jar eggcryptor.apk
 dex2jar eggcryptor.apk -> output_jar.jar

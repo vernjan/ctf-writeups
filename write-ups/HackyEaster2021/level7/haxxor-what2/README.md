@@ -34,7 +34,7 @@ It's quite easy to guess the key. I tried a few combinations using https://gchq.
 Once I started the key with `xor`, it became obvious this is an encrypted zip file (magic header starts with `PK`). 
 It's also obvious the key is: `xorlatan`.
 
-Having the key, we can decrypt the file (I used _CyberChef_), unzip [it](haxxorwhat2.zip) and grab egg:
+Having the key, we can decrypt the file (I used _CyberChef_), unzip [it](haxxorwhat2.zip) and grab the egg:
 
 ![](egg.png)
 

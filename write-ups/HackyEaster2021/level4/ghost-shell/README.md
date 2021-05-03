@@ -77,4 +77,4 @@ The flag is `he2021{h1dd3n_d0td0td0t!}`
 All players use the same `inky` user. You can, for example:
 - send them a message right into their console (`echo hello > /dev/pts/<NUMBER>`)
 - read their console (`cat /dev/pts/<NUMBER>`)
-- kill their sessions (`ps; kill PID for another sshd: inky@pts/<NUMBER>`)
+- kill their sessions (`ps; kill PID` of another `sshd: inky@pts/<NUMBER>`)

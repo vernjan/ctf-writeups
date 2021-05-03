@@ -8,6 +8,7 @@ Can you recover the lost flag?
 ---
 
 The document seems to be rather empty:
+
 ![](lost.png)
 
 If you mark all the text and copy, you will get [500 flags](flags.txt).

