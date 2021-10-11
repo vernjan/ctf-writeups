@@ -1,0 +1,21 @@
+
+{% extends "base.html" %}
+
+{% block content %}
+<h1>My superprofile</h1>
+
+{% if not username %}
+<form method="post" action="{{ url_for('login') }}">
+    <p>username: <input type=text name=username>
+    <p>password: <input type=text name=password>
+    <p><input type=submit value=Login>
+</form>
+{% else %}
+<a href="{{ url_for('logout') }}">logout</a>
+<p>
+<pre>
+	{{- data -}}
+	</pre>
+{% endif %}
+
+{% endblock %}

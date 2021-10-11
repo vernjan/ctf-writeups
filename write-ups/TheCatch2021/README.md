@@ -1,0 +1,28 @@
+# The Catch 2021
+
+- **The Story**
+    - [Introduction (0p)](00-story/00-introduction.md)
+    - [ITATC completed (0p)](00-story/01-ITATC-completed.md)
+- **Training Camp**
+    - [Encrypted Archive (1p)](01-training-ground/01-encrypted-archive/README.md)
+    - [Problematic Executables (1p)](01-training-ground/02-problematic-executables/README.md)
+    - [Unknown File (1p)](01-training-ground/03-unknown-file/README.md)
+    - [Cat Heads Language (1p)](01-training-ground/04-cat-heads-language/README.md)
+- **Reconnaissance**
+    - [The Services (2p)](02-reconnaissance/01-the-services/README.md)
+    - [Domain Name System (2p)](02-reconnaissance/02-domain-name-system/README.md)
+    - [The Motivation (3p)](02-reconnaissance/03-the-motivation/README.md)
+    - [The Dark Side (3p)](02-reconnaissance/04-the-dark-side/README.md)
+- **Data Extraction**
+    - [Blogging Web Site (3p)](03-data-extraction/01-blogging-web-site/README.md)
+    - [The Geography (3p)](03-data-extraction/02-the-geography/README.md)
+    - [Private Network (3p)](03-data-extraction/03-private-network/README.md)
+- **Miscellaneous**
+    - [Unknown server (3p)](04-miscellaneous/01-unknown-server/README.md)
+    - [Docker Image (3p)](04-miscellaneous/02-docker-image/README.md)
+    - [Nomen Omen (4p)](04-miscellaneous/03-nomen-omen/README.md)
+- **System Access**
+    - [Social Network (3p)](05-system-access/01-social-network/README.md)
+    - File Share (4p) SKIPPED
+    - [Phone Book (4p)](05-system-access/03-phone-book/README.md)
+    - [Torso of Web Server (5p)](05-system-access/04-torso-of-web-server/README.md)

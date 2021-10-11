@@ -1,0 +1,68 @@
+#!/usr/bin/env python
+# -*- coding:utf-8 -*-
+"""
+Image generator
+"""
+
+__author__ = "G. I. Jane @ TCC"
+__version__ = "1.0"
+
+import sys
+import argparse
+from PIL import Image
+from PIL import ImageFont
+from PIL import ImageDraw
+
+def get_args():
+	"""
+	Cmd line argument parsing (preprocessing)
+	"""
+	# Assign description to the help doc
+	parser = argparse.ArgumentParser(\
+		description='Image generator"')
+
+	# Add arguments
+	parser.add_argument(\
+		'-f',
+		'--filename',
+		type=str,
+		help='Target file',
+		required=True)
+
+
+	# Array for all arguments passed to script
+	args = parser.parse_args()
+
+	# Return arg variables
+	return args.filename
+
+
+def main():
+	"""
+	Main function
+	"""
+
+	# check python version
+	if sys.version_info[0] < 3:
+		print("ERROR: Python3 required.")
+		sys.exit(1)
+
+	# process args
+	filename = get_args()
+
+	# generate image
+	var = ['651', '1L0', '5D0', '6D0', '301', '2A0', '3G0', '2r2', '4{0', '7K1', '1f2', '4}2', '9-1', '8L0', '8x1', '1K1', '0s2', '0m1', '0F0', '271', '5P1', '7m0', '4-1', '9-0', '3c2']
+	tim = Image.new("RGB", (1024, 512), (0, 0, 0))
+	font = ImageFont.truetype('cour.ttf', 32)
+	draw = ImageDraw.Draw(tim)
+	for v in var:
+		draw.text((int(v[2])*300 + int(v[0])*30 + 3, 255), v[1], (255, 255, 255), font=font)
+	try:
+		tim.save(filename+".png")
+	except Exception:
+		print("File saving failed ...")
+		sys.exit(2)
+
+main()
+
+#EOF
