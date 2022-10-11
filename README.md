@@ -1,5 +1,6 @@
 # CTF Write-ups
 
+- [The Catch 2022](write-ups/TheCatch2022/README.md)
 - [The Catch 2021](write-ups/TheCatch2021/README.md)
 - [Hacky Easter 2021](write-ups/HackyEaster2021/README.md)
 - [HACKvent 2020](write-ups/Hackvent2020/README.md)
