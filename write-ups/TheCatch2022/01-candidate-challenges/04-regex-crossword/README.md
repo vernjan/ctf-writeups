@@ -13,4 +13,6 @@ May the Packet be with you!
 
 In case you need help with regexes, use https://regex101.com/
 
+![](regex-solved.jpg)
+
 `FLAG{SUOM-ULOT-TOLU-MOUS}`

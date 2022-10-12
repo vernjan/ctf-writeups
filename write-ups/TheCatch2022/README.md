@@ -10,3 +10,7 @@
     - [Regex crossword](01-candidate-challenges/04-regex-crossword/README.md) (1p)
 - **Incidents**
     - [Route tracking](02-incidents/01-route-tracking/README.md) (2p)
+    - [Van keys](02-incidents/02-van-keys/README.md) (2p)
+    - [Messenger portal](02-incidents/03-messenger-portal/README.md) (3p)
+    - [Fraudulent e-mail](02-incidents/04-fraudelant-email/README.md) (3p)
+- **Miscellaneous**
