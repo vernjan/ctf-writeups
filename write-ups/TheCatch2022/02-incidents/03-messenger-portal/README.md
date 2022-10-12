@@ -19,6 +19,7 @@ May the Packet be with you!
 ---
 
 This is the portal
+
 ![](portal.png)
 
 Entering any message ID has no real effect. However, looking into _Console_ you can read:
@@ -27,40 +28,40 @@ Entering any message ID has no real effect. However, looking into _Console_ you 
 Detected unsupported device. Only mobile devices are supported.
 ```
 
-I switched Firefox into Responsive Design Mode (`ctrl + shift + m`).
+I switched Firefox into **Responsive Design Mode** (`Ctrl + Shift + m`).
 
 This is the first step. Behind the scenes, the screen width is passed onto the server as base64 encoded
-param: `messenger: "MzIw"`).
+param: `messenger: "MzIw"`.
 
 Now the Console log message changes into:
 
 ```
-Detected unsupported web browser! Only  is supported.
+Detected unsupported web browser! Only The Catcher/1.0/2022 is supported.
 ```
 
-Ok, let's set `User-agent` header to identify as `The Catcher/1.0/2022`.
+Ok, let's set `User-agent` header to identify as `The Catcher/1.0/2022`:
 
 ![](user-agent.png)
 
-Console log:
+New Console log:
 ```
 Detected unsupported OS! Only MessengerOS is supported.
 ```
 
-Change `User-agent` into `The Catcher/1.0/2022 (MessengerOS)`
+Change `User-agent` into `The Catcher/1.0/2022 (MessengerOS)`.
 
 Almost there. The result page is trying to load in an iframe but it's denied by HTTP header `X-Frame-Options: DENY`.
 ```
 The loading of “http://messenger-portal.mysterious-delivery.thecatch.cz/?messenger-jobs” in a frame is denied by “X-Frame-Options“ directive set to “DENY“
 ```
 
-Let's try to access it directly (`/?messenger-jobs`) (make sure you are still in Responsive design mode and sending correct `User-agent`):
+Let's try to access it directly (`/?messenger-jobs`) (make sure you are still in **Responsive design mode** and sending correct `User-agent`):
 ```
 Only requests from messenger-portal.mysterious-delivery.thecatch.cz server are allowed.
 ```
 
-Direct access is blocked. Nevertheless, there is an easy bypass ising `Referer` header.
-Add `Referer: http://messenger-portal.mysterious-delivery.thecatch.cz/`:
+Direct access is blocked. Nevertheless, there is an easy bypass using `Referer` header.
+After adding `Referer: http://messenger-portal.mysterious-delivery.thecatch.cz/`:
 
 ```
 <p>
