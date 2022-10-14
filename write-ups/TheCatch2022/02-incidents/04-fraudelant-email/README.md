@@ -61,7 +61,7 @@ I found two different payloads how to enumerate the cards:
 
 - `a or position()=5` - using `position()` function
     - full query `/cards/card[@number=a or position()=5]`
-- `a] | /*/*[5]NULL_BYTE` - using pipe (`|`) operator combine expressions and terminating the payload with `x00`
+- `a] | /*/*[5]NULL_BYTE` - using pipe (`|`) operator combine expressions and [terminating the payload with NULL_BYTE](https://www.thehacker.recipes/web/inputs/null-byte-injection)
     - full query `/cards/card[@number=a] | /*/*[5]NULL_BYTE]`
 
 The trick is to keep enumerating the cards until you find the flag. Some cards have missing
