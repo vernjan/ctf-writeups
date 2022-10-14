@@ -19,7 +19,7 @@ to http://really.sneaky.phishing.thecatch.cz/?click=sjlk2fgj3oiervAnjkufho3uiKrm
 
 Visiting the link brings us to a phishing website. I entered random data.
 
-![img.png](img.png)
+![](portal.png)
 
 There is a client side validation which prevents you from sending invalid data so either disable JS or use some
 HTTP client or proxy.
