@@ -1,0 +1,217 @@
+delivery-team-hq-0000b.mysterious-delivery.tcc. --> 
+delivery-team-hq-0000c.mysterious-delivery.tcc. --> 
+delivery-team-hq-0001a.mysterious-delivery.tcc. --> "packet_lost=1307;team_size=7"
+delivery-team-hq-0002a.mysterious-delivery.tcc. --> "packet_lost=2094;team_size=5"
+delivery-team-hq-0003b.mysterious-delivery.tcc. --> "packet_lost=1210;team_size=3"
+delivery-team-hq-0004a.mysterious-delivery.tcc. --> "packet_lost=6274;team_size=4"
+delivery-team-hq-0004b.mysterious-delivery.tcc. --> "packet_lost=1118;team_size=6"
+delivery-team-hq-0005a.mysterious-delivery.tcc. --> 
+delivery-team-hq-0005c.mysterious-delivery.tcc. --> 
+delivery-team-hq-0006a.mysterious-delivery.tcc. --> "packet_lost=4118;team_size=7"
+delivery-team-hq-0006c.mysterious-delivery.tcc. --> 
+delivery-team-hq-0007c.mysterious-delivery.tcc. --> "packet_lost=6015;team_size=5"
+delivery-team-hq-0008a.mysterious-delivery.tcc. --> "packet_lost=1062;team_size=6"
+delivery-team-hq-0008c.mysterious-delivery.tcc. --> "packet_lost=7608;team_size=3"
+delivery-team-hq-0009b.mysterious-delivery.tcc. --> 
+delivery-team-hq-0010c.mysterious-delivery.tcc. --> "packet_lost=4290;team_size=3"
+delivery-team-hq-0011b.mysterious-delivery.tcc. --> "packet_lost=6175;team_size=4"
+delivery-team-hq-0011c.mysterious-delivery.tcc. --> 
+delivery-team-hq-0012a.mysterious-delivery.tcc. --> "packet_lost=8123;team_size=5"
+delivery-team-hq-0012b.mysterious-delivery.tcc. --> 
+delivery-team-hq-0013a.mysterious-delivery.tcc. --> "packet_lost=7764;team_size=7"
+delivery-team-hq-0013b.mysterious-delivery.tcc. --> "packet_lost=7502;team_size=5"
+delivery-team-hq-0014a.mysterious-delivery.tcc. --> 
+delivery-team-hq-0015b.mysterious-delivery.tcc. --> "packet_lost=3459;team_size=7"
+delivery-team-hq-0016b.mysterious-delivery.tcc. --> "packet_lost=8012;team_size=3"
+delivery-team-hq-0016c.mysterious-delivery.tcc. --> 
+delivery-team-hq-0017c.mysterious-delivery.tcc. --> "packet_lost=4373;team_size=7"
+delivery-team-hq-0018a.mysterious-delivery.tcc. --> "packet_lost=7706;team_size=3"
+delivery-team-hq-0018b.mysterious-delivery.tcc. --> 
+delivery-team-hq-0019a.mysterious-delivery.tcc. --> "packet_lost=6037;team_size=7"
+delivery-team-hq-0019b.mysterious-delivery.tcc. --> 
+delivery-team-hq-0020a.mysterious-delivery.tcc. --> "packet_lost=7327;team_size=6"
+delivery-team-hq-0020c.mysterious-delivery.tcc. --> 
+delivery-team-hq-0021a.mysterious-delivery.tcc. --> "packet_lost=8257;team_size=4"
+delivery-team-hq-0021c.mysterious-delivery.tcc. --> "packet_lost=5302;team_size=5"
+delivery-team-hq-0022a.mysterious-delivery.tcc. --> 
+delivery-team-hq-0022b.mysterious-delivery.tcc. --> 
+delivery-team-hq-0023c.mysterious-delivery.tcc. --> "packet_lost=1943;team_size=7"
+delivery-team-hq-0024a.mysterious-delivery.tcc. --> "packet_lost=8156;team_size=4"
+delivery-team-hq-0025a.mysterious-delivery.tcc. --> "packet_lost=5999;team_size=3"
+delivery-team-hq-0026b.mysterious-delivery.tcc. --> "packet_lost=6161;team_size=3"
+delivery-team-hq-0027b.mysterious-delivery.tcc. --> "packet_lost=5628;team_size=4"
+delivery-team-hq-0028a.mysterious-delivery.tcc. --> "packet_lost=7104;team_size=7"
+delivery-team-hq-0028b.mysterious-delivery.tcc. --> "packet_lost=8378;team_size=5"
+delivery-team-hq-0029a.mysterious-delivery.tcc. --> 
+delivery-team-hq-0029c.mysterious-delivery.tcc. --> "packet_lost=6686;team_size=5"
+delivery-team-hq-0030a.mysterious-delivery.tcc. --> 
+delivery-team-hq-0030b.mysterious-delivery.tcc. --> 
+delivery-team-hq-0031a.mysterious-delivery.tcc. --> "packet_lost=5344;team_size=4"
+delivery-team-hq-0032a.mysterious-delivery.tcc. --> "packet_lost=6558;team_size=3"
+delivery-team-hq-0032c.mysterious-delivery.tcc. --> 
+delivery-team-hq-0033b.mysterious-delivery.tcc. --> "packet_lost=2649;team_size=5"
+delivery-team-hq-0033c.mysterious-delivery.tcc. --> "packet_lost=3197;team_size=5"
+delivery-team-hq-0034b.mysterious-delivery.tcc. --> 
+delivery-team-hq-0034c.mysterious-delivery.tcc. --> 
+delivery-team-hq-0035b.mysterious-delivery.tcc. --> "packet_lost=6561;team_size=5"
+delivery-team-hq-0035c.mysterious-delivery.tcc. --> "packet_lost=7298;team_size=5"
+delivery-team-hq-0036a.mysterious-delivery.tcc. --> 
+delivery-team-hq-0036c.mysterious-delivery.tcc. --> "packet_lost=4706;team_size=5"
+delivery-team-hq-0037b.mysterious-delivery.tcc. --> 
+delivery-team-hq-0037c.mysterious-delivery.tcc. --> 
+delivery-team-hq-0038c.mysterious-delivery.tcc. --> "packet_lost=8167;team_size=4"
+delivery-team-hq-0039b.mysterious-delivery.tcc. --> "packet_lost=8191;team_size=5"
+delivery-team-hq-0040a.mysterious-delivery.tcc. --> "packet_lost=2246;team_size=6"
+delivery-team-hq-0041b.mysterious-delivery.tcc. --> "packet_lost=1631;team_size=3"
+delivery-team-hq-0041c.mysterious-delivery.tcc. --> "packet_lost=7249;team_size=3"
+delivery-team-hq-0042b.mysterious-delivery.tcc. --> 
+delivery-team-hq-0043a.mysterious-delivery.tcc. --> "packet_lost=3588;team_size=7"
+delivery-team-hq-0043b.mysterious-delivery.tcc. --> 
+delivery-team-hq-0044b.mysterious-delivery.tcc. --> "packet_lost=4698;team_size=4"
+delivery-team-hq-0044c.mysterious-delivery.tcc. --> 
+delivery-team-hq-0045a.mysterious-delivery.tcc. --> "packet_lost=3270;team_size=4"
+delivery-team-hq-0045c.mysterious-delivery.tcc. --> "packet_lost=1324;team_size=4"
+delivery-team-hq-0046a.mysterious-delivery.tcc. --> 
+delivery-team-hq-0046c.mysterious-delivery.tcc. --> "packet_lost=2526;team_size=5"
+delivery-team-hq-0047b.mysterious-delivery.tcc. --> 
+delivery-team-hq-0048c.mysterious-delivery.tcc. --> "packet_lost=5828;team_size=4"
+delivery-team-hq-0049a.mysterious-delivery.tcc. --> "packet_lost=1491;team_size=3"
+delivery-team-hq-0049b.mysterious-delivery.tcc. --> 
+delivery-team-hq-0050b.mysterious-delivery.tcc. --> "packet_lost=6265;team_size=5"
+delivery-team-hq-0051b.mysterious-delivery.tcc. --> "packet_lost=2981;team_size=4"
+delivery-team-hq-0051c.mysterious-delivery.tcc. --> "packet_lost=2228;team_size=6"
+delivery-team-hq-0052a.mysterious-delivery.tcc. --> 
+delivery-team-hq-0052c.mysterious-delivery.tcc. --> 
+delivery-team-hq-0053a.mysterious-delivery.tcc. --> "packet_lost=1469;team_size=6"
+delivery-team-hq-0054b.mysterious-delivery.tcc. --> "packet_lost=1229;team_size=5"
+delivery-team-hq-0055b.mysterious-delivery.tcc. --> "packet_lost=5569;team_size=3"
+delivery-team-hq-0055c.mysterious-delivery.tcc. --> "packet_lost=2033;team_size=3"
+delivery-team-hq-0056b.mysterious-delivery.tcc. --> 
+delivery-team-hq-0056c.mysterious-delivery.tcc. --> 
+delivery-team-hq-0057b.mysterious-delivery.tcc. --> "packet_lost=2374;team_size=3"
+delivery-team-hq-0058b.mysterious-delivery.tcc. --> "packet_lost=6152;team_size=7"
+delivery-team-hq-0059a.mysterious-delivery.tcc. --> "packet_lost=3076;team_size=5"
+delivery-team-hq-0060a.mysterious-delivery.tcc. --> "packet_lost=6917;team_size=7"
+delivery-team-hq-0060b.mysterious-delivery.tcc. --> "packet_lost=4975;team_size=4"
+delivery-team-hq-0061a.mysterious-delivery.tcc. --> 
+delivery-team-hq-0061c.mysterious-delivery.tcc. --> 
+delivery-team-hq-0062b.mysterious-delivery.tcc. --> "packet_lost=1651;team_size=5"
+delivery-team-hq-0062c.mysterious-delivery.tcc. --> 
+delivery-team-hq-0063a.mysterious-delivery.tcc. --> "packet_lost=4430;team_size=7"
+delivery-team-hq-0063c.mysterious-delivery.tcc. --> 
+delivery-team-hq-0064c.mysterious-delivery.tcc. --> "packet_lost=6230;team_size=4"
+delivery-team-hq-0065b.mysterious-delivery.tcc. --> "packet_lost=4299;team_size=6"
+delivery-team-hq-0066a.mysterious-delivery.tcc. --> "packet_lost=5859;team_size=4"
+delivery-team-hq-0066c.mysterious-delivery.tcc. --> 
+delivery-team-hq-0067b.mysterious-delivery.tcc. --> "packet_lost=1846;team_size=5"
+delivery-team-hq-0067c.mysterious-delivery.tcc. --> "packet_lost=5384;team_size=6"
+delivery-team-hq-0068b.mysterious-delivery.tcc. --> 
+delivery-team-hq-0068c.mysterious-delivery.tcc. --> 
+delivery-team-hq-0069b.mysterious-delivery.tcc. --> "packet_lost=4707;team_size=6"
+delivery-team-hq-0069c.mysterious-delivery.tcc. --> "packet_lost=2617;team_size=6"
+delivery-team-hq-0070c.mysterious-delivery.tcc. --> 
+delivery-team-hq-0071a.mysterious-delivery.tcc. --> "packet_lost=1258;team_size=6"
+delivery-team-hq-0072a.mysterious-delivery.tcc. --> "packet_lost=5048;team_size=6"
+delivery-team-hq-0072b.mysterious-delivery.tcc. --> 
+delivery-team-hq-0073c.mysterious-delivery.tcc. --> "packet_lost=2314;team_size=6"
+delivery-team-hq-0074a.mysterious-delivery.tcc. --> "packet_lost=7160;team_size=3"
+delivery-team-hq-0074b.mysterious-delivery.tcc. --> 
+delivery-team-hq-0075b.mysterious-delivery.tcc. --> "packet_lost=7739;team_size=4"
+delivery-team-hq-0076b.mysterious-delivery.tcc. --> "packet_lost=5114;team_size=5"
+delivery-team-hq-0076c.mysterious-delivery.tcc. --> 
+delivery-team-hq-0077a.mysterious-delivery.tcc. --> "packet_lost=1763;team_size=7"
+delivery-team-hq-0077c.mysterious-delivery.tcc. --> 
+delivery-team-hq-0078b.mysterious-delivery.tcc. --> "packet_lost=1348;team_size=5"
+delivery-team-hq-0078c.mysterious-delivery.tcc. --> 
+delivery-team-hq-0079a.mysterious-delivery.tcc. --> "packet_lost=6605;team_size=6"
+delivery-team-hq-0080a.mysterious-delivery.tcc. --> "packet_lost=1617;team_size=3"
+delivery-team-hq-0081a.mysterious-delivery.tcc. --> "packet_lost=2518;team_size=7"
+delivery-team-hq-0081b.mysterious-delivery.tcc. --> 
+delivery-team-hq-0082a.mysterious-delivery.tcc. --> "packet_lost=2143;team_size=3"
+delivery-team-hq-0083a.mysterious-delivery.tcc. --> "packet_lost=2218;team_size=6"
+delivery-team-hq-0083c.mysterious-delivery.tcc. --> "packet_lost=3398;team_size=3"
+delivery-team-hq-0084a.mysterious-delivery.tcc. --> 
+delivery-team-hq-0084b.mysterious-delivery.tcc. --> "packet_lost=3479;team_size=6"
+delivery-team-hq-0085b.mysterious-delivery.tcc. --> 
+delivery-team-hq-0085c.mysterious-delivery.tcc. --> 
+delivery-team-hq-0086b.mysterious-delivery.tcc. --> "packet_lost=6920;team_size=7"
+delivery-team-hq-0086c.mysterious-delivery.tcc. --> 
+delivery-team-hq-0087c.mysterious-delivery.tcc. --> "packet_lost=1154;team_size=3"
+delivery-team-hq-0088a.mysterious-delivery.tcc. --> "packet_lost=6243;team_size=3"
+delivery-team-hq-0089a.mysterious-delivery.tcc. --> "packet_lost=3780;team_size=6"
+delivery-team-hq-0089c.mysterious-delivery.tcc. --> "packet_lost=3121;team_size=6"
+delivery-team-hq-0090a.mysterious-delivery.tcc. --> 
+delivery-team-hq-0091c.mysterious-delivery.tcc. --> "packet_lost=3660;team_size=3"
+delivery-team-hq-0092a.mysterious-delivery.tcc. --> "packet_lost=5466;team_size=6"
+delivery-team-hq-0093a.mysterious-delivery.tcc. --> "packet_lost=2954;team_size=4"
+delivery-team-hq-0093b.mysterious-delivery.tcc. --> "packet_lost=3269;team_size=7"
+delivery-team-hq-0094b.mysterious-delivery.tcc. --> 
+delivery-team-hq-0094c.mysterious-delivery.tcc. --> "packet_lost=5463;team_size=5"
+delivery-team-hq-0095a.mysterious-delivery.tcc. --> 
+delivery-team-hq-0096b.mysterious-delivery.tcc. --> "packet_lost=6499;team_size=7"
+depot-as.mysterious-delivery.tcc. --> "packet_lost=5655;team_size=4"
+depot-brno.mysterious-delivery.tcc. --> "no data"
+depot-ceske-budejovice.mysterious-delivery.tcc. --> "sorry, no flags in brno"
+depot-cesky-krumlov.mysterious-delivery.tcc. --> "everyone wants to live here"
+depot-ellezelles.mysterious-delivery.tcc. --> "life jackets overcharged"
+depot-elsinor.mysterious-delivery.tcc. --> "oui?"
+depot-hradeckralove.mysterious-delivery.tcc. --> "to deliver or not to deliver, that is the question"
+depot-jablunkov1.mysterious-delivery.tcc. --> "no data"
+depot-jablunkov2.mysterious-delivery.tcc. --> "no data"
+depot-jicin.mysterious-delivery.tcc. --> "catium 4ha"
+depot-kalamaryvary.mysterious-delivery.tcc. --> "acorn storage"
+depot-karvina.mysterious-delivery.tcc. --> "no data"
+depot-kladno.mysterious-delivery.tcc. --> "no data"
+depot-kolin.mysterious-delivery.tcc. --> "land of JJ"
+depot-liberec.mysterious-delivery.tcc. --> "the train stays mainly in the plain!"
+depot-ostrava.mysterious-delivery.tcc. --> "hyberboloids live here"
+depot-paris.mysterious-delivery.tcc. --> "undeground city, inhibitants can visit surface by pendolinos"
+depot-plzen.mysterious-delivery.tcc. --> "no data"
+depot-prague1.mysterious-delivery.tcc. --> "beer city, no morning deliveries"
+depot-prague2.mysterious-delivery.tcc. --> "no data"
+depot-prague3.mysterious-delivery.tcc. --> "no data"
+depot-prague4.mysterious-delivery.tcc. --> "no data"
+depot-prague5.mysterious-delivery.tcc. --> "no data"
+depot-prague6.mysterious-delivery.tcc. --> "no data"
+depot-reims.mysterious-delivery.tcc. --> "cesnet headquarters"
+depot-rokycany.mysterious-delivery.tcc. --> "emmanuel lives here"
+depot-secret-upon-flag.mysterious-delivery.tcc. --> "blood tanks"
+depot-sokolov.mysterious-delivery.tcc. --> "secret code for steel safe is: RkxBR3tZcjMxLVhvWEUtNEZxOC02UElzfQ=="
+depot-strakonice.mysterious-delivery.tcc. --> "falcon storage"
+depot-strasbourg.mysterious-delivery.tcc. --> "birthplace of MK"
+depot-superstore1.mysterious-delivery.tcc. --> "jean lives here, guy lives here"
+depot-superstore2.mysterious-delivery.tcc. --> "no data"
+depot-superstore5.mysterious-delivery.tcc. --> "no data"
+depot-superstore9.mysterious-delivery.tcc. --> "no data"
+depot-usti-nad-labem.mysterious-delivery.tcc. --> "no data"
+gizem.mysterious-delivery.tcc. --> "no data"
+www.helpdesk.mysterious-delivery.tcc. --> 
+hulda.mysterious-delivery.tcc. --> 
+leto.mysterious-delivery.tcc. --> 
+liraz.mysterious-delivery.tcc. --> 
+maya.mysterious-delivery.tcc. --> 
+mystery.mysterious-delivery.tcc. --> 
+mystique.mysterious-delivery.tcc. --> 
+najwa.mysterious-delivery.tcc. --> 
+ns1.mysterious-delivery.tcc. --> 
+ns2.mysterious-delivery.tcc. --> 
+dev.null.mysterious-delivery.tcc. --> 
+packet-shredder.mysterious-delivery.tcc. --> 
+dev.random.mysterious-delivery.tcc. --> 
+rhinned.mysterious-delivery.tcc. --> 
+sybil.mysterious-delivery.tcc. --> 
+terminal-202243000.mysterious-delivery.tcc. --> 
+terminal-202243001.mysterious-delivery.tcc. --> "currency=BTC;battery=81%"
+terminal-202243002.mysterious-delivery.tcc. --> "currency=BTC;battery=79%"
+terminal-202243003.mysterious-delivery.tcc. --> "currency=JPY;battery=57%"
+terminal-202243004.mysterious-delivery.tcc. --> "currency=EUR;battery=68%"
+terminal-202243005.mysterious-delivery.tcc. --> "currency=JPY;battery=42%"
+terminal-202243006.mysterious-delivery.tcc. --> "currency=USD;battery=46%"
+terminal-202243007.mysterious-delivery.tcc. --> "currency=CZK;battery=76%"
+terminal-202243008.mysterious-delivery.tcc. --> "currency=USD;battery=80%"
+terminal-202243009.mysterious-delivery.tcc. --> "currency=CZK;battery=79%"
+terminal-202243010.mysterious-delivery.tcc. --> "currency=JPY;battery=48%"
+terminal-202243011.mysterious-delivery.tcc. --> "currency=BTC;battery=25%"
+terminal-202243012.mysterious-delivery.tcc. --> "currency=USD;battery=11%"
+terminal-202243013.mysterious-delivery.tcc. --> "currency=EUR;battery=54%"
+...
