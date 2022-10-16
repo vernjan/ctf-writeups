@@ -14,3 +14,6 @@
     - [Messenger portal](02-incidents/03-messenger-portal/README.md) (3p)
     - [Fraudulent e-mail](02-incidents/04-fraudelant-email/README.md) (3p)
 - **Miscellaneous**
+    - [Old webpages](03-miscellaneous/01-old-webpages/README.md) (1p)
+    - [Download backup](03-miscellaneous/02-download-backup/README.md) (2p)
+    - [DNS storage](03-miscellaneous/03-dns-storage/README.md) (3p)
