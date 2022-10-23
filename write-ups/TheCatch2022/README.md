@@ -21,4 +21,5 @@
 - **Corporate websites**
     - [Streamlining portal](04-corporate-websites/01-streamlining-portal/README.md) (3p)
     - [Streamlining portal NG](04-corporate-websites/04-streamlining-portal-ng) (4p)
+    - [XML Prettifier](04-corporate-websites/02-xml-prettifier/README.md) (4p)
    
