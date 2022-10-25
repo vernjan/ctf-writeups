@@ -20,6 +20,7 @@
     - [Packets auditing](03-miscellaneous/04-packets-auditing/README.md) (3p)
 - **Corporate websites**
     - [Streamlining portal](04-corporate-websites/01-streamlining-portal/README.md) (3p)
-    - [Streamlining portal NG](04-corporate-websites/04-streamlining-portal-ng) (4p)
     - [XML Prettifier](04-corporate-websites/02-xml-prettifier/README.md) (4p)
+    - [Streamlining portal NG](04-corporate-websites/04-streamlining-portal-ng) (4p)
+    - [Orderly IS](04-corporate-websites/06-orderly-is/README.md) (5p)
    

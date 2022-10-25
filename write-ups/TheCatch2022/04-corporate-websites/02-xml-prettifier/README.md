@@ -78,6 +78,7 @@ List of possibly interesting files to read:
 - `proc/self/cwd` - points to current workdir of the running process
 - `proc/self/maps` - memory layout, loaded libraries, see [](maps.txt)
 - `proc/net/route`
+- `/opt/prettier/.gitignore`
 
 I was able to figure out this Apache + WSGI + Python based app. Located in `/opt/prettier`. Didn't help me much though
 as I was unable to read any source code or the notes file directly from the disk.
