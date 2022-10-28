@@ -1,0 +1,12 @@
+0000000000000000000000000000000000000000 b06b989ab11e9a9b1d9075eb35988f995e16d50d Jozef Dev <jozef.dev@attendance.ttc> 1665775851 +0000	am: init
+b06b989ab11e9a9b1d9075eb35988f995e16d50d 30919e78222d434003949ed3803b0163d34a0bb0 Jozef Dev <jozef.dev@attendance.ttc> 1665775851 +0000	am: do not show post contents on index page
+30919e78222d434003949ed3803b0163d34a0bb0 d95803cb9777c66154b086a7f8c3232b85dc5749 Jozef Dev <jozef.dev@attendance.ttc> 1665775851 +0000	am: Revert "do not show post contents on index page"
+d95803cb9777c66154b086a7f8c3232b85dc5749 7e4a77ab036cbc04fe7d800d1d07b52be6bb0942 Jozef Dev <jozef.dev@attendance.ttc> 1665775851 +0000	am: add basic settings route
+7e4a77ab036cbc04fe7d800d1d07b52be6bb0942 ad8a16703a1102d9550525ebfcfd97d1f4349664 Jozef Dev <jozef.dev@attendance.ttc> 1665775851 +0000	am: initial mysql implementation
+ad8a16703a1102d9550525ebfcfd97d1f4349664 3aa17a01a4494a031e666f6de8b2dce2fff9d928 Jozef Dev <jozef.dev@attendance.ttc> 1665775851 +0000	am: add pylint and flake8, prepare for docker
+3aa17a01a4494a031e666f6de8b2dce2fff9d928 765c9b10d132371585efddd968a5296ed4a8e6df Jozef Dev <jozef.dev@attendance.ttc> 1665775851 +0000	am: add password policy
+765c9b10d132371585efddd968a5296ed4a8e6df f43eb707fe11f5b58757e683e27687f63fc03556 Jozef Dev <jozef.dev@attendance.ttc> 1665775851 +0000	am: dsn from env
+f43eb707fe11f5b58757e683e27687f63fc03556 5a5646d360662d8b596e03034a5d686cb4fc70da Jozef Dev <jozef.dev@attendance.ttc> 1665775851 +0000	am: update settings form
+5a5646d360662d8b596e03034a5d686cb4fc70da 4615dee75de7f414211d935419f4f71cc11f0b30 Jozef Dev <jozef.dev@attendance.ttc> 1665775851 +0000	am: limit posts shown
+4615dee75de7f414211d935419f4f71cc11f0b30 f5407ad8e35263b631e5fc50552b27c6cab63a07 Jozef Dev <jozef.dev@attendance.ttc> 1665775851 +0000	rebase (finish): refs/heads/master onto a796306a74457bf81f52f7b8d45a20997b68d92d
+f5407ad8e35263b631e5fc50552b27c6cab63a07 7d787b586a0a8a57e9039fe516ed4fc60766cef4 Jozef Dev <jozef.dev@attendance.ttc> 1666942911 +0200	commit: The Catch 2022

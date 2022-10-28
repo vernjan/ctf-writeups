@@ -1,0 +1,33 @@
+0000000000000000000000000000000000000000 b06b989ab11e9a9b1d9075eb35988f995e16d50d Jozef Dev <jozef.dev@attendance.ttc> 1665775851 +0000	am: init
+b06b989ab11e9a9b1d9075eb35988f995e16d50d 30919e78222d434003949ed3803b0163d34a0bb0 Jozef Dev <jozef.dev@attendance.ttc> 1665775851 +0000	am: do not show post contents on index page
+30919e78222d434003949ed3803b0163d34a0bb0 d95803cb9777c66154b086a7f8c3232b85dc5749 Jozef Dev <jozef.dev@attendance.ttc> 1665775851 +0000	am: Revert "do not show post contents on index page"
+d95803cb9777c66154b086a7f8c3232b85dc5749 7e4a77ab036cbc04fe7d800d1d07b52be6bb0942 Jozef Dev <jozef.dev@attendance.ttc> 1665775851 +0000	am: add basic settings route
+7e4a77ab036cbc04fe7d800d1d07b52be6bb0942 ad8a16703a1102d9550525ebfcfd97d1f4349664 Jozef Dev <jozef.dev@attendance.ttc> 1665775851 +0000	am: initial mysql implementation
+ad8a16703a1102d9550525ebfcfd97d1f4349664 3aa17a01a4494a031e666f6de8b2dce2fff9d928 Jozef Dev <jozef.dev@attendance.ttc> 1665775851 +0000	am: add pylint and flake8, prepare for docker
+3aa17a01a4494a031e666f6de8b2dce2fff9d928 765c9b10d132371585efddd968a5296ed4a8e6df Jozef Dev <jozef.dev@attendance.ttc> 1665775851 +0000	am: add password policy
+765c9b10d132371585efddd968a5296ed4a8e6df f43eb707fe11f5b58757e683e27687f63fc03556 Jozef Dev <jozef.dev@attendance.ttc> 1665775851 +0000	am: dsn from env
+f43eb707fe11f5b58757e683e27687f63fc03556 5a5646d360662d8b596e03034a5d686cb4fc70da Jozef Dev <jozef.dev@attendance.ttc> 1665775851 +0000	am: update settings form
+5a5646d360662d8b596e03034a5d686cb4fc70da 4615dee75de7f414211d935419f4f71cc11f0b30 Jozef Dev <jozef.dev@attendance.ttc> 1665775851 +0000	am: limit posts shown
+4615dee75de7f414211d935419f4f71cc11f0b30 a796306a74457bf81f52f7b8d45a20997b68d92d Jozef Dev <jozef.dev@attendance.ttc> 1665775851 +0000	rebase (start): checkout a796306a74457bf81f52f7b8d45a20997b68d92d
+a796306a74457bf81f52f7b8d45a20997b68d92d b06b989ab11e9a9b1d9075eb35988f995e16d50d Jozef Dev <jozef.dev@attendance.ttc> 1665775851 +0000	rebase: fast-forward
+b06b989ab11e9a9b1d9075eb35988f995e16d50d e819887bd6534c5710bd8b73636d75c3affa1997 Jozef Dev <jozef.dev@attendance.ttc> 1665775851 +0000	rebase: init
+e819887bd6534c5710bd8b73636d75c3affa1997 fa0159c5b44b69b927776c44cd20b7c2c68551f5 Jozef Dev <jozef.dev@attendance.ttc> 1665775851 +0000	rebase (pick): do not show post contents on index page
+fa0159c5b44b69b927776c44cd20b7c2c68551f5 04718b5c06933c48b930cbf5d9fe9954330a2234 Jozef Dev <jozef.dev@attendance.ttc> 1665775851 +0000	rebase: do not show post contents on index page
+04718b5c06933c48b930cbf5d9fe9954330a2234 b6d8a82f49d8ada504376ed01fc0061bf0f511ce Jozef Dev <jozef.dev@attendance.ttc> 1665775851 +0000	rebase (pick): Revert "do not show post contents on index page"
+b6d8a82f49d8ada504376ed01fc0061bf0f511ce 880ec25f867166cdb09e57aea48a7aec99c8b576 Jozef Dev <jozef.dev@attendance.ttc> 1665775851 +0000	rebase: Revert "do not show post contents on index page"
+880ec25f867166cdb09e57aea48a7aec99c8b576 92dc74395115da4bc1bb6cb05e711f6e90ffe052 Jozef Dev <jozef.dev@attendance.ttc> 1665775851 +0000	rebase (pick): add basic settings route
+92dc74395115da4bc1bb6cb05e711f6e90ffe052 fa6c209a9375505078843c1e7bc63e9fb5c24d26 Jozef Dev <jozef.dev@attendance.ttc> 1665775851 +0000	rebase: add basic settings route
+fa6c209a9375505078843c1e7bc63e9fb5c24d26 ce4d4c9fe5d94105c03193b572d0853d0b582cc9 Jozef Dev <jozef.dev@attendance.ttc> 1665775851 +0000	rebase (pick): initial mysql implementation
+ce4d4c9fe5d94105c03193b572d0853d0b582cc9 f967ff457b00c1295e5bfac978c9abb3dff2465f Jozef Dev <jozef.dev@attendance.ttc> 1665775851 +0000	rebase: initial mysql implementation
+f967ff457b00c1295e5bfac978c9abb3dff2465f ad687c0c8c25e07d6fcd3d512ccef87f6fc45b6c Jozef Dev <jozef.dev@attendance.ttc> 1665775851 +0000	rebase (pick): add pylint and flake8, prepare for docker
+ad687c0c8c25e07d6fcd3d512ccef87f6fc45b6c 777c4dc8a31c74b2f787b38670def0aaaa412fe7 Jozef Dev <jozef.dev@attendance.ttc> 1665775851 +0000	rebase: add pylint and flake8, prepare for docker
+777c4dc8a31c74b2f787b38670def0aaaa412fe7 3fb85f49cc18851dd86385bab010ef6bc46c43af Jozef Dev <jozef.dev@attendance.ttc> 1665775851 +0000	rebase (pick): add password policy
+3fb85f49cc18851dd86385bab010ef6bc46c43af 42482e138724bce3ceca75be31904e7f5d9f8b3d Jozef Dev <jozef.dev@attendance.ttc> 1665775851 +0000	rebase: add password policy
+42482e138724bce3ceca75be31904e7f5d9f8b3d 7d5b15b56c7a6088eb05ef608557f7bcbec179e8 Jozef Dev <jozef.dev@attendance.ttc> 1665775851 +0000	rebase (pick): dsn from env
+7d5b15b56c7a6088eb05ef608557f7bcbec179e8 4485d8935b9b7847f8624c5d58f697e9e615cc88 Jozef Dev <jozef.dev@attendance.ttc> 1665775851 +0000	rebase: dsn from env
+4485d8935b9b7847f8624c5d58f697e9e615cc88 6ba78256c05aded1b944b7018d1d4a17a62ce32f Jozef Dev <jozef.dev@attendance.ttc> 1665775851 +0000	rebase (pick): update settings form
+6ba78256c05aded1b944b7018d1d4a17a62ce32f c788af648141c4351dfe2e8140b4103808314b61 Jozef Dev <jozef.dev@attendance.ttc> 1665775851 +0000	rebase: update settings form
+c788af648141c4351dfe2e8140b4103808314b61 f1678c5933a3378b7a249b57fbf17d0f6f568c96 Jozef Dev <jozef.dev@attendance.ttc> 1665775851 +0000	rebase (pick): limit posts shown
+f1678c5933a3378b7a249b57fbf17d0f6f568c96 f5407ad8e35263b631e5fc50552b27c6cab63a07 Jozef Dev <jozef.dev@attendance.ttc> 1665775851 +0000	rebase: limit posts shown
+f5407ad8e35263b631e5fc50552b27c6cab63a07 f5407ad8e35263b631e5fc50552b27c6cab63a07 Jozef Dev <jozef.dev@attendance.ttc> 1665775851 +0000	rebase (finish): returning to refs/heads/master
+f5407ad8e35263b631e5fc50552b27c6cab63a07 7d787b586a0a8a57e9039fe516ed4fc60766cef4 Jozef Dev <jozef.dev@attendance.ttc> 1666942911 +0200	commit: The Catch 2022
