@@ -1,0 +1,1150 @@
+# extended LDIF
+#
+# LDAPv3
+# base <DC=local,DC=tcc> with scope subtree
+# filter: (objectclass=*)
+# requesting: ALL
+#
+
+# local.tcc
+dn: dc=local,dc=tcc
+objectClass: top
+objectClass: dcObject
+objectClass: organization
+o: nodomain
+dc: local
+
+# people, local.tcc
+dn: ou=people,dc=local,dc=tcc
+objectClass: organizationalUnit
+ou: people
+
+# phonebook_reader, people, local.tcc
+dn: uid=phonebook_reader,ou=people,dc=local,dc=tcc
+objectClass: inetOrgPerson
+objectClass: sambaSamAccount
+sambaSID: S-1-5-21-1528920847-3529959213-2931869277
+cn: phone_reader
+sn: phone_reader
+description: Limited account for phonebook webapp
+uid: phonebook_reader
+
+# groups, local.tcc
+dn: ou=groups,dc=local,dc=tcc
+objectClass: organizationalUnit
+ou: groups
+
+# users, groups, local.tcc
+dn: cn=users,ou=groups,dc=local,dc=tcc
+cn: users
+description: Users - limited permissions
+member: uid=stoeckle,ou=people,dc=local,dc=tcc
+member: uid=thorsby,ou=people,dc=local,dc=tcc
+member: uid=melody,ou=people,dc=local,dc=tcc
+member: uid=tofpik,ou=people,dc=local,dc=tcc
+member: uid=torricella,ou=people,dc=local,dc=tcc
+member: uid=fallowes,ou=people,dc=local,dc=tcc
+member: uid=collman,ou=people,dc=local,dc=tcc
+member: uid=armistead,ou=people,dc=local,dc=tcc
+member: uid=moggan,ou=people,dc=local,dc=tcc
+member: uid=ruusa,ou=people,dc=local,dc=tcc
+member: uid=daintry,ou=people,dc=local,dc=tcc
+member: uid=bleakman,ou=people,dc=local,dc=tcc
+member: uid=oscanlan,ou=people,dc=local,dc=tcc
+member: uid=clines,ou=people,dc=local,dc=tcc
+member: uid=guillond,ou=people,dc=local,dc=tcc
+member: uid=heibel,ou=people,dc=local,dc=tcc
+member: uid=hessay,ou=people,dc=local,dc=tcc
+member: uid=jahncke,ou=people,dc=local,dc=tcc
+member: uid=bjerkan,ou=people,dc=local,dc=tcc
+member: uid=kinsella,ou=people,dc=local,dc=tcc
+member: uid=pardy,ou=people,dc=local,dc=tcc
+member: uid=reuben,ou=people,dc=local,dc=tcc
+member: uid=notti,ou=people,dc=local,dc=tcc
+member: uid=bilborough,ou=people,dc=local,dc=tcc
+member: uid=fairbairn,ou=people,dc=local,dc=tcc
+member: uid=oheaney,ou=people,dc=local,dc=tcc
+member: uid=gepp,ou=people,dc=local,dc=tcc
+member: uid=iozefovich,ou=people,dc=local,dc=tcc
+member: uid=oddy,ou=people,dc=local,dc=tcc
+member: uid=lyddyard,ou=people,dc=local,dc=tcc
+member: uid=byer,ou=people,dc=local,dc=tcc
+member: uid=kuhl,ou=people,dc=local,dc=tcc
+member: uid=shale,ou=people,dc=local,dc=tcc
+member: uid=ely,ou=people,dc=local,dc=tcc
+member: uid=grimsditch,ou=people,dc=local,dc=tcc
+member: uid=rawlins,ou=people,dc=local,dc=tcc
+member: uid=hedges,ou=people,dc=local,dc=tcc
+member: uid=champion,ou=people,dc=local,dc=tcc
+member: uid=legister,ou=people,dc=local,dc=tcc
+member: uid=osman,ou=people,dc=local,dc=tcc
+member: uid=spur,ou=people,dc=local,dc=tcc
+member: uid=vancastele,ou=people,dc=local,dc=tcc
+member: uid=alner,ou=people,dc=local,dc=tcc
+member: uid=boak,ou=people,dc=local,dc=tcc
+member: uid=songust,ou=people,dc=local,dc=tcc
+member: uid=plumptre,ou=people,dc=local,dc=tcc
+member: uid=klaessen,ou=people,dc=local,dc=tcc
+member: uid=wilcock,ou=people,dc=local,dc=tcc
+member: uid=schwandermann,ou=people,dc=local,dc=tcc
+member: uid=nayer,ou=people,dc=local,dc=tcc
+member: uid=findlay,ou=people,dc=local,dc=tcc
+member: uid=fanton,ou=people,dc=local,dc=tcc
+member: uid=rochell,ou=people,dc=local,dc=tcc
+member: uid=josephoff,ou=people,dc=local,dc=tcc
+member: uid=pollastrone,ou=people,dc=local,dc=tcc
+member: uid=chmarny,ou=people,dc=local,dc=tcc
+member: uid=erni,ou=people,dc=local,dc=tcc
+member: uid=hinkens,ou=people,dc=local,dc=tcc
+member: uid=lesmonde,ou=people,dc=local,dc=tcc
+member: uid=iltchev,ou=people,dc=local,dc=tcc
+member: uid=lutton,ou=people,dc=local,dc=tcc
+member: uid=schuricht,ou=people,dc=local,dc=tcc
+member: uid=hedney,ou=people,dc=local,dc=tcc
+member: uid=brotherheed,ou=people,dc=local,dc=tcc
+member: uid=skeech,ou=people,dc=local,dc=tcc
+objectClass: groupOfNames
+objectClass: top
+
+# admins, groups, local.tcc
+dn: cn=admins,ou=groups,dc=local,dc=tcc
+cn: admins
+member: uid=admin1,ou=people,dc=local,dc=tcc
+member: uid=admin2,ou=people,dc=local,dc=tcc
+member: uid=ldap_sync,ou=people,dc=local,dc=tcc
+objectClass: groupOfNames
+objectClass: top
+description: System administrators - full permissions
+
+# web_admins, groups, local.tcc
+dn: cn=web_admins,ou=groups,dc=local,dc=tcc
+objectClass: groupOfNames
+objectClass: top
+member: uid=admin2,ou=people,dc=local,dc=tcc
+cn: web_admins
+description: Web administrators - full permissions
+
+# stoeckle, people, local.tcc
+dn: uid=stoeckle,ou=people,dc=local,dc=tcc
+objectClass: inetOrgPerson
+objectClass: sambaSamAccount
+cn: stoeckle
+givenName: Melanie
+sn: Stoeckle
+description: Standard account
+homePhone: 7257737132
+mail: mstoeckle0@discovery.com
+sambaSID: S-1-5-21-1528920847-3529959213-787022423
+sambaNTPassword: C7FF9B34672AE78132AB660BC7DD65CC
+sambaLMPassword: F0A2FFDCBAE89F052428C127539C2A3D
+uid: stoeckle
+
+# thorsby, people, local.tcc
+dn: uid=thorsby,ou=people,dc=local,dc=tcc
+objectClass: inetOrgPerson
+objectClass: sambaSamAccount
+cn: thorsby
+givenName: Malynda
+sn: Thorsby
+description: Standard account
+homePhone: 7052311394
+mail: mthorsby1@aboutads.info
+sambaSID: S-1-5-21-1528920847-3529959213-3486056380
+sambaNTPassword: 22386BA5AFDA760D41C641866989BBE7
+sambaLMPassword: AAE84141DD4E6EC3C3114143DBF2357D
+uid: thorsby
+
+# melody, people, local.tcc
+dn: uid=melody,ou=people,dc=local,dc=tcc
+objectClass: inetOrgPerson
+objectClass: sambaSamAccount
+cn: melody
+givenName: Titos
+sn: Melody
+description: Standard account
+homePhone: 3112319103
+mail: tmelody2@goo.ne.jp
+sambaSID: S-1-5-21-1528920847-3529959213-7151518434
+sambaNTPassword: 6C288D4217FAE5C2EE2F26928C829AA6
+sambaLMPassword: 688FE8F38C8831F41A3CC118BA78881A
+uid: melody
+
+# tofpik, people, local.tcc
+dn: uid=tofpik,ou=people,dc=local,dc=tcc
+objectClass: inetOrgPerson
+objectClass: sambaSamAccount
+cn: tofpik
+givenName: Jeanelle
+sn: Tofpik
+description: Standard account
+homePhone: 6756489622
+mail: jtofpik3@paginegialle.it
+sambaSID: S-1-5-21-1528920847-3529959213-9856474124
+sambaNTPassword: 99389E7894D226A241FA97E97A8B5B91
+sambaLMPassword: A712A64139604EBEA0A921ACDD19F208
+uid: tofpik
+
+# torricella, people, local.tcc
+dn: uid=torricella,ou=people,dc=local,dc=tcc
+objectClass: inetOrgPerson
+objectClass: sambaSamAccount
+cn: torricella
+givenName: Svend
+sn: Torricella
+description: Standard account
+homePhone: 4135349119
+mail: storricella4@gizmodo.com
+sambaSID: S-1-5-21-1528920847-3529959213-2823852881
+sambaNTPassword: 226C0A2EA1525D2DE82674C2B8046DDD
+sambaLMPassword: E7C8D0338CF87D4508B77FED0FE9A830
+uid: torricella
+
+# fallowes, people, local.tcc
+dn: uid=fallowes,ou=people,dc=local,dc=tcc
+objectClass: inetOrgPerson
+objectClass: sambaSamAccount
+cn: fallowes
+givenName: Flo
+sn: Fallowes
+description: Standard account
+homePhone: 9278035956
+mail: ffallowes5@oakley.com
+sambaSID: S-1-5-21-1528920847-3529959213-3989483163
+sambaNTPassword: 4B69A12F92A782CB8F7E0953A8AFA0CE
+sambaLMPassword: 9DEAEAFF109C2CBEE7517691DEF1F1B3
+uid: fallowes
+
+# collman, people, local.tcc
+dn: uid=collman,ou=people,dc=local,dc=tcc
+objectClass: inetOrgPerson
+objectClass: sambaSamAccount
+cn: collman
+givenName: Ardyce
+sn: Collman
+description: Standard account
+homePhone: 2875860976
+mail: acollman6@gravatar.com
+sambaSID: S-1-5-21-1528920847-3529959213-168559605
+sambaNTPassword: DDFA7889C06CBDE952E8A72CAB4A2FF9
+sambaLMPassword: 59C3F54B5DC6BA8ED3A22CC5A37C0A3D
+uid: collman
+
+# armistead, people, local.tcc
+dn: uid=armistead,ou=people,dc=local,dc=tcc
+objectClass: inetOrgPerson
+objectClass: sambaSamAccount
+cn: armistead
+givenName: Gay
+sn: Armistead
+description: Standard account
+homePhone: 7876842421
+mail: garmistead7@buzzfeed.com
+sambaSID: S-1-5-21-1528920847-3529959213-9407387771
+sambaNTPassword: 7039BB84F1BEFAE16FFD1DF8614348EE
+sambaLMPassword: 401DE61AF09CA8EC8EB3C8681F05A4F9
+uid: armistead
+
+# moggan, people, local.tcc
+dn: uid=moggan,ou=people,dc=local,dc=tcc
+objectClass: inetOrgPerson
+objectClass: sambaSamAccount
+cn: moggan
+givenName: Violette
+sn: Moggan
+description: Standard account
+homePhone: 5186774996
+mail: vmoggan8@pen.io
+sambaSID: S-1-5-21-1528920847-3529959213-3581793324
+sambaNTPassword: 27AD578097BFE12216F8E59DF1A7F8A2
+sambaLMPassword: 3FFCFDD61B8681509EAB3747C99E6955
+uid: moggan
+
+# ruusa, people, local.tcc
+dn: uid=ruusa,ou=people,dc=local,dc=tcc
+objectClass: inetOrgPerson
+objectClass: sambaSamAccount
+cn: ruusa
+givenName: Charity
+sn: Ruusa
+description: Standard account
+homePhone: 5883659400
+mail: cruusa9@irs.gov
+sambaSID: S-1-5-21-1528920847-3529959213-3364812573
+sambaNTPassword: B3A03D8681979BE8FCCA301B41A18BF7
+sambaLMPassword: DE5570B2CD5A5EB16D75BE8A33B890AF
+uid: ruusa
+
+# daintry, people, local.tcc
+dn: uid=daintry,ou=people,dc=local,dc=tcc
+objectClass: inetOrgPerson
+objectClass: sambaSamAccount
+cn: daintry
+givenName: Zora
+sn: Daintry
+description: Standard account
+homePhone: 7086072184
+mail: zdaintrya@nationalgeographic.com
+sambaSID: S-1-5-21-1528920847-3529959213-8621689366
+sambaNTPassword: 95FD1C036F42A59FD26AAB2F3B10B96D
+sambaLMPassword: 719CC235B4151A43989BA76EECB93269
+uid: daintry
+
+# bleakman, people, local.tcc
+dn: uid=bleakman,ou=people,dc=local,dc=tcc
+objectClass: inetOrgPerson
+objectClass: sambaSamAccount
+cn: bleakman
+givenName: Ewan
+sn: Bleakman
+description: Standard account
+homePhone: 2706097831
+mail: ebleakmanb@themeforest.net
+sambaSID: S-1-5-21-1528920847-3529959213-7250487228
+sambaNTPassword: A09D76C4096E228E4068AECE304D0388
+sambaLMPassword: 6054FD64E6F8B328853F7C24FCE12F36
+uid: bleakman
+
+# oscanlan, people, local.tcc
+dn: uid=oscanlan,ou=people,dc=local,dc=tcc
+objectClass: inetOrgPerson
+objectClass: sambaSamAccount
+cn: oscanlan
+givenName: Jeane
+sn: O'Scanlan
+description: Standard account
+homePhone: 9206991453
+mail: joscanlanc@bbb.org
+sambaSID: S-1-5-21-1528920847-3529959213-6006298814
+sambaNTPassword: 9D03D7A38CCC265F3DBE5A4EBD7AFA80
+sambaLMPassword: 866D46F2674CB4FF9DF28AB9CD0E2389
+uid: oscanlan
+
+# clines, people, local.tcc
+dn: uid=clines,ou=people,dc=local,dc=tcc
+objectClass: inetOrgPerson
+objectClass: sambaSamAccount
+cn: clines
+givenName: Hamnet
+sn: Clines
+description: Standard account
+homePhone: 3314649637
+mail: hclinesd@miibeian.gov.cn
+sambaSID: S-1-5-21-1528920847-3529959213-1143948158
+sambaNTPassword: D1D208C349B5E863E1672F792D5FCB36
+sambaLMPassword: 88D47C766C970D9303DD54697E0C0BCA
+uid: clines
+
+# guillond, people, local.tcc
+dn: uid=guillond,ou=people,dc=local,dc=tcc
+objectClass: inetOrgPerson
+objectClass: sambaSamAccount
+cn: guillond
+givenName: Wandis
+sn: Guillond
+description: Standard account
+homePhone: 8497196940
+mail: wguillonde@t.co
+sambaSID: S-1-5-21-1528920847-3529959213-122885090
+sambaNTPassword: 0084AE2A75A42BC206CE18792087918C
+sambaLMPassword: E4DEB0A59A7B048DCB82067874051452
+uid: guillond
+
+# heibel, people, local.tcc
+dn: uid=heibel,ou=people,dc=local,dc=tcc
+objectClass: inetOrgPerson
+objectClass: sambaSamAccount
+cn: heibel
+givenName: Celestia
+sn: Heibel
+description: Standard account
+homePhone: 6035989436
+mail: cheibelf@usa.gov
+sambaSID: S-1-5-21-1528920847-3529959213-5023916520
+sambaNTPassword: A5B924E41539D929BDBD0A08967D6128
+sambaLMPassword: 66372963AA1048B6638270F21E17FB97
+uid: heibel
+
+# hessay, people, local.tcc
+dn: uid=hessay,ou=people,dc=local,dc=tcc
+objectClass: inetOrgPerson
+objectClass: sambaSamAccount
+cn: hessay
+givenName: Royce
+sn: Hessay
+description: Standard account
+homePhone: 4998785390
+mail: rhessayg@nifty.com
+sambaSID: S-1-5-21-1528920847-3529959213-919870557
+sambaNTPassword: 3F3F9FFEB65B16B86B5E24B6324E6C68
+sambaLMPassword: 5A049E0B4215B115F8EC3E106B850502
+uid: hessay
+
+# jahncke, people, local.tcc
+dn: uid=jahncke,ou=people,dc=local,dc=tcc
+objectClass: inetOrgPerson
+objectClass: sambaSamAccount
+cn: jahncke
+givenName: Amara
+sn: Jahncke
+description: Standard account
+homePhone: 9002196519
+mail: ajahnckeh@yolasite.com
+sambaSID: S-1-5-21-1528920847-3529959213-6340498708
+sambaNTPassword: 02A120079EF19AD34473BCAE5B845502
+sambaLMPassword: 2B018273800DB22F4BAA18387B2B79C6
+uid: jahncke
+
+# bjerkan, people, local.tcc
+dn: uid=bjerkan,ou=people,dc=local,dc=tcc
+objectClass: inetOrgPerson
+objectClass: sambaSamAccount
+cn: bjerkan
+givenName: Eugenio
+sn: Bjerkan
+description: Standard account
+homePhone: 2206838387
+mail: ebjerkani@livejournal.com
+sambaSID: S-1-5-21-1528920847-3529959213-2357755546
+sambaNTPassword: DB8BAD2C1B51BCC16618479719105429
+sambaLMPassword: E0DAE88F70BE73CE24A252B64E5A6079
+uid: bjerkan
+
+# kinsella, people, local.tcc
+dn: uid=kinsella,ou=people,dc=local,dc=tcc
+objectClass: inetOrgPerson
+objectClass: sambaSamAccount
+cn: kinsella
+givenName: Orsa
+sn: Kinsella
+description: Standard account
+homePhone: 5867282457
+mail: okinsellaj@comsenz.com
+sambaSID: S-1-5-21-1528920847-3529959213-5863836783
+sambaNTPassword: 8990F95C311827BC6CBAC70E3D50A6E2
+sambaLMPassword: 60AC5C77DDBF302EAB18788EFFA567ED
+uid: kinsella
+
+# pardy, people, local.tcc
+dn: uid=pardy,ou=people,dc=local,dc=tcc
+objectClass: inetOrgPerson
+objectClass: sambaSamAccount
+cn: pardy
+givenName: Jarid
+sn: Pardy
+description: Standard account
+homePhone: 6923172138
+mail: jpardyk@globo.com
+sambaSID: S-1-5-21-1528920847-3529959213-5466692122
+sambaNTPassword: 3C334C84E23ED39516EAEB6CB5870D58
+sambaLMPassword: 9310B3CC0635479D1E1599934C1F8E0B
+uid: pardy
+
+# reuben, people, local.tcc
+dn: uid=reuben,ou=people,dc=local,dc=tcc
+objectClass: inetOrgPerson
+objectClass: sambaSamAccount
+cn: reuben
+givenName: Janka
+sn: Reuben
+description: Standard account
+homePhone: 4934389706
+mail: jreubenl@freewebs.com
+sambaSID: S-1-5-21-1528920847-3529959213-6816104733
+sambaNTPassword: 7ECA0F8546DFE877307EEC1DB7E1D12A
+sambaLMPassword: 1B274350512F0E3E0BEC0D63FD1CB4FC
+uid: reuben
+
+# notti, people, local.tcc
+dn: uid=notti,ou=people,dc=local,dc=tcc
+objectClass: inetOrgPerson
+objectClass: sambaSamAccount
+cn: notti
+givenName: Elli
+sn: Notti
+description: Standard account
+homePhone: 9162409208
+mail: enottim@mapquest.com
+sambaSID: S-1-5-21-1528920847-3529959213-2326915010
+sambaNTPassword: F835F9323A2877EF49439A1AD6B268EA
+sambaLMPassword: 6702DDAD9409D8C28A2EA53A29501A2D
+uid: notti
+
+# bilborough, people, local.tcc
+dn: uid=bilborough,ou=people,dc=local,dc=tcc
+objectClass: inetOrgPerson
+objectClass: sambaSamAccount
+cn: bilborough
+givenName: Madonna
+sn: Bilborough
+description: Standard account
+homePhone: 7995330936
+mail: mbilboroughn@amazon.co.uk
+sambaSID: S-1-5-21-1528920847-3529959213-1128196837
+sambaNTPassword: 3718BFA1CC99661FA2C21CAC6A312D91
+sambaLMPassword: 2ACBFC3D22757C2F985D7858097B619F
+uid: bilborough
+
+# fairbairn, people, local.tcc
+dn: uid=fairbairn,ou=people,dc=local,dc=tcc
+objectClass: inetOrgPerson
+objectClass: sambaSamAccount
+cn: fairbairn
+givenName: Arleyne
+sn: Fairbairn
+description: Standard account
+homePhone: 5714786957
+mail: afairbairno@ucsd.edu
+sambaSID: S-1-5-21-1528920847-3529959213-9908505694
+sambaNTPassword: 4E09B944D667E9A6C0266EDE3F58883C
+sambaLMPassword: 421CEF9D9747B9CC131E0C2B729CDBB3
+uid: fairbairn
+
+# oheaney, people, local.tcc
+dn: uid=oheaney,ou=people,dc=local,dc=tcc
+objectClass: inetOrgPerson
+objectClass: sambaSamAccount
+cn: oheaney
+givenName: Bondy
+sn: O'Heaney
+description: Standard account
+homePhone: 1778562107
+mail: boheaneyp@netlog.com
+sambaSID: S-1-5-21-1528920847-3529959213-1509116238
+sambaNTPassword: 3898FE6A3925C1B08D27658DC34C81AB
+sambaLMPassword: 68713C5728461A99DBB4678465B517C8
+uid: oheaney
+
+# gepp, people, local.tcc
+dn: uid=gepp,ou=people,dc=local,dc=tcc
+objectClass: inetOrgPerson
+objectClass: sambaSamAccount
+cn: gepp
+givenName: Aubrey
+sn: Gepp
+description: Standard account
+homePhone: 2143886537
+mail: ageppq@issuu.com
+sambaSID: S-1-5-21-1528920847-3529959213-22963010
+sambaNTPassword: A03A741A3C7126C695795B57F01E2C73
+sambaLMPassword: 97239116D31C9EB0B948803DA0DA9B85
+uid: gepp
+
+# iozefovich, people, local.tcc
+dn: uid=iozefovich,ou=people,dc=local,dc=tcc
+objectClass: inetOrgPerson
+objectClass: sambaSamAccount
+cn: iozefovich
+givenName: Anallise
+sn: Iozefovich
+description: Standard account
+homePhone: 6253355029
+mail: aiozefovichr@wikia.com
+sambaSID: S-1-5-21-1528920847-3529959213-5202031343
+sambaNTPassword: 1C831F33E5BEFAFCB316D5449D539504
+sambaLMPassword: DB004E003DD8CA0260CE9E54889D8942
+uid: iozefovich
+
+# oddy, people, local.tcc
+dn: uid=oddy,ou=people,dc=local,dc=tcc
+objectClass: inetOrgPerson
+objectClass: sambaSamAccount
+cn: oddy
+givenName: Anette
+sn: Oddy
+description: Standard account
+homePhone: 3965623745
+mail: aoddys@livejournal.com
+sambaSID: S-1-5-21-1528920847-3529959213-1382477542
+sambaNTPassword: 6FCDDB81E4893A2C747C397C297DDF27
+sambaLMPassword: F217B55E1903840E15DD1AE6C66492E9
+uid: oddy
+
+# lyddyard, people, local.tcc
+dn: uid=lyddyard,ou=people,dc=local,dc=tcc
+objectClass: inetOrgPerson
+objectClass: sambaSamAccount
+cn: lyddyard
+givenName: Marget
+sn: Lyddyard
+description: Standard account
+homePhone: 2864900855
+mail: mlyddyardt@ted.com
+sambaSID: S-1-5-21-1528920847-3529959213-597322005
+sambaNTPassword: 73B428210A794F939FBF8C11EF44382B
+sambaLMPassword: 2F2C2E887D49A581FFC3537B9BB3D5EB
+uid: lyddyard
+
+# byer, people, local.tcc
+dn: uid=byer,ou=people,dc=local,dc=tcc
+objectClass: inetOrgPerson
+objectClass: sambaSamAccount
+cn: byer
+givenName: Eydie
+sn: Byer
+description: Standard account
+homePhone: 8148022508
+mail: ebyeru@acquirethisname.com
+sambaSID: S-1-5-21-1528920847-3529959213-1263725089
+sambaNTPassword: 5FFF420C238B9C60BC2C17BE94ACE4EF
+sambaLMPassword: 94E96280187F4FFD60D5D2F726DD1BAE
+uid: byer
+
+# kuhl, people, local.tcc
+dn: uid=kuhl,ou=people,dc=local,dc=tcc
+objectClass: inetOrgPerson
+objectClass: sambaSamAccount
+cn: kuhl
+givenName: Lynne
+sn: Kuhl
+description: Standard account
+homePhone: 4586072067
+mail: lkuhlv@xing.com
+sambaSID: S-1-5-21-1528920847-3529959213-4233110430
+sambaNTPassword: C85E8D694F0292BCC94347895BC64B79
+sambaLMPassword: 33C5B0C50C57413E81C9F0622141E83B
+uid: kuhl
+
+# shale, people, local.tcc
+dn: uid=shale,ou=people,dc=local,dc=tcc
+objectClass: inetOrgPerson
+objectClass: sambaSamAccount
+cn: shale
+givenName: Nikoletta
+sn: Shale
+description: Standard account
+homePhone: 3156939800
+mail: nshalew@amazon.co.uk
+sambaSID: S-1-5-21-1528920847-3529959213-976048772
+sambaNTPassword: B2DDC24FDC06C06A017F4D2106D3FA5F
+sambaLMPassword: E99324A3C064F14133E86A2D7A73280B
+uid: shale
+
+# ely, people, local.tcc
+dn: uid=ely,ou=people,dc=local,dc=tcc
+objectClass: inetOrgPerson
+objectClass: sambaSamAccount
+cn: ely
+givenName: Tymothy
+sn: Ely
+description: Standard account
+homePhone: 9894621863
+mail: telyx@icq.com
+sambaSID: S-1-5-21-1528920847-3529959213-536786265
+sambaNTPassword: C73F30C05644E8B0ACC511582387E6AC
+sambaLMPassword: 7A331E762B7D532D9D7DDD3576FC9F34
+uid: ely
+
+# grimsditch, people, local.tcc
+dn: uid=grimsditch,ou=people,dc=local,dc=tcc
+objectClass: inetOrgPerson
+objectClass: sambaSamAccount
+cn: grimsditch
+givenName: Grace
+sn: Grimsditch
+description: Standard account
+homePhone: 2525224643
+mail: ggrimsditchy@dion.ne.jp
+sambaSID: S-1-5-21-1528920847-3529959213-936627892
+sambaNTPassword: 940542711A7739FDE15238A13108C742
+sambaLMPassword: 6CB451B4479D70D108BD79D5DA60DE00
+uid: grimsditch
+
+# rawlins, people, local.tcc
+dn: uid=rawlins,ou=people,dc=local,dc=tcc
+objectClass: inetOrgPerson
+objectClass: sambaSamAccount
+cn: rawlins
+givenName: Ellis
+sn: Rawlins
+description: Standard account
+homePhone: 7596296460
+mail: erawlinsz@behance.net
+sambaSID: S-1-5-21-1528920847-3529959213-8824475990
+sambaNTPassword: 42C10C1C10C300BD091F50ABF38B6E86
+sambaLMPassword: 9F38FFA661062F182CBD7F302FB30EF8
+uid: rawlins
+
+# hedges, people, local.tcc
+dn: uid=hedges,ou=people,dc=local,dc=tcc
+objectClass: inetOrgPerson
+objectClass: sambaSamAccount
+cn: hedges
+givenName: Rees
+sn: Hedges
+description: Standard account
+homePhone: 4613900781
+mail: rhedges10@amazon.co.jp
+sambaSID: S-1-5-21-1528920847-3529959213-4516678072
+sambaNTPassword: 5ABE4B39E42CDD2786E9C86D3773E7B1
+sambaLMPassword: 0EB1B822B8266A8F9FEC3B42EB72E7B6
+uid: hedges
+
+# champion, people, local.tcc
+dn: uid=champion,ou=people,dc=local,dc=tcc
+objectClass: inetOrgPerson
+objectClass: sambaSamAccount
+cn: champion
+givenName: Dosi
+sn: Champion
+description: Standard account
+homePhone: 1005281652
+mail: dchampion11@dailymotion.com
+sambaSID: S-1-5-21-1528920847-3529959213-9407943756
+sambaNTPassword: 879EBA4E470E11196F33D7AA0C6724A5
+sambaLMPassword: 4AC7732048223A72FF58FAC85B6711D0
+uid: champion
+
+# legister, people, local.tcc
+dn: uid=legister,ou=people,dc=local,dc=tcc
+objectClass: inetOrgPerson
+objectClass: sambaSamAccount
+cn: legister
+givenName: Brien
+sn: Legister
+description: Standard account
+homePhone: 5244540103
+mail: blegister12@tumblr.com
+sambaSID: S-1-5-21-1528920847-3529959213-570869917
+sambaNTPassword: 002778999D860BBAA8BC05D013F26F57
+sambaLMPassword: 91CFFA162F888B31A65DAEBAC47A4BF9
+uid: legister
+
+# osman, people, local.tcc
+dn: uid=osman,ou=people,dc=local,dc=tcc
+objectClass: inetOrgPerson
+objectClass: sambaSamAccount
+cn: osman
+givenName: Zedekiah
+sn: Osman
+description: Standard account
+homePhone: 3749967267
+mail: zosman13@latimes.com
+sambaSID: S-1-5-21-1528920847-3529959213-8907480547
+sambaNTPassword: D2D36D4B3F5697F6E6F2AB74EA1B74D3
+sambaLMPassword: 09139EB3EAA865083514D626E198B7BF
+uid: osman
+
+# spur, people, local.tcc
+dn: uid=spur,ou=people,dc=local,dc=tcc
+objectClass: inetOrgPerson
+objectClass: sambaSamAccount
+cn: spur
+givenName: Lyman
+sn: Spur
+description: Standard account
+homePhone: 9055825386
+mail: lspur14@furl.net
+sambaSID: S-1-5-21-1528920847-3529959213-2501918482
+sambaNTPassword: 91045148BE35572E845B097E92E1FDDE
+sambaLMPassword: 669BA5154C77CFB48598C1EA6F9FDC77
+uid: spur
+
+# vancastele, people, local.tcc
+dn: uid=vancastele,ou=people,dc=local,dc=tcc
+objectClass: inetOrgPerson
+objectClass: sambaSamAccount
+cn: vancastele
+givenName: Andrea
+sn: Van Castele
+description: Standard account
+homePhone: 9473537707
+mail: avancastele15@gmpg.org
+sambaSID: S-1-5-21-1528920847-3529959213-6722868440
+sambaNTPassword: D63C6AB3CDA59723EAB3FF0DB2D1BE39
+sambaLMPassword: 4C0231569AE71EA270FE81A2F52408D3
+uid: vancastele
+
+# alner, people, local.tcc
+dn: uid=alner,ou=people,dc=local,dc=tcc
+objectClass: inetOrgPerson
+objectClass: sambaSamAccount
+cn: alner
+givenName: Berti
+sn: Alner
+description: Standard account
+homePhone: 5532756085
+mail: balner16@marriott.com
+sambaSID: S-1-5-21-1528920847-3529959213-9981208156
+sambaNTPassword: 9E591FF95784800EA48A9FDC66AA0A93
+sambaLMPassword: BF5C86ED2AC22606A89F160EF60146E7
+uid: alner
+
+# boak, people, local.tcc
+dn: uid=boak,ou=people,dc=local,dc=tcc
+objectClass: inetOrgPerson
+objectClass: sambaSamAccount
+cn: boak
+givenName: Courtnay
+sn: Boak
+description: Standard account
+homePhone: 9456449423
+mail: cboak17@hc360.com
+sambaSID: S-1-5-21-1528920847-3529959213-5094514396
+sambaNTPassword: F9B440CE819D4B8FDDDADA1AC3B3A90A
+sambaLMPassword: 55EB6574512A68DB4FB6A71B4921600A
+uid: boak
+
+# songust, people, local.tcc
+dn: uid=songust,ou=people,dc=local,dc=tcc
+objectClass: inetOrgPerson
+objectClass: sambaSamAccount
+cn: songust
+givenName: Emmy
+sn: Songust
+description: Standard account
+homePhone: 9745698747
+mail: esongust18@ebay.com
+sambaSID: S-1-5-21-1528920847-3529959213-1433339757
+sambaNTPassword: 831D2D3AFBFACB05C4DB143F8124B8CB
+sambaLMPassword: E110402F3752158C607082EED2DD02FA
+uid: songust
+
+# plumptre, people, local.tcc
+dn: uid=plumptre,ou=people,dc=local,dc=tcc
+objectClass: inetOrgPerson
+objectClass: sambaSamAccount
+cn: plumptre
+givenName: Elwood
+sn: Plumptre
+description: Standard account
+homePhone: 8921972928
+mail: eplumptre19@ning.com
+sambaSID: S-1-5-21-1528920847-3529959213-4579732391
+sambaNTPassword: 65CDA799C42C698942B91E3E84E60A4F
+sambaLMPassword: CE14D3498BF1A66157F64B241CAC558E
+uid: plumptre
+
+# klaessen, people, local.tcc
+dn: uid=klaessen,ou=people,dc=local,dc=tcc
+objectClass: inetOrgPerson
+objectClass: sambaSamAccount
+cn: klaessen
+givenName: Tam
+sn: Klaessen
+description: Standard account
+homePhone: 4716631033
+mail: tklaessen1a@mail.ru
+sambaSID: S-1-5-21-1528920847-3529959213-1788165401
+sambaNTPassword: B3582BE82C7AA598018E8CA3E137E936
+sambaLMPassword: 3026374BE710E763A7548F97ED662EDF
+uid: klaessen
+
+# wilcock, people, local.tcc
+dn: uid=wilcock,ou=people,dc=local,dc=tcc
+objectClass: inetOrgPerson
+objectClass: sambaSamAccount
+cn: wilcock
+givenName: Bev
+sn: Wilcock
+description: Standard account
+homePhone: 6913555969
+mail: bwilcock1b@digg.com
+sambaSID: S-1-5-21-1528920847-3529959213-2184783230
+sambaNTPassword: E8D4521C5F9A43D9241ECAD9145523A5
+sambaLMPassword: 57FB40E1F1B747A7CCC90CFB2779D395
+uid: wilcock
+
+# schwandermann, people, local.tcc
+dn: uid=schwandermann,ou=people,dc=local,dc=tcc
+objectClass: inetOrgPerson
+objectClass: sambaSamAccount
+cn: schwandermann
+givenName: Cairistiona
+sn: Schwandermann
+description: Standard account
+homePhone: 5084036802
+mail: cschwandermann1c@theatlantic.com
+sambaSID: S-1-5-21-1528920847-3529959213-9046361436
+sambaNTPassword: FD73C41B5EE872118CE39F5F6A63C29E
+sambaLMPassword: 8F333D9DE152B4419D2E6E0F948D0CA9
+uid: schwandermann
+
+# nayer, people, local.tcc
+dn: uid=nayer,ou=people,dc=local,dc=tcc
+objectClass: inetOrgPerson
+objectClass: sambaSamAccount
+cn: nayer
+givenName: Elia
+sn: Nayer
+description: Standard account
+homePhone: 1291687611
+mail: enayer1d@google.fr
+sambaSID: S-1-5-21-1528920847-3529959213-8580135352
+sambaNTPassword: 8C177F15719AEEF1FBA1B08897B412ED
+sambaLMPassword: 02841E2AACFD09068B668A139D1DA8C2
+uid: nayer
+
+# findlay, people, local.tcc
+dn: uid=findlay,ou=people,dc=local,dc=tcc
+objectClass: inetOrgPerson
+objectClass: sambaSamAccount
+cn: findlay
+givenName: Miles
+sn: Findlay
+description: Standard account
+homePhone: 5811645324
+mail: mfindlay1e@w3.org
+sambaSID: S-1-5-21-1528920847-3529959213-62110612
+sambaNTPassword: 6028C84D2FEF9BDCD0E908F0405132C8
+sambaLMPassword: 9FF31BD6FB60287032685AC3F6F8C87C
+uid: findlay
+
+# fanton, people, local.tcc
+dn: uid=fanton,ou=people,dc=local,dc=tcc
+objectClass: inetOrgPerson
+objectClass: sambaSamAccount
+cn: fanton
+givenName: Odille
+sn: Fanton
+description: Standard account
+homePhone: 2309374788
+mail: ofanton1f@symantec.com
+sambaSID: S-1-5-21-1528920847-3529959213-5657915481
+sambaNTPassword: 292F71FA32F5ABE1557F8B707AD19B4B
+sambaLMPassword: 1652D9027519432FB706D20473CA1C12
+uid: fanton
+
+# rochell, people, local.tcc
+dn: uid=rochell,ou=people,dc=local,dc=tcc
+objectClass: inetOrgPerson
+objectClass: sambaSamAccount
+cn: rochell
+givenName: Annora
+sn: Rochell
+description: Standard account
+homePhone: 4822036092
+mail: arochell1g@dedecms.com
+sambaSID: S-1-5-21-1528920847-3529959213-8261342251
+sambaNTPassword: 1808799292D83E7D3D3826B0C121EB14
+sambaLMPassword: 147D7548FB8A37EE24913DF00FCDAA85
+uid: rochell
+
+# josephoff, people, local.tcc
+dn: uid=josephoff,ou=people,dc=local,dc=tcc
+objectClass: inetOrgPerson
+objectClass: sambaSamAccount
+cn: josephoff
+givenName: Jammie
+sn: Josephoff
+description: Standard account
+homePhone: 9199843590
+mail: jjosephoff1h@meetup.com
+sambaSID: S-1-5-21-1528920847-3529959213-43129700
+sambaNTPassword: 1168DA5D26E766250B70C9B453E9E1C5
+sambaLMPassword: D310E8F8AFD3A725C2063BD5A5DB7116
+uid: josephoff
+
+# pollastrone, people, local.tcc
+dn: uid=pollastrone,ou=people,dc=local,dc=tcc
+objectClass: inetOrgPerson
+objectClass: sambaSamAccount
+cn: pollastrone
+givenName: Corena
+sn: Pollastrone
+description: Standard account
+homePhone: 5644874554
+mail: cpollastrone1i@ucla.edu
+sambaSID: S-1-5-21-1528920847-3529959213-9591176783
+sambaNTPassword: 4297E540C8FFE024F22846DC14477252
+sambaLMPassword: A1CED7394D66F0AFEF467775E066E0EE
+uid: pollastrone
+
+# chmarny, people, local.tcc
+dn: uid=chmarny,ou=people,dc=local,dc=tcc
+objectClass: inetOrgPerson
+objectClass: sambaSamAccount
+cn: chmarny
+givenName: Devi
+sn: Chmarny
+description: Standard account
+homePhone: 9571402696
+mail: dchmarny1j@cisco.com
+sambaSID: S-1-5-21-1528920847-3529959213-5449580438
+sambaNTPassword: A245344607A87FBE5894D2BE6579EF19
+sambaLMPassword: FB01DB5FFD06A9B0A041268BF9DA1733
+uid: chmarny
+
+# erni, people, local.tcc
+dn: uid=erni,ou=people,dc=local,dc=tcc
+objectClass: inetOrgPerson
+objectClass: sambaSamAccount
+cn: erni
+givenName: Felice
+sn: Erni
+description: Standard account
+homePhone: 3989783504
+mail: ferni1k@japanpost.jp
+sambaSID: S-1-5-21-1528920847-3529959213-4464141543
+sambaNTPassword: D2BC65AF22BEE99DB2F4026540F8DA05
+sambaLMPassword: 21D7191F51F1330FCA1E2A8A97B0DE4E
+uid: erni
+
+# hinkens, people, local.tcc
+dn: uid=hinkens,ou=people,dc=local,dc=tcc
+objectClass: inetOrgPerson
+objectClass: sambaSamAccount
+cn: hinkens
+givenName: Brana
+sn: Hinkens
+description: Standard account
+homePhone: 9375542385
+mail: bhinkens1l@prnewswire.com
+sambaSID: S-1-5-21-1528920847-3529959213-6484201172
+sambaNTPassword: 9E4B9F3D1CAFC2BA7394E4D380FDE8AF
+sambaLMPassword: 00999C8675D3F5D7867A823D43ACD573
+uid: hinkens
+
+# lesmonde, people, local.tcc
+dn: uid=lesmonde,ou=people,dc=local,dc=tcc
+objectClass: inetOrgPerson
+objectClass: sambaSamAccount
+cn: lesmonde
+givenName: Phyllys
+sn: Lesmonde
+description: Standard account
+homePhone: 2278522963
+mail: plesmonde1m@bravesites.com
+sambaSID: S-1-5-21-1528920847-3529959213-8449969279
+sambaNTPassword: 9611BF85975C41BFFFCD7E889E31D729
+sambaLMPassword: 613441DE93617059BDF1CD2436D33D5C
+uid: lesmonde
+
+# iltchev, people, local.tcc
+dn: uid=iltchev,ou=people,dc=local,dc=tcc
+objectClass: inetOrgPerson
+objectClass: sambaSamAccount
+cn: iltchev
+givenName: Flossi
+sn: Iltchev
+description: Standard account
+homePhone: 6314086639
+mail: filtchev1n@alibaba.com
+sambaSID: S-1-5-21-1528920847-3529959213-6302807690
+sambaNTPassword: 256042C06026E00B974974661CD00330
+sambaLMPassword: 9AA17481A5EBD8DBCA036001FE166066
+uid: iltchev
+
+# lutton, people, local.tcc
+dn: uid=lutton,ou=people,dc=local,dc=tcc
+objectClass: inetOrgPerson
+objectClass: sambaSamAccount
+cn: lutton
+givenName: Starr
+sn: Lutton
+description: Standard account
+homePhone: 6649268160
+mail: slutton1o@ihg.com
+sambaSID: S-1-5-21-1528920847-3529959213-4134275591
+sambaNTPassword: F7D931DADA31537D655C46C6FCC0768B
+sambaLMPassword: DAB022890A203FE0FF36B57EB1357204
+uid: lutton
+
+# schuricht, people, local.tcc
+dn: uid=schuricht,ou=people,dc=local,dc=tcc
+objectClass: inetOrgPerson
+objectClass: sambaSamAccount
+cn: schuricht
+givenName: Granthem
+sn: Schuricht
+description: Standard account
+homePhone: 9327079558
+mail: gschuricht1p@blogspot.com
+sambaSID: S-1-5-21-1528920847-3529959213-2727105735
+sambaNTPassword: E596625F069707356A131E0941C66644
+sambaLMPassword: 2B6C5FF4302DAA18C1FA9D00F8BAC908
+uid: schuricht
+
+# hedney, people, local.tcc
+dn: uid=hedney,ou=people,dc=local,dc=tcc
+objectClass: inetOrgPerson
+objectClass: sambaSamAccount
+cn: hedney
+givenName: Abbie
+sn: Hedney
+description: Standard account
+homePhone: 4945036745
+mail: ahedney1q@ftc.gov
+sambaSID: S-1-5-21-1528920847-3529959213-8940787664
+sambaNTPassword: 454B4D763D32AF8E49E3995DB58216F6
+sambaLMPassword: 9A33D70B753419160E9B9D04850B78BB
+uid: hedney
+
+# brotherheed, people, local.tcc
+dn: uid=brotherheed,ou=people,dc=local,dc=tcc
+objectClass: inetOrgPerson
+objectClass: sambaSamAccount
+cn: brotherheed
+givenName: Bryn
+sn: Brotherheed
+description: Standard account
+homePhone: 8417440203
+mail: bbrotherheed1r@skype.com
+sambaSID: S-1-5-21-1528920847-3529959213-5904042884
+sambaNTPassword: 2E8B48B3D826F9DA034B40C1C3748525
+sambaLMPassword: 14C999EA93BF159952165D4CB5EC7043
+uid: brotherheed
+
+# skeech, people, local.tcc
+dn: uid=skeech,ou=people,dc=local,dc=tcc
+objectClass: inetOrgPerson
+objectClass: sambaSamAccount
+cn: skeech
+givenName: Mellie
+sn: Skeech
+description: Standard account
+homePhone: 2108744716
+mail: mskeech1s@patch.com
+sambaSID: S-1-5-21-1528920847-3529959213-2214907154
+sambaNTPassword: AA2715D1BD30D2C91E79B850BD6DC462
+sambaLMPassword: 94CC5E3EE55986DC8896A83747B99649
+uid: skeech
+
+# admin1, people, local.tcc
+dn: uid=admin1,ou=people,dc=local,dc=tcc
+objectClass: inetOrgPerson
+objectClass: sambaSamAccount
+cn: admin1
+givenName: admin
+sn: admin1
+homePhone: 7254437132
+mail: admin1@local.tcc
+sambaSID: S-1-5-21-1528920847-3529959213-6859888036
+sambaNTPassword: D43AC268D9148F59AC4F1657D7292204
+sambaLMPassword: B1019EF3BC17B7E030495103E1C1A7DD
+uid: admin1
+description: Admin account
+
+# admin2, people, local.tcc
+dn: uid=admin2,ou=people,dc=local,dc=tcc
+objectClass: inetOrgPerson
+objectClass: sambaSamAccount
+cn: admin2
+givenName: admin
+sn: admin2
+homePhone: 5452487532
+mail: admin2@local.tcc
+sambaSID: S-1-5-21-1528920847-3529959213-2887712062
+sambaNTPassword: 32644235283BC5561CC7FE4FFFADDAEE
+sambaLMPassword: 48448F207404DB05F3BAC3A9216F6D52
+uid: admin2
+description: Admin account
+
+# ldap_sync, people, local.tcc
+dn: uid=ldap_sync,ou=people,dc=local,dc=tcc
+objectClass: inetOrgPerson
+objectClass: sambaSamAccount
+cn: ldap_sync
+givenName: ldap_sync
+sn: ldap_sync
+mail: ldap_sync@local.tcc
+userPassword:: e1NTSEF9VmUvVjB0akRYTyt3dEk3Z0tlaGZXOWJjZXF4WHlsbHI=
+sambaSID: S-1-5-21-1528920847-3529959213-9773803020
+uid: ldap_sync
+description: Don't change password. gasg35faCasgt%AF
+
+# search result
+search: 2
+result: 0 Success
+
+# numResponses: 76
+# numEntries: 75

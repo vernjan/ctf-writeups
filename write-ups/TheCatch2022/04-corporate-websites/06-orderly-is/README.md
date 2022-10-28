@@ -17,7 +17,8 @@ I enjoyed this challenge. This is the web
 
 ![](portal.png)
 
-We can post any data and the data is rendered back. I tried a few payload and discovered XSS vulnerability.
+We can post any data and the data is rendered back. I tried a few payload and
+discovered [XSS vulnerability](https://portswigger.net/web-security/cross-site-scripting).
 
 PoC:
 
