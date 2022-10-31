@@ -12,51 +12,21 @@ May the Packet be with you!
 ---
 
 - users can be enumerated on login page
-
-dirb http://blog.mysterious-delivery.tcc:20000/
-
------------------
-DIRB v2.22
-By The Dark Raver
------------------
-
-START_TIME: Fri Oct 28 01:24:34 2022
-URL_BASE: http://blog.mysterious-delivery.tcc:20000/
-WORDLIST_FILES: /usr/share/dirb/wordlists/common.txt
-
------------------
-
-GENERATED WORDS: 4612
-
----- Scanning URL: http://blog.mysterious-delivery.tcc:20000/ ----
-+ http://blog.mysterious-delivery.tcc:20000/.git/HEAD (CODE:200|SIZE:23)
-+ http://blog.mysterious-delivery.tcc:20000/create (CODE:302|SIZE:209)
-+ http://blog.mysterious-delivery.tcc:20000/hello (CODE:200|SIZE:13)
-  ==> DIRECTORY: http://blog.mysterious-delivery.tcc:20000/javascript/
-  ==> DIRECTORY: http://blog.mysterious-delivery.tcc:20000/phpmyadmin/
-+ http://blog.mysterious-delivery.tcc:20000/server-status (CODE:403|SIZE:296)
-+ http://blog.mysterious-delivery.tcc:20000/settings (CODE:302|SIZE:209)
-
----- Entering directory: http://blog.mysterious-delivery.tcc:20000/javascript/ ----
-==> DIRECTORY: http://blog.mysterious-delivery.tcc:20000/javascript/jquery/
-
----- Entering directory: http://blog.mysterious-delivery.tcc:20000/phpmyadmin/ ----
-==> DIRECTORY: http://blog.mysterious-delivery.tcc:20000/phpmyadmin/doc/
-+ http://blog.mysterious-delivery.tcc:20000/phpmyadmin/favicon.ico (CODE:200|SIZE:22486)
-+ http://blog.mysterious-delivery.tcc:20000/phpmyadmin/index.php (CODE:200|SIZE:16077)
-  ==> DIRECTORY: http://blog.mysterious-delivery.tcc:20000/phpmyadmin/js/
-+ http://blog.mysterious-delivery.tcc:20000/phpmyadmin/libraries (CODE:403|SIZE:296)
-  ==> DIRECTORY: http://blog.mysterious-delivery.tcc:20000/phpmyadmin/locale/
-+ http://blog.mysterious-delivery.tcc:20000/phpmyadmin/phpinfo.php (CODE:200|SIZE:16079)
-+ http://blog.mysterious-delivery.tcc:20000/phpmyadmin/robots.txt (CODE:200|SIZE:26)
-  ==> DIRECTORY: http://blog.mysterious-delivery.tcc:20000/phpmyadmin/sql/
-+ http://blog.mysterious-delivery.tcc:20000/phpmyadmin/templates (CODE:403|SIZE:296)
-  ==> DIRECTORY: http://blog.mysterious-delivery.tcc:20000/phpmyadmin/themes/
-
----- Entering directory: http://blog.mysterious-delivery.tcc:20000/javascript/jquery/ ----
-+ http://blog.mysterious-delivery.tcc:20000/javascript/jquery/jquery (CODE:200|SIZE:287600)
-
-TODO - not finished!!!
-
-
-GIT DUMPER
+- dirb output
+- git dump
+    - source code
+    - git forencics?
+- /settings - I need admin role
+    - would R/O SQLi help in any way? I dont think so
+    - or I need to read env variables but that's probably not the goal
+- SECRET_KEY = selohtibbaraebthgimereht - theremightbearabbitholes
+- DB
+  DATABASE_HOST = 'dbserver'
+  DATABASE_NAME = 'attendance'
+  DATABASE_USER = 'attendance'
+  DATABASE_PASSWORD = 'ATTENDANCEPASSWORD'
+- g.db = mysql.connector.connect(user='ctfb5', password='56843437e5c747a2c9c08e4b79f109c3', database='ctfb5',
+  autocommit=True)
+- flask-unsignefd
+  https://book.hacktricks.xyz/network-services-pentesting/pentesting-web/flask
+- https://github.com/pallets/flask/issues/4714
