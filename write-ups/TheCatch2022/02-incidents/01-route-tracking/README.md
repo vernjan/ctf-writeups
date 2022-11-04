@@ -21,8 +21,8 @@ May the Packet be with you!
 
 DOT is a [graph description language](https://en.wikipedia.org/wiki/DOT_(graph_description_language)).
 
-I loaded the graph into [NetworkX](https://networkx.org/) Python library and did a depth-first search, looking
-for the path of the given length.
+I loaded the graph into [NetworkX](https://networkx.org/) Python library and did a _depth-first search_,
+looking for the path (from depot, i.e. node `000`, back to depot) of the given total distance.
 
 ```python
 import networkx as nx
@@ -49,11 +49,8 @@ def dfs(node_id, total_distance):
 
         for neighbor_node_id in g.neighbors(node_id):
             distance = int(node[neighbor_node_id][0]['dist'])
-            # print("Visiting %s from %s. Current %d, total  %d"
-            #       % (neighbor_node_id, node_id, distance, total_distance + distance))
             dfs(neighbor_node_id, total_distance + distance)
 
-        # print("Stepping back. Discarding %s" % node_id)
         visited_nodes.discard(node_id)
         path.remove(node_id)
 

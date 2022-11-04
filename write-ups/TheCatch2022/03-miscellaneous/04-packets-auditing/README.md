@@ -26,8 +26,10 @@ And example of packet image
 
 ![](000000.png)
 
-Our goal is to find a package from Brenda's team in `Readt for pickup` state, i.e. an image
+Our goal is to find a package from Brenda's team in `Ready for pickup` state, i.e. an image
 with **green package** and **orange background**.
+
+No way to do it by hand. Using Python script:
 
 ```python
 import os

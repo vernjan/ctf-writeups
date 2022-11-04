@@ -15,4 +15,4 @@ In case you need help with regexes, use https://regex101.com/
 
 ![](regex-solved.jpg)
 
-`FLAG{SUOM-ULOT-TOLU-MOUS}`
+The flag is `FLAG{SUOM-ULOT-TOLU-MOUS}`

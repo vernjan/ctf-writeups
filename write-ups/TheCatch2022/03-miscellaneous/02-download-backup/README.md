@@ -32,7 +32,7 @@ Unfortunately, I couldn't find anything. Then I took the official hint:
 Brenda's favorite browser was MS Edge, i.e. she used MS Windows (running the filesystem NTFS).
 ```
 
-Ok, I was looking at the wrong place. Then, I shifted my focus on NTFS steganography and find this great article
+Ok, I was looking at the wrong place. I shifted my focus on NTFS steganography and find this great article
 [Hiding In Plain Sight With NTFS Steganography](https://www.secjuice.com/ntfs-steganography-hiding-in-plain-sight/.).
 
 I learnt about [NTFS File Streams](https://stealthbits.com/blog/ntfs-file-streams/).

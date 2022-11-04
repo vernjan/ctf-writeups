@@ -61,7 +61,7 @@ GENERATED WORDS: 4612
 This is interesting: `+ http://orderly.mysterious-delivery.tcc:23000/settings (CODE:302|SIZE:199)`
 
 I have already seen a bit similar challenge so the next logical step was to verify that XSS payload is triggered
-by the "admin". Likely, after solving [XML Prettifier](../02-xml-prettifier/README.md) I already knew I can use
+by the "admin" (a robot). Luckily, after solving [XML Prettifier](../02-xml-prettifier/README.md), I already knew I can use
 my computer to hosts payloads.
 
 The second PoC (don't forget about the firewall):
@@ -90,7 +90,7 @@ Bingo, there's hit from `10.99.0.5`!
 Now, let's make a real exploit. My first idea was to steel the session cookie and use it to impersonate the admin but
 the cookie is `httpOnly` so it wouldn't work.
 
-The idea is simple. First HTTP request to read `settings`, second HTTP request to post the response of the first
+The right idea is also quite simple: First, send HTTP request to read `/settings`, then send post the response of the first
 request back to my localhost:
 
 Also, don't forget about [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS). To make it work, I added
@@ -124,7 +124,7 @@ Run my customized [HTTP server](../../../../src/main/python/catch22/OrderlyIS/ht
 </script>
 ```
 
-The POST request is indeed logged:
+The POST request with flag is indeed logged:
 
 ```
 POST /
@@ -148,6 +148,6 @@ Body:
 
 ```
 
-Here is the cut [Settings page](settings.html).
+For convenience, here is the copied out source for [Settings page](settings.html).
 
-And the flag `FLAG{9QVE-0miw-qnwm-ER9m}`
+The flag is `FLAG{9QVE-0miw-qnwm-ER9m}`

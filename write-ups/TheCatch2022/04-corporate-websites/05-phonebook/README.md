@@ -64,10 +64,10 @@ BTW, this is how the payload changes the LDAP filter. Effectively, it becomes ju
 )
 ```
 
-Next logical step is to use the found user and password and connect to LDAP:
+Next logical step is to use the found user and password, connect to LDAP and get as much info as possible:
 
 ```
-ldapsearch -H ldap://10.99.0.121 -x -D "uid=ldap_sync,ou=people,dc=local,dc=tcc" -w 'gasg35faCasgt%AF' -b "DC=local,DC=tcc"
+$ ldapsearch -H ldap://10.99.0.121 -x -D "uid=ldap_sync,ou=people,dc=local,dc=tcc" -w 'gasg35faCasgt%AF' -b "DC=local,DC=tcc"
 
 # extended LDIF
 #
@@ -104,14 +104,14 @@ Let's try to crack it with **hashcat**. At first, I grepped all the passwords in
 $ hashcat -m 3000 -a 3 LanMan.txt
 ```
 
-This default strategy quickly cracks 133 out of 134 passwords!
+The default hashcat's strategy quickly cracks 133 out of 134 passwords!
 
 Of course, the only uncracked password is for `admin2` (our web admin).
 
-At least we cracked the first half of the passwords, which is `TOOSTRO` (perhaps "TOO STRONG"?).
+At least we cracked the first half of the passwords, which is `TOOSTRO` (perhaps **TOO STRONG** ???).
 
-To crack the second half, I used a bruteforce attack. Inspired by this question on hashcat forum:
-[Unable to crack second half of LM hash ](https://hashcat.net/forum/thread-8771.html):
+To crack the second half, I used a bruteforce attack. Inspired by the question
+[Unable to crack second half of LM hash ](https://hashcat.net/forum/thread-8771.html) on hashcat forum:
 
 ```
 $ hashcat 48448F207404DB05F3BAC3A9216F6D52 -m 3000 -a 3 -1 ?u?d?s ?1?1?1?1?1?1?1
@@ -120,20 +120,20 @@ $ hashcat 48448F207404DB05F3BAC3A9216F6D52 -m 3000 -a 3 -1 ?u?d?s ?1?1?1?1?1?1?1
 It worked! In a couple of minutes, I got the second half `NGPASS.`
 So the full password is `TOOSTRONGPASS.`
 
-However, this is not the original password. It's important to understand how LM hashes are generated
+However, this is not the original password. It's important to understand how LM hashes are generated:
 > The user’s password is converted to uppercase.
 
-So, the original password might be something like `TooStrongPass.` or any other combination.
+So, the original password might be something like `TooStrongPass.`, `TooSTRONGPass.` or **any other combination**.
 
 I created Python script [find-password.py](../../../../src/main/python/catch22/Phonebook) to enumerate all the
 possibilities and find the correct one by comparing against `sambaNTPassword` hash.
-I was a bit disappointed when it found no match.
+I was a bit disappointed when it **found no match**.
 
 So, what else... Back to LM hash rules. There is one more important:
 > The user's password is restricted to a maximum of fourteen characters.
 
 Apparently, the original password might have been longer! How do I recover it? I have the NT hash and I know
-how the passwords starts. I'm probably missing only a couple of characters. Let's try
+how the passwords starts. I'm **probably missing only a couple of characters**. Let's try
 hashcat [Hybrid attack](https://hashcat.net/wiki/doku.php?id=hybrid_attack).
 
 At first, I dumped all the 8192 password prefixes into [passwords.txt](passwords.txt).

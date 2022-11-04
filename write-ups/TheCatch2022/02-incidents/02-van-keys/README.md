@@ -9,7 +9,7 @@ decryption part is not yet finished, so we can't start any delivery van since mo
 Good news is that we managed to get the latest version of the decryption script from git repository. Bad news is that
 the script is not finished yet! Your task is to the finalize the script and decrypt the password as soon as possible.
 
-Download [the script and encrypted password] (MD5 checksum `e67c86a277b0d8001ea5b3e8f6eb6868`).
+Download [the script and encrypted password](van_keys.zip) (MD5 checksum `e67c86a277b0d8001ea5b3e8f6eb6868`).
 
 May the Packet be with you!
 
@@ -18,7 +18,7 @@ May the Packet be with you!
 What is required to make the script work:
 
 - fix syntax errors (missing double colons)
-- download `pi_dec_1m.txt` from internet (Pi 1 million decimals)
+- download `pi_dec_1m.txt` from internet (a file with Pi 1 million decimals, `3.1415926535897...`)
 - add missing imports
   ```python
   import base64

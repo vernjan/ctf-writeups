@@ -30,8 +30,8 @@ Detected unsupported device. Only mobile devices are supported.
 
 I switched Firefox into **Responsive Design Mode** (`Ctrl + Shift + m`).
 
-This is the first step. Behind the scenes, the screen width is passed onto the server as base64 encoded
-param: `messenger: "MzIw"`.
+This is the first step (behind the scenes, the screen width is passed onto the server as base64 encoded
+param: `messenger: "MzIw"`).
 
 Now the Console log message changes into:
 
@@ -79,4 +79,4 @@ Zikova 4, Praha<br>
 </p>       
 ```
 
-Flag is displayed in reverse. Fix it and grab `FLAG{CjJn-3bH6-xT9z-1wEE}`
+Flag is displayed in reverse. Fix it and enjoy `FLAG{CjJn-3bH6-xT9z-1wEE}`

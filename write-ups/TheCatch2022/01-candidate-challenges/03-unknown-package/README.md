@@ -14,7 +14,9 @@ May the Packet be with you!
 
 ---
 
-There is a QR code and a couple of barcodes. Scan all the codes and find the flag.
+There is a QR code and a couple of barcodes. Just scan all the codes and you will find the flag.
+
+This is the one with flag:
 
 ![](barcode.jpg)
 
