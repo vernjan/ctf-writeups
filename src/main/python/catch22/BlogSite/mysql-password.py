@@ -1,0 +1,5 @@
+from werkzeug.security import generate_password_hash
+
+print(generate_password_hash("qq4QmacKseWV5GPx5gfDAqH5N5tLSYYT"))
+
+# pbkdf2:sha256:260000$8a4O0mU34u4JdpW9$7c4cc9aa6b2d521b90779861cd9ac304f5ea4a966e5141416ca80ad182844220

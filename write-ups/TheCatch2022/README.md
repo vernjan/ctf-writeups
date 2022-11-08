@@ -3,6 +3,7 @@
 - **The Story**
     - [Introduction (0p)](00-story/00-introduction.md)
     - [Promotion (0p)](00-story/01-promotion.md)
+    - [Epilogue (0p)](00-story/02-epilogue.md)
 - **Candidate challenges**
     - [VPN access](01-candidate-challenges/01-vpn-access/README.md) (1p)
     - [Bitcoin wallet](01-candidate-challenges/02-bitcoin-wallet/README.md) (1p)
@@ -21,7 +22,7 @@
 - **Corporate websites**
     - [Streamlining portal](04-corporate-websites/01-streamlining-portal/README.md) (3p)
     - [XML Prettifier](04-corporate-websites/02-xml-prettifier/README.md) (4p)
-    - [Blog site](04-corporate-websites/03-blog-site/README.md) (4p) TBD
+    - [Blog site](04-corporate-websites/03-blog-site/README.md) (4p)
     - [Streamlining portal NG](04-corporate-websites/04-streamlining-portal-ng) (4p)
     - [Phonebook](04-corporate-websites/05-phonebook/README.md) (5p)
     - [Orderly IS](04-corporate-websites/06-orderly-is/README.md) (5p)
