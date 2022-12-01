@@ -1,19 +1,17 @@
-from aoc_util.data_input import read_all_lines
+from data_input import read_all_lines
 
-sums = []
+elf_calories = []
 current = 0
 
-for line in read_all_lines("day01/input.txt"):
+for line in read_all_lines("input.txt"):
     if line.isdigit():
         current += int(line)
     else:
-        sums.append(current)
+        elf_calories.append(current)
         current = 0
 
-sums = sorted(sums, reverse=True)
-
-print(f"Star 1: {sums[0]}")
-sum3max = sums[0] + sums[1] + sums[2]
+print(f"Star 1: {max(elf_calories)}")
+sum3max = sum(sorted(elf_calories, reverse=True)[:3])
 print(f"Star 2: {sum3max}")
 
 # Star 1: 70369
