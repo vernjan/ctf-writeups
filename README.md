@@ -1,5 +1,9 @@
-# CTF Write-ups
+# Write-ups
 
+## Advent of Code
+- [Advent of Code 2022](src/main/python/aoc22)
+
+## CTFs
 - [The Catch 2022](write-ups/TheCatch2022/README.md)
 - [The Catch 2021](write-ups/TheCatch2021/README.md)
 - [Hacky Easter 2021](write-ups/HackyEaster2021/README.md)
