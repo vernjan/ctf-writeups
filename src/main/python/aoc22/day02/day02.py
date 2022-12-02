@@ -1,4 +1,4 @@
-from aoc_util.data_input import read_all_lines
+from data_input import read_all_lines
 
 """Symbols:
 A - Rock
@@ -40,7 +40,7 @@ def get_required_symbol(result):
         return WIN_MOVES[op]
 
 
-for line in read_all_lines("day02/input.txt"):
+for line in read_all_lines("input.txt"):
     op = line[0]
     me = chr(ord(line[2]) - 23)  # shift XYZ to ABC
 
