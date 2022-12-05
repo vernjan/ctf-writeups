@@ -29,9 +29,10 @@ def star2(lines: List[str]):
     return answer
 
 
-lines = read_all_lines("input.txt")
-print(star1(lines))
-print(star2(lines))
+if __name__ == "__main__":
+    lines = read_all_lines("input.txt")
+    print(star1(lines))
+    print(star2(lines))
 
-# Star 1:
-# Star 2:
+    # Star 1:
+    # Star 2:
