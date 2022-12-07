@@ -23,8 +23,9 @@ def star2(lines: List[str]):
 
 
 if __name__ == "__main__":
-    print(star1(read_all_lines("input.txt")))
-    print(star2(read_all_lines("input.txt")))
+    lines = read_all_lines("input.txt")
+    print(f"Star 1: {star1(lines)}")
+    print(f"Star 2: {star2(lines)}")
 
     # Star 1:
     # Star 2:
