@@ -1,6 +1,6 @@
 import pprint
-from typing import List
 from typing import Dict
+from typing import List
 
 from data_input import read_all_lines
 from simple_logging import log
@@ -12,14 +12,7 @@ def star1(dir_tree: Dict[str, Dict]):
     95437
     """
 
-    # TODO JVe Please, please refactor me ;-)
-    total = {"x": 0}
-    matching = list()
-    _sum_dir(dir_tree, total, matching)
-    log.info(matching)
-    log.info(min(matching))
-
-    return total["x"]
+    return sum(size for size in (_get_all_dirsizes(dir_tree)) if size <= 100_000)
 
 
 def star2(dir_tree: Dict[str, Dict]):
@@ -28,45 +21,40 @@ def star2(dir_tree: Dict[str, Dict]):
     24933642
     """
 
-    total = {"x": 0}
-    matching = list()
-    _sum_dir(dir_tree, total, matching)
-    log.info(matching)
-
-    return min(matching)
-
-    # 1035571
-
-    pass
+    dirsizes = _get_all_dirsizes(dir_tree)
+    occupied = max(dirsizes)
+    max_occupied = 40_000_000
+    delete_at_least = occupied - max_occupied
+    return min(size for size in dirsizes if size >= delete_at_least)
 
 
 def _create_dir_tree(commands: List[str]) -> Dict[str, Dict]:
-    dir_stack = []
-    dir_tree = {}
+    dirstack = []
+    tree = {}
     for cmd in commands:
         if cmd == "$ cd ..":
-            dir_stack.pop()
+            dirstack.pop()
         elif cmd.startswith("$ cd "):
             if cmd == "$ cd /":
-                dir_stack.clear()
+                dirstack.clear()
             dirname = cmd[5:]
-            parent_dir = _find_dir(dir_tree, dir_stack)
+            parent_dir = _find_dir(tree, dirstack)
             if dirname not in parent_dir:
                 parent_dir[dirname] = {}
-            dir_stack.append(dirname)
+            dirstack.append(dirname)
         elif cmd.startswith("$ ls"):
             pass  # no-op
         elif cmd.startswith("dir "):
             dirname = cmd[4:]
-            parent_dir = _find_dir(dir_tree, dir_stack)
+            parent_dir = _find_dir(tree, dirstack)
             if dirname not in parent_dir:
                 parent_dir[dirname] = {}
         else:
             size, filename = cmd.split(" ")
-            parent_dir = _find_dir(dir_tree, dir_stack)
+            parent_dir = _find_dir(tree, dirstack)
             if filename not in parent_dir:
                 parent_dir[filename] = int(size)
-    return dir_tree
+    return tree
 
 
 def _find_dir(tree, dir_stack):
@@ -75,18 +63,21 @@ def _find_dir(tree, dir_stack):
     return tree
 
 
-def _sum_dir(tree, total, matching):
+def _get_all_dirsizes(tree: Dict[str, Dict]) -> List[int]:
+    dirsizes = []
+    _collect_dirsizes(tree, dirsizes)
+    return dirsizes
+
+
+def _collect_dirsizes(tree: Dict[str, Dict], dirsizes: List[int]) -> int:
     dirsize = 0
-    for k, v in tree.items():
+    for dirname, v in tree.items():
         if type(v) is dict:
-            dirsize += _sum_dir(v, total, matching)
+            dirsize += _collect_dirsizes(v, dirsizes)
         else:
             dirsize += v
 
-    if (dirsize <= 100_000):
-        total["x"] += dirsize
-    if (dirsize >= 1035571):
-        matching.append(dirsize)
+    dirsizes.append(dirsize)
 
     return dirsize
 
