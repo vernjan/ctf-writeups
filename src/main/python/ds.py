@@ -4,6 +4,7 @@ from typing import List
 # TODO Refactor a generic a grid from it
 # TODO Typing for all
 # TODO Docs
+# TODO GridCell? No transposing?
 # TODO Tests
 class Grid:
     DIRECTIONS = ["UP", "RIGHT", "DOWN", "LEFT"]  # TODO vs. Views?
