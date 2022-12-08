@@ -12,7 +12,7 @@ def star1(dir_tree: Dict[str, Dict]):
     95437
     """
 
-    return sum(size for size in (_get_all_dirsizes(dir_tree)) if size <= 100_000)
+    return sum(size for size in _get_all_dirsizes(dir_tree) if size <= 100_000)
 
 
 def star2(dir_tree: Dict[str, Dict]):
