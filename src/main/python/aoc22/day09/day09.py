@@ -82,12 +82,12 @@ def star2(commands: List[str]):
     """
 
     visited = set()
-    rope = list([(5000, 5000) for _ in range(10)])
+    rope = [(5000, 5000)] * 10
 
     grid = VisualGrid(width=25, height=25)
 
     if with_visual_grid:
-        rope = list([(10, 10) for _ in range(10)])
+        rope = [(10, 10)] * 10
         _update_visual_grid_with_rope(grid, rope)
 
     visited.add(rope[-1])

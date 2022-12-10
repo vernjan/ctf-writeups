@@ -7,14 +7,10 @@ class VisualGrid:
         self.rows = self._empty_grid()
 
     def _empty_grid(self):
-        rows = []
-        for _ in range(self.height):
-            row = [self.empty_symbol for _ in range(self.width)]
-            rows.append(row)
-        return rows
+        return [[self.empty_symbol] * self.width for _ in range(self.height)]
 
     def clear(self):
         self.rows = self._empty_grid()
 
     def fprint(self):
-        return "\n".join(["".join(row) for row in self.rows]) + "\n"
+        return "\n".join(["".join(row) for row in self.rows])
