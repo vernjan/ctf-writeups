@@ -1,6 +1,6 @@
 import functools
+import json
 import logging
-from dataclasses import dataclass
 from typing import List
 
 from data_input import read_all_lines
@@ -8,9 +8,9 @@ from simple_logging import log
 
 
 @functools.total_ordering
-@dataclass
 class SignalList:
-    signals: List
+    def __init__(self, signals):
+        self.signals = json.loads(signals)
 
     def __lt__(self, other):
         return self._compare_lists(self.signals, other.signals) < 0
@@ -65,9 +65,9 @@ def star1(lines: List[str]):
     list2 = None
     for i, line in enumerate(lines):
         if i % 3 == 0:
-            list1 = SignalList(eval(line))
+            list1 = SignalList(line)
         elif i % 3 == 1:
-            list2 = SignalList(eval(line))
+            list2 = SignalList(line)
         else:
             pair_index += 1
             log.debug(f">>> Comparing {list1} vs. {list2}")
@@ -84,14 +84,14 @@ def star2(lines: List[str]):
     140
     """
 
-    divider1 = SignalList([[2]])
-    divider2 = SignalList([[6]])
+    divider1 = SignalList("[[2]]")
+    divider2 = SignalList("[[6]]")
 
     all_signals = [divider1, divider2]
     for line in lines:
         if line:
             log.debug(f"Creating from line: {line}")
-            all_signals.append(SignalList(eval(line)))
+            all_signals.append(SignalList(line))
 
     all_signals.sort()
     log.debug(all_signals)
