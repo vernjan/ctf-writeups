@@ -3,7 +3,7 @@ from typing import List
 
 from data_input import read_all_lines
 from simple_logging import log
-from visual import VisualGrid
+from ds import Grid
 from fce import sign
 
 with_visual_grid = __name__ != "__main__"  # Only for tests
@@ -44,18 +44,19 @@ def star1(commands: List[str]):
     head = (5000, 5000)
     tail = (5000, 5000)
 
-    grid = VisualGrid(width=6, height=5)
+    grid = Grid.empty(width=6, height=5)
 
     if with_visual_grid:
         head = (0, 4)
         tail = (0, 4)
+        log.debug("Initial state:")
         _update_visual_grid(grid, head, tail)
 
     visited.add(tail)
 
     for cmd in commands:
         direction, steps = cmd.split(" ")
-        log.debug(f"{direction} {steps}")
+        log.debug(f"{direction} {steps}:")
 
         for _ in range(int(steps)):
             head = _move_head(head, direction)
@@ -69,10 +70,10 @@ def star1(commands: List[str]):
 
 
 def _update_visual_grid(grid, head, tail):
-    grid.clear()
+    grid.fill(".")
     grid.rows[tail[1]][tail[0]] = "T"
     grid.rows[head[1]][head[0]] = "H"
-    log.info(grid.fprint())
+    log.info(grid)
 
 
 def star2(commands: List[str]):
@@ -84,7 +85,7 @@ def star2(commands: List[str]):
     visited = set()
     rope = [(5000, 5000)] * 10
 
-    grid = VisualGrid(width=25, height=25)
+    grid = Grid.empty(width=25, height=25)
 
     if with_visual_grid:
         rope = [(10, 10)] * 10
@@ -110,11 +111,11 @@ def star2(commands: List[str]):
 
 
 def _update_visual_grid_with_rope(grid, rope):
-    grid.clear()
+    grid.fill(".")
     for i in range(len(rope)):
         knot = rope[i]
         grid.rows[knot[1]][knot[0]] = str(i)
-    log.info(grid.fprint())
+    log.info(grid)
 
 
 if __name__ == "__main__":

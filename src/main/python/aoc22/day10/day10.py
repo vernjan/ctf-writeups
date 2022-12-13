@@ -3,7 +3,7 @@ from typing import List
 
 from data_input import read_all_lines
 from simple_logging import log
-from visual import VisualGrid
+from ds import Grid
 
 
 def star1(instructions: List[str]):
@@ -32,7 +32,7 @@ def star2(instructions: List[str]):
 
 def _execute_instructions(instr_queue: List[str]):
     sum_of_signals = 0
-    crt = VisualGrid(width=40, height=6, empty_symbol=".")
+    crt = Grid.empty(width=40, height=6)
 
     reg = 1
     clock = 0
@@ -75,7 +75,7 @@ def _execute_instructions(instr_queue: List[str]):
 
     log.debug(f"{clock}: x = {reg}")
 
-    return sum_of_signals, crt.fprint()
+    return sum_of_signals, crt
 
 
 if __name__ == "__main__":

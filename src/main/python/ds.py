@@ -1,145 +1,169 @@
-from typing import Iterable, List, Tuple, Set
+from typing import List, Tuple, Set, Sequence
 
+from fce import array2d
 from simple_logging import log
 
 
-# TODO Pos/Coord/Xy class
-# TODO Typing for all
-# TODO Docs
-# TODO GridCell? No transposing?
+# TODO GridCell? No transposing? Generics?
+# TODO Pos/Coord/Xy class, replace position, rowi/coli
 class Grid:
-    class Cell:
-        def __int__(self, rowi, coli, val):
-            self.rowi = rowi
-            self.coli = coli
-            self.val = val
-            self.visited = False
+    DIRECTIONS = ["NORTH", "EAST", "SOUTH", "WEST"]
 
-    DIRECTIONS = ["UP", "RIGHT", "DOWN", "LEFT"]  # TODO vs. Views?
+    def __init__(self, rows: List[Sequence]):
+        assert rows, "No data"
 
-    # TODO Clean up
-    def __init__(self, data: List[str]):
-        self.rows = []
-        self.cols = []
+        self.rows = rows
+        self.height = len(rows)
+        self.width = len(rows[0])
 
-        # for rowi in range(len(data)):
+        # TODO Do I need this???
+        self._cols = []
+        for coli in range(self.width):
+            col = [rows[rowi][coli] for rowi in range(self.height)]
+            self._cols.append(col)
 
-        # FIXME !!! str vs int
-        for row in data:
-            # self.rows.append([int(item) for item in row])
-            self.rows.append([item for item in row])
-
-        # TODO row_size and col_size
-        for coli in range(len(data[0])):
-            col = []
-            for row_index in range(len(data)):
-                # col.append(int(data[row_index][coli]))
-                col.append(data[row_index][coli])
-            self.cols.append(col)
-
-        # TODO More Pythonic way?
+        # TODO Move away?
         self.visited = []
-        for _ in range(self.cols_count()):
-            row = [False for _ in range(self.rows_count())]
-            self.visited.append(row)
+        for _ in range(self.height):
+            self.visited.append([False] * self.width)
 
-    def __getitem__(self, item):
-        return self.rows[item]
+    @classmethod
+    def empty(cls, width, height, value="."):
+        """
+        >>> print(Grid.empty(3, 2, "@"))
+        @@@
+        @@@
+        """
+        return Grid(array2d(width, height, value))
 
-    # TODO find_all, better impl?
+    def __getitem__(self, rowi) -> List:
+        return self.rows[rowi]
+
+    def __repr__(self) -> str:
+        return "\n".join(["".join(row) for row in self.rows])
+
+    def fill(self, symbol="."):
+        self.rows = array2d(self.width, self.height, symbol)  # FIXME Does not init columns, visited, ..
+
     def find_first(self, value):
-        for i in range(len(self.rows)):
-            row = self.rows[i]
-            for j in range(len(row)):
-                if row[j] == value:
-                    return i, j
+        """
+        >>> Grid([[1,2],[2,3]]).find_first(2)
+        (0, 1)
+        """
+        for rowi in range(self.height):
+            for coli in range(self.width):
+                if self[rowi][coli] == value:
+                    return rowi, coli
         return None
 
-    def find_all(self, value):
+    def find_all(self, value) -> List:
+        """
+        >>> Grid([[1,2],[2,3]]).find_all(2)
+        [(0, 1), (1, 0)]
+        """
         result = []
-        for i in range(len(self.rows)):
-            row = self.rows[i]
-            for j in range(len(row)):
-                if row[j] == value:
-                    result.append((i, j))
+        for rowi in range(self.height):
+            for coli in range(self.width):
+                if self[rowi][coli] == value:
+                    result.append((rowi, coli))
         return result
 
-    def at_pos(self, pos: Tuple[int, int]):
-        return self[pos[0]][pos[1]]
+    def at_position(self, position: Tuple[int, int]):
+        """
+        >>> Grid([[1,2],[2,3]]).at_position((1,1))
+        3
+        """
+        return self[position[0]][position[1]]
 
-    def rows_count(self) -> int:
-        return len(self.rows)
-
-    def cols_count(self) -> int:
-        return len(self.cols)
-
-    def slice_from(self, rowi, coli, direction) -> Iterable:
-        """Get a grid slice from the given position moving into the given direction"""
-        if direction == "UP":
-            return self.cols[coli][rowi::-1]
-        elif direction == "RIGHT":
+    def slice_at(self, rowi, coli, direction) -> List:
+        """Get a grid slice (list) from the given position moving into the given direction
+        >>> Grid([[1,2,3], [4,5,6], [7,8,9]]).slice_at(1, 1, "NORTH")
+        [5, 2]
+        >>> Grid([[1,2,3], [4,5,6], [7,8,9]]).slice_at(1, 1, "EAST")
+        [5, 6]
+        >>> Grid([[1,2,3], [4,5,6], [7,8,9]]).slice_at(1, 1, "SOUTH")
+        [5, 8]
+        >>> Grid([[1,2,3], [4,5,6], [7,8,9]]).slice_at(1, 1, "WEST")
+        [5, 4]
+        """
+        if direction == "NORTH":
+            return self._cols[coli][rowi::-1]
+        elif direction == "EAST":
             return self.rows[rowi][coli:]
-        elif direction == "DOWN":
-            return self.cols[coli][rowi:]
-        elif direction == "LEFT":
+        elif direction == "SOUTH":
+            return self._cols[coli][rowi:]
+        elif direction == "WEST":
             return self.rows[rowi][coli::-1]
         else:
             raise ValueError(f"Invalid direction: {direction}")
 
-    # TODO Rotate?
+    # TODO Also add Rotate? Return new Grid for printing? Make sure to preserve Cells (to keep visited nodes)
     def view_from(self, direction):
         """Transpose the grid as if looked from the given direction"""
-        if direction == "UP":
-            return self.cols
-        elif direction == "RIGHT":
+        if direction == "NORTH":
+            return self._cols
+        elif direction == "EAST":
             return [list(reversed(row)) for row in self.rows]
-        elif direction == "DOWN":
-            return [list(reversed(row)) for row in self.cols]
-        elif direction == "LEFT":
+        elif direction == "SOUTH":
+            return [list(reversed(row)) for row in self._cols]
+        elif direction == "WEST":
             return self.rows
         else:
             raise ValueError(f"Invalid direction: {direction}")
 
-    def is_visited(self, i, j, view_from="LEFT"):
+    def is_visited(self, i, j, view_from="WEST"):
         rowi, coli = self._transpose_coordinates(i, j, view_from)
         return self.visited[rowi][coli]
 
-    def mark_visited(self, i, j, view_from="LEFT"):
+    def mark_visited(self, i, j, view_from="WEST"):
         rowi, coli = self._transpose_coordinates(i, j, view_from)
         self.visited[rowi][coli] = True
 
     def _transpose_coordinates(self, rowi, coli, view_from):
-        if view_from == "UP":
+        if view_from == "NORTH":
             return coli, rowi
-        elif view_from == "RIGHT":
-            return rowi, len(self.cols[0]) - coli - 1
-        elif view_from == "DOWN":
-            return len(self.cols[0]) - coli - 1, rowi
-        elif view_from == "LEFT":
+        elif view_from == "EAST":
+            return rowi, len(self._cols[0]) - coli - 1
+        elif view_from == "SOUTH":
+            return len(self._cols[0]) - coli - 1, rowi
+        elif view_from == "WEST":
             return rowi, coli
         else:
             raise ValueError(f"Invalid direction: {view_from}")
 
     def get_neighbors(self, pos: Tuple[int, int]) -> List[Tuple[int, int]]:
+        """
+        >>> Grid([[1,2,3], [4,5,6], [7,8,9]]).get_neighbors((0, 1))
+        [(0, 2), (1, 1), (0, 0)]
+        """
         neighbors = [
-            (pos[0], pos[1] - 1),
-            (pos[0] + 1, pos[1]),
-            (pos[0], pos[1] + 1),
             (pos[0] - 1, pos[1]),
+            (pos[0], pos[1] + 1),
+            (pos[0] + 1, pos[1]),
+            (pos[0], pos[1] - 1),
         ]
 
-        return [pos for pos in neighbors if 0 <= pos[0] < self.rows_count() and 0 <= pos[1] < self.cols_count()]
+        return [pos for pos in neighbors if 0 <= pos[0] < self.height and 0 <= pos[1] < self.width]
 
     def find_shortest_path(
             self,
             start_position: Tuple[int, int],
             end_positions: Set[Tuple[int, int]],
-            has_access):
+            has_access) -> int:
         """ Find the shortest path between the start position and possibly multiple end positions.
 
         - has_access is a lambda(grid, position, neighbor_position)
         """
         shortest_routes = {start_position: 0}
+
+        def _update_shortest_routes(pos, new_route_len):
+            if pos not in shortest_routes:
+                shortest_routes[pos] = new_route_len
+                return True
+            elif new_route_len < shortest_routes[pos]:
+                shortest_routes[pos] = new_route_len
+                return True
+            return False
 
         next_moves = [start_position]
         while next_moves:
@@ -152,19 +176,7 @@ class Grid:
             route_len = shortest_routes[position]
             for neighbor in self.get_neighbors(position):
                 if has_access(self, position, neighbor):
-                    if self._update_shortest_routes(neighbor, route_len + 1, shortest_routes):
+                    if _update_shortest_routes(neighbor, route_len + 1):
                         next_moves.append(neighbor)
 
         return min([shortest_routes[pos] for pos in end_positions if pos in shortest_routes])
-
-    # TODO Refactor
-    def _update_shortest_routes(self, pos, route_len, shortest_routes):
-        if pos not in shortest_routes:
-            shortest_routes[pos] = route_len
-            return True
-        else:
-            best_so_far = shortest_routes[pos]
-            if route_len < best_so_far:
-                shortest_routes[pos] = route_len
-                return True
-            return False
