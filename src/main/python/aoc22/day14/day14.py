@@ -5,6 +5,8 @@ from simple_logging import log
 from data_input import read_all_lines
 from ds import Grid, Position as Pos
 
+is_test = __name__ != "__main__"  # Only for tests
+
 
 def star1(lines: List[str]):
     """
@@ -12,19 +14,17 @@ def star1(lines: List[str]):
     24
     """
 
-    is_test = __name__ != "__main__"  # Only for tests
-
     grid = Grid.empty(width=11, height=13)
 
     for line in lines:
         positions = [Pos.parse_swap(pos) for pos in line.split(" -> ")]
-        last_position = None
+        last_pos = None
         for pos in positions:
             if is_test:
                 pos = Pos(pos.ri, pos.ci - 493)
-            if last_position:
-                grid.fill_between(last_position, pos, "#")
-            last_position = pos
+            if last_pos:
+                grid.fill_between(last_pos, pos, "#")
+            last_pos = pos
 
     log.debug(grid)
 
