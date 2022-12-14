@@ -70,7 +70,7 @@ def star1(commands: List[str]):
 
 
 def _update_visual_grid(grid, head, tail):
-    grid.fill(".")
+    grid.fill_all(".")
     grid.rows[tail[1]][tail[0]] = "T"
     grid.rows[head[1]][head[0]] = "H"
     log.info(grid)
@@ -111,7 +111,7 @@ def star2(commands: List[str]):
 
 
 def _update_visual_grid_with_rope(grid, rope):
-    grid.fill(".")
+    grid.fill_all(".")
     for i in range(len(rope)):
         knot = rope[i]
         grid.rows[knot[1]][knot[0]] = str(i)
