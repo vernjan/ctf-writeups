@@ -39,6 +39,24 @@ class Position:
     def __hash__(self):
         return hash((self.ri, self.ci))
 
+    def up(self):
+        return Pos(self.ri - 1, self.ci)
+
+    def right(self):
+        return Pos(self.ri, self.ci + 1)
+
+    def down(self):
+        return Pos(self.ri + 1, self.ci)
+
+    def left(self):
+        return Pos(self.ri, self.ci - 1)
+
+    def left_down(self):
+        return Pos(self.ri + 1, self.ci - 1)
+
+    def right_down(self):
+        return Pos(self.ri + 1, self.ci + 1)
+
 
 Pos = Position
 
@@ -156,6 +174,15 @@ class Grid:
         """
         return self[pos.ri][pos.ci]
 
+    def set_position(self, pos: Pos, value):
+        """
+        >>> Grid([[1,2],[2,3]]).set_position(Pos(1,1), "a")
+        12
+        2a
+        """
+        self[pos.ri][pos.ci] = value
+        return self
+
     # TODO Add support for filling - slice_from, slice_between + fill_from, fill_between
     def slice_at(self, pos: Position, direction) -> List:
         """Get a grid slice (list) from the given position moving into the given direction
@@ -219,13 +246,7 @@ class Grid:
         >>> Grid([[1,2,3], [4,5,6], [7,8,9]]).get_neighbors(Pos(0, 1))
         [(0,2), (1,1), (0,0)]
         """
-        neighbors = [
-            Pos(pos.ri - 1, pos.ci),
-            Pos(pos.ri, pos.ci + 1),
-            Pos(pos.ri + 1, pos.ci),
-            Pos(pos.ri, pos.ci - 1),
-        ]
-
+        neighbors = [pos.up(), pos.right(), pos.down(), pos.left()]
         return [pos for pos in neighbors if 0 <= pos.ri < self.height and 0 <= pos.ci < self.width]
 
     def find_shortest_path(
