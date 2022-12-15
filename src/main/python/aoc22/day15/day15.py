@@ -24,6 +24,11 @@ def star2(lines: List[str], size_limit):
     56000011
     """
 
+    """
+    The solution is not optimal and takes tens of seconds.
+    On the other hand, I just reused what I already have from star 1 :-)
+    """
+
     start = time.time()
 
     sensors_beacons = _parse_input_data(lines)
@@ -44,8 +49,6 @@ def star2(lines: List[str], size_limit):
                     return y + (x * 4_000_000)
                 if block[1] > max_x:
                     max_x = block[1]
-
-
 
 
 def _parse_input_data(lines):
