@@ -21,7 +21,7 @@ class Position:
         return Position(ri, ci)
 
     @classmethod
-    def parse_swap(cls, data: str):
+    def parse_swap(cls, data: str): # TODO Go for standard X,Y?
         """
         >>> Position.parse_swap("5,8")
         (8,5)
@@ -31,7 +31,7 @@ class Position:
         return Position(ri, ci)
 
     def __repr__(self) -> str:
-        return f"({self.ri},{self.ci})"
+        return f"(ri={self.ri},ci={self.ci})"
 
     def __str__(self) -> str:
         return f"({self.ri},{self.ci})"
@@ -56,6 +56,15 @@ class Position:
 
     def right_down(self):
         return Pos(self.ri + 1, self.ci + 1)
+
+    def manhattan_dist(self, other):
+        """
+        >>> Position(1, 1).manhattan_dist(Position(2,2))
+        2
+        >>> Position(5, 4).manhattan_dist(Position(0,0))
+        9
+        """
+        return abs(self.ri - other.ri) + abs(self.ci - other.ci)
 
 
 Pos = Position

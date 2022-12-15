@@ -27,7 +27,7 @@ def star2(lines: List[str]):
 
 
 def sand_fall(star, lines):
-    shrink_width_by = 0
+    shrink_width_by = 0  # TODO Method params
     width, height = 1000, 200
     if is_test:
         shrink_width_by = 450
