@@ -1,8 +1,8 @@
 import logging
 from typing import List
-from simple_logging import log
 
-from data_input import read_all_lines
+from data_input import read_all_lines, run
+from simple_logging import log
 
 
 def star1(lines: List[str]):
@@ -26,8 +26,8 @@ def star2(lines: List[str]):
 if __name__ == "__main__":
     log.setLevel(logging.INFO)
     lines = read_all_lines("input.txt")
-    print(f"Star 1: {star1(lines)}")
-    print(f"Star 2: {star2(lines)}")
+    run("Star 1", lambda: star1(lines))
+    run("Star 2", lambda: star1(lines))
 
     # Star 1:
     # Star 2:
