@@ -6,7 +6,7 @@ from simple_logging import log
 
 
 @dataclass
-class Position:
+class Position:  # TODO x,y?
     ri: int  # row index
     ci: int  # column index
 
@@ -21,7 +21,7 @@ class Position:
         return Position(ri, ci)
 
     @classmethod
-    def parse_swap(cls, data: str):  # TODO Go for standard X,Y?
+    def parse_swap(cls, data: str): # TODO Go for standard X,Y?
         """
         >>> Position.parse_swap("5,8")
         (8,5)
@@ -70,14 +70,6 @@ class Position:
 Pos = Position
 
 
-@dataclass
-class Cell:
-    value: object
-
-    def __str__(self) -> str:
-        return str(self.value)
-
-
 # TODO GridCell? No transposing? Generics?
 # TODO Pos/Coord/Xy class, replace position, rowi/coli
 class Grid:
@@ -86,7 +78,7 @@ class Grid:
     def __init__(self, rows: List[Sequence]):
         assert rows, "No data"
 
-        self.rows = [map(Cell.__init__, row) for row in rows]
+        self.rows = rows
         self.height = len(rows)
         self.width = len(rows[0])
 
@@ -108,7 +100,7 @@ class Grid:
         @@@
         @@@
         """
-        return Grid(array2d(width, height, Cell(value)))
+        return Grid(array2d(width, height, value))
 
     def __getitem__(self, ri) -> List:
         return self.rows[ri]
