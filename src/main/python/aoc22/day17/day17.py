@@ -4,15 +4,17 @@ from data_input import read_single_line, run
 from ds import Grid
 from simple_logging import log
 
+ROW_PATTERN = [".", ".", "#", "#", "#", "#", "."]
+
 
 class Rock:
 
-    def __init__(self, grid: Grid, max_y: int, width: int, height: int):
+    def __init__(self, grid: Grid, highest_y: int, width: int, height: int):
         self.grid = grid
         self.width = width
         self.height = height
         self.x_left = 2
-        self.y = max_y - 3 - self.height
+        self.y = highest_y - 3 - self.height
 
     def move_left(self) -> bool:
         pass
@@ -26,8 +28,8 @@ class Rock:
 
 class RectangleRock(Rock):
 
-    def __init__(self, grid: Grid, max_y: int, width: int, height: int):
-        super().__init__(grid, max_y, width, height)
+    def __init__(self, grid: Grid, highest_y: int, width: int, height: int):
+        super().__init__(grid, highest_y, width, height)
         for ri in range(self.height):
             for ci in range(self.width):
                 self.grid[self.y + ri][2 + ci] = "#"
@@ -71,8 +73,8 @@ class RectangleRock(Rock):
 
 class XRock(Rock):
 
-    def __init__(self, grid: Grid, max_y: int):
-        super().__init__(grid, max_y, 3, 3)
+    def __init__(self, grid: Grid, highest_y: int):
+        super().__init__(grid, highest_y, 3, 3)
         self.grid[self.y][3] = "#"
         for i in range(3):
             self.grid[self.y + 1][2 + i] = "#"
@@ -135,8 +137,8 @@ class XRock(Rock):
 
 class LRock(Rock):
 
-    def __init__(self, grid: Grid, max_y: int):
-        super().__init__(grid, max_y, 3, 3)
+    def __init__(self, grid: Grid, highest_y: int):
+        super().__init__(grid, highest_y, 3, 3)
         self.grid[self.y][4] = "#"
         self.grid[self.y + 1][4] = "#"
         for i in range(3):
@@ -196,17 +198,17 @@ class RockFactory:
     def __init__(self, grid: Grid):
         self.grid = grid
 
-    def create(self, rock_type: int, max_y: int) -> Rock:
+    def create(self, rock_type: int, highest_y: int) -> Rock:
         if rock_type == 0:
-            return RectangleRock(self.grid, max_y, width=4, height=1)
+            return RectangleRock(self.grid, highest_y, width=4, height=1)
         elif rock_type == 1:
-            return XRock(self.grid, max_y)
+            return XRock(self.grid, highest_y)
         elif rock_type == 2:
-            return LRock(self.grid, max_y)
+            return LRock(self.grid, highest_y)
         elif rock_type == 3:
-            return RectangleRock(self.grid, max_y, width=1, height=4)
+            return RectangleRock(self.grid, highest_y, width=1, height=4)
         elif rock_type == 4:
-            return RectangleRock(self.grid, max_y, width=2, height=2)
+            return RectangleRock(self.grid, highest_y, width=2, height=2)
         else:
             assert False, "Shouldn't happen"
 
@@ -218,16 +220,38 @@ def star1(jets: str, rocks_count: int):
     """
 
     # log.setLevel(5)
+    return simulate(jets, rocks_count)
 
-    grid = Grid.empty(width=7, height=rocks_count * 3, value=".")
+
+def star2(jets: str, rocks_count: int):
+    """
+    >>> star2(read_single_line("input-test.txt"), 1000000000000)
+    1514285714288
+    """
+
+    # log.setLevel(5)
+    return simulate(jets, rocks_count)
+
+
+def simulate(jets: str, rocks_count: int):
+    grid = Grid.empty(width=7, height=5_000, value=".")
     rock_factory = RockFactory(grid)
     jet_index = 0
-    max_y = grid.height
+    highest_y = grid.height
+    repetition_patterns = {}
+    pattern_found = False
+
+    first_interval_height = None
+    pattern_first_rock_number = None
+    pattern_rock_count = None
+    pattern_height = None
+    last_interval_next_rock_number = None
+    last_interval_highest_y = None
 
     for rock_number in range(rocks_count):
         rock_type = rock_number % 5
-        rock = rock_factory.create(rock_type, max_y)
-        log.debug(f"New rock: number={rock_number}, type={rock_type}, y={rock.y}")
+        rock = rock_factory.create(rock_type, highest_y)
+        log.log(level=5, msg=f"New rock: number={rock_number}, type={rock_type}, y={rock.y}")
         log.log(level=5, msg=grid)
 
         while True:
@@ -246,27 +270,60 @@ def star1(jets: str, rocks_count: int):
                 log.log(level=5, msg=f"Falling:")
                 log.log(level=5, msg=grid)
             else:
-                if rock.y < max_y:
-                    max_y = rock.y
+                if not pattern_found and highest_y < grid.height and grid.rows[highest_y] == ROW_PATTERN:
+                    pattern_key = (rock_type, jet_index)
+                    if pattern_key in repetition_patterns:
+                        pattern_found = True
+                        previous_pattern_occurrence = repetition_patterns[pattern_key]
+                        first_interval_height = grid.height - previous_pattern_occurrence[0]
+                        first_interval_rock_count = previous_pattern_occurrence[1]
+                        pattern_first_rock_number = previous_pattern_occurrence[1]
+                        pattern_rock_count = rock_number - pattern_first_rock_number
+                        pattern_height = grid.height - highest_y - first_interval_height
+                        last_interval_rock_count = (rocks_count - pattern_first_rock_number) % pattern_rock_count
+                        last_interval_next_rock_number = rock_number + last_interval_rock_count
+                        last_interval_highest_y = highest_y
+
+                        log.info(
+                            f"Pattern found for key {pattern_key}: ({highest_y}, {rock_number}) <-- {previous_pattern_occurrence}:\n"
+                            f" first_interval_rock_count={first_interval_rock_count}\n"
+                            f" first_interval_height={first_interval_height}\n"
+                            f" pattern_first_rock_number={pattern_first_rock_number}\n"
+                            f" pattern_rock_count={pattern_rock_count}\n"
+                            f" pattern_height={pattern_height}\n"
+                            f" last_interval_rock_count={last_interval_rock_count}\n"
+                            f" last_interval_rock_number={last_interval_next_rock_number}\n"
+                            f" last_interval_highest_y={last_interval_highest_y}"
+                        )
+                    else:
+                        pattern_value = (highest_y, rock_number)
+                        log.debug(f"Saving pattern ({pattern_key}): {pattern_value}")
+                        repetition_patterns[pattern_key] = pattern_value
+
+                if last_interval_next_rock_number == rock_number:
+                    log.debug("Last interval counted:")
+                    last_interval_height = last_interval_highest_y - highest_y
+                    log.info(f" last_interval_height: {last_interval_height}")
+                    pattern_total_count = (rocks_count - pattern_first_rock_number) // pattern_rock_count
+                    log.info(f" pattern_total_count: {pattern_total_count}")
+                    total_height = first_interval_height + pattern_total_count * pattern_height + last_interval_height
+                    return total_height
+
+                if rock.y <= highest_y:
+                    highest_y = rock.y
+
                 break
 
-    return grid.height - max_y
+    # log.debug(grid)
 
-
-def star2(jets: str, rocks_count: int):
-    """
-    >>> star2(read_single_line("input-test.txt"))
-    'TODO'
-    """
-
-    pass
+    return grid.height - highest_y
 
 
 if __name__ == "__main__":
     log.setLevel(logging.INFO)
     jets = read_single_line("input.txt")
     run("Star 1", lambda: star1(jets, 2022))
-    # run("Star 2", lambda: star1(jets, 1000000000000))
+    run("Star 2", lambda: star1(jets, 1000000000000))
 
     # Star 1: 3193
-    # Star 2:
+    # Star 2: 1577650429835
