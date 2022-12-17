@@ -70,16 +70,83 @@ class RectangleRock(Rock):
         return True
 
 
+class StarRock(Rock):
+
+    def __init__(self, grid: Grid, max_y: int):
+        super().__init__(grid, max_y, 3, 3)
+
+        self.grid[self.y][3] = "#"
+        for i in range(3):
+            self.grid[self.y + 1][2 + i] = "#"
+        self.grid[self.y + 2][3] = "#"
+
+    def move_left(self):
+        if self.x_left - 1 < 0:
+            return False
+        if self.grid[self.y][self.x_left] != ".":
+            return False
+        if self.grid[self.y + 1][self.x_left - 1] != ".":
+            return False
+        if self.grid[self.y + 2][self.x_left] != ".":
+            return False
+        self.grid[self.y][self.x_left + 1] = "."
+        self.grid[self.y][self.x_left] = "#"
+        self.grid[self.y + 1][self.x_left + 2] = "."
+        self.grid[self.y + 1][self.x_left - 1] = "#"
+        self.grid[self.y + 2][self.x_left + 1] = "."
+        self.grid[self.y + 2][self.x_left] = "#"
+        self.x_left -= 1
+        return True
+
+    def move_right(self):
+        if self.x_left + self.width >= self.grid.width:
+            return False
+        if self.grid[self.y][self.x_left + 2] != ".":
+            return False
+        if self.grid[self.y + 1][self.x_left + 3] != ".":
+            return False
+        if self.grid[self.y + 2][self.x_left + 2] != ".":
+            return False
+        self.grid[self.y][self.x_left + 1] = "."
+        self.grid[self.y][self.x_left + 2] = "#"
+        self.grid[self.y + 1][self.x_left] = "."
+        self.grid[self.y + 1][self.x_left + 3] = "#"
+        self.grid[self.y + 2][self.x_left + 1] = "."
+        self.grid[self.y + 2][self.x_left + 2] = "#"
+        self.x_left += 1
+        return True
+
+    def move_down(self) -> bool:
+        if self.y + self.height >= self.grid.height:
+            return False
+        if self.grid[self.y + 2][self.x_left] != ".":
+            return False
+        if self.grid[self.y + 3][self.x_left + 1] != ".":
+            return False
+        if self.grid[self.y + 2][self.x_left + 2] != ".":
+            return False
+        self.grid[self.y + 1][self.x_left] = "."
+        self.grid[self.y + 2][self.x_left] = "#"
+        self.grid[self.y][self.x_left + 1] = "."
+        self.grid[self.y + 3][self.x_left + 1] = "#"
+        self.grid[self.y + 1][self.x_left + 2] = "."
+        self.grid[self.y + 2][self.x_left + 2] = "#"
+        self.y += 1
+        return True
+
+
 class RockFactory:
 
     def __init__(self, grid: Grid):
         self.grid = grid
 
     def create(self, rock_type: int, max_y: int) -> Rock:
+        return StarRock(self.grid, max_y)
+
         if rock_type == 0:
             return RectangleRock(self.grid, max_y, width=4, height=1)
         elif rock_type == 1:
-            return RectangleRock(self.grid, max_y, width=4, height=1)  # TODO
+            return StarRock(self.grid, max_y)  # TODO
         elif rock_type == 2:
             return RectangleRock(self.grid, max_y, width=4, height=1)  # TODO
         elif rock_type == 3:
