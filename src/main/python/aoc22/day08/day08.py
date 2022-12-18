@@ -1,12 +1,12 @@
 from typing import List
 
 from util.ds import Grid, Xy
-from util.io import read_all_lines
+from util.data_io import read_input, read_test_input
 
 
 def star1(lines: List[str]):
     """
-    >>> star1(read_all_lines(__file__, "input-test.txt"))
+    >>> star1(read_test_input(__file__))
     21
     """
 
@@ -39,7 +39,7 @@ def _count_visible_trees_from_side(forest: Grid, direction: str) -> int:
 
 def star2(lines: List[str]):
     """
-    >>> star2(read_all_lines(__file__, "input-test.txt"))
+    >>> star2(read_test_input(__file__))
     8
     """
 
@@ -73,7 +73,7 @@ def _count_visible_trees_from_tree(tree_slice: List[int]) -> int:
 
 
 if __name__ == "__main__":
-    lines = read_all_lines(__file__, "input.txt")
+    lines = read_input(__file__)
     print(f"Star 1: {star1(lines)}")
     print(f"Star 2: {star2(lines)}")
 

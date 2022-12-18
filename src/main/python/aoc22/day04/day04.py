@@ -1,6 +1,6 @@
 from typing import List
 
-from util.io import read_all_lines
+from util.data_io import read_input
 
 
 def star1(lines: List[str]):
@@ -53,7 +53,7 @@ def parse_pair(el1: str) -> List[int]:
 
 
 if __name__ == "__main__":
-    lines = read_all_lines(__file__, "input.txt")
+    lines = read_input(__file__)
     print(star1(lines))
     print(star2(lines))
 

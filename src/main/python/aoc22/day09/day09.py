@@ -1,8 +1,8 @@
 import logging
 from typing import List
 
-from util.io import read_all_lines
-from util.logging import log
+from util.data_io import read_input, read_test_input, read_file
+from util.log import log
 from util.ds import Grid
 from util.functions import signum
 
@@ -36,7 +36,7 @@ def _tail_move(head, tail):
 
 def star1(commands: List[str]):
     """
-    >>> star1(read_all_lines(__file__, "input-test.txt"))
+    >>> star1(read_test_input(__file__))
     13
     """
 
@@ -78,7 +78,7 @@ def _update_visual_grid(grid, head, tail):
 
 def star2(commands: List[str]):
     """
-    >>> star2(read_all_lines(__file__, "input-test2.txt"))
+    >>> star2(read_file(__file__, "input-test2.txt"))
     36
     """
 
@@ -120,7 +120,7 @@ def _update_visual_grid_with_rope(grid, rope):
 
 if __name__ == "__main__":
     log.setLevel(logging.INFO)
-    lines = read_all_lines(__file__, "input.txt")
+    lines = read_input(__file__)
     print(f"Star 1: {star1(lines)}")
     print(f"Star 2: {star2(lines)}")
 

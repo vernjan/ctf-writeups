@@ -2,13 +2,13 @@ import pprint
 from typing import Dict
 from typing import List
 
-from util.io import read_all_lines
-from util.logging import log
+from util.data_io import read_input, read_test_input
+from util.log import log
 
 
 def star1(dir_tree: Dict[str, Dict]):
     """
-    >>> star1(_create_dir_tree(read_all_lines(__file__, "input-test.txt")))
+    >>> star1(_create_dir_tree(read_test_input(__file__)))
     95437
     """
 
@@ -17,7 +17,7 @@ def star1(dir_tree: Dict[str, Dict]):
 
 def star2(dir_tree: Dict[str, Dict]):
     """
-    >>> star2(_create_dir_tree(read_all_lines(__file__, "input-test.txt")))
+    >>> star2(_create_dir_tree(read_test_input(__file__)))
     24933642
     """
 
@@ -83,7 +83,7 @@ def _collect_dirsizes(tree: Dict[str, Dict], dirsizes: List[int]) -> int:
 
 
 if __name__ == "__main__":
-    commands = read_all_lines(__file__, "input.txt")
+    commands = read_input(__file__)
     dir_tree = _create_dir_tree(commands)
     log.info(f"Dir tree:\n{pprint.pformat(dir_tree)}")
     print(f"Star 1: {star1(dir_tree)}")

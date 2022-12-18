@@ -1,14 +1,14 @@
 import logging
-import time
 import pprint
 import re
+import time
 from dataclasses import dataclass
 from typing import List, FrozenSet
 
 from sortedcollections import NearestDict
 
-from util.io import read_all_lines
-from util.logging import log
+from util.data_io import read_input, read_test_input
+from util.log import log
 
 
 @dataclass(frozen=True)
@@ -47,7 +47,7 @@ class TraversalCtx2:
 
 def star1(lines: List[str]):
     """
-    >>> star1(read_all_lines(__file__, "input-test.txt"))
+    >>> star1(read_test_input(__file__))
     1651
     """
 
@@ -89,7 +89,7 @@ def star1(lines: List[str]):
 
 def star2(lines: List[str]):
     """
-    >>> star2(read_all_lines(__file__, "input-test.txt"))
+    >>> star2(read_test_input(__file__))
     1707
     """
 
@@ -185,7 +185,7 @@ def _find_best_score(best_scores):
 
 if __name__ == "__main__":
     log.setLevel(logging.INFO)
-    lines = read_all_lines(__file__, "input.txt")
+    lines = read_input(__file__)
     print(f"Star 1: {star1(lines)}")
     print(f"Star 2: {star2(lines)}")
 

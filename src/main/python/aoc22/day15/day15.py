@@ -3,14 +3,14 @@ import re
 import time
 from typing import List
 
-from util.io import read_all_lines
+from util.data_io import read_input, read_test_input
 from util.ds import Xy as Pos
-from util.logging import log
+from util.log import log
 
 
 def star1(lines: List[str], y):
     """
-    >>> star1(read_all_lines(__file__, "input-test.txt"), 10)
+    >>> star1(read_test_input(__file__), 10)
     26
     """
 
@@ -20,7 +20,7 @@ def star1(lines: List[str], y):
 
 def star2(lines: List[str], size_limit):
     """
-    >>> star2(read_all_lines(__file__, "input-test.txt"), 21)
+    >>> star2(read_test_input(__file__), 21)
     56000011
     """
 
@@ -116,7 +116,7 @@ def _count_signal_coverage_in_block(block_start, block_end, beacons, limit):
 
 if __name__ == "__main__":
     log.setLevel(logging.INFO)
-    lines = read_all_lines(__file__, "input.txt")
+    lines = read_input(__file__)
     print(f"Star 1: {star1(lines, 2000000)}")
     print(f"Star 2: {star2(lines, 4_000_001)}")
 

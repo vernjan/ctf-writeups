@@ -1,14 +1,14 @@
 import logging
 from typing import List
 
-from util.io import read_all_lines, timed_run
+from util.data_io import read_input, read_test_input, timed_run
 from util.ds import Xyz
-from util.logging import log
+from util.log import log
 
 
 def star1(lines: List[str]):
     """
-    >>> star1(read_all_lines(__file__, "input-test.txt"))
+    >>> star1(read_test_input(__file__))
     64
     """
 
@@ -34,7 +34,7 @@ def star1(lines: List[str]):
 
 def star2(lines: List[str]):
     """
-    >>> star2(read_all_lines(__file__, "input-test.txt"))
+    >>> star2(read_test_input(__file__))
     58
     """
 
@@ -50,12 +50,11 @@ def star2(lines: List[str]):
             continue
 
         visited_cubes.add(cube)
-        for n in cube.neighbors(["side"]):
-            if -1 <= n.x <= 21 and -1 <= n.y <= 21 and -1 <= n.z <= 21:
-                if n in cubes:
-                    surface_area += 1
-                else:
-                    q.append(n)
+        for n in cube.neighbors(min_x=-1, max_x=21, min_y=-1, max_y=21, min_z=-1, max_z=21):
+            if n in cubes:
+                surface_area += 1
+            else:
+                q.append(n)
 
     return surface_area
 
@@ -79,7 +78,7 @@ def _count_sides(d, key, value):
 
 if __name__ == "__main__":
     log.setLevel(logging.DEBUG)
-    lines = read_all_lines(__file__, "input.txt")
+    lines = read_input(__file__)
     timed_run("Star 1", lambda: star1(lines))
     timed_run("Star 2", lambda: star2(lines))
 

@@ -1,5 +1,4 @@
-from util.io import read_single_line
-
+from util.data_io import read_input
 
 def star1(datastream: str) -> int:
     """
@@ -43,8 +42,8 @@ def _find_message_marker(datastream: str, slice_size: int) -> int:
 
 
 if __name__ == "__main__":
-    print(star1(read_single_line(__file__, "input.txt")))
-    print(star2(read_single_line(__file__, "input.txt")))
+    print(star1(read_input(__file__)[0]))
+    print(star2(read_input(__file__)[0]))
 
     # Star 1: 1723
     # Star 2: 3708

@@ -1,14 +1,14 @@
 import logging
 from typing import List
 
-from util.io import read_all_lines
-from util.logging import log
+from util.data_io import read_input, read_test_input
+from util.log import log
 from util.ds import Grid
 
 
 def star1(instructions: List[str]):
     """
-    >>> star1(read_all_lines(__file__, "input-test.txt"))
+    >>> star1(read_test_input(__file__))
     13140
     """
 
@@ -17,7 +17,7 @@ def star1(instructions: List[str]):
 
 def star2(instructions: List[str]):
     """
-    >>> print(star2(read_all_lines(__file__, "input-test.txt")))
+    >>> print(star2(read_test_input(__file__)))
     ##..##..##..##..##..##..##..##..##..##..
     ###...###...###...###...###...###...###.
     ####....####....####....####....####....
@@ -80,7 +80,7 @@ def _execute_instructions(instr_queue: List[str]):
 
 if __name__ == "__main__":
     log.setLevel(logging.INFO)
-    lines = read_all_lines(__file__, 'input.txt')
+    lines = read_input(__file__)
     print(f"Star 1: {star1(lines)}")
     print(f"Star 2\n{star2(lines)}")
 

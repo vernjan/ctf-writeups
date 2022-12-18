@@ -1,4 +1,4 @@
-from util.io import read_all_lines
+from util.data_io import read_input
 
 """Symbols:
 A - Rock
@@ -42,7 +42,7 @@ def get_required_symbol(result):
 
 if __name__ == "__main__":
 
-    for line in read_all_lines(__file__, "input.txt"):
+    for line in read_input(__file__):
         op = line[0]
         me = chr(ord(line[2]) - 23)  # shift XYZ to ABC
 

@@ -1,12 +1,14 @@
 import re
+from math import inf
 from dataclasses import dataclass
 from typing import List, Set, Sequence
 
 from util.functions import array2d
-from util.logging import log
+from util.log import log
 
 
-# TODO Fix all tests
+# TODO Tests
+# TODO Typing
 @dataclass(frozen=True)
 class Xy:
     x: int
@@ -43,6 +45,22 @@ class Xy:
     def right_down(self):
         return Xy(self.x + 1, self.y + 1)
 
+    def neighbors(self, side=True, diagonal=False, min_x=-inf, max_x=inf, min_y=-inf, max_y=inf) -> List["Xy"]:
+        """
+        >>> Xy(0,1).neighbors()
+        [(0,0), (1,1), (0,2), (-1,1)]
+        >>> Xy(0,1).neighbors(min_x=0, max_x=2, min_y=0, max_y=2)
+        [(0,0), (1,1), (0,2)]
+        """
+        neighbors = []
+        if side:
+            neighbors.extend([self.up(), self.right(), self.down(), self.left()])
+        if diagonal:
+            # TO-DO implement
+            assert False, "Not yet implemented"
+
+        return [xy for xy in neighbors if min_x <= xy.x <= max_x and min_y <= xy.y <= max_y]
+
     def manhattan_dist(self, other):
         """
         >>> Xy(1,1).manhattan_dist(Xy(2,2))
@@ -72,9 +90,16 @@ class Xyz:
     def __repr__(self) -> str:
         return f"({self.x},{self.y},{self.z})"
 
-    def neighbors(self, types):
+    def neighbors(self, side=True, edge=False, corner=False,
+                  min_x=-inf, max_x=inf, min_y=-inf, max_y=inf, min_z=-inf, max_z=inf) -> List["Xyz"]:
+        """
+        >>> Xyz(0,1,2).neighbors()
+        [(-1,1,2), (1,1,2), (0,0,2), (0,2,2), (0,1,1), (0,1,3)]
+        >>> Xyz(0,1,2).neighbors(min_x=0, max_x=2, min_y=0, max_y=2, min_z=0, max_z=2)
+        [(1,1,2), (0,0,2), (0,2,2), (0,1,1)]
+        """
         neighbors = []
-        if "side" in types:
+        if side:
             neighbors.extend([
                 Xyz(self.x - 1, self.y, self.z),
                 Xyz(self.x + 1, self.y, self.z),
@@ -83,13 +108,15 @@ class Xyz:
                 Xyz(self.x, self.y, self.z - 1),
                 Xyz(self.x, self.y, self.z + 1),
             ])
-        if "edge" in types:
+        if edge:
             # TO-DO implement
             assert False, "Not yet implemented"
-        if "corner" in types:
+        if corner:
             # TO-DO implement
             assert False, "Not yet implemented"
-        return neighbors
+
+        return [xyz for xyz in neighbors if
+                min_x <= xyz.x <= max_x and min_y <= xyz.y <= max_y and min_z <= xyz.z <= max_z]
 
 
 # TODO GridCell (no transposing, generics?)
@@ -176,7 +203,7 @@ class Grid:
     def find_first(self, value) -> Xy or None:
         """
         >>> Grid([[1,2],[2,3]]).find_first(2)
-        (0,1)
+        (1,0)
         """
         for ri in range(self.height):
             for ci in range(self.width):
@@ -187,7 +214,7 @@ class Grid:
     def find_all(self, value) -> List[Xy]:
         """
         >>> Grid([[1,2],[2,3]]).find_all(2)
-        [(0,1), (1,0)]
+        [(1,0), (0,1)]
         """
         result = []
         for ri in range(self.height):
@@ -249,6 +276,9 @@ class Grid:
         else:
             raise ValueError(f"Invalid direction: {direction}")
 
+    def get_neighbors(self, pos: Xy, side=True, diagonal=False) -> List["Xy"]:
+        return pos.neighbors(side, diagonal, min_x=0, max_x=self.width - 1, min_y=0, max_y=self.height - 1)
+
     def is_visited(self, i, j, view_from="WEST"):
         ri, ci = self._transpose_coordinates(i, j, view_from)
         return self.visited[ri][ci]
@@ -268,15 +298,6 @@ class Grid:
             return ri, ci
         else:
             raise ValueError(f"Invalid direction: {view_from}")
-
-    # TODO Move to Xy class, make consistent with Xyz
-    def get_neighbors(self, pos: Xy) -> List[Xy]:
-        """
-        >>> Grid([[1,2,3], [4,5,6], [7,8,9]]).get_neighbors(Xy(1,0))
-        [(0,2), (1,1), (0,0)]
-        """
-        neighbors = [pos.up(), pos.right(), pos.down(), pos.left()]
-        return [pos for pos in neighbors if 0 <= pos.y < self.height and 0 <= pos.x < self.width]
 
     def find_shortest_path(
             self,
