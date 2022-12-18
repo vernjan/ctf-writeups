@@ -21,18 +21,18 @@ def star1(lines: List[str]):
 def _count_visible_trees_from_side(forest: Grid, direction: str) -> int:
     forest_view = forest.view_from(direction)
     tree_counter = 0
-    for coli in range(forest.width):
-        tree_line = forest_view[coli]
+    for x in range(forest.width):
+        tree_line = forest_view[x]
         max_height = -1
-        for rowi in range(forest.width):
-            tree_height = int(tree_line[rowi])
+        for y in range(forest.width):
+            tree_height = int(tree_line[y])
             if tree_height <= max_height:
                 continue
             if tree_height < max_height:
                 break
             max_height = tree_height
-            if not forest.is_visited(coli, rowi, direction):
-                forest.mark_visited(coli, rowi, direction)
+            if not forest.is_visited(x, y, direction):
+                forest.mark_visited(x, y, direction)
                 tree_counter += 1
     return tree_counter
 
@@ -45,11 +45,11 @@ def star2(lines: List[str]):
 
     best_scenic_score = 0
     forest = Grid(lines)
-    for rowi in range(forest.height):
-        for coli in range(forest.width):
+    for y in range(forest.height):
+        for x in range(forest.width):
             scenic_score = 1
             for direction in Grid.DIRECTIONS:
-                _slice = forest.slice_at(Xy(rowi, coli), direction)
+                _slice = forest.slice_at(Xy(x, y), direction)
                 tree_count = _count_visible_trees_from_tree(_slice)
                 scenic_score *= tree_count
 

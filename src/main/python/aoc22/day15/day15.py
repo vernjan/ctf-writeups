@@ -46,7 +46,7 @@ def star2(lines: List[str], size_limit):
                     x = max_x
                     log.info(f"!!! x={x}")  # correct x=2749047
                     log.info(f"Time to complete: {time.time() - start}")
-                    return y + (x * 4_000_000)
+                    return x + (y * 4_000_000)
                 if block[1] > max_x:
                     max_x = block[1]
 

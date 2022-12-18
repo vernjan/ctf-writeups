@@ -6,52 +6,48 @@ from util.functions import array2d
 from util.logging import log
 
 
-# TODO Xy: replace position, rowi/coli
-# TODO Xy: Search and replace 'position'
+# TODO Fix all tests
 @dataclass(frozen=True)
 class Xy:
-    y: int  # row index
-    x: int  # column index
-
-
+    x: int
+    y: int
 
     @staticmethod
-    def parse_swap(data: str):
+    def parse(data: str):
         """
-        >>> Xy.parse_swap("2,3")
+        >>> Xy.parse("2,3")
         (2,3)
         """
         coordinates = list(map(int, re.findall("[0-9]+", data)))
         assert len(coordinates) == 2, "2 numbers expected"
-        # return Xy(*coordinates)  # TODO Xy: Use this
-        return Xy(coordinates[1], coordinates[0])
+        return Xy(*coordinates)
 
     def __repr__(self) -> str:
         return f"({self.x},{self.y})"
 
     def up(self):
-        return Xy(self.y - 1, self.x)
+        return Xy(self.x, self.y - 1)
 
     def right(self):
-        return Xy(self.y, self.x + 1)
+        return Xy(self.x + 1, self.y)
 
     def down(self):
-        return Xy(self.y + 1, self.x)
+        return Xy(self.x, self.y + 1)
 
     def left(self):
-        return Xy(self.y, self.x - 1)
+        return Xy(self.x - 1, self.y)
 
     def left_down(self):
-        return Xy(self.y + 1, self.x - 1)
+        return Xy(self.x - 1, self.y + 1)
 
     def right_down(self):
-        return Xy(self.y + 1, self.x + 1)
+        return Xy(self.x + 1, self.y + 1)
 
     def manhattan_dist(self, other):
         """
-        >>> Xy(1, 1).manhattan_dist(Xy(2,2))
+        >>> Xy(1,1).manhattan_dist(Xy(2,2))
         2
-        >>> Xy(5, 4).manhattan_dist(Xy(0,0))
+        >>> Xy(4,5).manhattan_dist(Xy(0,0))
         9
         """
         return abs(self.y - other.y) + abs(self.x - other.x)
@@ -144,19 +140,19 @@ class Grid:
 
     def fill_between(self, p1: Xy, p2: Xy, value):
         """
-        >>> Grid([[1,2,3], [4,5,6], [7,8,9]]).fill_between(Xy(1,0), Xy(1,2), "@")
-        123
-        @@@
-        789
-        >>> Grid([[1,2,3], [4,5,6], [7,8,9]]).fill_between(Xy(1,2), Xy(1,0), "@")
-        123
-        @@@
-        789
         >>> Grid([[1,2,3], [4,5,6], [7,8,9]]).fill_between(Xy(0,1), Xy(2,1), "@")
+        123
+        @@@
+        789
+        >>> Grid([[1,2,3], [4,5,6], [7,8,9]]).fill_between(Xy(2,1), Xy(0,1), "@")
+        123
+        @@@
+        789
+        >>> Grid([[1,2,3], [4,5,6], [7,8,9]]).fill_between(Xy(1,0), Xy(1,2), "@")
         1@3
         4@6
         7@9
-        >>> Grid([[1,2,3], [4,5,6], [7,8,9]]).fill_between(Xy(2,1), Xy(0,1), "@")
+        >>> Grid([[1,2,3], [4,5,6], [7,8,9]]).fill_between(Xy(1,2), Xy(1,0), "@")
         1@3
         4@6
         7@9
@@ -185,7 +181,7 @@ class Grid:
         for ri in range(self.height):
             for ci in range(self.width):
                 if self[ri][ci] == value:
-                    return Xy(ri, ci)
+                    return Xy(ci, ri)
         return None
 
     def find_all(self, value) -> List[Xy]:
@@ -197,19 +193,19 @@ class Grid:
         for ri in range(self.height):
             for ci in range(self.width):
                 if self[ri][ci] == value:
-                    result.append(Xy(ri, ci))
+                    result.append(Xy(ci, ri))
         return result
 
-    def at_position(self, pos: Xy):
+    def at(self, pos: Xy):
         """
-        >>> Grid([[1,2],[2,3]]).at_position(Xy(1,1))
+        >>> Grid([[1,2],[2,3]]).at(Xy(1,1))
         3
         """
         return self[pos.y][pos.x]
 
-    def set_position(self, pos: Xy, value):
+    def set(self, pos: Xy, value):
         """
-        >>> Grid([[1,2],[2,3]]).set_position(Xy(1,1), "a")
+        >>> Grid([[1,2],[2,3]]).set(Xy(1,1), "a")
         12
         2a
         """
@@ -219,13 +215,13 @@ class Grid:
     # TODO Add support for filling - slice_from, slice_between + fill_from, fill_between
     def slice_at(self, pos: Xy, direction) -> List:
         """Get a grid slice (list) from the given position moving into the given direction
-        >>> Grid([[1,2,3], [4,5,6], [7,8,9]]).slice_at(Xy(1, 1), "NORTH")
+        >>> Grid([[1,2,3], [4,5,6], [7,8,9]]).slice_at(Xy(1,1), "NORTH")
         [5, 2]
-        >>> Grid([[1,2,3], [4,5,6], [7,8,9]]).slice_at(Xy(1, 1), "EAST")
+        >>> Grid([[1,2,3], [4,5,6], [7,8,9]]).slice_at(Xy(1,1), "EAST")
         [5, 6]
-        >>> Grid([[1,2,3], [4,5,6], [7,8,9]]).slice_at(Xy(1, 1), "SOUTH")
+        >>> Grid([[1,2,3], [4,5,6], [7,8,9]]).slice_at(Xy(1,1), "SOUTH")
         [5, 8]
-        >>> Grid([[1,2,3], [4,5,6], [7,8,9]]).slice_at(Xy(1, 1), "WEST")
+        >>> Grid([[1,2,3], [4,5,6], [7,8,9]]).slice_at(Xy(1,1), "WEST")
         [5, 4]
         """
         if direction == "NORTH":
@@ -273,11 +269,10 @@ class Grid:
         else:
             raise ValueError(f"Invalid direction: {view_from}")
 
-    # TODO Diagonal neighbors
     # TODO Move to Xy class, make consistent with Xyz
     def get_neighbors(self, pos: Xy) -> List[Xy]:
         """
-        >>> Grid([[1,2,3], [4,5,6], [7,8,9]]).get_neighbors(Xy(0, 1))
+        >>> Grid([[1,2,3], [4,5,6], [7,8,9]]).get_neighbors(Xy(1,0))
         [(0,2), (1,1), (0,0)]
         """
         neighbors = [pos.up(), pos.right(), pos.down(), pos.left()]

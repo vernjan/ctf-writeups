@@ -37,10 +37,10 @@ def sand_fall(star, lines):
 
     max_height = 0
     for line in lines:
-        stones = [Xy.parse_swap(pos) for pos in line.split(" -> ")]
+        stones = [Xy.parse(pos) for pos in line.split(" -> ")]
         last_stone = None
         for stone in stones:
-            stone = Xy(stone.y, stone.x - shrink_width_by)
+            stone = Xy(stone.x - shrink_width_by, stone.y)
             if stone.y > max_height:
                 max_height = stone.y
             if last_stone:
@@ -49,7 +49,7 @@ def sand_fall(star, lines):
 
     # add floor
     floor_level = max_height + 2
-    grid.fill_between(Xy(floor_level, 0), Xy(floor_level, grid.width - 1), value="#")
+    grid.fill_between(Xy(0, floor_level), Xy(grid.width - 1, floor_level), value="#")
 
     log.debug(grid)
 
@@ -59,20 +59,20 @@ def sand_fall(star, lines):
         sand_count += 1
         log.debug(f"Round: {sand_count}")
 
-        sand = Xy(0, 500 - shrink_width_by)
+        sand = Xy(500 - shrink_width_by, 0)
         is_moving = True
         while is_moving:
             at_rest = True
             moves = [Xy.down, Xy.left_down, Xy.right_down]
             for move in moves:
-                if grid.at_position(move(sand)) == ".":
+                if grid.at(move(sand)) == ".":
                     sand = move(sand)
                     at_rest = False
                     break
 
             if at_rest:
                 is_moving = False
-                grid.set_position(sand, "o")
+                grid.set(sand, "o")
                 log.debug(grid)
                 if star == "star1" and sand.y == floor_level - 1:
                     return sand_count - 1
