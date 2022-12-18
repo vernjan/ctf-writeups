@@ -1,10 +1,10 @@
 import logging
 from typing import List
 
-from data_input import read_all_lines
-from simple_logging import log
-from ds import Grid
-from fce import sign
+from my_io import read_all_lines
+from my_logging import log
+from my_ds import Grid
+from my_functions import sign
 
 with_visual_grid = __name__ != "__main__"  # Only for tests
 

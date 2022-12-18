@@ -1,7 +1,7 @@
 from typing import List
 
-from ds import Grid, Position
-from data_input import read_all_lines
+from my_ds import Grid, Position
+from my_io import read_all_lines
 
 
 def star1(lines: List[str]):

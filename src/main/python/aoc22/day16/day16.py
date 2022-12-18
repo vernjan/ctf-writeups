@@ -7,8 +7,8 @@ from typing import List, FrozenSet
 
 from sortedcollections import NearestDict
 
-from data_input import read_all_lines
-from simple_logging import log
+from my_io import read_all_lines
+from my_logging import log
 
 
 @dataclass(frozen=True)

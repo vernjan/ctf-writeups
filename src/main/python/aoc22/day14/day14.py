@@ -1,9 +1,9 @@
 import logging
 from typing import List
 
-from data_input import read_all_lines
-from ds import Grid, Position as Pos
-from simple_logging import log
+from my_io import read_all_lines
+from my_ds import Grid, Position as Pos
+from my_logging import log
 
 is_test = __name__ != "__main__"  # Only for tests
 
@@ -27,7 +27,7 @@ def star2(lines: List[str]):
 
 
 def sand_fall(star, lines):
-    shrink_width_by = 0  # TODO Method params
+    shrink_width_by = 0
     width, height = 1000, 200
     if is_test:
         shrink_width_by = 450

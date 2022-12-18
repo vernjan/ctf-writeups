@@ -1,4 +1,4 @@
-from data_input import read_single_line
+from my_io import read_single_line
 
 
 def star1(datastream: str) -> int:

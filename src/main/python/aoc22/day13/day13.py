@@ -3,8 +3,8 @@ import json
 import logging
 from typing import List
 
-from data_input import read_all_lines
-from simple_logging import log
+from my_io import read_all_lines
+from my_logging import log
 
 
 @functools.total_ordering

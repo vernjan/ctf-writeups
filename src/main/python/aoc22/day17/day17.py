@@ -1,8 +1,8 @@
 import logging
 
-from data_input import read_single_line, run
-from ds import Grid
-from simple_logging import log
+from my_io import read_single_line, timed_run
+from my_ds import Grid
+from my_logging import log
 
 ROW_PATTERN = [".", ".", "#", "#", "#", "#", "."]
 
@@ -322,8 +322,8 @@ def simulate(jets: str, rocks_count: int):
 if __name__ == "__main__":
     log.setLevel(logging.INFO)
     jets = read_single_line("input.txt")
-    run("Star 1", lambda: star1(jets, 2022))
-    run("Star 2", lambda: star1(jets, 1000000000000))
+    timed_run("Star 1", lambda: star1(jets, 2022))
+    timed_run("Star 2", lambda: star1(jets, 1000000000000))
 
     # Star 1: 3193
     # Star 2: 1577650429835

@@ -1,7 +1,7 @@
 import re
 from typing import List
 
-from data_input import read_all_lines
+from my_io import read_all_lines
 
 
 def star1(lines: List[str]):

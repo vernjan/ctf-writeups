@@ -1,4 +1,4 @@
-from data_input import read_all_lines
+from my_io import read_all_lines
 
 elf_calories = []
 current = 0

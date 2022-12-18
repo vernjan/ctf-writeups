@@ -1,9 +1,9 @@
 import logging
 from typing import List
 
-from data_input import read_all_lines
-from simple_logging import log
-from ds import Grid
+from my_io import read_all_lines
+from my_logging import log
+from my_ds import Grid
 
 
 def star1(instructions: List[str]):

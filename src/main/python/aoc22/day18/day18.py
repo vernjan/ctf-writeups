@@ -1,9 +1,9 @@
 import logging
 from typing import List
 
-from data_input import read_all_lines, run
-from ds import Xyz
-from simple_logging import log
+from my_io import read_all_lines, timed_run
+from my_ds import Xyz
+from my_logging import log
 
 
 def star1(lines: List[str]):
@@ -38,10 +38,7 @@ def star2(lines: List[str]):
     58
     """
 
-    cubes = set()
-    for cube in lines:
-        x, y, z = map(int, cube.split(","))  # TODO To Xyz
-        cubes.add(Xyz(x, y, z))
+    cubes = set(map(Xyz.parse, lines))
 
     surface_area = 0
     visited_cubes = set()
@@ -83,8 +80,8 @@ def _count_sides(d, key, value):
 if __name__ == "__main__":
     log.setLevel(logging.DEBUG)
     lines = read_all_lines("input.txt")
-    run("Star 1", lambda: star1(lines))
-    run("Star 2", lambda: star2(lines))
+    timed_run("Star 1", lambda: star1(lines))
+    timed_run("Star 2", lambda: star2(lines))
 
     # Star 1: 4370
     # Star 2: 2458

@@ -1,8 +1,9 @@
+import re
 from dataclasses import dataclass
-from typing import List, Tuple, Set, Sequence
+from typing import List, Set, Sequence
 
-from fce import array2d
-from simple_logging import log
+from my_functions import array2d
+from my_logging import log
 
 
 @dataclass
@@ -73,6 +74,19 @@ class Xyz:
     y: int
     z: int
 
+    @classmethod
+    def parse(cls, str):
+        """
+        >>> Xyz.parse("2,3,4")
+        (2,3,4)
+        """
+        numbers = re.findall("[0-9]+", str)
+        if len(numbers) != 3:
+            raise ValueError("3 numbers expected")
+        return Xyz(int(numbers[0]), int(numbers[1]), int(numbers[2]))
+
+    def __repr__(self) -> str:
+        return f"({self.x},{self.y},{self.z})"
 
     def neighbors(self, types):
         neighbors = []

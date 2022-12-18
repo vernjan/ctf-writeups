@@ -3,9 +3,9 @@ import re
 import time
 from typing import List
 
-from data_input import read_all_lines
-from ds import Position as Pos
-from simple_logging import log
+from my_io import read_all_lines
+from my_ds import Position as Pos
+from my_logging import log
 
 
 def star1(lines: List[str], y):
