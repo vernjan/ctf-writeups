@@ -21,7 +21,7 @@ class Position:  # TODO x,y?
         return Position(ri, ci)
 
     @classmethod
-    def parse_swap(cls, data: str): # TODO Go for standard X,Y?
+    def parse_swap(cls, data: str):  # TODO Go for standard X,Y?
         """
         >>> Position.parse_swap("5,8")
         (8,5)
@@ -65,6 +65,33 @@ class Position:  # TODO x,y?
         9
         """
         return abs(self.ri - other.ri) + abs(self.ci - other.ci)
+
+
+@dataclass(frozen=True)
+class Xyz:
+    x: int
+    y: int
+    z: int
+
+
+    def neighbors(self, types):
+        neighbors = []
+        if "side" in types:
+            neighbors.extend([
+                Xyz(self.x - 1, self.y, self.z),
+                Xyz(self.x + 1, self.y, self.z),
+                Xyz(self.x, self.y - 1, self.z),
+                Xyz(self.x, self.y + 1, self.z),
+                Xyz(self.x, self.y, self.z - 1),
+                Xyz(self.x, self.y, self.z + 1),
+            ])
+        if "edge" in types:
+            # TODO implement
+            pass
+        if "corner" in types:
+            # TODO implement
+            pass
+        return neighbors
 
 
 Pos = Position
