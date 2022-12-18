@@ -27,7 +27,7 @@ if __name__ == "__main__":
     log.setLevel(logging.INFO)
     lines = read_all_lines("input.txt")
     run("Star 1", lambda: star1(lines))
-    run("Star 2", lambda: star1(lines))
+    run("Star 2", lambda: star2(lines))
 
     # Star 1:
     # Star 2:

@@ -16,5 +16,5 @@ def read_single_line(filename: str) -> str:
 def run(desc, m):
     start = time.time()
     result = m()
-    execution_time = time.time() - start
+    execution_time = time.time() - start  # TODO Round
     logging.info(f"{desc} ({execution_time}): {result}")
