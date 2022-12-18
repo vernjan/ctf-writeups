@@ -54,6 +54,4 @@ class WhiteBoxEncrypt0rTest {
         assertEquals("7ec041d65b2ff88c35b8626d8c2208d2", Hex.encodeHexString(encrypted))
     }
 
-    // TODO test encrypt
-
 }

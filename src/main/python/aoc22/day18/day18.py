@@ -1,14 +1,14 @@
 import logging
 from typing import List
 
-from my_io import read_all_lines, timed_run
-from my_ds import Xyz
-from my_logging import log
+from util.io import read_all_lines, timed_run
+from util.ds import Xyz
+from util.logging import log
 
 
 def star1(lines: List[str]):
     """
-    >>> star1(read_all_lines("input-test.txt"))
+    >>> star1(read_all_lines(__file__, "input-test.txt"))
     64
     """
 
@@ -34,7 +34,7 @@ def star1(lines: List[str]):
 
 def star2(lines: List[str]):
     """
-    >>> star2(read_all_lines("input-test.txt"))
+    >>> star2(read_all_lines(__file__, "input-test.txt"))
     58
     """
 
@@ -79,7 +79,7 @@ def _count_sides(d, key, value):
 
 if __name__ == "__main__":
     log.setLevel(logging.DEBUG)
-    lines = read_all_lines("input.txt")
+    lines = read_all_lines(__file__, "input.txt")
     timed_run("Star 1", lambda: star1(lines))
     timed_run("Star 2", lambda: star2(lines))
 

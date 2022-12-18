@@ -1,4 +1,4 @@
-from my_io import read_all_lines
+from util.io import read_all_lines
 
 
 def letter_priority(letter):
@@ -10,7 +10,7 @@ def letter_priority(letter):
 
 def star1():
     total = 0
-    for line in read_all_lines("input.txt"):
+    for line in read_all_lines(__file__, "input.txt"):
         half = len(line) // 2
         p1, p2 = set(line[:half]), line[half:]
 
@@ -39,8 +39,9 @@ def star2():
     return total
 
 
-print(f"Star 1: {star1()}")
-print(f"Star 2: {star2()}")
+if __name__ == "__main__":
+    print(f"Star 1: {star1()}")
+    print(f"Star 2: {star2()}")
 
 # Star 1: 7737
 # Star 2: 2697

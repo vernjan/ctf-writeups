@@ -2,8 +2,8 @@ import re
 from dataclasses import dataclass
 from typing import List, Set, Sequence
 
-from my_functions import array2d
-from my_logging import log
+from util.functions import array2d
+from util.logging import log
 
 
 @dataclass

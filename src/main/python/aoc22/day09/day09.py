@@ -1,10 +1,10 @@
 import logging
 from typing import List
 
-from my_io import read_all_lines
-from my_logging import log
-from my_ds import Grid
-from my_functions import sign
+from util.io import read_all_lines
+from util.logging import log
+from util.ds import Grid
+from util.functions import signum
 
 with_visual_grid = __name__ != "__main__"  # Only for tests
 
@@ -29,14 +29,14 @@ def _tail_move(head, tail):
     ty = tail[1]
 
     if abs(hx - tx) > 1 or abs(hy - ty) > 1:
-        return tx + sign(hx - tx), ty + sign(hy - ty)
+        return tx + signum(hx - tx), ty + signum(hy - ty)
 
     return tail
 
 
 def star1(commands: List[str]):
     """
-    >>> star1(read_all_lines("input-test.txt"))
+    >>> star1(read_all_lines(__file__, "input-test.txt"))
     13
     """
 
@@ -78,7 +78,7 @@ def _update_visual_grid(grid, head, tail):
 
 def star2(commands: List[str]):
     """
-    >>> star2(read_all_lines("input-test2.txt"))
+    >>> star2(read_all_lines(__file__, "input-test2.txt"))
     36
     """
 
@@ -120,7 +120,7 @@ def _update_visual_grid_with_rope(grid, rope):
 
 if __name__ == "__main__":
     log.setLevel(logging.INFO)
-    lines = read_all_lines("input.txt")
+    lines = read_all_lines(__file__, "input.txt")
     print(f"Star 1: {star1(lines)}")
     print(f"Star 2: {star2(lines)}")
 

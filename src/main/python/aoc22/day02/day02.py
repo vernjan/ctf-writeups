@@ -1,4 +1,4 @@
-from my_io import read_all_lines
+from util.io import read_all_lines
 
 """Symbols:
 A - Rock
@@ -40,21 +40,23 @@ def get_required_symbol(result):
         return WIN_MOVES[op]
 
 
-for line in read_all_lines("input.txt"):
-    op = line[0]
-    me = chr(ord(line[2]) - 23)  # shift XYZ to ABC
+if __name__ == "__main__":
 
-    score_part1 += get_symbol_value(me)
-    score_part1 += get_round_value()
+    for line in read_all_lines(__file__, "input.txt"):
+        op = line[0]
+        me = chr(ord(line[2]) - 23)  # shift XYZ to ABC
 
-    me = get_required_symbol(me)
-    score_part2 += get_symbol_value(me)
-    score_part2 += get_round_value()
+        score_part1 += get_symbol_value(me)
+        score_part1 += get_round_value()
 
-    round_value = 0
+        me = get_required_symbol(me)
+        score_part2 += get_symbol_value(me)
+        score_part2 += get_round_value()
 
-print(f"Star 1: {score_part1}")
-print(f"Star 2: {score_part2}")
+        round_value = 0
 
-# Star 1: 11475
-# Star 2: 16862
+    print(f"Star 1: {score_part1}")
+    print(f"Star 2: {score_part2}")
+
+    # Star 1: 11475
+    # Star 2: 16862

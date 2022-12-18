@@ -1,8 +1,8 @@
 import logging
 
-from my_io import read_single_line, timed_run
-from my_ds import Grid
-from my_logging import log
+from util.io import read_single_line, timed_run
+from util.ds import Grid
+from util.logging import log
 
 ROW_PATTERN = [".", ".", "#", "#", "#", "#", "."]
 
@@ -215,7 +215,7 @@ class RockFactory:
 
 def star1(jets: str, rocks_count: int):
     """
-    >>> star1(read_single_line("input-test.txt"), 2022)
+    >>> star1(read_single_line(__file__, "input-test.txt"), 2022)
     3068
     """
 
@@ -225,7 +225,7 @@ def star1(jets: str, rocks_count: int):
 
 def star2(jets: str, rocks_count: int):
     """
-    >>> star2(read_single_line("input-test.txt"), 1000000000000)
+    >>> star2(read_single_line(__file__, "input-test.txt"), 1000000000000)
     1514285714288
     """
 
@@ -321,7 +321,7 @@ def simulate(jets: str, rocks_count: int):
 
 if __name__ == "__main__":
     log.setLevel(logging.INFO)
-    jets = read_single_line("input.txt")
+    jets = read_single_line(__file__, "input.txt")
     timed_run("Star 1", lambda: star1(jets, 2022))
     timed_run("Star 2", lambda: star1(jets, 1000000000000))
 

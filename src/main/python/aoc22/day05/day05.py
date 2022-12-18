@@ -1,12 +1,12 @@
 import re
 from typing import List
 
-from my_io import read_all_lines
+from util.io import read_all_lines
 
 
 def star1(lines: List[str]):
     """
-    >>> star1(read_all_lines("input-test.txt"))
+    >>> star1(read_all_lines(__file__, "input-test.txt"))
     'CMZ'
     """
 
@@ -15,7 +15,7 @@ def star1(lines: List[str]):
 
 def star2(lines: List[str]):
     """
-    >>> star2(read_all_lines("input-test.txt"))
+    >>> star2(read_all_lines(__file__, "input-test.txt"))
     'MCD'
     """
 
@@ -52,8 +52,8 @@ def _move_creates(lines: List[str], star: str) -> str:
 
 
 if __name__ == "__main__":
-    print(star1(read_all_lines("input.txt")))
-    print(star2(read_all_lines("input.txt")))
+    print(star1(read_all_lines(__file__, "input.txt")))
+    print(star2(read_all_lines(__file__, "input.txt")))
 
     # Star 1: QNHWJVJZW
     # Star 2: BPCZJLFJW

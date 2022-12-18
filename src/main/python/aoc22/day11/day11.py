@@ -1,7 +1,7 @@
 import logging
 from typing import List
 
-from my_logging import log
+from util.logging import log
 
 
 class Monkey:

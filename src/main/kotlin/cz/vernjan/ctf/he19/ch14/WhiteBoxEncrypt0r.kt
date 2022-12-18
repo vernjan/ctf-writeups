@@ -8,9 +8,6 @@ import java.nio.ByteBuffer
 object Encrypt0r {
 
     fun encrypt(text: String) {
-
-        // TODO Add padding
-
         val blockCount = text.length / BLOCK_SIZE
         for (i in (0 until blockCount)) {
             val blockStart = i * BLOCK_SIZE

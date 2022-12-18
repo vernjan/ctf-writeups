@@ -7,8 +7,8 @@ from typing import List, FrozenSet
 
 from sortedcollections import NearestDict
 
-from my_io import read_all_lines
-from my_logging import log
+from util.io import read_all_lines
+from util.logging import log
 
 
 @dataclass(frozen=True)
@@ -47,7 +47,7 @@ class TraversalCtx2:
 
 def star1(lines: List[str]):
     """
-    >>> star1(read_all_lines("input-test.txt"))
+    >>> star1(read_all_lines(__file__, "input-test.txt"))
     1651
     """
 
@@ -89,7 +89,7 @@ def star1(lines: List[str]):
 
 def star2(lines: List[str]):
     """
-    >>> star2(read_all_lines("input-test.txt"))
+    >>> star2(read_all_lines(__file__, "input-test.txt"))
     1707
     """
 
@@ -151,7 +151,7 @@ def star2(lines: List[str]):
             q.append(TraversalCtx2(valve1, valve2, ctx.time - 1, open_valves, score, tracking))
 
         # no valve can be open
-        # TODO Could optimize by removing the mirror moves
+        # TO-DO Could optimize by removing the mirror moves
         for neighbor1 in map(valves.get, ctx.valve1.neighbor_names):
             for neighbor2 in map(valves.get, ctx.valve2.neighbor_names):
                 q.append(TraversalCtx2(neighbor1, neighbor2, ctx.time - 1, ctx.open_valves, ctx.score, ctx.tracking))
@@ -185,7 +185,7 @@ def _find_best_score(best_scores):
 
 if __name__ == "__main__":
     log.setLevel(logging.INFO)
-    lines = read_all_lines("input.txt")
+    lines = read_all_lines(__file__, "input.txt")
     print(f"Star 1: {star1(lines)}")
     print(f"Star 2: {star2(lines)}")
 
