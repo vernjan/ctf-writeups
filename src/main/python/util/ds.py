@@ -6,7 +6,7 @@ from util.functions import array2d
 from util.logging import log
 
 
-@dataclass
+@dataclass(frozen=True)
 class Position:  # TODO x,y?
     ri: int  # row index
     ci: int  # column index
@@ -74,8 +74,8 @@ class Xyz:
     y: int
     z: int
 
-    @classmethod
-    def parse(cls, str):
+    @staticmethod
+    def parse(str):
         """
         >>> Xyz.parse("2,3,4")
         (2,3,4)
