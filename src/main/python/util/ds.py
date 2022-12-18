@@ -6,66 +6,55 @@ from util.functions import array2d
 from util.logging import log
 
 
+# TODO Xy: replace position, rowi/coli
+# TODO Xy: Search and replace 'position'
 @dataclass(frozen=True)
-class Position:  # TODO x,y?
-    ri: int  # row index
-    ci: int  # column index
+class Xy:
+    y: int  # row index
+    x: int  # column index
 
-    @classmethod
-    def parse(cls, data: str):
-        """
-        >>> Position.parse("5,8")
-        (5,8)
-        """
-        ri = int(data.split(",")[0])
-        ci = int(data.split(",")[1])
-        return Position(ri, ci)
 
-    @classmethod
-    def parse_swap(cls, data: str):  # TODO Go for standard X,Y?
+
+    @staticmethod
+    def parse_swap(data: str):
         """
-        >>> Position.parse_swap("5,8")
-        (8,5)
+        >>> Xy.parse_swap("2,3")
+        (2,3)
         """
-        ri = int(data.split(",")[1])
-        ci = int(data.split(",")[0])
-        return Position(ri, ci)
+        coordinates = list(map(int, re.findall("[0-9]+", data)))
+        assert len(coordinates) == 2, "2 numbers expected"
+        # return Xy(*coordinates)  # TODO Xy: Use this
+        return Xy(coordinates[1], coordinates[0])
 
     def __repr__(self) -> str:
-        return f"(ri={self.ri},ci={self.ci})"
-
-    def __str__(self) -> str:
-        return f"({self.ri},{self.ci})"
-
-    def __hash__(self):
-        return hash((self.ri, self.ci))
+        return f"({self.x},{self.y})"
 
     def up(self):
-        return Pos(self.ri - 1, self.ci)
+        return Xy(self.y - 1, self.x)
 
     def right(self):
-        return Pos(self.ri, self.ci + 1)
+        return Xy(self.y, self.x + 1)
 
     def down(self):
-        return Pos(self.ri + 1, self.ci)
+        return Xy(self.y + 1, self.x)
 
     def left(self):
-        return Pos(self.ri, self.ci - 1)
+        return Xy(self.y, self.x - 1)
 
     def left_down(self):
-        return Pos(self.ri + 1, self.ci - 1)
+        return Xy(self.y + 1, self.x - 1)
 
     def right_down(self):
-        return Pos(self.ri + 1, self.ci + 1)
+        return Xy(self.y + 1, self.x + 1)
 
     def manhattan_dist(self, other):
         """
-        >>> Position(1, 1).manhattan_dist(Position(2,2))
+        >>> Xy(1, 1).manhattan_dist(Xy(2,2))
         2
-        >>> Position(5, 4).manhattan_dist(Position(0,0))
+        >>> Xy(5, 4).manhattan_dist(Xy(0,0))
         9
         """
-        return abs(self.ri - other.ri) + abs(self.ci - other.ci)
+        return abs(self.y - other.y) + abs(self.x - other.x)
 
 
 @dataclass(frozen=True)
@@ -75,15 +64,14 @@ class Xyz:
     z: int
 
     @staticmethod
-    def parse(str):
+    def parse(data: str):
         """
         >>> Xyz.parse("2,3,4")
         (2,3,4)
         """
-        numbers = re.findall("[0-9]+", str)
-        if len(numbers) != 3:
-            raise ValueError("3 numbers expected")
-        return Xyz(int(numbers[0]), int(numbers[1]), int(numbers[2]))
+        coordinates = list(map(int, re.findall("[0-9]+", data)))
+        assert len(coordinates) == 3, "3 numbers expected"
+        return Xyz(*coordinates)
 
     def __repr__(self) -> str:
         return f"({self.x},{self.y},{self.z})"
@@ -100,19 +88,15 @@ class Xyz:
                 Xyz(self.x, self.y, self.z + 1),
             ])
         if "edge" in types:
-            # TODO implement
-            pass
+            # TO-DO implement
+            assert False, "Not yet implemented"
         if "corner" in types:
-            # TODO implement
-            pass
+            # TO-DO implement
+            assert False, "Not yet implemented"
         return neighbors
 
 
-Pos = Position
-
-
-# TODO GridCell? No transposing? Generics?
-# TODO Pos/Coord/Xy class, replace position, rowi/coli
+# TODO GridCell (no transposing, generics?)
 class Grid:
     DIRECTIONS = ["NORTH", "EAST", "SOUTH", "WEST"]
 
@@ -123,13 +107,12 @@ class Grid:
         self.height = len(rows)
         self.width = len(rows[0])
 
-        # TODO Do I need this???
         self.cols = []
         for ci in range(self.width):
             col = [rows[ri][ci] for ri in range(self.height)]
             self.cols.append(col)
 
-        # TODO Move away?
+        # TODO GridCell: Move away, keep memory in the GridCell
         self.visited = []
         for _ in range(self.height):
             self.visited.append([False] * self.width)
@@ -159,42 +142,42 @@ class Grid:
         self.rows = array2d(self.width, self.height, value)  # FIXME Does not init columns, visited, ..
         return self
 
-    def fill_between(self, p1: Pos, p2: Pos, value):
+    def fill_between(self, p1: Xy, p2: Xy, value):
         """
-        >>> Grid([[1,2,3], [4,5,6], [7,8,9]]).fill_between(Pos(1,0), Pos(1,2), "@")
+        >>> Grid([[1,2,3], [4,5,6], [7,8,9]]).fill_between(Xy(1,0), Xy(1,2), "@")
         123
         @@@
         789
-        >>> Grid([[1,2,3], [4,5,6], [7,8,9]]).fill_between(Pos(1,2), Pos(1,0), "@")
+        >>> Grid([[1,2,3], [4,5,6], [7,8,9]]).fill_between(Xy(1,2), Xy(1,0), "@")
         123
         @@@
         789
-        >>> Grid([[1,2,3], [4,5,6], [7,8,9]]).fill_between(Pos(0,1), Pos(2,1), "@")
+        >>> Grid([[1,2,3], [4,5,6], [7,8,9]]).fill_between(Xy(0,1), Xy(2,1), "@")
         1@3
         4@6
         7@9
-        >>> Grid([[1,2,3], [4,5,6], [7,8,9]]).fill_between(Pos(2,1), Pos(0,1), "@")
+        >>> Grid([[1,2,3], [4,5,6], [7,8,9]]).fill_between(Xy(2,1), Xy(0,1), "@")
         1@3
         4@6
         7@9
         """
-        if p1.ri == p2.ri:
-            p1_ci, p2_ci = (p1.ci, p2.ci) if p1.ci < p2.ci else (p2.ci, p1.ci)  # left to right, right to left
+        if p1.y == p2.y:
+            p1_ci, p2_ci = (p1.x, p2.x) if p1.x < p2.x else (p2.x, p1.x)  # left to right, right to left
             for ri in range(p1_ci, p2_ci + 1):
-                self[p1.ri][ri] = value
+                self[p1.y][ri] = value
 
-        elif p1.ci == p2.ci:
-            p1_ri, p2_ri = (p1.ri, p2.ri) if p1.ri < p2.ri else (p2.ri, p1.ri)
+        elif p1.x == p2.x:
+            p1_ri, p2_ri = (p1.y, p2.y) if p1.y < p2.y else (p2.y, p1.y)
             for ri in range(p1_ri, p2_ri + 1):
-                self[ri][p1.ci] = value
+                self[ri][p1.x] = value
 
         else:
-            # TODO Diagonal fill, ...
-            assert False, "Not supported"
+            # TO-DO diagonal fill, ...
+            assert False, "Not yet implemented"
 
         return self
 
-    def find_first(self, value) -> Pos or None:
+    def find_first(self, value) -> Xy or None:
         """
         >>> Grid([[1,2],[2,3]]).find_first(2)
         (0,1)
@@ -202,10 +185,10 @@ class Grid:
         for ri in range(self.height):
             for ci in range(self.width):
                 if self[ri][ci] == value:
-                    return Pos(ri, ci)
+                    return Xy(ri, ci)
         return None
 
-    def find_all(self, value) -> List[Pos]:
+    def find_all(self, value) -> List[Xy]:
         """
         >>> Grid([[1,2],[2,3]]).find_all(2)
         [(0,1), (1,0)]
@@ -214,45 +197,45 @@ class Grid:
         for ri in range(self.height):
             for ci in range(self.width):
                 if self[ri][ci] == value:
-                    result.append(Pos(ri, ci))
+                    result.append(Xy(ri, ci))
         return result
 
-    def at_position(self, pos: Pos):
+    def at_position(self, pos: Xy):
         """
-        >>> Grid([[1,2],[2,3]]).at_position(Pos(1,1))
+        >>> Grid([[1,2],[2,3]]).at_position(Xy(1,1))
         3
         """
-        return self[pos.ri][pos.ci]
+        return self[pos.y][pos.x]
 
-    def set_position(self, pos: Pos, value):
+    def set_position(self, pos: Xy, value):
         """
-        >>> Grid([[1,2],[2,3]]).set_position(Pos(1,1), "a")
+        >>> Grid([[1,2],[2,3]]).set_position(Xy(1,1), "a")
         12
         2a
         """
-        self[pos.ri][pos.ci] = value
+        self[pos.y][pos.x] = value
         return self
 
     # TODO Add support for filling - slice_from, slice_between + fill_from, fill_between
-    def slice_at(self, pos: Position, direction) -> List:
+    def slice_at(self, pos: Xy, direction) -> List:
         """Get a grid slice (list) from the given position moving into the given direction
-        >>> Grid([[1,2,3], [4,5,6], [7,8,9]]).slice_at(Pos(1, 1), "NORTH")
+        >>> Grid([[1,2,3], [4,5,6], [7,8,9]]).slice_at(Xy(1, 1), "NORTH")
         [5, 2]
-        >>> Grid([[1,2,3], [4,5,6], [7,8,9]]).slice_at(Pos(1, 1), "EAST")
+        >>> Grid([[1,2,3], [4,5,6], [7,8,9]]).slice_at(Xy(1, 1), "EAST")
         [5, 6]
-        >>> Grid([[1,2,3], [4,5,6], [7,8,9]]).slice_at(Pos(1, 1), "SOUTH")
+        >>> Grid([[1,2,3], [4,5,6], [7,8,9]]).slice_at(Xy(1, 1), "SOUTH")
         [5, 8]
-        >>> Grid([[1,2,3], [4,5,6], [7,8,9]]).slice_at(Pos(1, 1), "WEST")
+        >>> Grid([[1,2,3], [4,5,6], [7,8,9]]).slice_at(Xy(1, 1), "WEST")
         [5, 4]
         """
         if direction == "NORTH":
-            return self.cols[pos.ci][pos.ri::-1]
+            return self.cols[pos.x][pos.y::-1]
         elif direction == "EAST":
-            return self.rows[pos.ri][pos.ci:]
+            return self.rows[pos.y][pos.x:]
         elif direction == "SOUTH":
-            return self.cols[pos.ci][pos.ri:]
+            return self.cols[pos.x][pos.y:]
         elif direction == "WEST":
-            return self.rows[pos.ri][pos.ci::-1]
+            return self.rows[pos.y][pos.x::-1]
         else:
             raise ValueError(f"Invalid direction: {direction}")
 
@@ -291,18 +274,19 @@ class Grid:
             raise ValueError(f"Invalid direction: {view_from}")
 
     # TODO Diagonal neighbors
-    def get_neighbors(self, pos: Pos) -> List[Pos]:
+    # TODO Move to Xy class, make consistent with Xyz
+    def get_neighbors(self, pos: Xy) -> List[Xy]:
         """
-        >>> Grid([[1,2,3], [4,5,6], [7,8,9]]).get_neighbors(Pos(0, 1))
+        >>> Grid([[1,2,3], [4,5,6], [7,8,9]]).get_neighbors(Xy(0, 1))
         [(0,2), (1,1), (0,0)]
         """
         neighbors = [pos.up(), pos.right(), pos.down(), pos.left()]
-        return [pos for pos in neighbors if 0 <= pos.ri < self.height and 0 <= pos.ci < self.width]
+        return [pos for pos in neighbors if 0 <= pos.y < self.height and 0 <= pos.x < self.width]
 
     def find_shortest_path(
             self,
-            start_position: Pos,
-            end_positions: Set[Pos],
+            start_position: Xy,
+            end_positions: Set[Xy],
             has_access) -> int:
         """ Find the shortest path between the start position and possibly multiple end positions.
 

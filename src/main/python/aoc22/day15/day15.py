@@ -4,7 +4,7 @@ import time
 from typing import List
 
 from util.io import read_all_lines
-from util.ds import Position as Pos
+from util.ds import Xy as Pos
 from util.logging import log
 
 
@@ -68,11 +68,11 @@ def _calc_signal_coverage(sensors_beacons: List, y: int, subtract_beacons: bool,
     y_signal_blocks = []
     y_beacons = set()
     for sensor, beacon, mdist in sensors_beacons:
-        signal_coverage = mdist - abs(sensor.ri - y)
+        signal_coverage = mdist - abs(sensor.y - y)
         if signal_coverage > 0:
-            y_signal_blocks.append([sensor.ci - signal_coverage, sensor.ci + signal_coverage + 1])
-        if subtract_beacons and beacon.ri == y:
-            y_beacons.add(beacon.ci)
+            y_signal_blocks.append([sensor.x - signal_coverage, sensor.x + signal_coverage + 1])
+        if subtract_beacons and beacon.y == y:
+            y_beacons.add(beacon.x)
 
     y_signal_blocks.sort(key=lambda r: r[0])
     log.debug(f"y={y} signal blocks: {y_signal_blocks}")

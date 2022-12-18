@@ -1,6 +1,6 @@
 from typing import List
 
-from util.ds import Grid, Position
+from util.ds import Grid, Xy
 from util.io import read_all_lines
 
 
@@ -49,7 +49,7 @@ def star2(lines: List[str]):
         for coli in range(forest.width):
             scenic_score = 1
             for direction in Grid.DIRECTIONS:
-                _slice = forest.slice_at(Position(rowi, coli), direction)
+                _slice = forest.slice_at(Xy(rowi, coli), direction)
                 tree_count = _count_visible_trees_from_tree(_slice)
                 scenic_score *= tree_count
 
