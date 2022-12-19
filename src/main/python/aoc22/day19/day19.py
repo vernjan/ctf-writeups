@@ -1,7 +1,7 @@
 import logging
 import math
 import re
-from typing import List, Dict, Set
+from typing import List, Dict, Tuple
 
 from util.data_io import read_input, read_test_input, timed_run
 from util.log import log
@@ -42,9 +42,9 @@ class Blueprint:
             }
         }
         self.max_robot_costs = {
-            ORE: max([ore_robot_cost, clay_robot_cost, obsidian_robot_cost_ore, geode_robot_cost_ore]) - 1,
-            CLAY: 4,
-            OBSIDIAN: 4,
+            ORE: max([ore_robot_cost, clay_robot_cost, obsidian_robot_cost_ore, geode_robot_cost_ore]),
+            CLAY: obsidian_robot_cost_clay,
+            OBSIDIAN: geode_robot_cost_obsidian,
             GEODE: math.inf
         }
 
@@ -97,7 +97,7 @@ class Stash:
         return Stash(new_resources, new_robots)
 
     def __repr__(self) -> str:
-        return f"Stash\n  resources: {self.resources}\n  robots: {self.robots}"
+        return f"Stash resources: {self.resources}, robots: {self.robots}"
 
     def __hash__(self) -> int:
         return hash(tuple(self.resources.values()) + tuple(self.robots.values()))
@@ -109,24 +109,28 @@ def star1(lines: List[str]):
     33
     """
 
-    log.setLevel(logging.WARN)
-
-    total_quality = 0
+    total = 0
     for bp in _parse_blueprints(lines):
-        bp_quality = _evaluate_blueprint(bp, Stash.empty(), 1, {})
-        total_quality += bp.id * bp_quality
-        log.warn(f"Blueprint {bp.id} evaluated: {bp_quality}")
+        bp_quality = _evaluate_blueprint(bp, 24)
+        total += bp.id * bp_quality
+        log.debug(f"Blueprint {bp.id} evaluated: {bp_quality}")
 
-    return total_quality
+    return total
 
 
 def star2(lines: List[str]):
     """
     >>> star2(read_test_input(__file__))
-
+    3472
     """
 
-    pass
+    total = 1
+    for bp in _parse_blueprints(lines[:3]):
+        bp_quality = _evaluate_blueprint(bp, 32)
+        total *= bp_quality
+        log.debug(f"Blueprint {bp.id} evaluated: {bp_quality}")
+
+    return total
 
 
 def _parse_blueprints(lines: List[str]) -> List[Blueprint]:
@@ -139,39 +143,71 @@ def _parse_blueprints(lines: List[str]) -> List[Blueprint]:
     return blueprints
 
 
-def _evaluate_blueprint(bp: Blueprint, stash: Stash, time: int, mem: Dict[int, Set[int]]) -> int:
-    if time > 24:
-        if stash.resources[GEODE] > 8:
-            log.info(f"Blueprint variation {bp.id} finished: {stash}")
-        return stash.resources[GEODE]
-
-    if time not in mem:
-        mem[time] = set()
-    if stash in mem[time]:
-        return 0
-    # mem[time].add(hash(stash))
-    mem[time].add(stash)
-
-    log.debug(f"Time {time}: {stash}")
+def _evaluate_blueprint(bp: Blueprint, max_time: int) -> int:
     max_geodes = 0
-    try_collecting = True
-    for rt in RESOURCE_TYPES:
-        if stash.robots[rt] < bp.max_robot_costs[rt] and stash.can_build_robot(bp, rt):
-            geodes = _evaluate_blueprint(bp, stash.build_and_collect(bp, rt), time + 1, mem)
+    mem_robots: Dict[int, Dict[Tuple, Tuple]] = {i: dict() for i in range(max_time + 1)}  # TO-DO Could use bimap
+    mem_resources: Dict[int, Dict[Tuple, Tuple]] = {i: dict() for i in range(max_time + 1)}
+    q = [(1, Stash.empty())]
+
+    while q:
+        time, stash = q.pop(0)
+
+        if time > max_time:
+            geodes = stash.resources[GEODE]
             if geodes > max_geodes:
                 max_geodes = geodes
-            if rt == GEODE:
-                try_collecting = False
-                continue
-            if rt == OBSIDIAN:
-                continue
+                log.debug(f"New max found for bp {bp.id}: {max_geodes} ({repr(stash)}")
+            continue
 
-    if try_collecting:
-        geodes = _evaluate_blueprint(bp, stash.collect(), time + 1, mem)
-        if geodes > max_geodes:
-            max_geodes = geodes
+        # Prune suboptimal states
+        robots = tuple(stash.robots.values())
+        resources = tuple(stash.resources.values())
+        if not _update_memory(mem_robots[time], robots, resources):
+            continue
+        if not _update_memory(mem_resources[time], resources, robots):
+            continue
+
+        log.debug(f"Time {time}: {stash}")
+
+        collect_resources = True
+        for rt in RESOURCE_TYPES:
+            if stash.robots[rt] < bp.max_robot_costs[rt] and stash.can_build_robot(bp, rt):
+                q.append((time + 1, stash.build_and_collect(bp, rt)))
+                if rt == GEODE:
+                    collect_resources = False
+                    break
+                if rt == OBSIDIAN:
+                    collect_resources = False
+                    if stash.robots[OBSIDIAN] != 0:  # Bit of magic, might need increasing for other input sets
+                        break
+
+        if collect_resources and all_values_lower_or_equal([50] * 4, stash.resources.values()):
+            if stash.resources[ORE] < bp.max_robot_costs[ORE]:
+                q.append((time + 1, stash.collect()))
+            elif stash.robots[CLAY] and stash.resources[CLAY] < bp.max_robot_costs[CLAY]:
+                q.append((time + 1, stash.collect()))
+            elif stash.robots[OBSIDIAN] and stash.resources[OBSIDIAN] < bp.max_robot_costs[OBSIDIAN]:
+                q.append((time + 1, stash.collect()))
 
     return max_geodes
+
+
+def _update_memory(mem, key, new_values):
+    if key not in mem:
+        mem[key] = new_values
+        return True
+    else:
+        if all_values_lower_or_equal(mem[key], new_values):
+            return False
+        mem[key] = new_values
+        return True
+
+
+def all_values_lower_or_equal(base, new_values):
+    for i, new_value in enumerate(new_values):
+        if new_value > base[i]:
+            return False
+    return True
 
 
 if __name__ == "__main__":
@@ -179,5 +215,5 @@ if __name__ == "__main__":
     timed_run("Star 1", lambda: star1(read_input(__file__)))
     timed_run("Star 2", lambda: star2(read_input(__file__)))
 
-    # Star 1:
-    # Star 2:
+    # Star 1: 1349
+    # Star 2: 21840
