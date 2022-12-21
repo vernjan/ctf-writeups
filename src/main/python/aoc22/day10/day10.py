@@ -57,7 +57,7 @@ def _execute_instructions(instr_queue: List[str]):
         crt_row = clock // 40
         crt_col = clock % 40
         symbol = "#" if (reg - 1) <= crt_col <= (reg + 1) else "."
-        crt.set(Xy(crt_col, crt_row), symbol)
+        crt.set_value(Xy(crt_col, crt_row), symbol)
 
         instr_cycles -= 1
         clock += 1

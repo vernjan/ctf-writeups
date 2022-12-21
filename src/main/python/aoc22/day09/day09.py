@@ -72,8 +72,8 @@ def star1(commands: List[str]):
 
 def _update_visual_grid(grid, head, tail):
     grid.fill_all(".")
-    grid.set(Xy(tail[0], tail[1]), "T")
-    grid.set(Xy(head[0], head[1]), "H")
+    grid.set_value(Xy(tail[0], tail[1]), "T")
+    grid.set_value(Xy(head[0], head[1]), "H")
     log.info(grid)
 
 
@@ -115,7 +115,7 @@ def _update_visual_grid_with_rope(grid, rope):
     grid.fill_all(".")
     for i in range(len(rope)):
         knot = rope[i]
-        grid.set(Xy(knot[0], knot[1]), str(i))
+        grid.set_value(Xy(knot[0], knot[1]), str(i))
     log.info(grid)
 
 

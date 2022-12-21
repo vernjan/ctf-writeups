@@ -33,14 +33,14 @@ def star2(lines: List[str]):
 
 
 def _has_access_up(grid, position, neighbor):
-    elevation = _get_elevation(grid.at(position).value)
-    neighbor_elevation = _get_elevation(grid.at(neighbor).value)
+    elevation = _get_elevation(grid.get_value(position))
+    neighbor_elevation = _get_elevation(grid.get_value(neighbor))
     return neighbor_elevation - elevation <= 1
 
 
 def _has_access_down(grid, position, neighbor):
-    elevation = _get_elevation(grid.at(position).value)
-    neighbor_elevation = _get_elevation(grid.at(neighbor).value)
+    elevation = _get_elevation(grid.get_value(position))
+    neighbor_elevation = _get_elevation(grid.get_value(neighbor))
     return neighbor_elevation - elevation >= -1
 
 

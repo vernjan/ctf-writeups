@@ -60,29 +60,42 @@ class Grid:
     def __repr__(self) -> str:
         return self.format()
 
-    def format(self, visited=False, separator=""):
+    def format(self, show_visited=False, cell_separator=""):
         lines = []
         for row in self.rows:
             cells = []
             for cell in row:
                 v = ""
-                if visited:
+                if show_visited:
                     v = "T" if cell.visited else "F"
                 cells.append(f"{cell.value}{v}")
-            lines.append(separator.join(cells))
+            lines.append(cell_separator.join(cells))
         return "\n".join(lines)
 
-    def fill_all(self, value):
+    def get(self, pos: Xy) -> GridCell:
         """
-        >>> Grid([[1,2,3], [4,5,6], [7,8,9]]).fill_all("@")
-        @@@
-        @@@
-        @@@
+        >>> Grid([[1,2],[2,3]]).get(Xy(1,1))
+        3 [(1,1)]
         """
-        for row in self.rows:
-            for cell in row:
-                cell.value = value
+        return self.rows[pos.y][pos.x]
+
+    def get_value(self, pos: Xy) -> Any:
+        """
+        >>> Grid([[1,2],[2,3]]).get_value(Xy(1,1))
+        3
+        """
+        return self.get(pos).value
+
+    def set_value(self, pos: Xy, value):
+        """
+        >>> Grid([[1,2],[2,3]]).set_value(Xy(1,1), "a")
+        12
+        2a
+        """
+        self.get(pos).value = value
         return self
+
+    # def set_row_values(self, y, start=0, end=):
 
     def fill_between(self, p1: Xy, p2: Xy, value):
         """
@@ -106,17 +119,29 @@ class Grid:
         if p1.y == p2.y:
             p1_x, p2_x = (p1.x, p2.x) if p1.x < p2.x else (p2.x, p1.x)  # left to right, right to left
             for x in range(p1_x, p2_x + 1):
-                self.set(Xy(x, p1.y), value)
+                self.set_value(Xy(x, p1.y), value)
 
         elif p1.x == p2.x:
             p1_y, p2_y = (p1.y, p2.y) if p1.y < p2.y else (p2.y, p1.y)
             for y in range(p1_y, p2_y + 1):
-                self.set(Xy(p1.x, y), value)
+                self.set_value(Xy(p1.x, y), value)
 
         else:
-            # TO-DO diagonal fill, ...
+            # TO-DO diagonal fill, ... or square?
             assert False, "Not yet implemented"
 
+        return self
+
+    def fill_all(self, value):
+        """
+        >>> Grid([[1,2,3], [4,5,6], [7,8,9]]).fill_all("@")
+        @@@
+        @@@
+        @@@
+        """
+        for row in self.rows:
+            for cell in row:
+                cell.value = value
         return self
 
     def find_first(self, value) -> GridCell or None:
@@ -143,22 +168,6 @@ class Grid:
                 if cell.value == value:
                     result.append(cell)
         return result
-
-    def at(self, pos: Xy) -> GridCell:
-        """
-        >>> Grid([[1,2],[2,3]]).at(Xy(1,1))
-        3 [(1,1)]
-        """
-        return self.rows[pos.y][pos.x]
-
-    def set(self, pos: Xy, value):
-        """
-        >>> Grid([[1,2],[2,3]]).set(Xy(1,1), "a")
-        12
-        2a
-        """
-        self.at(pos).value = value
-        return self
 
     def slice_at(self, pos: Xy, direction) -> List[GridCell]:
         """Get a grid slice (list) from the given position moving into the given direction

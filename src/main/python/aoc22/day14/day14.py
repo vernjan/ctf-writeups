@@ -66,14 +66,14 @@ def sand_fall(star, lines):
             at_rest = True
             moves = [Xy.down, Xy.left_down, Xy.right_down]
             for move in moves:
-                if grid.at(move(sand)).value == ".":
+                if grid.get_value(move(sand)) == ".":
                     sand = move(sand)
                     at_rest = False
                     break
 
             if at_rest:
                 is_moving = False
-                grid.set(sand, "o")
+                grid.set_value(sand, "o")
                 log.debug(grid)
                 if star == "star1" and sand.y == floor_level - 1:
                     return sand_count - 1
