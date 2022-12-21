@@ -4,7 +4,7 @@ import time
 from typing import List
 
 from util.data_io import read_input, read_test_input
-from util.ds import Xy as Pos
+from util.ds.coord import Xy as Pos
 from util.log import log
 
 

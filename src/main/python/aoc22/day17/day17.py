@@ -1,7 +1,7 @@
 import logging
 
 from util.data_io import timed_run, read_input, read_test_input
-from util.ds import Grid
+from util.ds.grid import Grid
 from util.log import log
 
 ROW_PATTERN = [".", ".", "#", "#", "#", "#", "."]

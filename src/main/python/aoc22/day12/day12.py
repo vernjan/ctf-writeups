@@ -2,7 +2,7 @@ import logging
 from typing import List
 
 from util.data_io import read_input, read_test_input
-from util.ds import Grid
+from util.ds.grid import Grid
 from util.log import log
 
 

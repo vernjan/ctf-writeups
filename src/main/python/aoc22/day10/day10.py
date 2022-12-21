@@ -3,7 +3,8 @@ from typing import List
 
 from util.data_io import read_input, read_test_input
 from util.log import log
-from util.ds import Grid, Xy
+from util.ds.grid import Grid
+from util.ds.coord import Xy
 
 
 def star1(instructions: List[str]):

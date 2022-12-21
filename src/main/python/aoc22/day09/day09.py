@@ -3,7 +3,8 @@ from typing import List
 
 from util.data_io import read_input, read_test_input, read_file
 from util.log import log
-from util.ds import Grid, Xy
+from util.ds.grid import Grid
+from util.ds.coord import Xy
 from util.functions import signum
 
 with_visual_grid = __name__ != "__main__"  # Only for tests

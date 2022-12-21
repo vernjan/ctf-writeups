@@ -1,7 +1,8 @@
 from typing import List
 
 from util.data_io import read_input, read_test_input
-from util.ds import Grid, Xy, GridCell
+from util.ds.grid import Grid, GridCell
+from util.ds.coord import Xy
 
 
 def star1(lines: List[str]):

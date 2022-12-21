@@ -2,7 +2,7 @@ import logging
 from typing import List
 
 from util.data_io import read_input, read_test_input, timed_run
-from util.ds import FlatNode, TreeNode
+from util.ds.tree import FlatNode, TreeNode
 from util.log import log
 
 
