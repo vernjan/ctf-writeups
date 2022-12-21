@@ -23,7 +23,7 @@ def star1(lines: List[str]):
 def _count_visible_trees_from_side(forest: Grid) -> int:
     tree_counter = 0
     for x in range(forest.width):
-        tree_line = forest[x]
+        tree_line = forest.rows[x]
         max_height = -1
         for y in range(forest.height):
             tree = tree_line[y]
