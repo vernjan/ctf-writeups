@@ -3,7 +3,7 @@ from typing import List
 
 from util.data_io import read_input, read_test_input
 from util.log import log
-from util.ds import Grid
+from util.ds import Grid, Xy
 
 
 def star1(instructions: List[str]):
@@ -56,7 +56,7 @@ def _execute_instructions(instr_queue: List[str]):
         crt_row = clock // 40
         crt_col = clock % 40
         symbol = "#" if (reg - 1) <= crt_col <= (reg + 1) else "."
-        crt.rows[crt_row][crt_col] = symbol
+        crt.set(Xy(crt_col, crt_row), symbol)
 
         instr_cycles -= 1
         clock += 1

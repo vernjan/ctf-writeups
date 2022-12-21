@@ -13,8 +13,8 @@ def star1(lines: List[str]):
     """
 
     grid = Grid(lines)
-    start_position = grid.find_first("S")
-    end_positions = set(grid.find_all("E"))
+    start_position = grid.find_first("S").pos
+    end_positions = {cell.pos for cell in grid.find_all("E")}
 
     return grid.find_shortest_path(start_position, end_positions, _has_access_up)
 
@@ -26,21 +26,21 @@ def star2(lines: List[str]):
     """
 
     grid = Grid(lines)
-    start_position = grid.find_first("E")
-    end_positions = set(grid.find_all("a"))
+    start_position = grid.find_first("E").pos
+    end_positions = {cell.pos for cell in grid.find_all("a")}
 
     return grid.find_shortest_path(start_position, end_positions, _has_access_down)
 
 
 def _has_access_up(grid, position, neighbor):
-    elevation = _get_elevation(grid.at(position))
-    neighbor_elevation = _get_elevation(grid.at(neighbor))
+    elevation = _get_elevation(grid.at(position).value)
+    neighbor_elevation = _get_elevation(grid.at(neighbor).value)
     return neighbor_elevation - elevation <= 1
 
 
 def _has_access_down(grid, position, neighbor):
-    elevation = _get_elevation(grid.at(position))
-    neighbor_elevation = _get_elevation(grid.at(neighbor))
+    elevation = _get_elevation(grid.at(position).value)
+    neighbor_elevation = _get_elevation(grid.at(neighbor).value)
     return neighbor_elevation - elevation >= -1
 
 

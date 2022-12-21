@@ -65,7 +65,7 @@ def sand_fall(star, lines):
             at_rest = True
             moves = [Xy.down, Xy.left_down, Xy.right_down]
             for move in moves:
-                if grid.at(move(sand)) == ".":
+                if grid.at(move(sand)).value == ".":
                     sand = move(sand)
                     at_rest = False
                     break

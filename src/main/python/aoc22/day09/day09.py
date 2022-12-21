@@ -3,7 +3,7 @@ from typing import List
 
 from util.data_io import read_input, read_test_input, read_file
 from util.log import log
-from util.ds import Grid
+from util.ds import Grid, Xy
 from util.functions import signum
 
 with_visual_grid = __name__ != "__main__"  # Only for tests
@@ -71,8 +71,8 @@ def star1(commands: List[str]):
 
 def _update_visual_grid(grid, head, tail):
     grid.fill_all(".")
-    grid.rows[tail[1]][tail[0]] = "T"
-    grid.rows[head[1]][head[0]] = "H"
+    grid.set(Xy(tail[0], tail[1]), "T")
+    grid.set(Xy(head[0], head[1]), "H")
     log.info(grid)
 
 
@@ -114,7 +114,7 @@ def _update_visual_grid_with_rope(grid, rope):
     grid.fill_all(".")
     for i in range(len(rope)):
         knot = rope[i]
-        grid.rows[knot[1]][knot[0]] = str(i)
+        grid.set(Xy(knot[0], knot[1]), str(i))
     log.info(grid)
 
 

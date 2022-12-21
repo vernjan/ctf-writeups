@@ -7,7 +7,6 @@ from util.data_io import read_input, read_test_input, timed_run
 from util.log import log
 
 
-# TODO Move to functions - circular_shift
 def star1(lines: List[str]):
     """
     >>> star1([1, 2, -3, 3, -2, 0, 4])

@@ -1,14 +1,12 @@
 import re
-from math import inf
 from dataclasses import dataclass
-from typing import List, Set, Sequence
+from math import inf
+from typing import List, Set, Sequence, Any
 
 from util.functions import array2d
 from util.log import log
 
 
-# TODO Tests
-# TODO Typing
 @dataclass(frozen=True)
 class Xy:
     x: int
@@ -119,26 +117,45 @@ class Xyz:
                 min_x <= xyz.x <= max_x and min_y <= xyz.y <= max_y and min_z <= xyz.z <= max_z]
 
 
-# TODO GridCell (no transposing, generics?)
+@dataclass
+class GridCell:
+
+    def __init__(self, pos: Xy, value: Any) -> None:
+        self.pos = pos
+        if isinstance(value, GridCell):
+            self.value = value.value
+            self.visited = value.visited
+        else:
+            self.value = value
+            self.visited = False
+
+    def __str__(self) -> str:
+        return self.value
+
+    def __repr__(self) -> str:
+        return f"{self.value} [{self.pos}]"
+
+
 class Grid:
     DIRECTIONS = ["NORTH", "EAST", "SOUTH", "WEST"]
 
     def __init__(self, rows: List[Sequence]):
         assert rows, "No data"
 
-        self.rows = rows
-        self.height = len(rows)
         self.width = len(rows[0])
+        self.height = len(rows)
 
-        self.cols = []
-        for ci in range(self.width):
-            col = [rows[ri][ci] for ri in range(self.height)]
-            self.cols.append(col)
+        # TODO Make private! Maybe add getter which returns frozenlist of frozen lists
+        self.rows: List[List[GridCell]] = []
+        for y in range(self.height):
+            row = [GridCell(Xy(x, y), rows[y][x]) for x in range(self.width)]
+            self.rows.append(row)
 
-        # TODO GridCell: Move away, keep memory in the GridCell
-        self.visited = []
-        for _ in range(self.height):
-            self.visited.append([False] * self.width)
+        # TODO Make private! Maybe add getter which returns frozenlist of frozen lists
+        self._cols: List[List[GridCell]] = []
+        for x in range(self.width):
+            col = [self.rows[y][x] for y in range(self.height)]
+            self._cols.append(col)
 
     @classmethod
     def empty(cls, width, height, value="."):
@@ -149,11 +166,24 @@ class Grid:
         """
         return Grid(array2d(width, height, value))
 
+    # TODO Remove
     def __getitem__(self, ri) -> List:
         return self.rows[ri]
 
     def __repr__(self) -> str:
-        return "\n".join(["".join(map(str, row)) for row in self.rows])
+        return self.format()
+
+    def format(self, visited=False, separator=""):
+        lines = []
+        for row in self.rows:
+            cells = []
+            for cell in row:
+                v = ""
+                if visited:
+                    v = "T" if cell.visited else "F"
+                cells.append(f"{cell.value}{v}")
+            lines.append(separator.join(cells))
+        return "\n".join(lines)
 
     def fill_all(self, value):
         """
@@ -162,7 +192,9 @@ class Grid:
         @@@
         @@@
         """
-        self.rows = array2d(self.width, self.height, value)  # FIXME Does not init columns, visited, ..
+        for row in self.rows:
+            for cell in row:
+                cell.value = value
         return self
 
     def fill_between(self, p1: Xy, p2: Xy, value):
@@ -185,14 +217,14 @@ class Grid:
         7@9
         """
         if p1.y == p2.y:
-            p1_ci, p2_ci = (p1.x, p2.x) if p1.x < p2.x else (p2.x, p1.x)  # left to right, right to left
-            for ri in range(p1_ci, p2_ci + 1):
-                self[p1.y][ri] = value
+            p1_x, p2_x = (p1.x, p2.x) if p1.x < p2.x else (p2.x, p1.x)  # left to right, right to left
+            for x in range(p1_x, p2_x + 1):
+                self.set(Xy(x, p1.y), value)
 
         elif p1.x == p2.x:
-            p1_ri, p2_ri = (p1.y, p2.y) if p1.y < p2.y else (p2.y, p1.y)
-            for ri in range(p1_ri, p2_ri + 1):
-                self[ri][p1.x] = value
+            p1_y, p2_y = (p1.y, p2.y) if p1.y < p2.y else (p2.y, p1.y)
+            for y in range(p1_y, p2_y + 1):
+                self.set(Xy(p1.x, y), value)
 
         else:
             # TO-DO diagonal fill, ...
@@ -200,32 +232,34 @@ class Grid:
 
         return self
 
-    def find_first(self, value) -> Xy or None:
+    def find_first(self, value) -> GridCell or None:
         """
         >>> Grid([[1,2],[2,3]]).find_first(2)
-        (1,0)
+        2 [(1,0)]
+        >>> Grid([[1,2],[2,3]]).find_first(8)
+
         """
-        for ri in range(self.height):
-            for ci in range(self.width):
-                if self[ri][ci] == value:
-                    return Xy(ci, ri)
+        for row in self.rows:
+            for cell in row:
+                if cell.value == value:
+                    return cell
         return None
 
-    def find_all(self, value) -> List[Xy]:
+    def find_all(self, value) -> List[GridCell]:
         """
         >>> Grid([[1,2],[2,3]]).find_all(2)
-        [(1,0), (0,1)]
+        [2 [(1,0)], 2 [(0,1)]]
         """
         result = []
-        for ri in range(self.height):
-            for ci in range(self.width):
-                if self[ri][ci] == value:
-                    result.append(Xy(ci, ri))
+        for row in self.rows:
+            for cell in row:
+                if cell.value == value:
+                    result.append(cell)
         return result
 
-    def at(self, pos: Xy):
+    def at(self, pos: Xy) -> GridCell:
         """
-        >>> Grid([[1,2],[2,3]]).at(Xy(1,1))
+        >>> Grid([[1,2],[2,3]]).at(Xy(1,1)).value
         3
         """
         return self[pos.y][pos.x]
@@ -236,68 +270,69 @@ class Grid:
         12
         2a
         """
-        self[pos.y][pos.x] = value
+        self.at(pos).value = value
         return self
 
-    # TODO Add support for filling - slice_from, slice_between + fill_from, fill_between
-    def slice_at(self, pos: Xy, direction) -> List:
+    # TODO Unite slicing and filling: slice_from, slice_between + fill_from, fill_between
+    def slice_at(self, pos: Xy, direction) -> List[GridCell]:
         """Get a grid slice (list) from the given position moving into the given direction
         >>> Grid([[1,2,3], [4,5,6], [7,8,9]]).slice_at(Xy(1,1), "NORTH")
-        [5, 2]
+        [5 [(1,1)], 2 [(1,0)]]
         >>> Grid([[1,2,3], [4,5,6], [7,8,9]]).slice_at(Xy(1,1), "EAST")
-        [5, 6]
+        [5 [(1,1)], 6 [(2,1)]]
         >>> Grid([[1,2,3], [4,5,6], [7,8,9]]).slice_at(Xy(1,1), "SOUTH")
-        [5, 8]
+        [5 [(1,1)], 8 [(1,2)]]
         >>> Grid([[1,2,3], [4,5,6], [7,8,9]]).slice_at(Xy(1,1), "WEST")
-        [5, 4]
+        [5 [(1,1)], 4 [(0,1)]]
         """
+
         if direction == "NORTH":
-            return self.cols[pos.x][pos.y::-1]
+            return self._cols[pos.x][pos.y::-1]
         elif direction == "EAST":
             return self.rows[pos.y][pos.x:]
         elif direction == "SOUTH":
-            return self.cols[pos.x][pos.y:]
+            return self._cols[pos.x][pos.y:]
         elif direction == "WEST":
             return self.rows[pos.y][pos.x::-1]
         else:
             raise ValueError(f"Invalid direction: {direction}")
 
-    # TODO Also add Rotate? Return new Grid for printing? Make sure to preserve Cells (to keep visited nodes)
-    def view_from(self, direction):
-        """Transpose the grid as if looked from the given direction"""
-        if direction == "NORTH":
-            return self.cols
-        elif direction == "EAST":
-            return [list(reversed(row)) for row in self.rows]
-        elif direction == "SOUTH":
-            return [list(reversed(row)) for row in self.cols]
-        elif direction == "WEST":
-            return self.rows
-        else:
-            raise ValueError(f"Invalid direction: {direction}")
+    def rotate_left(self) -> "Grid":
+        """
+        >>> Grid([[1,2,3], [4,5,6]]).rotate_left()
+        36
+        25
+        14
+        """
+        return Grid(list(reversed(self._cols)))
 
-    def get_neighbors(self, pos: Xy, side=True, diagonal=False) -> List["Xy"]:
+    def rotate_right(self) -> "Grid":
+        """
+        >>> Grid([[1,2,3], [4,5,6]]).rotate_right()
+        41
+        52
+        63
+        """
+        return Grid([list(reversed(col)) for col in self._cols])
+
+    def reverse_vertical(self) -> "Grid":
+        """
+        >>> Grid([[1,2,3], [4,5,6]]).reverse_vertical()
+        321
+        654
+        """
+        return Grid([list(reversed(rows)) for rows in self.rows])
+
+    def reverse_horizontal(self) -> "Grid":
+        """
+        >>> Grid([[1,2,3], [4,5,6]]).reverse_horizontal()
+        456
+        123
+        """
+        return Grid(list(reversed(self.rows)))
+
+    def get_neighbors(self, pos: Xy, side=True, diagonal=False) -> List[Xy]:
         return pos.neighbors(side, diagonal, min_x=0, max_x=self.width - 1, min_y=0, max_y=self.height - 1)
-
-    def is_visited(self, i, j, view_from="WEST"):
-        ri, ci = self._transpose_coordinates(i, j, view_from)
-        return self.visited[ri][ci]
-
-    def mark_visited(self, i, j, view_from="WEST"):
-        ri, ci = self._transpose_coordinates(i, j, view_from)
-        self.visited[ri][ci] = True
-
-    def _transpose_coordinates(self, ri, ci, view_from):
-        if view_from == "NORTH":
-            return ci, ri
-        elif view_from == "EAST":
-            return ri, len(self.cols[0]) - ci - 1
-        elif view_from == "SOUTH":
-            return len(self.cols[0]) - ci - 1, ri
-        elif view_from == "WEST":
-            return ri, ci
-        else:
-            raise ValueError(f"Invalid direction: {view_from}")
 
     def find_shortest_path(
             self,

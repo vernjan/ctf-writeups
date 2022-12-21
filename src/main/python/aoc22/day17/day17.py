@@ -7,6 +7,7 @@ from util.log import log
 ROW_PATTERN = [".", ".", "#", "#", "#", "#", "."]
 
 
+# FIXME New Grid
 class Rock:
 
     def __init__(self, grid: Grid, highest_y: int, width: int, height: int):

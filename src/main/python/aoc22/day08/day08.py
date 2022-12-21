@@ -1,7 +1,7 @@
 from typing import List
 
-from util.ds import Grid, Xy
 from util.data_io import read_input, read_test_input
+from util.ds import Grid, Xy, GridCell
 
 
 def star1(lines: List[str]):
@@ -12,27 +12,28 @@ def star1(lines: List[str]):
 
     tree_counter = 0
     forest = Grid(lines)
-    for direction in Grid.DIRECTIONS:
-        tree_counter += _count_visible_trees_from_side(forest, direction)
+    for _ in range(4):
+        tree_counter += _count_visible_trees_from_side(forest)
+        forest = forest.rotate_left()
 
     return tree_counter
 
 
-def _count_visible_trees_from_side(forest: Grid, direction: str) -> int:
-    forest_view = forest.view_from(direction)
+def _count_visible_trees_from_side(forest: Grid) -> int:
     tree_counter = 0
     for x in range(forest.width):
-        tree_line = forest_view[x]
+        tree_line = forest[x]
         max_height = -1
-        for y in range(forest.width):
-            tree_height = int(tree_line[y])
+        for y in range(forest.height):
+            tree = tree_line[y]
+            tree_height = int(tree.value)
             if tree_height <= max_height:
                 continue
             if tree_height < max_height:
                 break
             max_height = tree_height
-            if not forest.is_visited(x, y, direction):
-                forest.mark_visited(x, y, direction)
+            if not tree.visited:
+                tree.visited = True
                 tree_counter += 1
     return tree_counter
 
@@ -59,13 +60,13 @@ def star2(lines: List[str]):
     return best_scenic_score
 
 
-def _count_visible_trees_from_tree(tree_slice: List[int]) -> int:
+def _count_visible_trees_from_tree(tree_slice: List[GridCell]) -> int:
     if len(tree_slice) == 1:
         return 0
 
-    my_tree = tree_slice[0]
+    my_tree = tree_slice[0].value
     for i in range(1, len(tree_slice)):
-        neighbor_tree = tree_slice[i]
+        neighbor_tree = tree_slice[i].value
         if neighbor_tree >= my_tree:
             return i
 
