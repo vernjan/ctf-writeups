@@ -111,9 +111,9 @@ def star1(lines: List[str]):
 
     total = 0
     for bp in _parse_blueprints(lines):
-        bp_quality = _evaluate_blueprint(bp, 24)
+        bp_quality, steps = _evaluate_blueprint(bp, 24)
         total += bp.id * bp_quality
-        log.debug(f"Blueprint {bp.id} evaluated: {bp_quality}")
+        log.debug(f"Blueprint {bp.id} evaluated: {bp_quality} in {steps} steps")
 
     return total
 
@@ -126,9 +126,9 @@ def star2(lines: List[str]):
 
     total = 1
     for bp in _parse_blueprints(lines[:3]):
-        bp_quality = _evaluate_blueprint(bp, 32)
+        bp_quality, steps = _evaluate_blueprint(bp, 32)
         total *= bp_quality
-        log.debug(f"Blueprint {bp.id} evaluated: {bp_quality}")
+        log.debug(f"Blueprint {bp.id} evaluated: {bp_quality} in {steps} steps")
 
     return total
 
@@ -143,8 +143,9 @@ def _parse_blueprints(lines: List[str]) -> List[Blueprint]:
     return blueprints
 
 
-def _evaluate_blueprint(bp: Blueprint, max_time: int) -> int:
+def _evaluate_blueprint(bp: Blueprint, max_time: int) -> Tuple[int, int]:
     max_geodes = 0
+    steps = 0
     mem_robots: Dict[int, Dict[Tuple, Tuple]] = {i: dict() for i in range(max_time + 1)}  # TO-DO Could use bimap
     mem_resources: Dict[int, Dict[Tuple, Tuple]] = {i: dict() for i in range(max_time + 1)}
     q = [(1, Stash.empty())]
@@ -168,6 +169,7 @@ def _evaluate_blueprint(bp: Blueprint, max_time: int) -> int:
             continue
 
         log.debug(f"Time {time}: {stash}")
+        steps += 1
 
         collect_resources = True
         for rt in RESOURCE_TYPES:
@@ -189,7 +191,7 @@ def _evaluate_blueprint(bp: Blueprint, max_time: int) -> int:
             elif stash.robots[OBSIDIAN] and stash.resources[OBSIDIAN] < bp.max_robot_costs[OBSIDIAN]:
                 q.append((time + 1, stash.collect()))
 
-    return max_geodes
+    return max_geodes, steps
 
 
 def _update_memory(mem, key, new_values):
