@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from typing import List, Set, Sequence, Any
+from typing import List, Set, Sequence, Any, Tuple
 
 from util.ds.coord import Xy
 from util.functions import array2d
@@ -25,6 +25,8 @@ class GridCell:
         return f"{self.value} [{self.pos}]"
 
 
+# TODO new method value_at, values_slice, between
+# TODO Unite slicing and filling: slice_from, slice_between + fill_from, fill_between
 class Grid:
     DIRECTIONS = ["NORTH", "EAST", "SOUTH", "WEST"]
 
@@ -34,17 +36,17 @@ class Grid:
         self.width = len(rows[0])
         self.height = len(rows)
 
-        # TODO Make private! Maybe add getter which returns frozenlist of frozen lists
-        self.rows: List[List[GridCell]] = []
+        rows_list = []
         for y in range(self.height):
-            row = [GridCell(Xy(x, y), rows[y][x]) for x in range(self.width)]
-            self.rows.append(row)
+            row = tuple([GridCell(Xy(x, y), rows[y][x]) for x in range(self.width)])
+            rows_list.append(row)
+        self.rows: Tuple = tuple(rows_list)
 
-        # TODO Make private! Maybe add getter which returns frozenlist of frozen lists
-        self._cols: List[List[GridCell]] = []
+        cols_list = []
         for x in range(self.width):
-            col = [self.rows[y][x] for y in range(self.height)]
-            self._cols.append(col)
+            col = tuple([self.rows[y][x] for y in range(self.height)])
+            cols_list.append(col)
+        self.cols: Tuple = tuple(cols_list)
 
     @classmethod
     def empty(cls, width, height, value="."):
@@ -54,10 +56,6 @@ class Grid:
         @@@
         """
         return Grid(array2d(width, height, value))
-
-    # TODO Remove
-    def __getitem__(self, ri) -> List:
-        return self.rows[ri]
 
     def __repr__(self) -> str:
         return self.format()
@@ -148,10 +146,10 @@ class Grid:
 
     def at(self, pos: Xy) -> GridCell:
         """
-        >>> Grid([[1,2],[2,3]]).at(Xy(1,1)).value
-        3
+        >>> Grid([[1,2],[2,3]]).at(Xy(1,1))
+        3 [(1,1)]
         """
-        return self[pos.y][pos.x]
+        return self.rows[pos.y][pos.x]
 
     def set(self, pos: Xy, value):
         """
@@ -162,25 +160,24 @@ class Grid:
         self.at(pos).value = value
         return self
 
-    # TODO Unite slicing and filling: slice_from, slice_between + fill_from, fill_between
     def slice_at(self, pos: Xy, direction) -> List[GridCell]:
         """Get a grid slice (list) from the given position moving into the given direction
         >>> Grid([[1,2,3], [4,5,6], [7,8,9]]).slice_at(Xy(1,1), "NORTH")
-        [5 [(1,1)], 2 [(1,0)]]
+        (5 [(1,1)], 2 [(1,0)])
         >>> Grid([[1,2,3], [4,5,6], [7,8,9]]).slice_at(Xy(1,1), "EAST")
-        [5 [(1,1)], 6 [(2,1)]]
+        (5 [(1,1)], 6 [(2,1)])
         >>> Grid([[1,2,3], [4,5,6], [7,8,9]]).slice_at(Xy(1,1), "SOUTH")
-        [5 [(1,1)], 8 [(1,2)]]
+        (5 [(1,1)], 8 [(1,2)])
         >>> Grid([[1,2,3], [4,5,6], [7,8,9]]).slice_at(Xy(1,1), "WEST")
-        [5 [(1,1)], 4 [(0,1)]]
+        (5 [(1,1)], 4 [(0,1)])
         """
 
         if direction == "NORTH":
-            return self._cols[pos.x][pos.y::-1]
+            return self.cols[pos.x][pos.y::-1]
         elif direction == "EAST":
             return self.rows[pos.y][pos.x:]
         elif direction == "SOUTH":
-            return self._cols[pos.x][pos.y:]
+            return self.cols[pos.x][pos.y:]
         elif direction == "WEST":
             return self.rows[pos.y][pos.x::-1]
         else:
@@ -193,7 +190,7 @@ class Grid:
         25
         14
         """
-        return Grid(list(reversed(self._cols)))
+        return Grid(list(reversed(self.cols)))
 
     def rotate_right(self) -> "Grid":
         """
@@ -202,7 +199,7 @@ class Grid:
         52
         63
         """
-        return Grid([list(reversed(col)) for col in self._cols])
+        return Grid([list(reversed(col)) for col in self.cols])
 
     def reverse_vertical(self) -> "Grid":
         """
