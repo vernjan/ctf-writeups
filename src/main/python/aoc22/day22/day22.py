@@ -71,7 +71,7 @@ def _parse_grid(lines: List[str]):
 def star2(lines: List[str]):
     """
     >>> star2(read_test_input(__file__))
-
+    5031
     """
 
     pass

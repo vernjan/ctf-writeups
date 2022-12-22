@@ -256,6 +256,7 @@ class Grid:
             if not self._is_on_grid(next_pos):
                 if wrap_around:
                     next_pos = Xy(next_pos.x % self.width, next_pos.y % self.height)
+                # TODO wrap_around 3D + return new direction
                 else:
                     break
 
