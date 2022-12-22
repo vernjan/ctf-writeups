@@ -284,4 +284,4 @@ if __name__ == "__main__":
     timed_run("Star 2", lambda: star2(read_input(__file__), grid_size=50))
 
     # Star 1: 30552
-    # Star 2:
+    # Star 2: 184106
