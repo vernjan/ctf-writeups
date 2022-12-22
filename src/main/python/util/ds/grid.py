@@ -243,7 +243,7 @@ class Grid:
              wrap_around=False,
              trace=False) -> "Grid":
 
-        assert self._is_on_grid(pos), "Start position is not on the grid!"
+        assert self.on_grid(pos), "Start position is not on the grid!"
 
         step_counter = 1
         next_pos = pos
@@ -253,7 +253,7 @@ class Grid:
 
             next_pos = next_pos.neighbor(direction)
 
-            if not self._is_on_grid(next_pos):
+            if not self.on_grid(next_pos):
                 if wrap_around:
                     next_pos = Xy(next_pos.x % self.width, next_pos.y % self.height)
                 # TODO wrap_around 3D + return new direction
@@ -272,42 +272,42 @@ class Grid:
         self.set_value(pos, "x")
         return pos
 
-    def _is_on_grid(self, pos: Xy):
+    # TODO better name
+    def on_grid(self, pos: Xy):
         return 0 <= pos.x < self.width and 0 <= pos.y < self.height
 
+    def find_shortest_path(
+            self,
+            start_position: Xy,
+            end_positions: Set[Xy],
+            has_access) -> int:
+        """ Find the shortest path between the start position and possibly multiple end positions.
 
-def find_shortest_path(
-        self,
-        start_position: Xy,
-        end_positions: Set[Xy],
-        has_access) -> int:
-    """ Find the shortest path between the start position and possibly multiple end positions.
+        - has_access is a lambda(grid, position, neighbor_position)
+        """
+        shortest_routes = {start_position: 0}
 
-    - has_access is a lambda(grid, position, neighbor_position)
-    """
-    shortest_routes = {start_position: 0}
+        def _update_shortest_routes(pos, new_route_len):
+            if pos not in shortest_routes:
+                shortest_routes[pos] = new_route_len
+                return True
+            elif new_route_len < shortest_routes[pos]:
+                shortest_routes[pos] = new_route_len
+                return True
+            return False
 
-    def _update_shortest_routes(pos, new_route_len):
-        if pos not in shortest_routes:
-            shortest_routes[pos] = new_route_len
-            return True
-        elif new_route_len < shortest_routes[pos]:
-            shortest_routes[pos] = new_route_len
-            return True
-        return False
+        next_moves = [start_position]
+        while next_moves:
+            position = next_moves.pop(0)
 
-    next_moves = [start_position]
-    while next_moves:
-        position = next_moves.pop(0)
+            if position in end_positions:
+                log.debug(f"End position reached in: {shortest_routes[position]}")
+                continue
 
-        if position in end_positions:
-            log.debug(f"End position reached in: {shortest_routes[position]}")
-            continue
+            route_len = shortest_routes[position]
+            for neighbor in self.get_neighbors(position):
+                if has_access(self, position, neighbor):
+                    if _update_shortest_routes(neighbor, route_len + 1):
+                        next_moves.append(neighbor)
 
-        route_len = shortest_routes[position]
-        for neighbor in self.get_neighbors(position):
-            if has_access(self, position, neighbor):
-                if _update_shortest_routes(neighbor, route_len + 1):
-                    next_moves.append(neighbor)
-
-    return min([shortest_routes[pos] for pos in end_positions if pos in shortest_routes])
+        return min([shortest_routes[pos] for pos in end_positions if pos in shortest_routes])
