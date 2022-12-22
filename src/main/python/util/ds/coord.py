@@ -5,6 +5,54 @@ from typing import List
 
 
 @dataclass(frozen=True)
+class Direction:
+    value: str
+    print_symbol: str
+
+    def turn_left(self) -> "Direction":
+        """
+        >>> UP.turn_left()
+        left
+        >>> UP.turn_left().turn_left()
+        down
+        >>> RIGHT.turn_left()
+        up
+        >>> RIGHT.turn_left().turn_left()
+        left
+        """
+        index = DIRECTIONS.index(self)
+        return DIRECTIONS[(index - 1) % len(DIRECTIONS)]
+
+    def turn_right(self) -> "Direction":
+        """
+        >>> UP.turn_right()
+        right
+        >>> UP.turn_right().turn_right()
+        down
+        >>> RIGHT.turn_right()
+        down
+        >>> RIGHT.turn_right().turn_right()
+        left
+        """
+        index = DIRECTIONS.index(self)
+        return DIRECTIONS[(index + 1) % len(DIRECTIONS)]
+
+    def __str__(self) -> str:
+        return self.print_symbol
+
+    def __repr__(self) -> str:
+        return self.value
+
+
+UP = Direction("up", "^")
+RIGHT = Direction("right", ">")
+DOWN = Direction("down", "v")
+LEFT = Direction("left", "<")
+
+DIRECTIONS = [UP, RIGHT, DOWN, LEFT]
+
+
+@dataclass(frozen=True)
 class Xy:
     x: int
     y: int
@@ -39,6 +87,10 @@ class Xy:
 
     def right_down(self):
         return Xy(self.x + 1, self.y + 1)
+
+    def neighbor(self, direction: Direction):
+        move = getattr(self, direction.value)
+        return move()
 
     def neighbors(self, side=True, diagonal=False, min_x=-inf, max_x=inf, min_y=-inf, max_y=inf) -> List["Xy"]:
         """

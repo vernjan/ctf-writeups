@@ -13,8 +13,8 @@ def star1(lines: List[str]):
     """
 
     grid = Grid(lines)
-    start_position = grid.find_first("S").pos
-    end_positions = {cell.pos for cell in grid.find_all("E")}
+    start_position = grid.find_first("S")
+    end_positions = set(grid.find_all("E"))
 
     return grid.find_shortest_path(start_position, end_positions, _has_access_up)
 
@@ -26,8 +26,8 @@ def star2(lines: List[str]):
     """
 
     grid = Grid(lines)
-    start_position = grid.find_first("E").pos
-    end_positions = {cell.pos for cell in grid.find_all("a")}
+    start_position = grid.find_first("E")
+    end_positions = set(grid.find_all("a"))
 
     return grid.find_shortest_path(start_position, end_positions, _has_access_down)
 
