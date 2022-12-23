@@ -37,6 +37,9 @@ class Direction:
         index = DIRECTIONS.index(self)
         return DIRECTIONS[(index + 1) % len(DIRECTIONS)]
 
+    def turn_around(self) -> "Direction":
+        return self.turn_left().turn_left()
+
     def __str__(self) -> str:
         return self.print_symbol
 
