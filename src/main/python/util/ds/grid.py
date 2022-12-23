@@ -6,6 +6,8 @@ from util.ds.coord import Xy, Direction
 from util.functions import array2d
 from util.log import log
 
+EMPTY_SYMBOL = "."
+
 
 @dataclass
 class GridCell:
@@ -28,11 +30,33 @@ class GridCell:
 
 class Grid:
 
-    def __init__(self, rows: List[Sequence]) -> None:
+    def __init__(self, rows: List[Sequence], padding_size=0, padding_symbol=EMPTY_SYMBOL) -> None:
+        """
+        >>> Grid([[1,2]], padding_size=2, padding_symbol="@")
+        @@@@@@
+        @@@@@@
+        @@12@@
+        @@@@@@
+        @@@@@@
+        """
         assert rows, "No data"
 
         self.width = len(rows[0])
         self.height = len(rows)
+
+        if padding_size > 0:
+            self.width += 2 * padding_size
+            self.height += 2 * padding_size
+            padded_rows = []
+            for y in range(self.height):
+                if padding_size <= y < self.height - padding_size:
+                    row = [padding_symbol] * padding_size
+                    row.extend([rows[y - padding_size][x] for x in range(self.width - 2 * padding_size)])
+                    row.extend([padding_symbol] * padding_size)
+                else:
+                    row = [padding_symbol] * self.width
+                padded_rows.append(row)
+            rows = padded_rows
 
         rows_list = []
         for y in range(self.height):
@@ -47,7 +71,7 @@ class Grid:
         self.cols: Tuple = tuple(cols_list)
 
     @staticmethod
-    def empty(width: int, height: int, value: Any = ".") -> "Grid":
+    def empty(width: int, height: int, value: Any = EMPTY_SYMBOL) -> "Grid":
         """
         >>> print(Grid.empty(3, 2, "@"))
         @@@
