@@ -151,7 +151,7 @@ def star2(lines: List[str]):
             q.append(TraversalCtx2(valve1, valve2, ctx.time - 1, open_valves, score, tracking))
 
         # no valve can be open
-        # TO-DO Could optimize by removing the mirror moves
+        # (could optimize by removing the mirror moves ...)
         for neighbor1 in map(valves.get, ctx.valve1.neighbor_names):
             for neighbor2 in map(valves.get, ctx.valve2.neighbor_names):
                 q.append(TraversalCtx2(neighbor1, neighbor2, ctx.time - 1, ctx.open_valves, ctx.score, ctx.tracking))

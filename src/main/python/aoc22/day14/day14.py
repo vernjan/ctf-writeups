@@ -45,12 +45,12 @@ def sand_fall(star, lines):
             if stone.y > max_height:
                 max_height = stone.y
             if last_stone:
-                grid.fill_between(last_stone, stone, "#")
+                grid.set_values_between(last_stone, stone, "#")
             last_stone = stone
 
     # add floor
     floor_level = max_height + 2
-    grid.fill_between(Xy(0, floor_level), Xy(grid.width - 1, floor_level), value="#")
+    grid.set_values_between(Xy(0, floor_level), Xy(grid.width - 1, floor_level), value="#")
 
     log.debug(grid)
 

@@ -106,7 +106,6 @@ class Xy:
         if side:
             neighbors.extend([self.up(), self.right(), self.down(), self.left()])
         if diagonal:
-            # TO-DO implement
             assert False, "Not yet implemented"
 
         return [xy for xy in neighbors if min_x <= xy.x <= max_x and min_y <= xy.y <= max_y]
@@ -159,10 +158,8 @@ class Xyz:
                 Xyz(self.x, self.y, self.z + 1),
             ])
         if edge:
-            # TO-DO implement
             assert False, "Not yet implemented"
         if corner:
-            # TO-DO implement
             assert False, "Not yet implemented"
 
         return [xyz for xyz in neighbors if

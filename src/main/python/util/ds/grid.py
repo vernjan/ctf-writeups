@@ -1,14 +1,10 @@
 from dataclasses import dataclass
-from typing import List, Set, Sequence, Any, Tuple
+from typing import List, Set, Sequence, Any, Tuple, Generator
 
+from util.ds.coord import UP, RIGHT, DOWN, LEFT
 from util.ds.coord import Xy, Direction
 from util.functions import array2d
 from util.log import log
-
-NORTH = "north"
-EAST = "east"
-SOUTH = "south"
-WEST = "west"
 
 
 @dataclass
@@ -30,12 +26,9 @@ class GridCell:
         return f"{self.value} [{self.pos}]"
 
 
-# TODO new method value_at, values_slice, between
-# TODO Unite slicing and filling: slice_from, slice_between + fill_from, fill_between
 class Grid:
-    DIRECTIONS = [NORTH, EAST, SOUTH, WEST]  # TODO Remove me, use coord.DIRECTIONS
 
-    def __init__(self, rows: List[Sequence]):
+    def __init__(self, rows: List[Sequence]) -> None:
         assert rows, "No data"
 
         self.width = len(rows[0])
@@ -53,8 +46,8 @@ class Grid:
             cols_list.append(col)
         self.cols: Tuple = tuple(cols_list)
 
-    @classmethod
-    def empty(cls, width, height, value="."):
+    @staticmethod
+    def empty(width: int, height: int, value: Any = ".") -> "Grid":
         """
         >>> print(Grid.empty(3, 2, "@"))
         @@@
@@ -62,24 +55,18 @@ class Grid:
         """
         return Grid(array2d(width, height, value))
 
-    def __repr__(self) -> str:
-        return self.format()
-
-    def format(self, show_visited=False, cell_separator=""):
-        lines = []
-        for row in self.rows:
-            cells = []
-            for cell in row:
-                v = ""
-                if show_visited:
-                    v = "T" if cell.visited else "F"
-                cells.append(f"{cell.value}{v}")
-            lines.append(cell_separator.join(cells))
-        return "\n".join(lines)
-
-    def get(self, pos: Xy) -> GridCell:
+    def has(self, pos: Xy) -> bool:
         """
-        >>> Grid([[1,2],[2,3]]).get(Xy(1,1))
+        >>> Grid([[1,2],[2,3]]).has(Xy(1,1))
+        True
+        >>> Grid([[1,2],[2,3]]).has(Xy(2,2))
+        False
+        """
+        return 0 <= pos.x < self.width and 0 <= pos.y < self.height
+
+    def get_cell(self, pos: Xy) -> GridCell:
+        """
+        >>> Grid([[1,2],[2,3]]).get_cell(Xy(1,1))
         3 [(1,1)]
         """
         return self.rows[pos.y][pos.x]
@@ -89,67 +76,116 @@ class Grid:
         >>> Grid([[1,2],[2,3]]).get_value(Xy(1,1))
         3
         """
-        return self.get(pos).value
+        return self.get_cell(pos).value
 
-    def set_value(self, pos: Xy, value):
+    def set_value(self, pos: Xy, value) -> "Grid":
         """
         >>> Grid([[1,2],[2,3]]).set_value(Xy(1,1), "a")
         12
         2a
         """
-        self.get(pos).value = value
+        self.get_cell(pos).value = value
         return self
 
-    # def set_row_values(self, y, start=0, end=):
+    def get_neighbors(self, pos: Xy, side=True, diagonal=False) -> List[Xy]:
+        return pos.neighbors(side, diagonal, min_x=0, max_x=self.width - 1, min_y=0, max_y=self.height - 1)
 
-    def fill_between(self, p1: Xy, p2: Xy, value):
-        """
-        >>> Grid([[1,2,3], [4,5,6], [7,8,9]]).fill_between(Xy(0,1), Xy(2,1), "@")
-        123
-        @@@
-        789
-        >>> Grid([[1,2,3], [4,5,6], [7,8,9]]).fill_between(Xy(2,1), Xy(0,1), "@")
-        123
-        @@@
-        789
-        >>> Grid([[1,2,3], [4,5,6], [7,8,9]]).fill_between(Xy(1,0), Xy(1,2), "@")
-        1@3
-        4@6
-        7@9
-        >>> Grid([[1,2,3], [4,5,6], [7,8,9]]).fill_between(Xy(1,2), Xy(1,0), "@")
-        1@3
-        4@6
-        7@9
-        """
-        if p1.y == p2.y:
-            p1_x, p2_x = (p1.x, p2.x) if p1.x < p2.x else (p2.x, p1.x)  # left to right, right to left
+    def _get_cells_between(self, p1: Xy, p2: Xy) -> Generator[GridCell, None, None]:
+        # TO-DO mode: rectangle or diagonal
+        p1_x, p2_x = (p1.x, p2.x) if p1.x < p2.x else (p2.x, p1.x)
+        p1_y, p2_y = (p1.y, p2.y) if p1.y < p2.y else (p2.y, p1.y)
+
+        for y in range(p1_y, p2_y + 1):
             for x in range(p1_x, p2_x + 1):
-                self.set_value(Xy(x, p1.y), value)
+                yield self.get_cell(Xy(x, y))
 
-        elif p1.x == p2.x:
-            p1_y, p2_y = (p1.y, p2.y) if p1.y < p2.y else (p2.y, p1.y)
-            for y in range(p1_y, p2_y + 1):
-                self.set_value(Xy(p1.x, y), value)
+    def get_cells_between(self, p1: Xy, p2: Xy) -> List[GridCell]:
+        """
+        >>> Grid([[1,2,3], [4,5,6], [7,8,9]]).get_cells_between(Xy(1,1), Xy(0,0))
+        [1 [(0,0)], 2 [(1,0)], 4 [(0,1)], 5 [(1,1)]]
+        """
+        return list(self._get_cells_between(p1, p2))
 
+    def get_values_between(self, p1: Xy, p2: Xy) -> List[Any]:
+        """
+        >>> Grid([[1,2,3], [4,5,6], [7,8,9]]).get_values_between(Xy(1,1), Xy(0,0))
+        [1, 2, 4, 5]
+        """
+        return list(map(lambda cell: cell.value, self._get_cells_between(p1, p2)))
+
+    def set_values_between(self, p1: Xy, p2: Xy, value: Any) -> "Grid":
+        """
+        >>> Grid([[1,2,3], [4,5,6], [7,8,9]]).set_values_between(Xy(1,1), Xy(0,0), "@")
+        @@3
+        @@6
+        789
+        """
+        for cell in self._get_cells_between(p1, p2):
+            cell.value = value
+        return self
+
+    def get_row_values(self, y: int):
+        """
+        >>> list(Grid([[1,2],[2,3]]).get_row_values(1))
+        [2, 3]
+        """
+        return [cell.value for cell in self.rows[y]]
+
+    def get_col_values(self, x: int):
+        """
+        >>> list(Grid([[1,2],[2,3]]).get_col_values(1))
+        [2, 3]
+        """
+        return [cell.value for cell in self.cols[x]]
+
+    def get_all_cells(self) -> Generator[GridCell, None, None]:
+        """
+        >>> list(Grid([[1,2],[2,3]]).get_all_cells())
+        [1 [(0,0)], 2 [(1,0)], 2 [(0,1)], 3 [(1,1)]]
+        """
+        return self._get_cells_between(Xy(0, 0), Xy(self.width - 1, self.height - 1))
+
+    def get_all_values(self) -> Generator[Any, None, None]:
+        """
+        >>> list(Grid([[1,2],[2,3]]).get_all_values())
+        [1, 2, 2, 3]
+        """
+        for cell in self.get_all_cells():
+            yield cell.value
+
+    def set_all_values(self, value):
+        """
+        >>> Grid([[1,2],[2,3]]).set_all_values("@")
+        @@
+        @@
+        """
+        self.set_values_between(Xy(0, 0), Xy(self.width - 1, self.height - 1), value)
+        return self
+
+    def get_cells_from(self, pos: Xy, direction: Direction) -> List[GridCell]:
+        """Get a list of cells from the given position moving into the given direction
+        >>> Grid([[1,2,3], [4,5,6], [7,8,9]]).get_cells_from(Xy(1,1), UP)
+        (5 [(1,1)], 2 [(1,0)])
+        >>> Grid([[1,2,3], [4,5,6], [7,8,9]]).get_cells_from(Xy(1,1), RIGHT)
+        (5 [(1,1)], 6 [(2,1)])
+        >>> Grid([[1,2,3], [4,5,6], [7,8,9]]).get_cells_from(Xy(1,1), DOWN)
+        (5 [(1,1)], 8 [(1,2)])
+        >>> Grid([[1,2,3], [4,5,6], [7,8,9]]).get_cells_from(Xy(1,1), LEFT)
+        (5 [(1,1)], 4 [(0,1)])
+        """
+
+        if direction == UP:
+            return self.cols[pos.x][pos.y::-1]
+        elif direction == RIGHT:
+            return self.rows[pos.y][pos.x:]
+        elif direction == DOWN:
+            return self.cols[pos.x][pos.y:]
+        elif direction == LEFT:
+            return self.rows[pos.y][pos.x::-1]
         else:
-            # TO-DO diagonal fill, ... or square?
-            assert False, "Not yet implemented"
+            raise ValueError(f"Invalid direction: {direction}")
 
-        return self
-
-    def fill_all(self, value):
-        """
-        >>> Grid([[1,2,3], [4,5,6], [7,8,9]]).fill_all("@")
-        @@@
-        @@@
-        @@@
-        """
-        for row in self.rows:
-            for cell in row:
-                cell.value = value
-        return self
-
-    def find_first(self, value) -> Xy or None:
+    def find_first(self, value: Any) -> Xy or None:
         """
         >>> Grid([[1,2],[2,3]]).find_first(2)
         (1,0)
@@ -162,10 +198,23 @@ class Grid:
                     return cell.pos
         return None
 
-    def find_all(self, value) -> List[Xy]:
+    def find_last(self, value: Any) -> Xy or None:
+        """
+        >>> Grid([[1,2],[2,3]]).find_last(2)
+        (0,1)
+        >>> Grid([[1,2],[2,3]]).find_last(8)
+
+        """
+        for row in reversed(self.rows):
+            for cell in reversed(row):
+                if cell.value == value:
+                    return cell.pos
+        return None
+
+    def find_all(self, value: Any) -> List[Xy]:
         """
         >>> Grid([[1,2],[2,3]]).find_all(2)
-        [(1,0)], (0,1)]
+        [(1,0), (0,1)]
         """
         result = []
         for row in self.rows:
@@ -173,29 +222,6 @@ class Grid:
                 if cell.value == value:
                     result.append(cell.pos)
         return result
-
-    def slice_at(self, pos: Xy, direction) -> List[GridCell]:
-        """Get a grid slice (list) from the given position moving into the given direction
-        >>> Grid([[1,2,3], [4,5,6], [7,8,9]]).slice_at(Xy(1,1), NORTH)
-        (5 [(1,1)], 2 [(1,0)])
-        >>> Grid([[1,2,3], [4,5,6], [7,8,9]]).slice_at(Xy(1,1), EAST)
-        (5 [(1,1)], 6 [(2,1)])
-        >>> Grid([[1,2,3], [4,5,6], [7,8,9]]).slice_at(Xy(1,1), SOUTH)
-        (5 [(1,1)], 8 [(1,2)])
-        >>> Grid([[1,2,3], [4,5,6], [7,8,9]]).slice_at(Xy(1,1), WEST)
-        (5 [(1,1)], 4 [(0,1)])
-        """
-
-        if direction == NORTH:
-            return self.cols[pos.x][pos.y::-1]
-        elif direction == EAST:
-            return self.rows[pos.y][pos.x:]
-        elif direction == SOUTH:
-            return self.cols[pos.x][pos.y:]
-        elif direction == WEST:
-            return self.rows[pos.y][pos.x::-1]
-        else:
-            raise ValueError(f"Invalid direction: {direction}")
 
     def rotate_left(self) -> "Grid":
         """
@@ -231,10 +257,24 @@ class Grid:
         """
         return Grid(list(reversed(self.rows)))
 
-    def get_neighbors(self, pos: Xy, side=True, diagonal=False) -> List[Xy]:
-        return pos.neighbors(side, diagonal, min_x=0, max_x=self.width - 1, min_y=0, max_y=self.height - 1)
+    def format(self, show_visited=False, cell_separator: str = "") -> str:
+        lines = []
+        for row in self.rows:
+            cells = []
+            for cell in row:
+                visited = ""
+                if show_visited:
+                    visited = "T" if cell.visited else "F"
+                cells.append(f"{cell.value}{visited}")
+            lines.append(cell_separator.join(cells))
+        return "\n".join(lines)
 
-    def move(self,
+    def __repr__(self) -> str:
+        return self.format()
+
+    # business methods >>>
+
+    def walk(self,
              pos: Xy,
              steps: int,
              direction: Direction,
@@ -243,7 +283,7 @@ class Grid:
              wrap_around=False,
              trace=False) -> "Grid":
 
-        assert self.on_grid(pos), "Start position is not on the grid!"
+        assert self.has(pos), "Start position is not on the grid!"
 
         step_counter = 1
         next_pos = pos
@@ -253,10 +293,9 @@ class Grid:
 
             next_pos = next_pos.neighbor(direction)
 
-            if not self.on_grid(next_pos):
+            if not self.has(next_pos):
                 if wrap_around:
                     next_pos = Xy(next_pos.x % self.width, next_pos.y % self.height)
-                # TODO wrap_around 3D + return new direction
                 else:
                     break
 
@@ -271,10 +310,6 @@ class Grid:
 
         self.set_value(pos, "x")
         return pos
-
-    # TODO better name
-    def on_grid(self, pos: Xy):
-        return 0 <= pos.x < self.width and 0 <= pos.y < self.height
 
     def find_shortest_path(
             self,

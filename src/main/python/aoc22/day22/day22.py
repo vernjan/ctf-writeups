@@ -25,7 +25,7 @@ def star1(lines: List[str]):
     for instr in instructions:
         if isinstance(instr, int):
             steps = instr
-            pos = grid.move(pos, steps, direction, stop_value="#", skip_value=" ", wrap_around=True, trace=True)
+            pos = grid.walk(pos, steps, direction, stop_value="#", skip_value=" ", wrap_around=True, trace=True)
             log.debug(f"{instr}x {direction.value}")
             log.debug(grid)
         elif instr == "L":
@@ -87,7 +87,7 @@ def star2(lines: List[str], cube_sides_mapping, cube_size):
 
                 next_pos = pos.neighbor(direction)
 
-                if not cube_side.on_grid(next_pos):
+                if not cube_side.has(next_pos):
                     next_cube_side_number, next_grid_orientation = cube_sides_mapping[cube_side_number][direction]
                     next_cube_side = cube_sides[next_cube_side_number]
                     next_pos = SURFACE_TRANSITIONS[direction][next_grid_orientation](pos.x, pos.y, cube_size)

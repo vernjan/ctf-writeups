@@ -57,16 +57,16 @@ def parse_2dcube(lines: List[str], cube_size: int) -> Grid:
 def get_cube_sides(cube2d: Grid) -> Dict[int, Grid]:
     """Return 6 cube sides numbered from 1"""
     cube_sides = {}
-    for row in cube2d.rows:
-        for cube_side in [cell.value for cell in row]:
-            if cube_side.rows[0][0].value != " ":
-                cube_sides[len(cube_sides) + 1] = cube_side
+    for cube_side in cube2d.get_all_values():
+        if cube_side.get_value(Xy(0, 0)) != " ":
+            cube_sides[len(cube_sides) + 1] = cube_side
+
     assert len(cube_sides) == 6, "Exactly 6 cube sides expected"
     return cube_sides
 
 
 def get_cube_sides_mapping(cube2d: Grid) -> List[Grid]:
-    # TO-DO implement ... Not so easy. See "aoc22/day22/data.py" for what should be returned
+    # TO-DO Implement ... Not so easy. See "aoc22/day22/data.py" for what should be returned.
     pass
 
 
@@ -75,7 +75,7 @@ def move(pos: Xy,
          direction: Direction,
          stop_value=None,
          trace=False) -> "Grid":
-    # TO-DO Use code "aoc22/day22/data.py", wrap it into an object
+    # TO-DO Use code "aoc22/day22/data.py", wrap it into an object.
     pass
 
 
@@ -86,7 +86,7 @@ def merge_cube2d(grid_of_grids: Grid, inner_grid_size: int) -> Grid:
         for y_inner in range(inner_grid_size):
             merged_row = []
             for x_master in range(grid_of_grids.width):
-                inner_grid = grid_of_grids.get(Xy(x_master, y_master))
-                merged_row.extend(inner_grid.value.rows[y_inner])
+                inner_grid = grid_of_grids.get_value(Xy(x_master, y_master))
+                merged_row.extend(inner_grid.rows[y_inner])
             merged_rows.append(merged_row)
     return Grid(merged_rows)

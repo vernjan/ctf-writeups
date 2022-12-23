@@ -2,7 +2,7 @@ from typing import List
 
 from util.data_io import read_input, read_test_input
 from util.ds.grid import Grid, GridCell
-from util.ds.coord import Xy
+from util.ds.coord import Xy, DIRECTIONS
 
 
 def star1(lines: List[str]):
@@ -50,8 +50,8 @@ def star2(lines: List[str]):
     for y in range(forest.height):
         for x in range(forest.width):
             scenic_score = 1
-            for direction in Grid.DIRECTIONS:
-                _slice = forest.slice_at(Xy(x, y), direction)
+            for direction in DIRECTIONS:
+                _slice = forest.get_cells_from(Xy(x, y), direction)
                 tree_count = _count_visible_trees_from_tree(_slice)
                 scenic_score *= tree_count
 

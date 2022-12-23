@@ -67,9 +67,6 @@ class TranspositionCipherKtTest {
         assertEquals(plaintext, decrypted)
     }
 
-
-    // ---
-    // TO-DO
     @Test
     fun `decipher by trying all variations of transposition cipher`() {
         val plaintext = "today-is-a-good-day-to-break-ciphersXXXX"
@@ -86,7 +83,6 @@ class TranspositionCipherKtTest {
         assertTrue(tryAllTranspositions("dsoa-khXa-oyb-eXt---teisoigdoapXyad-rcrX", key).contains(plaintext))
     }
 
-    // TO-DO
     @Test
     fun `blitz`() {
         // 'STTYNYATLOEPDNEAONBLTGNTOMHEHHEISTIARIBFHSRALDIIONANLHERUVLNPTAARTONRDOEMCTNAHCO'

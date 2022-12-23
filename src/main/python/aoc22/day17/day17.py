@@ -39,7 +39,7 @@ class RectangleRock(Rock):
         if self.x_left - 1 < 0:
             return False
         for i in range(self.height):
-            if self.grid.get(Xy(self.x_left - 1, self.y + i)).value != ".":
+            if self.grid.get_value(Xy(self.x_left - 1, self.y + i)) != ".":
                 return False
         for i in range(self.height):
             self.grid.set_value(Xy(self.x_left + self.width - 1, self.y + i), ".")
@@ -51,7 +51,7 @@ class RectangleRock(Rock):
         if self.x_left + self.width >= self.grid.width:
             return False
         for i in range(self.height):
-            if self.grid.get(Xy(self.x_left + self.width, self.y + i)).value != ".":
+            if self.grid.get_value(Xy(self.x_left + self.width, self.y + i)) != ".":
                 return False
         for i in range(self.height):
             self.grid.set_value(Xy(self.x_left, self.y + i), ".")
@@ -63,7 +63,7 @@ class RectangleRock(Rock):
         if self.y + self.height >= self.grid.height:
             return False
         for i in range(self.width):
-            if self.grid.get(Xy(self.x_left + i, self.y + self.height)).value != ".":
+            if self.grid.get_value(Xy(self.x_left + i, self.y + self.height)) != ".":
                 return False
         for i in range(self.width):
             self.grid.set_value(Xy(self.x_left + i, self.y), ".")
@@ -84,11 +84,11 @@ class XRock(Rock):
     def move_left(self):
         if self.x_left - 1 < 0:
             return False
-        if self.grid.get(Xy(self.x_left, self.y)).value != ".":
+        if self.grid.get_value(Xy(self.x_left, self.y)) != ".":
             return False
-        if self.grid.get(Xy(self.x_left - 1, self.y + 1)).value != ".":
+        if self.grid.get_value(Xy(self.x_left - 1, self.y + 1)) != ".":
             return False
-        if self.grid.get(Xy(self.x_left, self.y + 2)).value != ".":
+        if self.grid.get_value(Xy(self.x_left, self.y + 2)) != ".":
             return False
         self.grid.set_value(Xy(self.x_left + 1, self.y), ".")
         self.grid.set_value(Xy(self.x_left, self.y), "#")
@@ -102,11 +102,11 @@ class XRock(Rock):
     def move_right(self):
         if self.x_left + self.width >= self.grid.width:
             return False
-        if self.grid.get(Xy(self.x_left + 2, self.y)).value != ".":
+        if self.grid.get_value(Xy(self.x_left + 2, self.y)) != ".":
             return False
-        if self.grid.get(Xy(self.x_left + 3, self.y + 1)).value != ".":
+        if self.grid.get_value(Xy(self.x_left + 3, self.y + 1)) != ".":
             return False
-        if self.grid.get(Xy(self.x_left + 2, self.y + 2)).value != ".":
+        if self.grid.get_value(Xy(self.x_left + 2, self.y + 2)) != ".":
             return False
         self.grid.set_value(Xy(self.x_left + 1, self.y), ".")
         self.grid.set_value(Xy(self.x_left + 2, self.y), "#")
@@ -120,11 +120,11 @@ class XRock(Rock):
     def move_down(self) -> bool:
         if self.y + self.height >= self.grid.height:
             return False
-        if self.grid.get(Xy(self.x_left, self.y + 2)).value != ".":
+        if self.grid.get_value(Xy(self.x_left, self.y + 2)) != ".":
             return False
-        if self.grid.get(Xy(self.x_left + 1, self.y + 3)).value != ".":
+        if self.grid.get_value(Xy(self.x_left + 1, self.y + 3)) != ".":
             return False
-        if self.grid.get(Xy(self.x_left + 2, self.y + 2)).value != ".":
+        if self.grid.get_value(Xy(self.x_left + 2, self.y + 2)) != ".":
             return False
         self.grid.set_value(Xy(self.x_left, self.y + 1), ".")
         self.grid.set_value(Xy(self.x_left, self.y + 2), "#")
@@ -148,11 +148,11 @@ class LRock(Rock):
     def move_left(self):
         if self.x_left - 1 < 0:
             return False
-        if self.grid.get(Xy(self.x_left + 1, self.y)).value != ".":
+        if self.grid.get_value(Xy(self.x_left + 1, self.y)) != ".":
             return False
-        if self.grid.get(Xy(self.x_left + 1, self.y + 1)).value != ".":
+        if self.grid.get_value(Xy(self.x_left + 1, self.y + 1)) != ".":
             return False
-        if self.grid.get(Xy(self.x_left - 1, self.y + 2)).value != ".":
+        if self.grid.get_value(Xy(self.x_left - 1, self.y + 2)) != ".":
             return False
         self.grid.set_value(Xy(self.x_left + 2, self.y), ".")
         self.grid.set_value(Xy(self.x_left + 1, self.y), "#")
@@ -167,7 +167,7 @@ class LRock(Rock):
         if self.x_left + self.width >= self.grid.width:
             return False
         for i in range(self.height):
-            if self.grid.get(Xy(self.x_left + self.width, self.y + i)).value != ".":
+            if self.grid.get_value(Xy(self.x_left + self.width, self.y + i)) != ".":
                 return False
         self.grid.set_value(Xy(self.x_left + 2, self.y), ".")
         self.grid.set_value(Xy(self.x_left + 3, self.y), "#")
@@ -182,7 +182,7 @@ class LRock(Rock):
         if self.y + self.height >= self.grid.height:
             return False
         for i in range(self.width):
-            if self.grid.get(Xy(self.x_left + i, self.y + self.height)).value != ".":
+            if self.grid.get_value(Xy(self.x_left + i, self.y + self.height)) != ".":
                 return False
         self.grid.set_value(Xy(self.x_left + 2, self.y), ".")
         self.grid.set_value(Xy(self.x_left + 2, self.y + 3), "#")
@@ -271,8 +271,7 @@ def simulate(jets: str, rocks_count: int):
                 log.log(level=5, msg=f"Falling:")
                 log.log(level=5, msg=grid)
             else:
-                if not pattern_found and highest_y < grid.height \
-                        and [cell.value for cell in grid.rows[highest_y]] == ROW_PATTERN:
+                if not pattern_found and highest_y < grid.height and grid.get_row_values(highest_y) == ROW_PATTERN:
                     pattern_key = (rock_type, jet_index)
                     if pattern_key in repetition_patterns:
                         pattern_found = True

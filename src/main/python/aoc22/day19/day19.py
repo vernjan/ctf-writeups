@@ -146,7 +146,7 @@ def _parse_blueprints(lines: List[str]) -> List[Blueprint]:
 def _evaluate_blueprint(bp: Blueprint, max_time: int) -> Tuple[int, int]:
     max_geodes = 0
     steps = 0
-    mem_robots: Dict[int, Dict[Tuple, Tuple]] = {i: dict() for i in range(max_time + 1)}  # TO-DO Could use bimap
+    mem_robots: Dict[int, Dict[Tuple, Tuple]] = {i: dict() for i in range(max_time + 1)}
     mem_resources: Dict[int, Dict[Tuple, Tuple]] = {i: dict() for i in range(max_time + 1)}
     q = [(1, Stash.empty())]
 
