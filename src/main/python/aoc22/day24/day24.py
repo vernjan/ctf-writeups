@@ -9,16 +9,13 @@ from util.log import log
 def star1(lines: List[str], padding_size):
     """
     >>> star1(read_test_input(__file__), 3)
-    110
+    18
     """
-
-    grid = Grid(lines, padding_size)
-    log.debug(grid)
 
     pass
 
 
-def star2(lines: List[str], padding_size):
+def star2(lines: List[str]):
     """
     >>> star2(read_test_input(__file__))
 
