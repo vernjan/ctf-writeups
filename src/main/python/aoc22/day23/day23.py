@@ -15,7 +15,9 @@ def star1(lines: List[str], padding_size):
     grid = Grid(lines, padding_size)
     log.debug(grid)
 
-    pass
+    elves = grid.find_all("#")
+
+    return _count_empty(elves, grid)
 
 
 def star2(lines: List[str], padding_size):
@@ -25,6 +27,18 @@ def star2(lines: List[str], padding_size):
     """
 
     pass
+
+
+def _count_empty(elves, grid):
+    min_x, min_y = grid.width, grid.height
+    max_x, max_y = 0, 0
+    for cell in grid.get_all_cells():
+        if cell.value == "#":
+            min_x = min(min_x, cell.pos.x)
+            min_y = min(min_y, cell.pos.y)
+            max_x = max(max_x, cell.pos.x)
+            max_y = max(max_y, cell.pos.y)
+    return (max_x - min_x + 1) * (max_y - min_y + 1) - len(elves)
 
 
 if __name__ == "__main__":
