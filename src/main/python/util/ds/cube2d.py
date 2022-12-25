@@ -1,6 +1,6 @@
 from typing import List, Dict
 
-from util.ds.coord import UP as N, RIGHT as E, DOWN as S, LEFT as W, Xy, Direction
+from util.ds.coord import NORTH as N, EAST as E, SOUTH as S, WEST as W, Xy, Direction
 from util.ds.coord import Xy
 from util.ds.grid import Grid
 

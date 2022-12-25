@@ -64,7 +64,7 @@ def sand_fall(star, lines):
         is_moving = True
         while is_moving:
             at_rest = True
-            moves = [Xy.down, Xy.left_down, Xy.right_down]
+            moves = [Xy.south, Xy.south_west, Xy.south_east]
             for move in moves:
                 if grid.get_value(move(sand)) == ".":
                     sand = move(sand)

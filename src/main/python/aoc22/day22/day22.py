@@ -2,7 +2,7 @@ import logging
 from typing import List
 
 from util.data_io import read_input, read_test_input, timed_run
-from util.ds.coord import UP as N, RIGHT as E, DOWN as S, LEFT as W
+from util.ds.coord import NORTH as N, EAST as E, SOUTH as S, WEST as W
 from util.ds.cube2d import SURFACE_TRANSITIONS, parse_2dcube, merge_cube2d, get_cube_sides
 from util.ds.grid import Grid
 from util.log import log

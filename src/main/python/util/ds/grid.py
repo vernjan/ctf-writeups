@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from typing import List, Set, Sequence, Any, Tuple, Generator
 
-from util.ds.coord import UP, RIGHT, DOWN, LEFT
+from util.ds.coord import NORTH, EAST, SOUTH, WEST
 from util.ds.coord import Xy, Direction
 from util.functions import array2d
 from util.log import log
@@ -188,23 +188,23 @@ class Grid:
 
     def get_cells_from(self, pos: Xy, direction: Direction) -> List[GridCell]:
         """Get a list of cells from the given position moving into the given direction
-        >>> Grid([[1,2,3], [4,5,6], [7,8,9]]).get_cells_from(Xy(1,1), UP)
+        >>> Grid([[1,2,3], [4,5,6], [7,8,9]]).get_cells_from(Xy(1,1), NORTH)
         (5 [(1,1)], 2 [(1,0)])
-        >>> Grid([[1,2,3], [4,5,6], [7,8,9]]).get_cells_from(Xy(1,1), RIGHT)
+        >>> Grid([[1,2,3], [4,5,6], [7,8,9]]).get_cells_from(Xy(1,1), EAST)
         (5 [(1,1)], 6 [(2,1)])
-        >>> Grid([[1,2,3], [4,5,6], [7,8,9]]).get_cells_from(Xy(1,1), DOWN)
+        >>> Grid([[1,2,3], [4,5,6], [7,8,9]]).get_cells_from(Xy(1,1), SOUTH)
         (5 [(1,1)], 8 [(1,2)])
-        >>> Grid([[1,2,3], [4,5,6], [7,8,9]]).get_cells_from(Xy(1,1), LEFT)
+        >>> Grid([[1,2,3], [4,5,6], [7,8,9]]).get_cells_from(Xy(1,1), WEST)
         (5 [(1,1)], 4 [(0,1)])
         """
 
-        if direction == UP:
+        if direction == NORTH:
             return self.cols[pos.x][pos.y::-1]
-        elif direction == RIGHT:
+        elif direction == EAST:
             return self.rows[pos.y][pos.x:]
-        elif direction == DOWN:
+        elif direction == SOUTH:
             return self.cols[pos.x][pos.y:]
-        elif direction == LEFT:
+        elif direction == WEST:
             return self.rows[pos.y][pos.x::-1]
         else:
             raise ValueError(f"Invalid direction: {direction}")

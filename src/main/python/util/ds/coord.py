@@ -11,28 +11,28 @@ class Direction:
 
     def turn_left(self) -> "Direction":
         """
-        >>> UP.turn_left()
-        left
-        >>> UP.turn_left().turn_left()
-        down
-        >>> RIGHT.turn_left()
-        up
-        >>> RIGHT.turn_left().turn_left()
-        left
+        >>> NORTH.turn_left()
+        W
+        >>> NORTH.turn_left().turn_left()
+        S
+        >>> EAST.turn_left()
+        N
+        >>> EAST.turn_left().turn_left()
+        W
         """
         index = DIRECTIONS.index(self)
         return DIRECTIONS[(index - 1) % len(DIRECTIONS)]
 
     def turn_right(self) -> "Direction":
         """
-        >>> UP.turn_right()
-        right
-        >>> UP.turn_right().turn_right()
-        down
-        >>> RIGHT.turn_right()
-        down
-        >>> RIGHT.turn_right().turn_right()
-        left
+        >>> NORTH.turn_right()
+        E
+        >>> NORTH.turn_right().turn_right()
+        S
+        >>> EAST.turn_right()
+        S
+        >>> EAST.turn_right().turn_right()
+        W
         """
         index = DIRECTIONS.index(self)
         return DIRECTIONS[(index + 1) % len(DIRECTIONS)]
@@ -47,12 +47,16 @@ class Direction:
         return self.value
 
 
-UP = Direction("up", "^")
-RIGHT = Direction("right", ">")
-DOWN = Direction("down", "v")
-LEFT = Direction("left", "<")
+NORTH = Direction("north", "↑")
+EAST = Direction("east", "→")
+SOUTH = Direction("south", "↓")
+WEST = Direction("west", "←")
+NORTH_EAST = Direction("north_east", "⬈")
+SOUTH_EAST = Direction("south_east", "⬊")
+SOUTH_WEST = Direction("south_west", "⬋")
+NORTH_WEST = Direction("north_west", "⬉")
 
-DIRECTIONS = [UP, RIGHT, DOWN, LEFT]
+DIRECTIONS = [NORTH, EAST, SOUTH, WEST]
 
 
 @dataclass(frozen=True)
@@ -73,23 +77,29 @@ class Xy:
     def __repr__(self) -> str:
         return f"({self.x},{self.y})"
 
-    def up(self):
+    def north(self):
         return Xy(self.x, self.y - 1)
 
-    def right(self):
+    def east(self):
         return Xy(self.x + 1, self.y)
 
-    def down(self):
+    def south(self):
         return Xy(self.x, self.y + 1)
 
-    def left(self):
+    def west(self):
         return Xy(self.x - 1, self.y)
 
-    def left_down(self):
+    def north_east(self):
+        return Xy(self.x + 1, self.y - 1)
+
+    def south_east(self):
+        return Xy(self.x + 1, self.y + 1)
+
+    def south_west(self):
         return Xy(self.x - 1, self.y + 1)
 
-    def right_down(self):
-        return Xy(self.x + 1, self.y + 1)
+    def north_west(self):
+        return Xy(self.x - 1, self.y - 1)
 
     def neighbor(self, direction: Direction):
         move = getattr(self, direction.value)
@@ -104,9 +114,9 @@ class Xy:
         """
         neighbors = []
         if side:
-            neighbors.extend([self.up(), self.right(), self.down(), self.left()])
+            neighbors.extend([self.north(), self.east(), self.south(), self.west()])
         if diagonal:
-            assert False, "Not yet implemented"
+            neighbors.extend([self.north_east(), self.south_east(), self.south_west(), self.north_west()])
 
         return [xy for xy in neighbors if min_x <= xy.x <= max_x and min_y <= xy.y <= max_y]
 

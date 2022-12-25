@@ -1,4 +1,4 @@
-from util.ds.coord import UP as N, RIGHT as E, DOWN as S, LEFT as W
+from util.ds.coord import NORTH as N, EAST as E, SOUTH as S, WEST as W
 
 """Map cube sides to their neighbors including their orientation"""
 
