@@ -22,6 +22,14 @@ class GridCell:
             self.visited = False
 
     def __str__(self) -> str:
+        if isinstance(self.value, list):
+            if len(self.value) == 0:
+                return EMPTY_SYMBOL
+            if len(self.value) == 1:
+                return self.value[0]
+            else:
+                return str(len(self.value))
+
         return self.value
 
     def __repr__(self) -> str:
@@ -289,7 +297,7 @@ class Grid:
                 visited = ""
                 if show_visited:
                     visited = "T" if cell.visited else "F"
-                cells.append(f"{cell.value}{visited}")
+                cells.append(f"{str(cell)}{visited}")
             lines.append(cell_separator.join(cells))
         return "\n".join(lines)
 
