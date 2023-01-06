@@ -1,11 +1,10 @@
 import logging
-from typing import List
 
 from util.data_io import read_input, read_test_input, timed_run
 from util.log import log
 
 
-def star1(lines: List[str]):
+def star1(lines: list[str]):
     """
     >>> star1(read_test_input(__file__))
 
@@ -14,7 +13,7 @@ def star1(lines: List[str]):
     pass
 
 
-def star2(lines: List[str]):
+def star2(lines: list[str]):
     """
     >>> star2(read_test_input(__file__))
 

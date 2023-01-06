@@ -1,4 +1,4 @@
-from typing import List, Deque
+from typing import Deque
 
 
 def signum(x: int) -> int:
@@ -10,9 +10,9 @@ def signum(x: int) -> int:
         return 1
 
 
-def array2d(width: int, height: int, value=None) -> List[List]:
+def array2d(width: int, height: int, value=None) -> list[str]:
     """Return new list of lists"""
-    return [[value] * width for _ in range(height)]
+    return [value * width for _ in range(height)]
 
 
 def circular_shift(deq: Deque, index, steps) -> None:

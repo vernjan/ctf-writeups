@@ -12,13 +12,13 @@ class Direction:
     def turn_left(self) -> "Direction":
         """
         >>> NORTH.turn_left()
-        W
+        west
         >>> NORTH.turn_left().turn_left()
-        S
+        south
         >>> EAST.turn_left()
-        N
+        north
         >>> EAST.turn_left().turn_left()
-        W
+        west
         """
         index = DIRECTIONS.index(self)
         return DIRECTIONS[(index - 1) % len(DIRECTIONS)]
@@ -26,13 +26,13 @@ class Direction:
     def turn_right(self) -> "Direction":
         """
         >>> NORTH.turn_right()
-        E
+        east
         >>> NORTH.turn_right().turn_right()
-        S
+        south
         >>> EAST.turn_right()
-        S
+        south
         >>> EAST.turn_right().turn_right()
-        W
+        west
         """
         index = DIRECTIONS.index(self)
         return DIRECTIONS[(index + 1) % len(DIRECTIONS)]

@@ -26,11 +26,11 @@ class GridCell:
             if len(self.value) == 0:
                 return EMPTY_SYMBOL
             if len(self.value) == 1:
-                return self.value[0]
+                return str(self.value[0])
             else:
                 return str(len(self.value))
 
-        return self.value
+        return str(self.value)
 
     def __repr__(self) -> str:
         return f"{self.value} [{self.pos}]"
@@ -381,9 +381,11 @@ class Grid:
 
 
 class LightGrid:
-    def __init__(self, rows: List[Sequence]) -> None:
+    """Lightweight grid - less fancy, much faster"""
+
+    def __init__(self, rows: list[str]) -> None:
         assert len(rows) > 0
-        self.rows = rows
+        self.rows = [list(row) for row in rows]
         self.width = len(rows[0])
         self.height = len(rows)
 
@@ -395,3 +397,37 @@ class LightGrid:
         @@@
         """
         return LightGrid(array2d(width, height, value))
+
+    def get_all_positions(self) -> tuple[int, int]:  # TODO test for perf
+        for y in range(self.height):
+            for x in range(self.width):
+                yield x, y
+
+    def get_neighbors(self, pos: tuple[int, int]) -> list[tuple[int, int]]:
+        x, y = pos
+        neighbors = []
+        if y > 0:
+            neighbors.append((x, y - 1))
+        if x < self.width - 1:
+            neighbors.append((x + 1, y))
+        if y < self.height - 1:
+            neighbors.append((x, y + 1))
+        if x > 0:
+            neighbors.append((x - 1, y))
+        return neighbors
+
+    def get(self, pos: tuple[int, int]):
+        x, y = pos
+        return self.rows[y][x]
+
+    def set(self, pos: tuple[int, int], value):
+        x, y = pos
+        self.rows[y][x] = value
+        return self
+
+    def __getitem__(self, y):
+        return self.rows[y]
+
+    def __str__(self) -> str:
+        return "\n".join(["".join(str(row)) for row in self.rows])
+

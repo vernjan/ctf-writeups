@@ -2,8 +2,7 @@ import logging
 import math
 
 from util.data_io import read_input, read_test_input, timed_run
-from util.ds.coord import Xy
-from util.ds.grid import Grid
+from util.ds.grid import LightGrid
 from util.log import log
 
 
@@ -27,9 +26,9 @@ def star1(lines: list[str]):
     18
     """
 
-    grid = Grid(lines)
-    start_pos = grid.find_first(".")
-    exit_pos = grid.find_last(".")
+    grid = LightGrid(lines)
+    start_pos = (1, 0)
+    exit_pos = (grid.width - 2, grid.height - 1)
     max_wait = math.lcm(grid.width - 2, grid.height - 2)  # blizzard positions are exactly the same after max_wait
 
     log.info("Pre-generating all blizzard states ..")
@@ -44,9 +43,9 @@ def star2(lines: list[str]):
     54
     """
 
-    grid = Grid(lines)
-    start_pos = grid.find_first(".")
-    exit_pos = grid.find_last(".")
+    grid = LightGrid(lines)
+    start_pos = (1, 0)
+    exit_pos = (grid.width - 2, grid.height - 1)
     max_wait = math.lcm(grid.width - 2, grid.height - 2)  # blizzard positions are exactly the same after max_wait
 
     log.info("Pre-generating all blizzard states ..")
@@ -59,7 +58,7 @@ def star2(lines: list[str]):
     return trip3_time
 
 
-def _go(start_pos, exit_pos, start_time, max_wait, blizzard_states):
+def _go(start_pos, exit_pos, start_time, max_wait, blizzard_states: dict[int, LightGrid]):
     log.info("Looking for the shortest path ..")
     mem = PositionMemory(max_wait)
     queue = [(start_pos, start_time)]
@@ -78,50 +77,55 @@ def _go(start_pos, exit_pos, start_time, max_wait, blizzard_states):
         if not mem.store_if_better(pos, time):
             continue
 
-        for delta_time in range(1, max_wait + 1):
+        log.debug(time)
+        log.debug(blizzard_states[time % max_wait])
+
+        for delta_time in range(1, 10):  # safe choice is of course `max_wait + 1`
             grid = blizzard_states[(time + delta_time) % max_wait]
 
             for neighbor in grid.get_neighbors(pos):
-                if grid.get_value(neighbor) == ".":
+                if grid.get(neighbor) == ".":
                     queue.append((neighbor, time + delta_time))
 
-            if grid.get_value(pos) != ".":  # blizzard is here, we must move
+            if grid.get(pos) != ".":  # blizzard is here, we must move
                 break
     return shortest_time
 
 
-def _generate_all_blizzard_states(initial_grid: Grid, max_wait: int) -> dict[int, Grid]:
+def _generate_all_blizzard_states(initial_grid: LightGrid, max_wait: int) -> dict[int, LightGrid]:
     blizzard_states = {}
     grid = initial_grid
     for time in range(max_wait):
         blizzard_states[time] = grid
-        new_grid = Grid.empty(grid.width, grid.height)
-        for cell in grid.get_all_cells():
-            if cell.value == "#":
-                new_grid.set_value(cell.pos, "#")
+        new_grid = LightGrid.empty(grid.width, grid.height)
+
+        pos: tuple[int, int]
+        for pos in grid.get_all_positions():
+            cell_value = grid.get(pos)
+            if cell_value == "#":
+                new_grid.set(pos, "#")
             else:
-                for value in cell.value:
+                for value in cell_value:
                     if value == ".":
                         break
-                    new_pos = _move_blizzard(cell.pos, value, grid.width, grid.height)
-                    target_cell = new_grid.get_cell(new_pos)
-                    if target_cell.value == ".":
-                        target_cell.value = []
-                    target_cell.value.append(value)
+                    new_pos = _move_blizzard(pos[0], pos[1], value, grid.width, grid.height)
+                    if new_grid.get(new_pos) == ".":
+                        new_grid.set(new_pos, [])
+                    new_grid.get(new_pos).append(value)
 
         grid = new_grid
     return blizzard_states
 
 
-def _move_blizzard(pos: Xy, direction: str, width: int, height: int) -> Xy:
+def _move_blizzard(x: int, y: int, direction: str, width: int, height: int) -> tuple[int, int]:
     if direction == "^":
-        return Xy(pos.x, height - 2 if pos.y == 1 else pos.y - 1)
+        return x, height - 2 if y == 1 else y - 1
     elif direction == ">":
-        return Xy(1 if pos.x == width - 2 else pos.x + 1, pos.y)
+        return 1 if x == width - 2 else x + 1, y
     elif direction == "v":
-        return Xy(pos.x, 1 if pos.y == height - 2 else pos.y + 1)
+        return x, 1 if y == height - 2 else y + 1
     elif direction == "<":
-        return Xy(width - 2 if pos.x == 1 else pos.x - 1, pos.y)
+        return width - 2 if x == 1 else x - 1, y
     else:
         assert False, "What???"
 
