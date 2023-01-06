@@ -378,3 +378,20 @@ class Grid:
                         next_moves.append(neighbor)
 
         return min([shortest_routes[pos] for pos in end_positions if pos in shortest_routes])
+
+
+class LightGrid:
+    def __init__(self, rows: List[Sequence]) -> None:
+        assert len(rows) > 0
+        self.rows = rows
+        self.width = len(rows[0])
+        self.height = len(rows)
+
+    @staticmethod
+    def empty(width: int, height: int, value: Any = EMPTY_SYMBOL) -> "LightGrid":
+        """
+        >>> print(Grid.empty(3, 2, "@"))
+        @@@
+        @@@
+        """
+        return LightGrid(array2d(width, height, value))
