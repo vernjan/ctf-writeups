@@ -14,24 +14,16 @@ DEC_TO_SNAFU = {
 
 SNAFU_TO_DEC = {v: k for k, v in DEC_TO_SNAFU.items()}
 
+SNAFU_THRESHOLD = 0.5693234419266027  # see _calc_snafu_threshold()
+
 
 def star1(lines: list[str]):
     """
     >>> star1(read_test_input(__file__))
     '2=-1=0'
-
     """
 
     return _dec2snafu(sum(map(_snafu2dec, lines)))
-
-
-def star2(lines: list[str]):
-    """
-    >>> star2(read_test_input(__file__))
-
-    """
-
-    pass
 
 
 def _snafu2dec(snafu: str) -> int:
@@ -53,14 +45,15 @@ def _snafu2dec(snafu: str) -> int:
     return dec
 
 
+def _calc_snafu_threshold() -> None:
+    """Exponent threshold value between SNAFU orders (e.g. between 222 (dec: 62) and 1=== (dec: 63)"""
+    exp = math.log(_snafu2dec("22222222222222222222"), 5)  # float precision is limited but it's still okay
+    _, dec_part = divmod(exp, 1)
+    log.info(f"SNAFU threshold: {dec_part}")
+
+
 def _dec2snafu(dec: int) -> str:
     """
-    >>> _dec2snafu(12)
-    '22'
-    >>> _dec2snafu(13)
-    '1=='
-    >>> _dec2snafu(26)
-    '101'
     >>> _dec2snafu(-3)
     '-2'
     >>> _dec2snafu(2)
@@ -77,50 +70,63 @@ def _dec2snafu(dec: int) -> str:
     '2-'
     >>> _dec2snafu(10)
     '20'
+    >>> _dec2snafu(12)
+    '22'
+    >>> _dec2snafu(13)
+    '1=='
     >>> _dec2snafu(15)
     '1=0'
+    >>> _dec2snafu(26)
+    '101'
+    >>> _dec2snafu(62)
+    '222'
     >>> _dec2snafu(2022)
     '1=11-2'
     >>> _dec2snafu(314159265)
     '1121-1110-1=0'
     """
 
-    snafu = []  # TODO return directl from rec function, this is not needed
-    _dec2snafu_rec(dec, snafu)
-    return "".join(snafu)
+    return _dec2snafu_rec(dec)
+    # snafu = []  # TODO return directl from rec function, this is not needed
+    # _dec2snafu_rec(dec, snafu)
+    # return "".join(snafu)
 
 
 def _dec2snafu_rec(dec: int, snafu: list[str]) -> None:
     if -2 <= dec <= 2:
         snafu.append(DEC_TO_SNAFU[dec])
     else:
-        order = int(round(math.log(abs(dec), 5), 0))
-        base = 5 ** order
-        foo = 2 * (5 ** (order - 1)) # TODO Name
-
-        # if abs(dec) > base + foo or abs(dec) < base - foo:
-        if abs(dec) > base + foo:
-            value = 2
-        else:
-            value = 1
+        snafu_order = _calc_snafu_order(dec)
+        snafu_base = 5 ** snafu_order
+        highest_number_starting_with_one = snafu_base + _snafu2dec("2" + "2" * (snafu_order - 1))
+        snafu_digit = 2 if abs(dec) > highest_number_starting_with_one else 1
 
         if dec < 0:
-            value = -value
+            snafu_digit = -snafu_digit
 
-        snafu.append(DEC_TO_SNAFU[value])
+        snafu.append(DEC_TO_SNAFU[snafu_digit])
 
-        next_dec = dec - value * base
-        next_order = 0 if next_dec == 0 else int(round(math.log(abs(next_dec), 5), 0))
-        for _ in range(next_order + 1, order):
+        next_dec = dec - snafu_digit * snafu_base
+        next_snafu_order = _calc_snafu_order(next_dec)
+        for _ in range(next_snafu_order + 1, snafu_order):
             snafu.append("0")
 
         _dec2snafu_rec(next_dec, snafu)
 
 
+def _calc_snafu_order(dec):
+    if dec == 0:
+        return 0
+    exp = math.log(abs(dec), 5)
+    int_part, dec_part = divmod(exp, 1)
+    return int(int_part) + (1 if dec_part >= SNAFU_THRESHOLD else 0)
+
+
 if __name__ == "__main__":
     log.setLevel(logging.INFO)
+    _calc_snafu_threshold()
     timed_run("Star 1", lambda: star1(read_input(__file__)))
-    timed_run("Star 2", lambda: star2(read_input(__file__)))
+    # There is no star 2 for this very last challenge
 
-    # Star 1:
-    # Star 2:
+    # Star 1: 2-0=11=-0-2-1==1=-22
+    # Star 2: No star
