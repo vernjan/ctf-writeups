@@ -86,32 +86,25 @@ def _dec2snafu(dec: int) -> str:
     '1121-1110-1=0'
     """
 
-    return _dec2snafu_rec(dec)
-    # snafu = []  # TODO return directl from rec function, this is not needed
-    # _dec2snafu_rec(dec, snafu)
-    # return "".join(snafu)
-
-
-def _dec2snafu_rec(dec: int, snafu: list[str]) -> None:
     if -2 <= dec <= 2:
-        snafu.append(DEC_TO_SNAFU[dec])
-    else:
-        snafu_order = _calc_snafu_order(dec)
-        snafu_base = 5 ** snafu_order
-        highest_number_starting_with_one = snafu_base + _snafu2dec("2" + "2" * (snafu_order - 1))
-        snafu_digit = 2 if abs(dec) > highest_number_starting_with_one else 1
+        return DEC_TO_SNAFU[dec]
 
-        if dec < 0:
-            snafu_digit = -snafu_digit
+    snafu_order = _calc_snafu_order(dec)
+    snafu_base = 5 ** snafu_order
+    highest_number_starting_with_one = snafu_base + _snafu2dec("2" + "2" * (snafu_order - 1))
+    snafu_value = 2 if abs(dec) > highest_number_starting_with_one else 1
 
-        snafu.append(DEC_TO_SNAFU[snafu_digit])
+    if dec < 0:
+        snafu_value = -snafu_value
 
-        next_dec = dec - snafu_digit * snafu_base
-        next_snafu_order = _calc_snafu_order(next_dec)
-        for _ in range(next_snafu_order + 1, snafu_order):
-            snafu.append("0")
+    snafu_digits = DEC_TO_SNAFU[snafu_value]
 
-        _dec2snafu_rec(next_dec, snafu)
+    next_dec = dec - snafu_value * snafu_base
+    next_snafu_order = _calc_snafu_order(next_dec)
+    for _ in range(next_snafu_order + 1, snafu_order):
+        snafu_digits += "0"
+
+    return snafu_digits + _dec2snafu(next_dec)
 
 
 def _calc_snafu_order(dec):
