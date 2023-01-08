@@ -45,13 +45,6 @@ def _snafu2dec(snafu: str) -> int:
     return dec
 
 
-def _calc_snafu_threshold() -> None:
-    """Exponent threshold value between SNAFU orders (e.g. between 222 (dec: 62) and 1=== (dec: 63)"""
-    exp = math.log(_snafu2dec("22222222222222222222"), 5)  # float precision is limited but it's still okay
-    _, dec_part = divmod(exp, 1)
-    log.info(f"SNAFU threshold: {dec_part}")
-
-
 def _dec2snafu(dec: int) -> str:
     """
     >>> _dec2snafu(-3)
@@ -97,12 +90,12 @@ def _dec2snafu(dec: int) -> str:
     if dec < 0:
         snafu_value = -snafu_value
 
-    snafu_digits = DEC_TO_SNAFU[snafu_value]
+    snafu_digit = DEC_TO_SNAFU[snafu_value]
 
+    # append 0 for all the skipped orders (e.g. 1001 = 125 + 0 + 0 + 1 = 126)
     next_dec = dec - snafu_value * snafu_base
     next_snafu_order = _calc_snafu_order(next_dec)
-    for _ in range(next_snafu_order + 1, snafu_order):
-        snafu_digits += "0"
+    snafu_digits = snafu_digit + "0" * (snafu_order - next_snafu_order - 1)
 
     return snafu_digits + _dec2snafu(next_dec)
 
@@ -113,6 +106,13 @@ def _calc_snafu_order(dec):
     exp = math.log(abs(dec), 5)
     int_part, dec_part = divmod(exp, 1)
     return int(int_part) + (1 if dec_part >= SNAFU_THRESHOLD else 0)
+
+
+def _calc_snafu_threshold() -> None:
+    """Exponent threshold value between SNAFU orders (e.g. between 222 (dec: 62) and 1=== (dec: 63)"""
+    exp = math.log(_snafu2dec("22222222222222222222"), 5)  # float precision is limited but it's still okay
+    _, dec_part = divmod(exp, 1)
+    log.info(f"SNAFU threshold: {dec_part}")
 
 
 if __name__ == "__main__":
