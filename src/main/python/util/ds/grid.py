@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from typing import List, Set, Sequence, Any, Tuple, Generator
+from typing import List, Set, Sequence, Tuple, Generator, TypeVar, Generic
 
 from util.ds.coord import NORTH, EAST, SOUTH, WEST
 from util.ds.coord import Xy, Direction
@@ -8,11 +8,13 @@ from util.log import log
 
 EMPTY_SYMBOL = "."
 
+T = TypeVar("T")
+
 
 @dataclass
-class GridCell:
+class GridCell(Generic[T]):
 
-    def __init__(self, pos: Xy, value: Any) -> None:
+    def __init__(self, pos: Xy, value: T) -> None:
         self.pos = pos
         if isinstance(value, GridCell):
             self.value = value.value
@@ -36,7 +38,7 @@ class GridCell:
         return f"{self.value} [{self.pos}]"
 
 
-class Grid:
+class Grid(Generic[T]):
 
     def __init__(self, rows: List[Sequence], padding_size=0, padding_symbol=EMPTY_SYMBOL) -> None:
         """
@@ -79,7 +81,7 @@ class Grid:
         self.cols: Tuple = tuple(cols_list)
 
     @staticmethod
-    def empty(width: int, height: int, value: Any = EMPTY_SYMBOL) -> "Grid":
+    def empty(width: int, height: int, value: T = EMPTY_SYMBOL) -> "Grid[T]":
         """
         >>> print(Grid.empty(3, 2, "@"))
         @@@
@@ -96,21 +98,21 @@ class Grid:
         """
         return 0 <= pos.x < self.width and 0 <= pos.y < self.height
 
-    def get_cell(self, pos: Xy) -> GridCell:
+    def get_cell(self, pos: Xy) -> GridCell[T]:
         """
         >>> Grid([[1,2],[2,3]]).get_cell(Xy(1,1))
         3 [(1,1)]
         """
         return self.rows[pos.y][pos.x]
 
-    def get_value(self, pos: Xy) -> Any:
+    def get_value(self, pos: Xy) -> T:
         """
         >>> Grid([[1,2],[2,3]]).get_value(Xy(1,1))
         3
         """
         return self.get_cell(pos).value
 
-    def set_value(self, pos: Xy, value) -> "Grid":
+    def set_value(self, pos: Xy, value: T) -> "Grid[T]":
         """
         >>> Grid([[1,2],[2,3]]).set_value(Xy(1,1), "a")
         12
@@ -131,21 +133,21 @@ class Grid:
             for x in range(p1_x, p2_x + 1):
                 yield self.get_cell(Xy(x, y))
 
-    def get_cells_between(self, p1: Xy, p2: Xy) -> List[GridCell]:
+    def get_cells_between(self, p1: Xy, p2: Xy) -> List[GridCell[T]]:
         """
         >>> Grid([[1,2,3], [4,5,6], [7,8,9]]).get_cells_between(Xy(1,1), Xy(0,0))
         [1 [(0,0)], 2 [(1,0)], 4 [(0,1)], 5 [(1,1)]]
         """
         return list(self._get_cells_between(p1, p2))
 
-    def get_values_between(self, p1: Xy, p2: Xy) -> List[Any]:
+    def get_values_between(self, p1: Xy, p2: Xy) -> List[T]:
         """
         >>> Grid([[1,2,3], [4,5,6], [7,8,9]]).get_values_between(Xy(1,1), Xy(0,0))
         [1, 2, 4, 5]
         """
         return list(map(lambda cell: cell.value, self._get_cells_between(p1, p2)))
 
-    def set_values_between(self, p1: Xy, p2: Xy, value: Any) -> "Grid":
+    def set_values_between(self, p1: Xy, p2: Xy, value: T) -> "Grid[T]":
         """
         >>> Grid([[1,2,3], [4,5,6], [7,8,9]]).set_values_between(Xy(1,1), Xy(0,0), "@")
         @@3
@@ -170,14 +172,14 @@ class Grid:
         """
         return [cell.value for cell in self.cols[x]]
 
-    def get_all_cells(self) -> Generator[GridCell, None, None]:
+    def get_all_cells(self) -> Generator[GridCell[T], None, None]:
         """
         >>> list(Grid([[1,2],[2,3]]).get_all_cells())
         [1 [(0,0)], 2 [(1,0)], 2 [(0,1)], 3 [(1,1)]]
         """
         return self._get_cells_between(Xy(0, 0), Xy(self.width - 1, self.height - 1))
 
-    def get_all_values(self) -> Generator[Any, None, None]:
+    def get_all_values(self) -> Generator[T, None, None]:
         """
         >>> list(Grid([[1,2],[2,3]]).get_all_values())
         [1, 2, 2, 3]
@@ -185,7 +187,7 @@ class Grid:
         for cell in self.get_all_cells():
             yield cell.value
 
-    def set_all_values(self, value):
+    def set_all_values(self, value: T):
         """
         >>> Grid([[1,2],[2,3]]).set_all_values("@")
         @@
@@ -194,7 +196,7 @@ class Grid:
         self.set_values_between(Xy(0, 0), Xy(self.width - 1, self.height - 1), value)
         return self
 
-    def get_cells_from(self, pos: Xy, direction: Direction) -> List[GridCell]:
+    def get_cells_from(self, pos: Xy, direction: Direction) -> List[GridCell[T]]:
         """Get a list of cells from the given position moving into the given direction
         >>> Grid([[1,2,3], [4,5,6], [7,8,9]]).get_cells_from(Xy(1,1), NORTH)
         (5 [(1,1)], 2 [(1,0)])
@@ -217,7 +219,7 @@ class Grid:
         else:
             raise ValueError(f"Invalid direction: {direction}")
 
-    def find_first(self, value: Any) -> Xy or None:
+    def find_first(self, value: T) -> Xy or None:
         """
         >>> Grid([[1,2],[2,3]]).find_first(2)
         (1,0)
@@ -230,7 +232,7 @@ class Grid:
                     return cell.pos
         return None
 
-    def find_last(self, value: Any) -> Xy or None:
+    def find_last(self, value: T) -> Xy or None:
         """
         >>> Grid([[1,2],[2,3]]).find_last(2)
         (0,1)
@@ -243,7 +245,7 @@ class Grid:
                     return cell.pos
         return None
 
-    def find_all(self, value: Any) -> List[Xy]:
+    def find_all(self, value: T) -> List[Xy]:
         """
         >>> Grid([[1,2],[2,3]]).find_all(2)
         [(1,0), (0,1)]
@@ -255,7 +257,7 @@ class Grid:
                     result.append(cell.pos)
         return result
 
-    def rotate_left(self) -> "Grid":
+    def rotate_left(self) -> "Grid[T]":
         """
         >>> Grid([[1,2,3], [4,5,6]]).rotate_left()
         36
@@ -264,7 +266,7 @@ class Grid:
         """
         return Grid(list(reversed(self.cols)))
 
-    def rotate_right(self) -> "Grid":
+    def rotate_right(self) -> "Grid[T]":
         """
         >>> Grid([[1,2,3], [4,5,6]]).rotate_right()
         41
@@ -273,7 +275,7 @@ class Grid:
         """
         return Grid([list(reversed(col)) for col in self.cols])
 
-    def reverse_vertical(self) -> "Grid":
+    def reverse_vertical(self) -> "Grid[T]":
         """
         >>> Grid([[1,2,3], [4,5,6]]).reverse_vertical()
         321
@@ -281,7 +283,7 @@ class Grid:
         """
         return Grid([list(reversed(rows)) for rows in self.rows])
 
-    def reverse_horizontal(self) -> "Grid":
+    def reverse_horizontal(self) -> "Grid[T]":
         """
         >>> Grid([[1,2,3], [4,5,6]]).reverse_horizontal()
         456
@@ -313,7 +315,7 @@ class Grid:
              stop_value=None,
              skip_value=None,
              wrap_around=False,
-             trace=False) -> "Grid":
+             trace=False) -> "Grid[T]":
 
         assert self.has(pos), "Start position is not on the grid!"
 
@@ -390,7 +392,7 @@ class LightGrid:
         self.height = len(rows)
 
     @staticmethod
-    def empty(width: int, height: int, value: Any = EMPTY_SYMBOL) -> "LightGrid":
+    def empty(width: int, height: int, value: T = EMPTY_SYMBOL) -> "LightGrid":
         """
         >>> print(Grid.empty(3, 2, "@"))
         @@@
@@ -430,4 +432,3 @@ class LightGrid:
 
     def __str__(self) -> str:
         return "\n".join(["".join(str(row)) for row in self.rows])
-
