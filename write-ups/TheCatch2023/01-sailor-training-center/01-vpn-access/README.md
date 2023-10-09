@@ -16,3 +16,16 @@ The first challenge is easy. Just install [OpenVPN](https://openvpn.net/), impor
 http://vpn-test.cns-jv.tcc.
 
 `FLAG{smna-m11d-hhta-ONOs}`
+
+## Extra config for Ubuntu 22.4
+- don't use Gnome Network Manager
+- install these deb packages
+  - `openvpn` and `openvpn-systemd-resolved` (for DNS resolution)
+- add somewhere into `ctfd_ovpn.ovpn`:
+    ```
+    script-security 2
+    up /etc/openvpn/update-systemd-resolved
+    down /etc/openvpn/update-systemd-resolved
+    down-pre
+    ```
+- run `sudo openvpn --config ctfd_ovpn.ovpn`
