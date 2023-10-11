@@ -1,32 +1,3 @@
-# Sonar logs
-
-Ahoy, officer,
-
-each crew member must be able to operate the sonar and understand its logs. Your task is to analyze the given log file, and check out what the sonar has seen.
-
-May you have fair winds and following seas!
-
-Download the [logs](sonar.log).
-
---- 
-
-The log contains hex encoded characters:
-```
-$ grep -oE '0x.{2}' sonar.log | xargs
-0x41 0x72 0x47 0x62 0x6a 0x46 0x7b 0x77 0x6d 0x32 0x57 0x4c 0x59 0x57 0x4c 0x33 0x5a 0x7d 0x2d 0x6f 0x2d 0x41 0x2d 0x4b 0x47
-```
-
-They decode into:
-`ArGbjF{wm2WLYWL3Z}-o-A-KG`
-
-That looks like a transposed flag. `F` should be on the first position. The log line with F (`0x46`) is:
-```
-2023-10-02 03:35:00 America/St_Barthelemy - Object detected in depth 70 (0x46)
-```
-
-Most likely we need to sort the log by time in a single timezone. Could have been doen by hand but that's no fun:
-
-```java
 package cz.vernjan.ctf.catch23;
 
 
@@ -70,6 +41,3 @@ public class SonarParser {
         return line.substring(tzStart, tzEnd);
     }
 }
-```
-
-The flag is `FLAG{3YAG-2rbj-KWoZ-LwWm}`
