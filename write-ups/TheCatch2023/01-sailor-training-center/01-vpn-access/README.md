@@ -29,3 +29,4 @@ http://vpn-test.cns-jv.tcc.
     down-pre
     ```
 - run `sudo openvpn --config ctfd_ovpn.ovpn`
+- useful tool `resolvectl`, we need to have DNS server for both `wlp0s20f3` and `tun0` (VPN)
