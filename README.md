@@ -1,6 +1,7 @@
 # Write-ups
 
 ## Advent of Code
+- [Advent of Code 2023](src/main/python/aoc23)
 - [Advent of Code 2022](src/main/python/aoc22)
 
 ## CTFs
