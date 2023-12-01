@@ -8,8 +8,8 @@ def read_input(basefile: str) -> List[str]:
     return read_file(basefile, "input.txt")
 
 
-def read_test_input(basefile: str) -> List[str]:
-    return read_file(basefile, "input-test.txt")
+def read_test_input(basefile: str, input_file: str = "input-test.txt") -> List[str]:
+    return read_file(basefile, input_file)
 
 
 def read_file(basefile: str, filename: str) -> List[str]:
