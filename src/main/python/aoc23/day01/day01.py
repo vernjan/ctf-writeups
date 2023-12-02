@@ -14,12 +14,11 @@ def star1(lines: list[str]):
     return sum_digits(lines, patterns="1 2 3 4 5 6 7 8 9".split())
 
 
-def star2(lines: list[str], ):
+def star2(lines: list[str]):
     """
     >>> star2(read_test_input(__file__, "input-test2.txt"))
     281
     """
-
     return sum_digits(lines, patterns="one two three four five six seven eight nine 1 2 3 4 5 6 7 8 9".split())
 
 
