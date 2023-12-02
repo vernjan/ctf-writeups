@@ -41,8 +41,8 @@ def star2(lines: list[str]):
         for subset in subsets:
             for color_count in subset.split(","):
                 count, color = color_count.split()
-                if int(count) > cubes_min[color]:
-                    cubes_min[color] = int(count)
+                if int(count) > minimums[color]:
+                    minimums[color] = int(count)
         return minimums
 
     total = 0
