@@ -1,6 +1,7 @@
-from dataclasses import dataclass
-from typing import List, Set, Sequence, Tuple, Generator, TypeVar, Generic
 import re
+from dataclasses import dataclass
+from itertools import takewhile
+from typing import List, Set, Sequence, Tuple, Generator, TypeVar, Generic
 
 from util.ds.coord import NORTH, EAST, SOUTH, WEST
 from util.ds.coord import Xy, Direction
@@ -197,8 +198,8 @@ class Grid(Generic[T]):
         self.set_values_between(Xy(0, 0), Xy(self.width - 1, self.height - 1), value)
         return self
 
-    def get_cells_from(self, pos: Xy, direction: Direction) -> List[GridCell[T]]:
-        """Get a list of cells from the given position moving into the given direction
+    def get_cells_from(self, pos: Xy, direction: Direction, pattern: str = None) -> Tuple[GridCell[T]]:
+        """Get a list of cells from the given position moving into the given direction while the pattern is valid.
         >>> Grid([[1,2,3], [4,5,6], [7,8,9]]).get_cells_from(Xy(1,1), NORTH)
         (5 [(1,1)], 2 [(1,0)])
         >>> Grid([[1,2,3], [4,5,6], [7,8,9]]).get_cells_from(Xy(1,1), EAST)
@@ -207,18 +208,24 @@ class Grid(Generic[T]):
         (5 [(1,1)], 8 [(1,2)])
         >>> Grid([[1,2,3], [4,5,6], [7,8,9]]).get_cells_from(Xy(1,1), WEST)
         (5 [(1,1)], 4 [(0,1)])
+        >>> Grid([['a',2,3]]).get_cells_from(Xy(2,0), WEST, pattern="\\d")
+        (3 [(2,0)], 2 [(1,0)])
+        >>> Grid([['a',2,3]]).get_cells_from(Xy(0,0), WEST, pattern="\\d")
+        ()
         """
 
         if direction == NORTH:
-            return self.cols[pos.x][pos.y::-1]
+            cells = self.cols[pos.x][pos.y::-1]
         elif direction == EAST:
-            return self.rows[pos.y][pos.x:]
+            cells = self.rows[pos.y][pos.x:]
         elif direction == SOUTH:
-            return self.cols[pos.x][pos.y:]
+            cells = self.cols[pos.x][pos.y:]
         elif direction == WEST:
-            return self.rows[pos.y][pos.x::-1]
+            cells = self.rows[pos.y][pos.x::-1]
         else:
             raise ValueError(f"Invalid direction: {direction}")
+
+        return tuple(takewhile(lambda cell: re.match(pattern, str(cell.value)), cells)) if pattern else cells
 
     def find_first(self, value: T) -> Xy or None:
         """
