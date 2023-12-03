@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 from typing import List, Set, Sequence, Tuple, Generator, TypeVar, Generic
+import re
 
 from util.ds.coord import NORTH, EAST, SOUTH, WEST
 from util.ds.coord import Xy, Direction
@@ -254,6 +255,18 @@ class Grid(Generic[T]):
         for row in self.rows:
             for cell in row:
                 if cell.value == value:
+                    result.append(cell.pos)
+        return result
+
+    def find_all_re(self, pattern: str) -> List[Xy]:
+        """
+        >>> Grid([['a','b'],['a','d']]).find_all_re('a|b')
+        [(0,0), (1,0), (0,1)]
+        """
+        result = []
+        for row in self.rows:
+            for cell in row:
+                if re.match(pattern, str(cell.value)):
                     result.append(cell.pos)
         return result
 
