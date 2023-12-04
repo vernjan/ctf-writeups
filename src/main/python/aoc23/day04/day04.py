@@ -44,11 +44,13 @@ def star2(lines: list[str]):
         my_numbers = set(my.split())
         log.debug(f"my_numbers: {my_numbers}")
         card_value = 0
+        nc = 0
         for mn in my_numbers:
             if mn in win_numbers:
+                nc += 1
                 card_value = 1 if card_value == 0 else card_value * 2
         log.debug(f"card_value: {card_value}")
-        last = min(card_value, len(lines) - game_id - 1)
+        last = min(nc, len(lines) - game_id)
         for i in range(last):
             card_copies[game_id + i + 1] += card_copy_cnt
         total_copies += card_copy_cnt
