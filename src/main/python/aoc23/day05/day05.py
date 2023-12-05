@@ -57,12 +57,20 @@ def _solve(seed_ranges, mappings) -> int:
             max_jump = sys.maxsize
             for map_name, ranges in mappings.items():
                 log.debug(f"Looking up {n} for {map_name}")
+                n_belongs_to_any_interval = False
                 for dst_start, src_start, range_len in ranges:
                     src_end = src_start + range_len
                     if src_start <= n < src_end:
+                        n_belongs_to_any_interval = True
                         max_jump = min(max_jump, src_end - n)
                         n = dst_start + (n - src_start)
                         break
+                if not n_belongs_to_any_interval:
+                    # we need to adjust max jump by searching for the closest upper interval
+                    for _, src_start, _ in ranges:
+                        if src_start > n:
+                            max_jump = min(max_jump, src_start - n)
+            log.debug(f"Location for seed {seed} is {n}")
             log.debug(f"We can safely jump by {max_jump}")
             seed += max_jump
             min_location = min(min_location, n)
