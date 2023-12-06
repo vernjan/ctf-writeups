@@ -52,7 +52,7 @@ def _solve(seed_ranges, mappings) -> int:
         seed = seed_range[0]
         min_location = sys.maxsize
         while seed < seed_range[0] + seed_range[1]:
-            log.info(f"Checking seed {seed}")
+            log.debug(f"Checking seed {seed}")
             n = seed  # seed -> lookups -> location
             max_jump = sys.maxsize
             for map_name, ranges in mappings.items():
@@ -81,7 +81,7 @@ def _solve(seed_ranges, mappings) -> int:
 
 if __name__ == "__main__":
     log.setLevel(logging.INFO)
-    # timed_run("Star 1", lambda: star1(read_input(__file__)))
+    timed_run("Star 1", lambda: star1(read_input(__file__)))
     timed_run("Star 2", lambda: star2(read_input(__file__)))
 
     # Star 1: 457535844
