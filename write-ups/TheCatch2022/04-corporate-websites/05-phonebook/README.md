@@ -125,7 +125,7 @@ However, this is not the original password. It's important to understand how LM 
 
 So, the original password might be something like `TooStrongPass.`, `TooSTRONGPass.` or **any other combination**.
 
-I created Python script [find-password.py](../../../../src/main/python/catch22/Phonebook) to enumerate all the
+I created Python script [find-password.py](../../../../src-python/catch22/Phonebook) to enumerate all the
 possibilities and find the correct one by comparing against `sambaNTPassword` hash.
 I was a bit disappointed when it **found no match**.
 

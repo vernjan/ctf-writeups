@@ -1,8 +1,8 @@
 # Write-ups
 
 ## Advent of Code
-- [Advent of Code 2023](src/main/python/aoc23)
-- [Advent of Code 2022](src/main/python/aoc22)
+- [Advent of Code 2023](src-python/aoc23)
+- [Advent of Code 2022](src-python/aoc22)
 
 ## CTFs
 - [The Catch 2023](write-ups/TheCatch2023/README.md)

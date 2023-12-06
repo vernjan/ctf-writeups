@@ -2,6 +2,6 @@
 /out/
 /target/
 /venv/
-/*.iml
+*.iml
 .DS_Store
 __pycache__/

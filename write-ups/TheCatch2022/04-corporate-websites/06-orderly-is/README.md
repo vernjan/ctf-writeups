@@ -106,7 +106,7 @@ def do_OPTIONS(self):
 
 Those HTTP headers make CORS possible.
 
-Run my customized [HTTP server](../../../../src/main/python/catch22/OrderlyIS/http-server.py) and send the exploit:
+Run my customized [HTTP server](../../../../src-python/catch22/OrderlyIS/http-server.py) and send the exploit:
 
 ```html
 
