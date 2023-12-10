@@ -401,6 +401,34 @@ class Grid(Generic[T]):
 
         return min([shortest_routes[pos] for pos in end_positions if pos in shortest_routes])
 
+    def find_loop_length(
+            self,
+            start_position: Xy,
+            has_access,
+            trace=False) -> int:
+        """Find the length of the loop (cycle) starting from the given position.
+
+        - has_access is a lambda(grid, position, neighbor_position)
+        """
+        visited = set()
+        loop_length = 0
+
+        next_moves = [start_position]
+        while next_moves:
+            position = next_moves.pop(0)
+            visited.add(position)
+
+            for neighbor in self.get_neighbors(position):
+                if neighbor not in visited and has_access(self, position, neighbor):
+                    loop_length += 1
+                    next_moves.append(neighbor)
+                    break  # Assume no crossroads (branching)
+
+            if trace:
+                self.set_value(position, "x")
+
+        return loop_length
+
 
 class LightGrid:
     """Lightweight grid - less fancy, much faster"""
