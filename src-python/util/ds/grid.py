@@ -1,5 +1,4 @@
 import re
-from dataclasses import dataclass
 from itertools import takewhile
 from typing import List, Set, Sequence, Tuple, Generator, TypeVar, Generic
 
@@ -13,7 +12,6 @@ EMPTY_SYMBOL = "."
 T = TypeVar("T")
 
 
-@dataclass
 class GridCell(Generic[T]):
 
     def __init__(self, pos: Xy, value: T) -> None:
@@ -38,6 +36,9 @@ class GridCell(Generic[T]):
 
     def __repr__(self) -> str:
         return f"{self.value} [{self.pos}]"
+
+    def __eq__(self, other):
+        return self.pos == other.pos
 
 
 class Grid(Generic[T]):
