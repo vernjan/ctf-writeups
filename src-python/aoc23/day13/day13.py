@@ -12,29 +12,61 @@ def star1(lines: list[str]):
     """
 
     total = 0
-
     grid_lines = []
     for line in lines:
         if line:
             grid_lines.append(line)
-        else:
-            grid = Grid(grid_lines)
-            log.debug("GRID:")
+            continue
 
-            v_mirror = find_mirror(grid, "vertical")
-            h_mirror = find_mirror(grid, "horizontal")
+        grid = Grid(grid_lines)
+        log.debug(f"\n{grid}")
 
-            if v_mirror > 0:
-                total += v_mirror
-            if h_mirror > 0:
-                total += 100 * h_mirror
+        v_mirror = _find_mirror(grid, "vertical")
+        if v_mirror:
+            total += v_mirror
+        h_mirror = _find_mirror(grid, "horizontal")
+        if h_mirror:
+            total += 100 * h_mirror
 
-            grid_lines = []
+        grid_lines = []
 
     return total
 
 
-def find_mirror(grid: Grid, mirror_type: str) -> int:
+def _find_mirror(grid: Grid, mirror_type: str) -> int:
+    def find_mirror_edges():
+        # left->right, right->left (or top->bottom, bottom->top)
+        return max(
+            find_mirror_edge(0, size - 2, -2),
+            find_mirror_edge(size - 1, 1, 2)
+        )
+
+    def find_mirror_edge(const_index, start_index, step):
+        mirrors = []
+        const_edge = get_values(const_index)
+        for moving_index in range(start_index, const_index, step):
+            moving_edge = get_values(moving_index)
+            if const_edge == moving_edge:
+                log.debug(f"Checking {mirror_type} mirror between {const_index}-{moving_index}")
+                mirror = check_mirror(const_index, moving_index)
+                if mirror:
+                    mirrors.append(mirror)
+
+        return max(mirrors, default=0)
+
+    def check_mirror(i1, i2) -> int:
+        if i1 > i2:
+            i1, i2 = i2, i1
+
+        mirror_half_size = (i2 - i1) // 2 + 1
+        for i in range(mirror_half_size):
+            if get_values(i1 + i) != get_values(i2 - i):
+                return 0
+
+        result = (i2 + i1) // 2 + 1
+        log.debug(f"Mirror found: {result}")
+        return result
+
     if mirror_type == "vertical":
         size = grid.width
         get_values = grid.get_col_values
@@ -42,29 +74,7 @@ def find_mirror(grid: Grid, mirror_type: str) -> int:
         size = grid.height
         get_values = grid.get_row_values
 
-    opposite_side_index = None
-    for li in range(size - 1):  # TODO size // 2 + 1
-        left = get_values(li)  # left or top
-        # right = get_values(size - 1)
-        # if left == right:
-        #     for mi in range(li, li, -1):  # TODO could step by 2
-
-        ri_start_from = opposite_side_index if opposite_side_index else size - 1
-        # ri_end = li
-        # if opposite_side_index:
-        ri_end = size - 2 if li > 0 and not opposite_side_index else li
-        for ri in range(ri_start_from, ri_end, -1):  # TODO could step by 2
-            right = get_values(ri)
-            if left == right:
-                opposite_side_index = ri
-                if li + 1 == opposite_side_index:
-                    log.debug(f"{mirror_type} mirror found at {li + 1}")
-                    return li + 1
-                break
-            else:
-                opposite_side_index = None
-
-    return -1
+    return find_mirror_edges()
 
 
 def star2(lines: list[str]):
@@ -77,26 +87,9 @@ def star2(lines: list[str]):
 
 
 if __name__ == "__main__":
-    log.setLevel(logging.DEBUG)
+    log.setLevel(logging.INFO)
     timed_run("Star 1", lambda: star1(read_input(__file__)))
     timed_run("Star 2", lambda: star2(read_input(__file__)))
 
-
-    # opposite_side_index = None
-    # for li in range(size - 1):  # TODO size // 2 + 1
-    #     left = get_values(li)  # left or top
-    #
-    #
-    #     ri_start_from = opposite_side_index if opposite_side_index else size - 1
-    #     for ri in range(ri_start_from, li, -1):  # TODO could step by 2
-    #         right = get_values(ri)
-    #         if left == right:
-    #             opposite_side_index = ri
-    #             if li + 1 == opposite_side_index:
-    #                 log.debug(f"{mirror_type} mirror found at {li + 1}")
-    #                 return li + 1
-    #             break
-    #         else:
-    #             opposite_side_index = None
-    #
-    # return -1
+    # Star 1: 27664
+    # Star 2:
