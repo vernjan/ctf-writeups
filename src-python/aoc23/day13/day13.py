@@ -10,7 +10,18 @@ def star1(lines: list[str]):
     >>> star1(read_test_input(__file__))
     405
     """
+    return _solve(lines)
 
+
+def star2(lines: list[str]):
+    """
+    >>> star2(read_test_input(__file__))
+    400
+    """
+    return _solve(lines, expected_mismatches=1)
+
+
+def _solve(lines, expected_mismatches: int = 0):
     total = 0
     grid_lines = []
     for line in lines:
@@ -21,19 +32,14 @@ def star1(lines: list[str]):
         grid = Grid(grid_lines)
         log.debug(f"\n{grid}")
 
-        v_mirror = _find_mirror(grid, "vertical")
-        if v_mirror:
-            total += v_mirror
-        h_mirror = _find_mirror(grid, "horizontal")
-        if h_mirror:
-            total += 100 * h_mirror
+        total += (_find_mirror(grid, "vertical", expected_mismatches) +
+                  _find_mirror(grid, "horizontal", expected_mismatches) * 100)
 
         grid_lines = []
-
     return total
 
 
-def _find_mirror(grid: Grid, mirror_type: str) -> int:
+def _find_mirror(grid: Grid, mirror_type: str, expected_mismatches: int = 0) -> int:
     def find_mirror_edges():
         # left->right, right->left (or top->bottom, bottom->top)
         return max(
@@ -46,7 +52,7 @@ def _find_mirror(grid: Grid, mirror_type: str) -> int:
         const_edge = get_values(const_index)
         for moving_index in range(start_index, const_index, step):
             moving_edge = get_values(moving_index)
-            if const_edge == moving_edge:
+            if count_mismatches(const_edge, moving_edge) <= expected_mismatches:
                 log.debug(f"Checking {mirror_type} mirror between {const_index}-{moving_index}")
                 mirror = check_mirror(const_index, moving_index)
                 if mirror:
@@ -54,14 +60,22 @@ def _find_mirror(grid: Grid, mirror_type: str) -> int:
 
         return max(mirrors, default=0)
 
+    def count_mismatches(list1, list2) -> int:
+        return sum(1 for i in range(len(list1)) if list1[i] != list2[i])
+
     def check_mirror(i1, i2) -> int:
         if i1 > i2:
             i1, i2 = i2, i1
 
+        total_mismatches = 0
         mirror_half_size = (i2 - i1) // 2 + 1
         for i in range(mirror_half_size):
-            if get_values(i1 + i) != get_values(i2 - i):
-                return 0
+            values = get_values(i1 + i)
+            reflected_values = get_values(i2 - i)
+            total_mismatches += count_mismatches(values, reflected_values)
+
+        if total_mismatches != expected_mismatches:
+            return 0
 
         result = (i2 + i1) // 2 + 1
         log.debug(f"Mirror found: {result}")
@@ -77,19 +91,10 @@ def _find_mirror(grid: Grid, mirror_type: str) -> int:
     return find_mirror_edges()
 
 
-def star2(lines: list[str]):
-    """
-    >>> star2(read_test_input(__file__))
-
-    """
-    for line in lines:
-        pass
-
-
 if __name__ == "__main__":
     log.setLevel(logging.INFO)
     timed_run("Star 1", lambda: star1(read_input(__file__)))
     timed_run("Star 2", lambda: star2(read_input(__file__)))
 
     # Star 1: 27664
-    # Star 2:
+    # Star 2: 33991
