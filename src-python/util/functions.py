@@ -1,4 +1,6 @@
-from typing import Deque
+from typing import Deque, List, Tuple
+
+from util.log import log
 
 
 def signum(x: int) -> int:
@@ -24,3 +26,44 @@ def circular_shift(deq: Deque, index, steps) -> None:
         del deq[index]
         new_index = (index + steps) % len(deq)
         deq.insert(new_index, element)
+
+
+def find_repeating_sequence(seq: List, pattern_size: int) -> Tuple[int, int]:
+    """
+    Detect a repeating sequence in the given list. Requires at least 3 occurences of the pattern.
+    :return: first index of the repeating sequence, sequence size
+    >>> find_repeating_sequence([8,1,2,3,1,2,3,1,2,3], pattern_size=2)
+    (1, 3)
+    >>> find_repeating_sequence([1,2,3,4,5,6,1,2,3,4,5,6,1,2,3,4,5,6], pattern_size=2)
+    (0, 6)
+    """
+    pattern = seq[len(seq) - pattern_size:]  # take last elements, best chance the sequence is already repeating
+    log.debug(f"Looking for repeating pattern {pattern}")
+    matches = []
+    for seq_i in range(len(seq)):
+        test = seq[seq_i:seq_i + pattern_size]
+        if pattern == test:
+            log.debug(f"Repeating pattern {pattern} found at {seq_i}")
+            matches.append(seq_i)
+            if len(matches) == 3:
+                break
+
+    assert len(matches) == 3, "Repeating pattern was not found 3 times"
+    assert matches[2] - matches[1] == matches[1] - matches[0], \
+        "Repeating pattern is not repeating, try a larger pattern size"
+
+    r_seq_size = matches[1] - matches[0]
+    r_seq = seq[matches[0]:matches[1]]
+    log.debug(f"Repeating sequence of size {r_seq_size} detected: {r_seq}")
+
+    first_index = matches[0]
+    for i in range(1, r_seq_size):
+        shifted_repeating_seq = r_seq[-i:] + r_seq[:r_seq_size - i]
+        for seq_i in range(first_index):
+            test = seq[seq_i:seq_i + r_seq_size]
+            if shifted_repeating_seq == test:
+                first_index = seq_i
+                log.debug(f"New repeating sequence start index found: {first_index}")
+                break
+
+    return first_index, r_seq_size
