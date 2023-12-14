@@ -28,15 +28,17 @@ def circular_shift(deq: Deque, index, steps) -> None:
         deq.insert(new_index, element)
 
 
-def find_repeating_sequence(seq: List, pattern_size: int) -> Tuple[int, int]:
+def find_repeating_sequence(seq: List, pattern_size: int, confidence: int = 3) -> Tuple[int, int]:
     """
     Detect a repeating sequence in the given list. Requires at least 3 occurences of the pattern.
     :return: first index of the repeating sequence, sequence size
-    >>> find_repeating_sequence([8,1,2,3,1,2,3,1,2,3], pattern_size=2)
+    >>> find_repeating_sequence([8,1,2,3,1,2,3,1,2,3], pattern_size=2, confidence=3)
     (1, 3)
     >>> find_repeating_sequence([1,2,3,4,5,6,1,2,3,4,5,6,1,2,3,4,5,6], pattern_size=2)
     (0, 6)
     """
+    assert confidence > 1, "Confidence must be at least 2"
+
     pattern = seq[len(seq) - pattern_size:]  # take last elements, best chance the sequence is already repeating
     log.debug(f"Looking for repeating pattern {pattern}")
     matches = []
@@ -45,12 +47,15 @@ def find_repeating_sequence(seq: List, pattern_size: int) -> Tuple[int, int]:
         if pattern == test:
             log.debug(f"Repeating pattern {pattern} found at {seq_i}")
             matches.append(seq_i)
-            if len(matches) == 3:
+            if len(matches) == confidence:
                 break
 
-    assert len(matches) == 3, "Repeating pattern was not found 3 times"
-    assert matches[2] - matches[1] == matches[1] - matches[0], \
-        "Repeating pattern is not repeating, try a larger pattern size"
+    assert len(matches) == confidence, f"Repeating pattern was not found {confidence} times"
+
+    r_seq_size = matches[1] - matches[0]
+    for i in range(2, confidence):
+        assert matches[i] - matches[i - 1] == r_seq_size, \
+            "Repeating pattern is not repeating, try a larger pattern size"
 
     r_seq_size = matches[1] - matches[0]
     r_seq = seq[matches[0]:matches[1]]
