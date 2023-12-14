@@ -6,7 +6,7 @@ from util.ds.grid import Grid
 from util.functions import find_repeating_sequence
 from util.log import log
 
-SAMPLE_COUNT = 500
+SAMPLE_COUNT = 200
 PATTERN_SIZE = 5
 
 
@@ -18,7 +18,6 @@ def star1(lines: list[str]):
 
     grid = Grid(lines)
     return _tilt_dish(grid, NORTH)
-    # return _count_weight(grid)
 
 
 def star2(lines: list[str]):
@@ -29,7 +28,7 @@ def star2(lines: list[str]):
     # collect samples to find repeating pattern
     sample_grid = Grid(lines)
     samples = []
-    for i in range(200):
+    for i in range(SAMPLE_COUNT):
         load = _rotate_dish(sample_grid)
         samples.append(load)
 
@@ -41,13 +40,12 @@ def star2(lines: list[str]):
 
 
 def _rotate_dish(grid):
-    load = 0
     for d in [NORTH, WEST, SOUTH, EAST]:
-        load = _tilt_dish(grid, d)
+        load = _tilt_dish(grid, d, calc_load=(d == EAST))
     return load
 
 
-def _tilt_dish(grid, direction: Direction):
+def _tilt_dish(grid, direction: Direction, calc_load=True) -> int:
     load = 0
     for bi in range(grid.width):
         block = grid.cols[bi] if direction in (NORTH, SOUTH) else grid.rows[bi]
@@ -59,20 +57,12 @@ def _tilt_dish(grid, direction: Direction):
                 if free_index < i:
                     cell.value = "."
                     block[free_index].value = "O"
-                load += grid.height - block[free_index].pos.y
+                if calc_load:
+                    load += grid.height - block[free_index].pos.y
                 free_index += 1
             elif cell.value == "#":
                 free_index = i + 1
-    # log.debug(grid)
     return load
-
-
-def _count_weight(grid):
-    total = 0
-    for cell in grid.get_all_cells():
-        if cell.value == "O":
-            total += grid.height - cell.pos.y
-    return total
 
 
 if __name__ == "__main__":
