@@ -96,10 +96,11 @@ def _solve(grid, start_cell, start_dir, mirror_cache: Dict[BEAM, List[BEAM]]):
         if beam_value in "-|":
             last_mirror = None
 
-        if beam_value in "\\/":
+        if beam_value in "\\/-|":
             if last_mirror:
                 mirror_cache[last_mirror].append(beam)
-            last_mirror = beam
+            if beam_value in "\\/":
+                last_mirror = beam
 
         next_dirs = TILE_MOVES[beam_value].get(beam_dir, [beam_dir])
         for next_dir in next_dirs:
