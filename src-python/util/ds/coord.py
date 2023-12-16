@@ -101,7 +101,7 @@ class Xy:
     def north_west(self):
         return Xy(self.x - 1, self.y - 1)
 
-    def neighbor(self, direction: Direction):
+    def neighbor(self, direction: Direction) -> "Xy":
         move = getattr(self, direction.value)
         return move()
 
