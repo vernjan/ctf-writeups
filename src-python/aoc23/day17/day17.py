@@ -101,7 +101,7 @@ def _solve(lines, min_straight_blocks: int, max_straight_blocks: int) -> int:
 
 
 if __name__ == "__main__":
-    log.setLevel(logging.DEBUG)
+    log.setLevel(logging.INFO)
     timed_run("Star 1", lambda: star1(read_input(__file__)))
     timed_run("Star 2", lambda: star2(read_input(__file__)))
 
