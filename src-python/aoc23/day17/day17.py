@@ -30,6 +30,7 @@ def star1(lines: list[str]):
     return _solve("s1", lines, min_straight=0, max_straight=3)
 
 
+# FIXME not working for input-test2, lucky for me it works for the real input
 def star2(lines: list[str]):
     """
     >>> star2(read_test_input(__file__))
@@ -78,16 +79,42 @@ def _solve(star, lines, min_straight: int, max_straight: int) -> int:
                 log.debug(temp_grid)
             continue
 
+        # TBD
         next_dirs = []
-        if ctx.straight_blocks < max_straight:
+        if min_straight <= ctx.straight_blocks < max_straight:
             next_dirs.append(ctx.dir)
         if ctx.straight_blocks >= min_straight:
             next_dirs.extend([ctx.dir.turn_right(), ctx.dir.turn_left()])
 
+            # if ctx.straight_blocks == 1 and min_straight > 1:  # after turn, go straight
+
         for next_dir in next_dirs:
             next_pos = ctx.pos.neighbor(next_dir)
             is_turn = ctx.dir != next_dir
-            if grid.has(next_pos):
+
+            if is_turn and min_straight > 1:
+                new_ctx = ctx
+                ok = True
+                for _ in range(min_straight - 1):
+                    next_pos = new_ctx.pos.neighbor(next_dir)
+                    if grid.has(next_pos):
+                        new_ctx = SearchCtx(
+                            pos=next_pos,
+                            total_heat_loss=new_ctx.total_heat_loss + int(grid.get_value(next_pos)),
+                            straight_blocks=new_ctx.straight_blocks + 1,
+                            dir=ctx.dir,
+                            path=new_ctx.path + [new_ctx] if log.level == logging.DEBUG else None,
+                        )
+                    else:
+                        ok = False
+                        break
+                if ok:
+                    if is_potentially_good():
+                        cache[new_ctx.pos][(new_ctx.dir, new_ctx.straight_blocks)] = new_ctx.total_heat_loss
+                        heapq.heappush(queue, new_ctx)
+
+
+            elif grid.has(next_pos):
                 new_ctx = SearchCtx(
                     pos=next_pos,
                     total_heat_loss=ctx.total_heat_loss + int(grid.get_value(next_pos)),

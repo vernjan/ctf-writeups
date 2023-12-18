@@ -101,9 +101,11 @@ class Xy:
     def north_west(self):
         return Xy(self.x - 1, self.y - 1)
 
-    def neighbor(self, direction: Direction) -> "Xy":
+    # TODO Rewrite for better performance
+    def neighbor(self, direction: Direction, dist: int = 1) -> "Xy":
         move = getattr(self, direction.value)
-        return move()
+        for _ in range(dist):
+            return move()
 
     def neighbors(self, side=True, diagonal=False, min_x=-inf, max_x=inf, min_y=-inf, max_y=inf) -> List["Xy"]:
         """
