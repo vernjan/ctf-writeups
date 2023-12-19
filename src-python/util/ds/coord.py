@@ -77,6 +77,11 @@ class Xy:
     def __repr__(self) -> str:
         return f"({self.x},{self.y})"
 
+    def __lt__(self, other):
+        if self.y == other.y:
+            return self.x < other.x
+        return self.y < other.y
+
     def north(self):
         return Xy(self.x, self.y - 1)
 
@@ -101,11 +106,25 @@ class Xy:
     def north_west(self):
         return Xy(self.x - 1, self.y - 1)
 
-    # TODO Rewrite for better performance
     def neighbor(self, direction: Direction, dist: int = 1) -> "Xy":
-        move = getattr(self, direction.value)
-        for _ in range(dist):
-            return move()
+        if direction == NORTH:
+            return Xy(self.x, self.y - dist)
+        elif direction == EAST:
+            return Xy(self.x + dist, self.y)
+        elif direction == SOUTH:
+            return Xy(self.x, self.y + dist)
+        elif direction == WEST:
+            return Xy(self.x - dist, self.y)
+        elif direction == NORTH_EAST:
+            return Xy(self.x + dist, self.y - dist)
+        elif direction == SOUTH_EAST:
+            return Xy(self.x + dist, self.y + dist)
+        elif direction == SOUTH_WEST:
+            return Xy(self.x - dist, self.y + dist)
+        elif direction == NORTH_WEST:
+            return Xy(self.x - dist, self.y - dist)
+        else:
+            raise ValueError(f"Unknown direction: {direction}")
 
     def neighbors(self, side=True, diagonal=False, min_x=-inf, max_x=inf, min_y=-inf, max_y=inf) -> List["Xy"]:
         """
