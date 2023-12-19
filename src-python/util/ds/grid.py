@@ -319,12 +319,14 @@ class Grid(Generic[T]):
         lines = []
         for row in self.rows:
             cells = []
+            y = None
             for cell in row:
+                y = cell.pos.y
                 visited = ""
                 if show_visited:
                     visited = "T" if cell.visited else "F"
                 cells.append(f"{str(cell)}{visited}")
-            lines.append(cell_separator.join(cells))
+            lines.append(f"{y}: " + cell_separator.join(cells))
         return "\n".join(lines)
 
     def __repr__(self) -> str:
