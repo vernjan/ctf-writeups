@@ -1,4 +1,5 @@
 import logging
+import math
 from collections import defaultdict
 from dataclasses import dataclass
 from typing import List, Dict
@@ -32,12 +33,6 @@ class Module:
         for output in self.output_module_ids:
             yield Signal(self.module_id, output, signal_type)
 
-    def __hash__(self):
-        return hash(self.module_id)
-
-    def __eq__(self, other):
-        return self.module_id == other.module_id
-
     def __repr__(self):
         return f"{self.module_id}"
 
@@ -50,10 +45,9 @@ class FlipFlop(Module):
     def process_signal(self, signal: Signal) -> List[Signal]:
         if signal.signal_type == HIGH:
             return []
-        else:
-            output_signal = LOW if self.state else HIGH
-            self.state = not self.state
-            return super()._process_signal(output_signal)
+        output_signal = LOW if self.state else HIGH
+        self.state = not self.state
+        return super()._process_signal(output_signal)
 
     def __repr__(self):
         return f"%{self.module_id}: {'ON' if self.state else 'OFF'}"
@@ -64,13 +58,16 @@ class Conjunction(Module):
         super().__init__(module_id, output_module_ids)
         self.memory: Dict[str, str] = {}
 
+    def process_signal(self, signal: Signal) -> List[Signal]:
+        self.memory[signal.source_module_id] = signal.signal_type
+        output_signal = self.emit_signal()
+        return super()._process_signal(output_signal)
+
     def add_input_module(self, module_id: str):
         self.memory[module_id] = LOW
 
-    def process_signal(self, signal: Signal) -> List[Signal]:
-        self.memory[signal.source_module_id] = signal.signal_type
-        output_signal = HIGH if LOW in self.memory.values() else LOW
-        return super()._process_signal(output_signal)
+    def emit_signal(self):
+        return HIGH if LOW in self.memory.values() else LOW
 
     def __repr__(self):
         return f"&{self.module_id}: {self.memory}"
@@ -84,34 +81,55 @@ def star1(lines: list[str]):
     11687500
     """
     modules = parse_modules(lines)
+    counter = {LOW: 0, HIGH: 0}
+    for _ in range(1000):
+        queue: List[Signal] = [Signal("button", "broadcaster", LOW)]
+        while queue:
+            signal = queue.pop(0)
+            counter[signal.signal_type] += 1
+            if signal.module_id in modules:
+                module = modules[signal.module_id]
+                queue.extend(module.process_signal(signal))
+    return counter[LOW] * counter[HIGH]
+
+
+def star2(lines: list[str]):
+    modules = parse_modules(lines)
 
     reverse_modules_ids = defaultdict(list)
     for module in modules.values():
         for output in module.output_module_ids:
             reverse_modules_ids[output].append(module.module_id)
-    log.debug(f"reverse_modules: {reverse_modules_ids}")
-    rx_deps = [(0, module_id) for module_id in reverse_modules_ids["rx"]]
-    while rx_deps:
-        level, module_dep = rx_deps.pop()
-        log.debug("--" * level + module_dep)
-        if level < 3:
-            rx_deps.extend([(level + 1, module_id) for module_id in reverse_modules_ids[module_dep]])
 
-    counter = {LOW: 0, HIGH: 0}
-    for _ in range(10000):
+    # rx <- mg <- [hf, jm, rh, jg]
+    terminal_conjunction_ids: List[Module] = reverse_modules_ids[reverse_modules_ids["rx"][0]]
+    assert len(terminal_conjunction_ids) == 4
+
+    conjunction_samples = defaultdict(list)
+    counter = 0
+    while True:
+        counter += 1
         queue: List[Signal] = [Signal("button", "broadcaster", LOW)]
         while queue:
             signal = queue.pop(0)
-            if signal.module_id == "rx" and signal.signal_type == LOW:
-                log.info("rx received LOW signal!")
-            counter[signal.signal_type] += 1
             if signal.module_id in modules:
                 module = modules[signal.module_id]
-                if signal.module_id in ["th", "ff", "nt", "zs"]:
-                    log.debug(f"{signal.module_id}: {sum(1 for m in module.memory.values() if m == HIGH)}")
+                if signal.module_id in terminal_conjunction_ids and module.emit_signal() == HIGH:
+                    log.debug(f"{signal.module_id}: {counter}")
+                    if counter > 1:
+                        conjunction_samples[signal.module_id].append(counter)
                 queue.extend(module.process_signal(signal))
 
-    return counter[LOW] * counter[HIGH]
+        # Check we have at least 3 samples for each terminal conjunction
+        if conjunction_samples and all(len(samples) > 2 for samples in conjunction_samples.values()):
+            log.debug(f"Samples collected: {conjunction_samples}")
+            break
+
+    conjunction_cycles = []
+    for samples in conjunction_samples.values():
+        assert samples[2] - samples[1] == samples[1] - samples[0], f"Expected equal diffs for {samples}"
+        conjunction_cycles.append(samples[1] - samples[0])
+    return math.lcm(*conjunction_cycles)
 
 
 def parse_modules(lines):
@@ -141,19 +159,10 @@ def parse_modules(lines):
     return modules
 
 
-def star2(lines: list[str]):
-    """
-    >>> star2(read_test_input(__file__))
-
-    """
-    for line in lines:
-        pass
-
-
 if __name__ == "__main__":
-    log.setLevel(logging.DEBUG)
+    log.setLevel(logging.INFO)
     timed_run("Star 1", lambda: star1(read_input(__file__)))
     timed_run("Star 2", lambda: star2(read_input(__file__)))
 
     # Star 1: 821985143
-    # Star 2:
+    # Star 2: 240853834793347
