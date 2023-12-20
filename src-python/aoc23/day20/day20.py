@@ -1,4 +1,5 @@
 import logging
+from collections import defaultdict
 from dataclasses import dataclass
 from typing import List, Dict
 
@@ -83,17 +84,33 @@ def star1(lines: list[str]):
     11687500
     """
     modules = parse_modules(lines)
+
+    reverse_modules_ids = defaultdict(list)
+    for module in modules.values():
+        for output in module.output_module_ids:
+            reverse_modules_ids[output].append(module.module_id)
+    log.debug(f"reverse_modules: {reverse_modules_ids}")
+    rx_deps = [(0, module_id) for module_id in reverse_modules_ids["rx"]]
+    while rx_deps:
+        level, module_dep = rx_deps.pop()
+        log.debug("--" * level + module_dep)
+        if level < 3:
+            rx_deps.extend([(level + 1, module_id) for module_id in reverse_modules_ids[module_dep]])
+
     counter = {LOW: 0, HIGH: 0}
-    for _ in range(1000):
+    for _ in range(10000):
         queue: List[Signal] = [Signal("button", "broadcaster", LOW)]
         while queue:
             signal = queue.pop(0)
+            if signal.module_id == "rx" and signal.signal_type == LOW:
+                log.info("rx received LOW signal!")
             counter[signal.signal_type] += 1
             if signal.module_id in modules:
                 module = modules[signal.module_id]
+                if signal.module_id in ["th", "ff", "nt", "zs"]:
+                    log.debug(f"{signal.module_id}: {sum(1 for m in module.memory.values() if m == HIGH)}")
                 queue.extend(module.process_signal(signal))
 
-    log.debug(counter)
     return counter[LOW] * counter[HIGH]
 
 
@@ -134,7 +151,7 @@ def star2(lines: list[str]):
 
 
 if __name__ == "__main__":
-    log.setLevel(logging.INFO)
+    log.setLevel(logging.DEBUG)
     timed_run("Star 1", lambda: star1(read_input(__file__)))
     timed_run("Star 2", lambda: star2(read_input(__file__)))
 
