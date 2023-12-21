@@ -1,11 +1,12 @@
 import os
 import time
 from typing import List
+
 from util.log import log
 
 
-def read_input(basefile: str) -> List[str]:
-    return read_file(basefile, "input.txt")
+def read_input(basefile: str, input_file: str = "input.txt") -> List[str]:
+    return read_file(basefile, input_file)
 
 
 def read_test_input(basefile: str, input_file: str = "input-test.txt") -> List[str]:

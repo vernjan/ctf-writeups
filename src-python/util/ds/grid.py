@@ -317,7 +317,7 @@ class Grid(Generic[T]):
         """
         return Grid(list(reversed(self.rows)))
 
-    def format(self, show_visited=False, cell_separator: str = "") -> str:
+    def format(self, show_visited=False, show_line_numbers=False, cell_separator: str = "") -> str:
         lines = []
         for row in self.rows:
             cells = []
@@ -328,7 +328,7 @@ class Grid(Generic[T]):
                 if show_visited:
                     visited = "T" if cell.visited else "F"
                 cells.append(f"{str(cell)}{visited}")
-            lines.append(f"{y}: " + cell_separator.join(cells))
+            lines.append(f"{y:03d}: " if show_line_numbers else "" + cell_separator.join(cells))
         return "\n".join(lines)
 
     def __repr__(self) -> str:
