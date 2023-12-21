@@ -18,9 +18,11 @@ class GridCell(Generic[T]):
         self.pos = pos
         if isinstance(value, GridCell):
             self.value = value.value
+            self.meta = value.meta
             self.visited = value.visited
         else:
             self.value = value
+            self.meta = None
             self.visited = False
 
     def __str__(self) -> str:
