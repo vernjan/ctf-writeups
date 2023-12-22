@@ -3,7 +3,7 @@ import logging
 from util.data_io import read_input, read_test_input, timed_run
 from util.ds.coord import Direction, NORTH, SOUTH, WEST, EAST
 from util.ds.grid import Grid
-from util.functions import find_repeating_sequence
+from util.functions import find_rsequence
 from util.log import log
 
 SAMPLE_COUNT = 200
@@ -33,7 +33,7 @@ def star2(lines: list[str]):
         samples.append(load)
 
     # detect repeating sequence
-    seq_start, seq_size = find_repeating_sequence(samples, PATTERN_SIZE, confidence=2)
+    seq_start, seq_size = find_rsequence(samples, PATTERN_SIZE, confidence=2)
 
     correct_sample_index = seq_start + ((1000000000 - seq_start) % seq_size) - 1
     return samples[correct_sample_index]
