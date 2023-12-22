@@ -1,4 +1,4 @@
-from typing import Deque, List, Tuple, Any, Union
+from typing import Deque, List, Tuple, Any, Union, Sequence
 
 from util.log import log
 
@@ -109,7 +109,7 @@ def get_rsequence_item(seq: Union[str | List[Any]],
         return seq[first_index + reminder_size]
 
 
-def sum_rsequence(seq: Union[str | List[Any]],
+def sum_rsequence(seq: Union[str | Sequence[Any]],
                   total_items: int,
                   pattern_size: int,
                   confidence: int = 3) -> int:
