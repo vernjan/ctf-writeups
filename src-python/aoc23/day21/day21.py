@@ -1,12 +1,13 @@
 import heapq
 import logging
+import math
 from collections import defaultdict
 from dataclasses import dataclass
 
 from util.data_io import read_input, read_test_input, timed_run
 from util.ds.coord import Xy
 from util.ds.grid import Grid
-from util.functions import find_rsequence, sum_rsequence
+from util.functions import find_rsequence
 from util.log import log
 
 
@@ -26,6 +27,8 @@ def star1(lines: list[str], max_dist: int):
     """
     grid = Grid(lines)
     _, result = list(_solve(grid, max_dist))[-1]
+    # log.debug(result)
+    # log.debug(grid)
     return result
 
 
@@ -46,19 +49,46 @@ def star1(lines: list[str], max_dist: int):
 
 def star2(lines: list[str], max_dist: int, enlarge_factor: int = 51):
     """
+    >>> star2(read_test_input(__file__), max_dist=3)
+    6
+    >>> star2(read_test_input(__file__), max_dist=5)
+    13
+    >>> star2(read_test_input(__file__), max_dist=50)
+    1594
+    >>> star2(read_test_input(__file__), max_dist=51)
+    1653
     >>> star2(read_test_input(__file__), max_dist=100)
     6536
+    >>> star2(read_test_input(__file__), max_dist=500)
+    167004
+    >>> star2(read_test_input(__file__), max_dist=5000)
+    16733044
     """
 
+    # rseq_maps = {
+    #     "N": {},
+    #     "S": {},
+    # }
+    # rseq_lines = read_test_input(__file__, "rseq.txt")
+    # for i, rseq_line in enumerate(rseq_lines):
+    #     direction = "N" if i < len(rseq_lines) // 2 else "S"
+    #     y, first_index, rseq = rseq_line.split(";")
+    #     rseq_maps[direction][int(y)] = RSequence(list(map(int, rseq[1:-1].split(","))), first_index=int(first_index))
+    #
+    # log.info(f"rseq_maps={rseq_maps}")
+    # mid_y = int(rseq_lines[0].split(";")[0])
+
+    orig_grid_size = len(lines)
+    no_match_count = 0
+    total = 0
+
+    # TODO Move into Grid
     enlarged = []
     for line in lines:
         enlarged.append(line * enlarge_factor)
     enlarged = enlarged * enlarge_factor
 
-    log.debug(f"orig_grid_size={len(lines)}")
     grid = Grid(enlarged)
-    orig_grid_size = len(lines)
-
     mid_y = grid.height // 2
     max_dist_samples = (enlarge_factor // 2) * orig_grid_size
     if max_dist % 2 != max_dist_samples % 2:
@@ -68,13 +98,19 @@ def star2(lines: list[str], max_dist: int, enlarge_factor: int = 51):
 
     # y: [results for each dist]
     grid_results = []
-    row_results_map = defaultdict(list)
+    last_row_results_maps = {
+        "N": defaultdict(list),
+        "S": defaultdict(list),
+    }
     row_diff_maps = {
         "N": defaultdict(str),
         "S": defaultdict(str),
     }
+    rseq_maps = {
+        "N": {},
+        "S": {},
+    }
 
-    # TODO I'm counting the mid row twice !!
     def count_visited(y) -> int:
         return sum(1 for cell in grid.rows[y][mid_y - dist:mid_y + dist + 1] if cell.value == "x")
 
@@ -82,13 +118,14 @@ def star2(lines: list[str], max_dist: int, enlarge_factor: int = 51):
         log.debug(f"dist={dist}, result={result}")
         grid_results.append(result)
 
-        for i in range(0, dist, 1):
+        for i in range(dist):
             for direction, row_diff_map in row_diff_maps.items():
                 y = mid_y + i if direction == "S" else mid_y - i
                 row_visited = count_visited(y)
-                if len(row_results_map[y]):
-                    row_diff_map[y] += str(row_visited - row_results_map[y][-1])
-                row_results_map[y].append(row_visited)
+                last_row_visited = last_row_results_maps[direction][y][-1] if len(
+                    last_row_results_maps[direction][y]) else 0
+                row_diff_map[y] += str(row_visited - last_row_visited)
+                last_row_results_maps[direction][y].append(row_visited)
 
     log.debug(f"grid_results={grid_results}")
 
@@ -99,15 +136,16 @@ def star2(lines: list[str], max_dist: int, enlarge_factor: int = 51):
         samples_count = len(row_diff_map)
         log.debug(f"row_diff_map-{direction}={row_diff_map.items()}")
         log.debug(f"samples collected: {samples_count}")
-        assert samples_count > 4 * orig_grid_size, f"Not enough samples collected: {samples_count}"
+        assert samples_count > 3 * orig_grid_size, f"Not enough samples collected: {samples_count}"
 
         # make sure we have repeating sequences for each row
         for y, row_diffs in row_diff_map.items():
-            first_index, r_seq_size = find_rsequence(row_diffs, pattern_size=orig_grid_size, confidence=2)
-            assert first_index >= 0, f"Repeating sequence not found, y={y}, row_diffs={row_diffs}"
-            assert r_seq_size <= orig_grid_size, f"Repeating sequence too large, y={y}, r_seq_size={r_seq_size}"
-            assert first_index <= 2 * orig_grid_size, f"First index too high, y={y}, first_index={first_index}"
-            log.debug(f"y={y}, first_index={first_index}, r_seq_size={r_seq_size}")
+            rseq = find_rsequence(list(map(int, row_diffs)), pattern_size=orig_grid_size, confidence=2)
+            assert rseq.first_index >= 0, f"Repeating sequence not found, y={y}, row_diffs={row_diffs}"
+            assert rseq.rsize <= orig_grid_size, f"Repeating sequence too large, y={y}, r_seq_size={rseq.rsize}"
+            assert rseq.first_index <= 2 * orig_grid_size, f"First index too high, y={y}, first_index={rseq.first_index}"
+            log.debug(f"y={y}, first_index={rseq.first_index}, r_seq_size={rseq.rsize}")
+            rseq_maps[direction][y] = rseq
 
         no_match_count = 0
         row_diff_map_reverted = sorted(row_diff_map.items(), reverse=True)
@@ -124,32 +162,32 @@ def star2(lines: list[str], max_dist: int, enlarge_factor: int = 51):
                 no_match_count += 1
                 log.debug(f"NO MATCH FOUND")
 
-        log.debug(f"no_match_count={no_match_count}, mid_y={mid_y}, samples_count={samples_count}")
+        log.info(f"no_match_count={no_match_count}, mid_y={mid_y}, samples_count={samples_count}")
         assert no_match_count <= 2 * orig_grid_size, f"Too many mismatches: {no_match_count}"
 
-    total = 0
-    for direction, row_diff_map in row_diff_maps.items():
-        for i in range(max_dist):
-            total_items = max_dist - i
-            y = mid_y + i if direction == "S" else mid_y - i
-            total += sum_rsequence(list(map(int, row_diff_map[y])), total_items, pattern_size=orig_grid_size,
-                                   confidence=2)
+        log.info(f"rseqs-{direction}")
+        for y, rseq in rseq_maps[direction].items():
+            log.info(f"{y};{rseq.first_index};{rseq.seq}")
 
-    total -= sum_rsequence(list(map(int, row_diff_maps["S"][mid_y])), max_dist, pattern_size=orig_grid_size,
-                           confidence=2)
+    for direction in ["N", "S"]:
+        for i in range(max_dist + 1):
+            if i % 50_000 == 0:
+                log.info(f"PROGRESS i={i}, total={total}")
+
+            total_items = math.ceil((max_dist - i) / 2)
+            offset = i
+            if offset > no_match_count + 2 * orig_grid_size:
+                offset = no_match_count + (i - no_match_count) % (2 * orig_grid_size)
+
+            y = mid_y + offset if direction == "S" else mid_y - offset
+
+            rseq = rseq_maps[direction][y]
+            subtotal = rseq.rsum(total_items)
+            log.debug(f"y={y}, total_items={total_items}, subtotal={subtotal}, rseq={rseq}")
+            total += subtotal
+
+    total -= rseq_maps["S"][mid_y].rsum(total_items=math.ceil(max_dist / 2))
     return total
-
-    # diffs = []
-    # for grid_result in grid_results:
-    #     diffs.append(grid_result)
-    #     if len(diffs) > 1:
-    #         diffs[-1] = abs(diffs[-2] - diffs[-1])
-    # del diffs[:no_match_count]
-    #
-    # log.debug(f"grid_result={grid_results}")
-    # log.debug(f"diffs={diffs}")
-    # # first, size = find_rsequence(diffs, pattern_size=25, confidence=2)
-    # # log.debug(f"first={first}, size={size}")
 
 
 def _solve(grid, max_dist: int):
@@ -181,10 +219,11 @@ def _solve(grid, max_dist: int):
 
 
 if __name__ == "__main__":
-    log.setLevel(logging.DEBUG)
+    log.setLevel(logging.INFO)
     # timed_run("Star 1", lambda: star1(read_input(__file__), max_dist=64))
-    timed_run("Star 2", lambda: star2(read_input(__file__, "input-test.txt"), max_dist=50, enlarge_factor=51))
-    # timed_run("Star 2", lambda: star2(read_input(__file__, "input.txt"), max_dist=26501365, enlarge_factor=21))
+    # timed_run("Star 2", lambda: star2(read_input(__file__, "input-test.txt"), max_dist=500, enlarge_factor=51))
+    # timed_run("Star 2", lambda: star2(read_input(__file__, "input.txt"), max_dist=26501365, enlarge_factor=19))
+    timed_run("Star 2", lambda: star2(read_input(__file__, "input.txt"), max_dist=64, enlarge_factor=21))
 
     # Star 1: 3598
     # Star 2:

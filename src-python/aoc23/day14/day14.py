@@ -33,9 +33,9 @@ def star2(lines: list[str]):
         samples.append(load)
 
     # detect repeating sequence
-    seq_start, seq_size = find_rsequence(samples, PATTERN_SIZE, confidence=2)
+    rseq = find_rsequence(samples, PATTERN_SIZE, confidence=2)
 
-    correct_sample_index = seq_start + ((1000000000 - seq_start) % seq_size) - 1
+    correct_sample_index = rseq.first_index + ((1000000000 - rseq.first_index) % rseq.rsize) - 1
     return samples[correct_sample_index]
 
 

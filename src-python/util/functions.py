@@ -1,6 +1,67 @@
-from typing import Deque, List, Tuple, Any, Union, Sequence
+from dataclasses import dataclass
+from typing import Deque, List, Any, Union, Sequence, Optional
 
 from util.log import log
+
+
+# TODO Generics
+@dataclass(frozen=True)
+class RSequence:
+    seq: Sequence[Any]
+    first_index: int
+
+    @property
+    def rsize(self) -> int:
+        return len(self.seq) - self.first_index
+
+    # TODO Add Python way [] __item__? Add __len__ and generators
+    def get_item(self, index: int) -> Any:
+        """
+        First detects a repeating sequence in the given list, then sums the given number of items.
+        :return: sum of the given number of items
+        >>> test_seq = [0,1,0,1,2,3]
+        >>> RSequence(test_seq, first_index=3).get_item(index=2)
+        0
+        >>> RSequence(test_seq, first_index=3).get_item(index=4)
+        2
+        >>> RSequence(test_seq, first_index=3).get_item(index=len(test_seq))
+        1
+        >>> RSequence(test_seq, first_index=3).get_item(index=len(test_seq) + 1)
+        2
+        >>> RSequence(test_seq, first_index=3).get_item(index=len(test_seq) + 2)
+        3
+        """
+        if index < len(self.seq):
+            return self.seq[index]
+        else:
+            reminder_size = (index - self.first_index) % self.rsize
+            return self.seq[self.first_index + reminder_size]
+
+    def rsum(self, total_items: int) -> int:
+        """
+        First detects a repeating sequence in the given list, then sums the given number of items.
+        :return: sum of the given number of items
+        >>> test_seq = [0,1,0,1,2,3]
+        >>> RSequence(test_seq, first_index=3).rsum(total_items=2)
+        1
+        >>> RSequence(test_seq, first_index=3).rsum(total_items=4)
+        2
+        >>> RSequence(test_seq, first_index=3).rsum(total_items=6)
+        7
+        >>> RSequence(test_seq, first_index=3).rsum(total_items=len(test_seq) + 2)
+        10
+        """
+        if total_items <= len(self.seq):
+            return sum(self.seq[:total_items])
+        else:
+            r_seq_count = (total_items - self.first_index) // self.rsize
+            r_seq_sum = sum(self.seq[self.first_index:self.first_index + self.rsize])
+            reminder_size = (total_items - self.first_index) % self.rsize
+            reminder_sum = sum(self.seq[self.first_index:self.first_index + reminder_size])
+            return sum(self.seq[:self.first_index]) + r_seq_count * r_seq_sum + reminder_sum
+
+    def __repr__(self):
+        return f"first_index={self.first_index}, rseq_size={self.rsize}"
 
 
 def signum(x: int) -> int:
@@ -28,19 +89,19 @@ def circular_shift(deq: Deque, index, steps) -> None:
         deq.insert(new_index, element)
 
 
-def find_rsequence(seq: Union[str | List[Any]], pattern_size: int, confidence: int = 3) -> Tuple[int, int]:
+def find_rsequence(seq: Union[str | List[Any]], pattern_size: int, confidence: int = 3) -> Optional[RSequence]:
     """
     Detect a repeating sequence in the given list. By default, requires at least 3 occurences
     of the pattern (confidence).
     :return: first index of the repeating sequence, sequence size
     >>> find_rsequence([8,1,2,3,1,2,3,1,2,3], pattern_size=2, confidence=3)
-    (1, 3)
+    first_index=1, rseq_size=3
     >>> find_rsequence([1,2,3,4,5,6,1,2,3,4,5,6,1,2,3,4,5,6], pattern_size=2)
-    (0, 6)
+    first_index=0, rseq_size=6
     >>> find_rsequence("ffabcdabcd", pattern_size=2, confidence=2)
-    (2, 4)
+    first_index=2, rseq_size=4
     >>> find_rsequence([1,2,3,4,8,6,1,2,4,4,5,6,1,2,3,4,5,6], pattern_size=6)
-    (-1, 0)
+
     """
     assert confidence > 1, "Confidence must be at least 2"
 
@@ -56,88 +117,25 @@ def find_rsequence(seq: Union[str | List[Any]], pattern_size: int, confidence: i
                 break
 
     if len(matches) < confidence:
-        return -1, 0
+        return None
 
-    r_seq_size = matches[1] - matches[0]
+    rseq_size = matches[1] - matches[0]
     for i in range(2, confidence):
-        assert matches[i] - matches[i - 1] == r_seq_size, \
+        assert matches[i] - matches[i - 1] == rseq_size, \
             "Repeating pattern is not repeating, try a larger pattern size"
 
-    r_seq_size = matches[1] - matches[0]
+    rseq_size = matches[1] - matches[0]
     r_seq = seq[matches[0]:matches[1]]
-    log.debug(f"Repeating sequence of size {r_seq_size} detected: {r_seq}")
+    log.debug(f"Repeating sequence of size {rseq_size} detected: {r_seq}")
 
     first_index = matches[0]
-    for i in range(1, r_seq_size):
-        shifted_repeating_seq = r_seq[-i:] + r_seq[:r_seq_size - i]
+    for i in range(1, rseq_size):
+        shifted_repeating_seq = r_seq[-i:] + r_seq[:rseq_size - i]
         for seq_i in range(first_index):
-            test = seq[seq_i:seq_i + r_seq_size]
+            test = seq[seq_i:seq_i + rseq_size]
             if shifted_repeating_seq == test:
                 first_index = seq_i
                 log.debug(f"New repeating sequence start index found: {first_index}")
                 break
 
-    return first_index, r_seq_size
-
-
-def get_rsequence_item(seq: Union[str | List[Any]],
-                       seq_index: int,
-                       pattern_size: int,
-                       confidence: int = 3) -> int:
-    """
-    First detects a repeating sequence in the given list, then sums the given number of items.
-    :return: sum of the given number of items
-    >>> get_rsequence_item([0,1,0,1,2,3,1,2,3,1,2,3], seq_index=2, pattern_size=3)
-    0
-    >>> get_rsequence_item([0,1,0,1,2,3,1,2,3,1,2,3], seq_index=4, pattern_size=3)
-    2
-    >>> test_seq = [0,1,0,1,2,3,1,2,3,1,2,3]
-    >>> get_rsequence_item(test_seq, seq_index=len(test_seq), pattern_size=3)
-    1
-    >>> get_rsequence_item(test_seq, seq_index=len(test_seq) + 1, pattern_size=3)
-    2
-    >>> get_rsequence_item(test_seq, seq_index=len(test_seq) + 2, pattern_size=3)
-    3
-    """
-    first_index, r_seq_size = find_rsequence(seq, pattern_size=pattern_size, confidence=confidence)
-    assert first_index >= 0, "Repeating sequence not found"
-
-    if seq_index < len(seq):
-        return seq[seq_index]
-    else:
-        reminder_size = (seq_index - first_index) % r_seq_size
-        return seq[first_index + reminder_size]
-
-
-def sum_rsequence(seq: Union[str | Sequence[Any]],
-                  total_items: int,
-                  pattern_size: int,
-                  confidence: int = 3) -> int:
-    """
-    First detects a repeating sequence in the given list, then sums the given number of items.
-    :return: sum of the given number of items
-    >>> sum_rsequence([2,2,2,2,2], total_items=2, pattern_size=2)
-    4
-    >>> sum_rsequence([2,2,2,2,2], total_items=8, pattern_size=2)
-    16
-    >>> sum_rsequence([0,1,0,1,2,3,1,2,3,1,2,3], total_items=2, pattern_size=3)
-    1
-    >>> sum_rsequence([0,1,0,1,2,3,1,2,3,1,2,3], total_items=6, pattern_size=3)
-    7
-    >>> sum_rsequence([0,1,0,1,2,3,1,2,3,1,2,3], total_items=7, pattern_size=3)
-    8
-    >>> test_seq = [0,1,0,1,2,3,1,2,3,1,2,3]
-    >>> sum_rsequence(test_seq, total_items=len(test_seq) + 1, pattern_size=3)
-    20
-    """
-    first_index, r_seq_size = find_rsequence(seq, pattern_size=pattern_size, confidence=confidence)
-    assert first_index >= 0, "Repeating sequence not found"
-
-    if total_items <= len(seq):
-        return sum(seq[:total_items])
-    else:
-        r_seq_count = (total_items - first_index) // r_seq_size
-        r_seq_sum = sum(seq[first_index:first_index + r_seq_size])
-        reminder_size = (total_items - first_index) % r_seq_size
-        reminder_sum = sum(seq[first_index:first_index + reminder_size])
-        return sum(seq[:first_index]) + r_seq_count * r_seq_sum + reminder_sum
+    return RSequence(seq[:first_index + rseq_size], first_index)
