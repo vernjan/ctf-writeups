@@ -48,16 +48,26 @@ class GridCell(Generic[T]):
 
 class Grid(Generic[T]):
 
-    def __init__(self, rows: List[Sequence], padding_size=0, padding_symbol=EMPTY_SYMBOL) -> None:
+    def __init__(self, rows: List[Sequence], padding_size=0, enlarge_factor=1, padding_symbol=EMPTY_SYMBOL) -> None:
         """
-        >>> Grid([[1,2]], padding_size=2, padding_symbol="@")
-        @@@@@@
-        @@@@@@
-        @@12@@
-        @@@@@@
-        @@@@@@
+        >>> Grid([[1,2],[3,4]], padding_size=2, enlarge_factor=3, padding_symbol="@")
+        @@@@@@@@@@
+        @@@@@@@@@@
+        @@121212@@
+        @@343434@@
+        @@121212@@
+        @@343434@@
+        @@121212@@
+        @@343434@@
+        @@@@@@@@@@
+        @@@@@@@@@@
         """
         assert rows, "No data"
+
+        enlarged_rows: List[Sequence] = []
+        for row in rows:
+            enlarged_rows.append(row * enlarge_factor)
+        rows = enlarged_rows * enlarge_factor
 
         self.width = len(rows[0])
         self.height = len(rows)
