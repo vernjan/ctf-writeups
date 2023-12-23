@@ -24,31 +24,42 @@ def star1(lines: list[str], max_dist: int):
     """
     >>> star1(read_test_input(__file__, "input-test.txt"), max_dist=6)
     16
+    >>> star1(read_input(__file__), max_dist=32)
+    902
+    >>> star1(read_input(__file__), max_dist=64)
+    3598
+    >>> star1(read_input(__file__), max_dist=1)
+    4
+    >>> star1(read_input(__file__), max_dist=2)
+    7
+    >>> star1(read_test_input(__file__), max_dist=1)
+    2
+    >>> star1(read_test_input(__file__), max_dist=2)
+    4
+    >>> star1(read_input(__file__), max_dist=499)
+    214288
+    >>> star1(read_input(__file__), max_dist=500)
+    215119
     """
-    grid = Grid(lines)
+
+    enlarged = []
+    for line in lines:
+        enlarged.append(line * 9)
+    enlarged = enlarged * 9
+
+    grid = Grid(enlarged)
     _, result = list(_solve(grid, max_dist))[-1]
     # log.debug(result)
     # log.debug(grid)
     return result
 
 
-# >>> star2(read_test_input(__file__), max_dist=6)
-# 16
-# >>> star2(read_test_input(__file__), max_dist=10)
-# 50
-# >>> star2(read_test_input(__file__), max_dist=50)
-# 1594
-# >>> star2(read_test_input(__file__), max_dist=100)
-# 6536
-# >>> star2(read_test_input(__file__), max_dist=500)
-# 167004
-# >>> star2(read_test_input(__file__), max_dist=1000)
-# 668697
-# >>> star2(read_test_input(__file__), max_dist=5000)
-# 16733044
-
-def star2(lines: list[str], max_dist: int, enlarge_factor: int = 51):
+def star2(lines: list[str], max_dist: int, enlarge_factor: int = 21):
     """
+    >>> star1(read_test_input(__file__), max_dist=1)
+    2
+    >>> star1(read_test_input(__file__), max_dist=2)
+    4
     >>> star2(read_test_input(__file__), max_dist=3)
     6
     >>> star2(read_test_input(__file__), max_dist=5)
@@ -63,26 +74,40 @@ def star2(lines: list[str], max_dist: int, enlarge_factor: int = 51):
     167004
     >>> star2(read_test_input(__file__), max_dist=5000)
     16733044
+    >>> star2(read_input(__file__), max_dist=1, enlarge_factor=1)
+    4
+    >>> star2(read_input(__file__), max_dist=2, enlarge_factor=17)
+    7
+    >>> star2(read_input(__file__), max_dist=32, enlarge_factor=17)
+    902
+    >>> star2(read_input(__file__), max_dist=64, enlarge_factor=17)
+    3598
+    >>> star2(read_input(__file__), max_dist=128, enlarge_factor=17)
+    14219
+    >>> star2(read_input(__file__), max_dist=499, enlarge_factor=17)
+    214288
+    >>> star2(read_input(__file__), max_dist=500, enlarge_factor=17)
+    215119
     """
 
     # rseq_maps = {
     #     "N": {},
     #     "S": {},
     # }
-    # rseq_lines = read_test_input(__file__, "rseq.txt")
+    # rseq_lines = read_test_input(__file__, "rseq-EVEN.txt")
     # for i, rseq_line in enumerate(rseq_lines):
     #     direction = "N" if i < len(rseq_lines) // 2 else "S"
     #     y, first_index, rseq = rseq_line.split(";")
     #     rseq_maps[direction][int(y)] = RSequence(list(map(int, rseq[1:-1].split(","))), first_index=int(first_index))
     #
-    # log.info(f"rseq_maps={rseq_maps}")
-    # mid_y = int(rseq_lines[0].split(";")[0])
+    # mid_y = int(rseq_lines[len(rseq_lines) // 2].split(";")[0])
+    # rseq_maps["N"][mid_y] = rseq_maps["S"][mid_y]
 
     orig_grid_size = len(lines)
     no_match_count = 0
     total = 0
 
-    # TODO Move into Grid
+    # # TODO Move into Grid
     enlarged = []
     for line in lines:
         enlarged.append(line * enlarge_factor)
@@ -118,7 +143,7 @@ def star2(lines: list[str], max_dist: int, enlarge_factor: int = 51):
         log.debug(f"dist={dist}, result={result}")
         grid_results.append(result)
 
-        for i in range(dist):
+        for i in range(dist + 1):
             for direction, row_diff_map in row_diff_maps.items():
                 y = mid_y + i if direction == "S" else mid_y - i
                 row_visited = count_visited(y)
@@ -166,15 +191,23 @@ def star2(lines: list[str], max_dist: int, enlarge_factor: int = 51):
         assert no_match_count <= 2 * orig_grid_size, f"Too many mismatches: {no_match_count}"
 
         log.info(f"rseqs-{direction}")
+        f = open("rseq.txt", "w")
         for y, rseq in rseq_maps[direction].items():
-            log.info(f"{y};{rseq.first_index};{rseq.seq}")
+            f.write(f"{y};{rseq.first_index};{rseq.seq}\n")
+        f.close()
+
+    assert rseq_maps["S"][mid_y] == rseq_maps["N"][mid_y]
 
     for direction in ["N", "S"]:
         for i in range(max_dist + 1):
-            if i % 50_000 == 0:
+            if i % 100_000 == 0:
                 log.info(f"PROGRESS i={i}, total={total}")
 
-            total_items = math.ceil((max_dist - i) / 2)
+            if i <= 2 and max_dist % 2 == 0:
+                total_items = max_dist // 2
+            else:
+                total_items = (max_dist - i) // 2 + 1
+
             offset = i
             if offset > no_match_count + 2 * orig_grid_size:
                 offset = no_match_count + (i - no_match_count) % (2 * orig_grid_size)
@@ -183,7 +216,7 @@ def star2(lines: list[str], max_dist: int, enlarge_factor: int = 51):
 
             rseq = rseq_maps[direction][y]
             subtotal = rseq.rsum(total_items)
-            log.debug(f"y={y}, total_items={total_items}, subtotal={subtotal}, rseq={rseq}")
+            log.debug(f"y={y}, total_items={total_items}, subtotal={subtotal}, rseq={rseq.seq}[{rseq.first_index}:]")
             total += subtotal
 
     total -= rseq_maps["S"][mid_y].rsum(total_items=math.ceil(max_dist / 2))
@@ -220,10 +253,8 @@ def _solve(grid, max_dist: int):
 
 if __name__ == "__main__":
     log.setLevel(logging.INFO)
-    # timed_run("Star 1", lambda: star1(read_input(__file__), max_dist=64))
-    # timed_run("Star 2", lambda: star2(read_input(__file__, "input-test.txt"), max_dist=500, enlarge_factor=51))
-    # timed_run("Star 2", lambda: star2(read_input(__file__, "input.txt"), max_dist=26501365, enlarge_factor=19))
-    timed_run("Star 2", lambda: star2(read_input(__file__, "input.txt"), max_dist=64, enlarge_factor=21))
+    timed_run("Star 1", lambda: star1(read_input(__file__), max_dist=64))
+    timed_run("Star 2", lambda: star2(read_input(__file__, "input.txt"), max_dist=26501365, enlarge_factor=21))
 
     # Star 1: 3598
-    # Star 2:
+    # Star 2: 601441063166538

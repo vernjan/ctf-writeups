@@ -60,6 +60,7 @@ class RSequence:
             reminder_sum = sum(self.seq[self.first_index:self.first_index + reminder_size])
             return sum(self.seq[:self.first_index]) + r_seq_count * r_seq_sum + reminder_sum
 
+    # TODO "self.seq[index:]"
     def __repr__(self):
         return f"first_index={self.first_index}, rseq_size={self.rsize}"
 
