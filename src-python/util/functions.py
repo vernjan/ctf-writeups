@@ -1,62 +1,9 @@
-from _ast import TypeVar
 from dataclasses import dataclass
-from typing import Deque, List, Any, Union, Sequence, Optional
+from typing import Deque, List, Any, Union, Sequence, Optional, TypeVar
 
 from util.log import log
 
 T = TypeVar("T")
-
-
-def find_rsequence(seq: Union[str | List[Any]], pattern_size: int, confidence: int = 3) -> Optional[RSequence]:
-    """
-    Detect a repeating sequence in the given list. By default, requires at least 3 occurences
-    of the pattern (confidence).
-    :return: first index of the repeating sequence, sequence size
-    >>> find_rsequence([8,1,2,3,1,2,3,1,2,3], pattern_size=2, confidence=3)
-    [8, 1, 2, 3][1:]
-    >>> find_rsequence([1,2,3,4,5,6,1,2,3,4,5,6,1,2,3,4,5,6], pattern_size=2)
-    [1, 2, 3, 4, 5, 6][0:]
-    >>> find_rsequence("ffabcdabcd", pattern_size=2, confidence=2)
-    ffabcd[2:]
-    >>> find_rsequence([1,2,3,4,8,6,1,2,4,4,5,6,1,2,3,4,5,6], pattern_size=6)
-
-    """
-    assert confidence > 1, "Confidence must be at least 2"
-
-    pattern = seq[len(seq) - pattern_size:]  # take last elements, best chance the sequence is already repeating
-    log.debug(f"Looking for repeating pattern {pattern}")
-    matches = []
-    for seq_i in range(len(seq)):
-        test = seq[seq_i:seq_i + pattern_size]
-        if pattern == test:
-            log.debug(f"Repeating pattern {pattern} found at {seq_i}")
-            matches.append(seq_i)
-            if len(matches) == confidence:
-                break
-
-    if len(matches) < confidence:
-        return None
-
-    rseq_size = matches[1] - matches[0]
-    for i in range(2, confidence):
-        assert matches[i] - matches[i - 1] == rseq_size, \
-            "Repeating pattern is not repeating, try a larger pattern size"
-
-    rseq_size = matches[1] - matches[0]
-    r_seq = seq[matches[0]:matches[1]]
-    log.debug(f"Repeating sequence of size {rseq_size} detected: {r_seq}")
-
-    first_index = matches[0]
-    for i in range(1, rseq_size):
-        shifted_repeating_seq = r_seq[-i:] + r_seq[:rseq_size - i]
-        for seq_i in range(first_index):
-            test = seq[seq_i:seq_i + rseq_size]
-            if shifted_repeating_seq == test:
-                first_index = seq_i
-                log.debug(f"New repeating sequence start index found: {first_index}")
-                break
-
-    return RSequence(seq[:first_index + rseq_size], first_index)
 
 
 @dataclass(frozen=True)
@@ -115,6 +62,58 @@ class RSequence:
 
     def __repr__(self):
         return f"{self.seq}[{self.first_index}:]"
+
+
+def find_rsequence(seq: Union[str | List[Any]], pattern_size: int, confidence: int = 3) -> Optional[RSequence]:
+    """
+    Detect a repeating sequence in the given list. By default, requires at least 3 occurences
+    of the pattern (confidence).
+    :return: first index of the repeating sequence, sequence size
+    >>> find_rsequence([8,1,2,3,1,2,3,1,2,3], pattern_size=2, confidence=3)
+    [8, 1, 2, 3][1:]
+    >>> find_rsequence([1,2,3,4,5,6,1,2,3,4,5,6,1,2,3,4,5,6], pattern_size=2)
+    [1, 2, 3, 4, 5, 6][0:]
+    >>> find_rsequence("ffabcdabcd", pattern_size=2, confidence=2)
+    ffabcd[2:]
+    >>> find_rsequence([1,2,3,4,8,6,1,2,4,4,5,6,1,2,3,4,5,6], pattern_size=6)
+
+    """
+    assert confidence > 1, "Confidence must be at least 2"
+
+    pattern = seq[len(seq) - pattern_size:]  # take last elements, best chance the sequence is already repeating
+    log.debug(f"Looking for repeating pattern {pattern}")
+    matches = []
+    for seq_i in range(len(seq)):
+        test = seq[seq_i:seq_i + pattern_size]
+        if pattern == test:
+            log.debug(f"Repeating pattern {pattern} found at {seq_i}")
+            matches.append(seq_i)
+            if len(matches) == confidence:
+                break
+
+    if len(matches) < confidence:
+        return None
+
+    rseq_size = matches[1] - matches[0]
+    for i in range(2, confidence):
+        assert matches[i] - matches[i - 1] == rseq_size, \
+            "Repeating pattern is not repeating, try a larger pattern size"
+
+    rseq_size = matches[1] - matches[0]
+    r_seq = seq[matches[0]:matches[1]]
+    log.debug(f"Repeating sequence of size {rseq_size} detected: {r_seq}")
+
+    first_index = matches[0]
+    for i in range(1, rseq_size):
+        shifted_repeating_seq = r_seq[-i:] + r_seq[:rseq_size - i]
+        for seq_i in range(first_index):
+            test = seq[seq_i:seq_i + rseq_size]
+            if shifted_repeating_seq == test:
+                first_index = seq_i
+                log.debug(f"New repeating sequence start index found: {first_index}")
+                break
+
+    return RSequence(seq[:first_index + rseq_size], first_index)
 
 
 def signum(x: int) -> int:

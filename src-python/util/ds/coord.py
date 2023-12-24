@@ -3,6 +3,8 @@ from dataclasses import dataclass
 from math import inf
 from typing import List
 
+from sortedcontainers import SortedSet
+
 
 @dataclass(frozen=True)
 class Direction:
@@ -78,7 +80,7 @@ class Xy:
         return f"({self.x},{self.y})"
 
     def __lt__(self, other):
-        if self.y == other.y:
+        if self.x != other.x:
             return self.x < other.x
         return self.y < other.y
 
@@ -170,6 +172,13 @@ class Xyz:
     def __repr__(self) -> str:
         return f"({self.x},{self.y},{self.z})"
 
+    def __lt__(self, other):
+        if self.x != other.x:
+            return self.x < other.x
+        if self.y != other.y:
+            return self.y < other.y
+        return self.z < other.z
+
     def neighbors(self, side=True, edge=False, corner=False,
                   min_x=-inf, max_x=inf, min_y=-inf, max_y=inf, min_z=-inf, max_z=inf) -> List["Xyz"]:
         """
@@ -195,3 +204,50 @@ class Xyz:
 
         return [xyz for xyz in neighbors if
                 min_x <= xyz.x <= max_x and min_y <= xyz.y <= max_y and min_z <= xyz.z <= max_z]
+
+
+@dataclass(frozen=True)
+class Cube:
+    p1: Xyz
+    p2: Xyz
+
+    def __repr__(self):
+        return f"{self.p1}~{self.p2}"
+
+    def z_inc(self, step: int = 1) -> "Cube":
+        return Cube(Xyz(self.p1.x, self.p1.y, self.p1.z + step), Xyz(self.p2.x, self.p2.y, self.p2.z + step))
+
+    def z_dec(self, step: int = -1) -> "Cube":
+        return Cube(Xyz(self.p1.x, self.p1.y, self.p1.z - step), Xyz(self.p2.x, self.p2.y, self.p2.z - step))
+
+    def positions(self) -> SortedSet[Xyz]:
+        """
+        >>> Cube(Xyz(0,0,0), Xyz(0,0,0)).positions()
+        SortedSet([(0,0,0)])
+        >>> Cube(Xyz(0,0,0), Xyz(2,0,0)).positions()
+        SortedSet([(0,0,0), (1,0,0), (2,0,0)])
+        >>> Cube(Xyz(0,0,0), Xyz(1,1,1)).positions()
+        SortedSet([(0,0,0), (0,0,1), (0,1,0), (0,1,1), (1,0,0), (1,0,1), (1,1,0), (1,1,1)])
+        """
+        positions = SortedSet()
+        for x in range(self.p1.x, self.p2.x + 1):
+            for y in range(self.p1.y, self.p2.y + 1):
+                for z in range(self.p1.z, self.p2.z + 1):
+                    positions.add(Xyz(x, y, z))
+        return positions
+
+    # TODO Could be generic for all axis
+    def xy_positions(self) -> SortedSet[Xy]:
+        """
+        >>> Cube(Xyz(0,0,0), Xyz(0,0,0)).xy_positions()
+        SortedSet([(0,0)])
+        >>> Cube(Xyz(0,0,0), Xyz(2,0,0)).xy_positions()
+        SortedSet([(0,0), (1,0), (2,0)])
+        >>> Cube(Xyz(0,0,0), Xyz(1,1,1)).xy_positions()
+        SortedSet([(0,0), (0,1), (1,0), (1,1)])
+        """
+        positions = SortedSet()
+        for x in range(self.p1.x, self.p2.x + 1):
+            for y in range(self.p1.y, self.p2.y + 1):
+                positions.add(Xy(x, y))
+        return positions
