@@ -1,5 +1,6 @@
 import re
 from dataclasses import dataclass
+from functools import cached_property
 from math import inf
 from typing import List
 
@@ -220,13 +221,14 @@ class Cube:
     def z_dec(self, step: int = -1) -> "Cube":
         return Cube(Xyz(self.p1.x, self.p1.y, self.p1.z - step), Xyz(self.p2.x, self.p2.y, self.p2.z - step))
 
+    @cached_property
     def positions(self) -> SortedSet[Xyz]:
         """
-        >>> Cube(Xyz(0,0,0), Xyz(0,0,0)).positions()
+        >>> Cube(Xyz(0,0,0), Xyz(0,0,0)).positions
         SortedSet([(0,0,0)])
-        >>> Cube(Xyz(0,0,0), Xyz(2,0,0)).positions()
+        >>> Cube(Xyz(0,0,0), Xyz(2,0,0)).positions
         SortedSet([(0,0,0), (1,0,0), (2,0,0)])
-        >>> Cube(Xyz(0,0,0), Xyz(1,1,1)).positions()
+        >>> Cube(Xyz(0,0,0), Xyz(1,1,1)).positions
         SortedSet([(0,0,0), (0,0,1), (0,1,0), (0,1,1), (1,0,0), (1,0,1), (1,1,0), (1,1,1)])
         """
         positions = SortedSet()
@@ -237,13 +239,15 @@ class Cube:
         return positions
 
     # TODO Could be generic for all axis
+    # TODO fix doctest for cached property
+    @cached_property
     def xy_positions(self) -> SortedSet[Xy]:
         """
-        >>> Cube(Xyz(0,0,0), Xyz(0,0,0)).xy_positions()
+        >>> Cube(Xyz(0,0,0), Xyz(0,0,0)).xy_positions
         SortedSet([(0,0)])
-        >>> Cube(Xyz(0,0,0), Xyz(2,0,0)).xy_positions()
+        >>> Cube(Xyz(0,0,0), Xyz(2,0,0)).xy_positions
         SortedSet([(0,0), (1,0), (2,0)])
-        >>> Cube(Xyz(0,0,0), Xyz(1,1,1)).xy_positions()
+        >>> Cube(Xyz(0,0,0), Xyz(1,1,1)).xy_positions
         SortedSet([(0,0), (0,1), (1,0), (1,1)])
         """
         positions = SortedSet()
