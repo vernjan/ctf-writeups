@@ -2,7 +2,7 @@ import re
 from dataclasses import dataclass
 from functools import cached_property
 from math import inf
-from typing import List
+from typing import List, Tuple, Union
 
 from sortedcontainers import SortedSet
 
@@ -129,20 +129,38 @@ class Xy:
         else:
             raise ValueError(f"Unknown direction: {direction}")
 
-    def neighbors(self, side=True, diagonal=False, min_x=-inf, max_x=inf, min_y=-inf, max_y=inf) -> List["Xy"]:
+    def neighbors(self,
+                  side=True,
+                  diagonal=False,
+                  include_directions=False,
+                  min_x=-inf, max_x=inf, min_y=-inf, max_y=inf) -> Union[List["Xy"], List[Tuple[Direction, "Xy"]]]:
         """
         >>> Xy(0,1).neighbors()
         [(0,0), (1,1), (0,2), (-1,1)]
+        >>> Xy(0,1).neighbors(include_directions=True)
+        [(north, (0,0)), (east, (1,1)), (south, (0,2)), (west, (-1,1))]
         >>> Xy(0,1).neighbors(min_x=0, max_x=2, min_y=0, max_y=2)
         [(0,0), (1,1), (0,2)]
         """
         neighbors = []
         if side:
-            neighbors.extend([self.north(), self.east(), self.south(), self.west()])
+            neighbors.extend([
+                (NORTH, self.north()),
+                (EAST, self.east()),
+                (SOUTH, self.south()),
+                (WEST, self.west())
+            ])
         if diagonal:
-            neighbors.extend([self.north_east(), self.south_east(), self.south_west(), self.north_west()])
+            neighbors.extend([
+                (NORTH_EAST, self.north_east()),
+                (SOUTH_EAST, self.south_east()),
+                (SOUTH_WEST, self.south_west()),
+                (NORTH_WEST, self.north_west())
+            ])
 
-        return [xy for xy in neighbors if min_x <= xy.x <= max_x and min_y <= xy.y <= max_y]
+        if include_directions:
+            return [(direction, xy) for direction, xy in neighbors if min_x <= xy.x <= max_x and min_y <= xy.y <= max_y]
+        return [xy for _, xy in neighbors if min_x <= xy.x <= max_x and min_y <= xy.y <= max_y]
 
     def manhattan_dist(self, other):
         """

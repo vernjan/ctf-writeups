@@ -107,4 +107,4 @@ if __name__ == "__main__":
     timed_run("Star 2", lambda: star2(read_input(__file__)))
 
     # Star 1: 534
-    # Star 2:
+    # Star 2: 88156

@@ -1,6 +1,6 @@
 import re
 from itertools import takewhile
-from typing import List, Set, Sequence, Tuple, Generator, TypeVar, Generic
+from typing import List, Set, Sequence, Tuple, Generator, TypeVar, Generic, Union
 
 from util.ds.coord import NORTH, EAST, SOUTH, WEST
 from util.ds.coord import Xy, Direction
@@ -139,8 +139,13 @@ class Grid(Generic[T]):
         self.get_cell(pos).value = value
         return self
 
-    def get_neighbors(self, pos: Xy, side=True, diagonal=False) -> List[Xy]:
-        return pos.neighbors(side, diagonal, min_x=0, max_x=self.width - 1, min_y=0, max_y=self.height - 1)
+    def get_neighbors(self,
+                      pos: Xy,
+                      side=True,
+                      diagonal=False,
+                      include_directions=False) -> Union[List["Xy"], List[Tuple[Direction, "Xy"]]]:
+        return pos.neighbors(
+            side, diagonal, include_directions, min_x=0, max_x=self.width - 1, min_y=0, max_y=self.height - 1)
 
     def _get_cells_between(self, p1: Xy, p2: Xy) -> Generator[GridCell, None, None]:
         # TO-DO mode: rectangle or diagonal
