@@ -123,12 +123,18 @@ class Grid(Generic[T]):
         """
         return self.rows[pos.y][pos.x]
 
+    def __getitem__(self, pos: Xy) -> GridCell[T]:
+        return self.get_cell(pos)
+
     def get_value(self, pos: Xy) -> T:
         """
         >>> Grid([[1,2],[2,3]]).get_value(Xy(1,1))
         3
         """
         return self.get_cell(pos).value
+
+    def __setitem__(self, pos: Xy, value: T) -> None:
+        self.set_value(pos, value)
 
     def set_value(self, pos: Xy, value: T) -> "Grid[T]":
         """
