@@ -2,7 +2,7 @@ import logging
 import pprint
 from collections import defaultdict
 from dataclasses import dataclass, field
-from typing import Set, List, Tuple, Dict
+from typing import Set, List, Dict
 
 from util.data_io import read_input, read_test_input, timed_run
 from util.ds.coord import Xy, NORTH, EAST, SOUTH, WEST, Direction
@@ -15,6 +15,7 @@ SLOPES = {
     "v": SOUTH,
     "<": WEST,
 }
+
 
 # (1,0):    {south: (1,0)->(3,5)},
 # (3,5):    {south: (3,5)->(5,13),
@@ -83,23 +84,20 @@ def _find_junctions(grid: Grid, cond: str) -> Dict[Xy, Dict[Direction, JunctionP
     >>> len(dict(_find_junctions(Grid(read_test_input(__file__)),".<>v^")))
     8
     """
-    junctions = defaultdict(dict)
+    junctions: Dict[Xy, Dict[Direction, JunctionPath]] = defaultdict(dict)
     start_pos = grid.find_first(".")
     end_pos = grid.find_last(".")
-    visited_junctions: Set[Tuple[Xy, Direction]] = set()
     queue = [SearchCtx(start_pos)]
     while queue:
         ctx = queue.pop()
         is_junction_now = False
         if ctx.head in (start_pos, end_pos) or _is_junction(grid, ctx.head):
-            if ctx.head in visited_junctions:
-                continue
             is_junction_now = True
             if ctx.last_junction and ctx.last_junction_dir not in junctions[ctx.last_junction]:
                 junctions[ctx.last_junction][ctx.last_junction_dir] = JunctionPath(ctx.last_junction_path, ctx.head)
 
         for direction, n in grid.get_neighbors(ctx.head, include_directions=True):
-            if n in ctx.visited or (n, direction) in visited_junctions:
+            if n in ctx.visited or junctions[ctx.head].get(direction):
                 continue
             n_val = grid[n].value
             if n_val in cond or n_val in SLOPES and SLOPES[n_val] == direction:
@@ -111,7 +109,7 @@ def _find_junctions(grid: Grid, cond: str) -> Dict[Xy, Dict[Direction, JunctionP
                     last_junction_path=[ctx.head] if is_junction_now else ctx.last_junction_path + [ctx.head],
                 ))
 
-    log.debug(f"Junctions: {pprint.pformat(junctions)}")
+    log.debug(f"Junctions: {pprint.pformat({k: v for k, v in junctions.items() if v})}")
     return junctions
 
 
@@ -142,9 +140,9 @@ def _find_longest_path(grid: Grid, junctions: Dict[Xy, Dict[Direction, JunctionP
 
 
 if __name__ == "__main__":
-    log.setLevel(logging.INFO)
+    log.setLevel(logging.DEBUG)
     timed_run("Star 1", lambda: star1(read_input(__file__)))
-    # timed_run("Star 2", lambda: star2(read_input(__file__)))
+    timed_run("Star 2", lambda: star2(read_input(__file__)))
 
     # Star 1: 2070
-    # Star 2:
+    # Star 2: >= 6162
