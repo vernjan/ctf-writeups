@@ -2,7 +2,7 @@ import logging
 import pprint
 from collections import defaultdict
 from dataclasses import dataclass, field
-from typing import Set, List, Dict
+from typing import Set, List, Dict, FrozenSet
 
 from util.data_io import read_input, read_test_input, timed_run
 from util.ds.coord import Xy, NORTH, EAST, SOUTH, WEST, Direction
@@ -38,10 +38,27 @@ SLOPES = {
 #            north: (21,11)->(11,3),
 #            west: (21,11)->(13,13)}
 
+# REVERSE
+
+# (3,5):    {south: (3,4)->(1,0) (15 steps)},
+# (5,13):   {south: (5,12)->(3,5) (22 steps)},
+# (11,3):   {east: (10,3)->(3,5) (22 steps),
+#            north: (11,4)->(13,13) (24 steps)},
+# (13,13):  {south: (13,12)->(11,3) (24 steps),
+#            east: (12,13)->(5,13) (12 steps),
+#            north: (13,14)->(13,19) (10 steps),
+#            west: (14,13)->(21,11) (18 steps)},
+# (13,19):  {south: (13,18)->(13,13) (10 steps)},
+# (19,19):  {south: (19,18)->(21,11) (10 steps),
+#            east: (18,19)->(13,19) (10 steps)},
+# (21,11):  {east: (21,10)->(11,3) (30 steps),
+#            north: (21,12)->(19,19) (10 steps)},
+# (21,22):  {south: (21,21)->(19,19) (5 steps)}}
 
 @dataclass(frozen=True)
 class SearchCtx:
     head: Xy
+    direction: Direction = None
     visited: Set[Xy] = field(default_factory=set)
     last_junction: Xy = None
     last_junction_dir: Direction = None
@@ -54,7 +71,7 @@ class JunctionPath:
     destination: Xy
 
     def __repr__(self):
-        return f"{self.path[0]}->{self.destination}"
+        return f"{self.path[0]}->{self.destination} ({len(self.path)} steps)"
 
 
 def star1(lines: list[str]):
@@ -75,18 +92,31 @@ def star2(lines: list[str]):
 
 def _solve(lines, cond: str):
     grid = Grid(lines)
-    junctions = _find_junctions(grid, cond)
-    return _find_longest_path(grid, junctions)
+    start_pos = grid.find_first(".")
+    end_pos = grid.find_last(".")
+    junctions = _find_junctions(grid, start_pos=start_pos, end_pos=end_pos, cond=cond)
+
+    # prune junctions
+    reverse_junctions = _find_junctions(grid, start_pos=end_pos, end_pos=start_pos, cond=cond)
+    for pos, dirs in junctions.items():
+        dirs2 = reverse_junctions[pos]
+        # if len(dirs.keys()) > len(dirs2.keys()):
+        if dirs.keys() != dirs2.keys():
+            log.info(f"Junctions mismatch at {pos}: {dirs.keys()} vs {dirs2.keys()}")
+            for k in (dirs2.keys()):
+                if k in dirs:
+                    log.info(f"Removing {k} from {pos}")
+                    # del junctions[pos][k]
+
+    return _find_longest_path(start_pos=start_pos, end_pos=end_pos, junctions=junctions)
 
 
-def _find_junctions(grid: Grid, cond: str) -> Dict[Xy, Dict[Direction, JunctionPath]]:
+def _find_junctions(grid: Grid, start_pos: Xy, end_pos: Xy, cond: str) -> Dict[Xy, Dict[Direction, JunctionPath]]:
     """
     >>> len(dict(_find_junctions(Grid(read_test_input(__file__)),".<>v^")))
     8
     """
     junctions: Dict[Xy, Dict[Direction, JunctionPath]] = defaultdict(dict)
-    start_pos = grid.find_first(".")
-    end_pos = grid.find_last(".")
     queue = [SearchCtx(start_pos)]
     while queue:
         ctx = queue.pop()
@@ -95,6 +125,7 @@ def _find_junctions(grid: Grid, cond: str) -> Dict[Xy, Dict[Direction, JunctionP
             is_junction_now = True
             if ctx.last_junction and ctx.last_junction_dir not in junctions[ctx.last_junction]:
                 junctions[ctx.last_junction][ctx.last_junction_dir] = JunctionPath(ctx.last_junction_path, ctx.head)
+                # junctions[ctx.head][ctx.direction.turn_around()] = JunctionPath(list(reversed(ctx.last_junction_path)), ctx.last_junction)
 
         for direction, n in grid.get_neighbors(ctx.head, include_directions=True):
             if n in ctx.visited or junctions[ctx.head].get(direction):
@@ -103,6 +134,7 @@ def _find_junctions(grid: Grid, cond: str) -> Dict[Xy, Dict[Direction, JunctionP
             if n_val in cond or n_val in SLOPES and SLOPES[n_val] == direction:
                 queue.append(SearchCtx(
                     head=n,
+                    direction=direction,
                     visited=ctx.visited | {ctx.head},
                     last_junction=ctx.head if is_junction_now else ctx.last_junction,
                     last_junction_dir=direction if is_junction_now else ctx.last_junction_dir,
@@ -117,18 +149,20 @@ def _is_junction(grid: Grid, pos: Xy) -> bool:
     return sum([1 for n in grid.get_neighbors(pos) if grid[n].value in ">v<^"]) > 2
 
 
-def _find_longest_path(grid: Grid, junctions: Dict[Xy, Dict[Direction, JunctionPath]]) -> int:
-    start_pos = grid.find_first(".")
-    end_pos = grid.find_last(".")
+def _find_longest_path(start_pos: Xy, end_pos: Xy, junctions: Dict[Xy, Dict[Direction, JunctionPath]]) -> int:
     queue = [SearchCtx(start_pos)]
     longest_paths = defaultdict(int)
+    # cache: Dict[Xy, Dict[FrozenSet, int]] = defaultdict(dict)
     while queue:
         ctx = queue.pop()
+        # if cache[ctx.head].get(frozenset(ctx.visited), -1) >= len(ctx.visited):
+        #     continue
+        # cache[ctx.head][frozenset(ctx.visited)] = len(ctx.visited)
         if ctx.head == end_pos:
-            if len(ctx.visited) > longest_paths[ctx.head]:
-                log.debug(f"Found path with {len(ctx.visited)} steps, {ctx.head}")
-                longest_paths[ctx.head] = len(ctx.visited)
-                continue
+            if len(ctx.visited) > longest_paths[end_pos]:
+                log.debug(f"Found path with {len(ctx.visited)} steps, {ctx.head}, queue: {len(queue)}")
+                longest_paths[end_pos] = len(ctx.visited)
+            continue
         for direction, junction_path in junctions[ctx.head].items():
             if junction_path.destination in ctx.visited:
                 continue
@@ -141,8 +175,8 @@ def _find_longest_path(grid: Grid, junctions: Dict[Xy, Dict[Direction, JunctionP
 
 if __name__ == "__main__":
     log.setLevel(logging.DEBUG)
-    timed_run("Star 1", lambda: star1(read_input(__file__)))
+    # timed_run("Star 1", lambda: star1(read_input(__file__)))
     timed_run("Star 2", lambda: star2(read_input(__file__)))
 
     # Star 1: 2070
-    # Star 2: >= 6162
+    # Star 2: > 6162; != 6258
