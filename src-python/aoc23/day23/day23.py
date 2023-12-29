@@ -2,7 +2,7 @@ import logging
 import pprint
 from collections import defaultdict
 from dataclasses import dataclass, field
-from typing import Set, List, Dict, FrozenSet
+from typing import Set, List, Dict
 
 from util.data_io import read_input, read_test_input, timed_run
 from util.ds.coord import Xy, NORTH, EAST, SOUTH, WEST, Direction
@@ -16,44 +16,6 @@ SLOPES = {
     "<": WEST,
 }
 
-
-# (1,0):    {south: (1,0)->(3,5)},
-# (3,5):    {south: (3,5)->(5,13),
-#            east: (3,5)->(11,3)},
-# (5,13):   {south: (5,13)->(13,19),
-#            east: (5,13)->(13,13)},
-# (11,3):   {south: (11,3)->(13,13),
-#            east: (11,3)->(21,11)},
-# (13,13):  {south: (13,13)->(13,19),
-#            east: (13,13)->(21,11),
-#            north: (13,13)->(11,3),
-#            west: (13,13)->(5,13)},
-# (13,19):  {east: (13,19)->(19,19),
-#            north: (13,19)->(13,13),
-#            west: (13,19)->(5,13)},
-# (19,19):  {south: (19,19)->(21,22),
-#            north: (19,19)->(21,11),
-#            west: (19,19)->(13,19)},
-# (21,11):  {south: (21,11)->(19,19),
-#            north: (21,11)->(11,3),
-#            west: (21,11)->(13,13)}
-
-# REVERSE
-
-# (3,5):    {south: (3,4)->(1,0) (15 steps)},
-# (5,13):   {south: (5,12)->(3,5) (22 steps)},
-# (11,3):   {east: (10,3)->(3,5) (22 steps),
-#            north: (11,4)->(13,13) (24 steps)},
-# (13,13):  {south: (13,12)->(11,3) (24 steps),
-#            east: (12,13)->(5,13) (12 steps),
-#            north: (13,14)->(13,19) (10 steps),
-#            west: (14,13)->(21,11) (18 steps)},
-# (13,19):  {south: (13,18)->(13,13) (10 steps)},
-# (19,19):  {south: (19,18)->(21,11) (10 steps),
-#            east: (18,19)->(13,19) (10 steps)},
-# (21,11):  {east: (21,10)->(11,3) (30 steps),
-#            north: (21,12)->(19,19) (10 steps)},
-# (21,22):  {south: (21,21)->(19,19) (5 steps)}}
 
 @dataclass(frozen=True)
 class SearchCtx:
@@ -71,10 +33,7 @@ class JunctionPath:
     destination: Xy
 
     def __repr__(self):
-        return f"{self.path[0]}->{self.destination} ({len(self.path)} steps)"
-
-    def __hash__(self):
-        return hash((self.destination))
+        return f"{self.destination} ({len(self.path)} steps)"
 
 
 def star1(lines: list[str]):
@@ -111,19 +70,37 @@ def _solve(lines, cond: str):
     #                 log.info(f"Removing {k} from {pos}")
     #                 del junctions[pos][k]
 
-    reverse_junctions = {}
-    for origin, connected_junctions in junctions.items():
-        for junction_path in connected_junctions.values():
-            if junction_path.destination not in reverse_junctions:
-                reverse_junctions[junction_path.destination] = set()
-            reverse_junctions[junction_path.destination].add(JunctionPath(
-                path=list(reversed(junction_path.path)),
-                destination=origin,
-            ))
-    log.debug(f"Reverse junctions: {pprint.pformat(reverse_junctions)}")
+    # reverse_junctions: Dict[Xy, Dict[Direction, JunctionPath]] = {}
+    # for origin, connected_junctions in junctions.items():
+    #     for direction, junction_path in connected_junctions.items():
+    #         if junction_path.destination not in reverse_junctions:
+    #             reverse_junctions[junction_path.destination] = {}
+    #         reverse_junctions[junction_path.destination][direction] = (JunctionPath(
+    #             path=list(reversed(junction_path.path)),
+    #             destination=origin,
+    #         ))
+    # log.debug(f"Reverse junctions: {pprint.pformat(reverse_junctions)}")
 
+    # junctions = {k: set(v.values()) for k, v in junctions.items()}
+    # log.debug(f"Junctions FLAT: {pprint.pformat(junctions)}")
+
+    # queue: List[Xy] = [end_pos]
+    # while queue:
+    #     pos = queue.pop(0)
+    #     if pos not in reverse_junctions:
+    #         break
+    #     for direction, junction_path in reverse_junctions[pos].items():
+    #         junction_pos = junction_path.destination
+    #         if junction_pos in junctions and direction in junctions[junction_pos]:
+    #             keep = junctions[junction_pos][direction]
+    #             junctions[junction_pos] = {}
+    #             junctions[junction_pos][direction] = keep
+    #         queue.append(junction_pos)
+    # log.debug(f"Junctions after: {pprint.pformat(junctions)}")
     # return _find_longest_path(start_pos=start_pos, end_pos=end_pos, junctions=junctions)
-    return _find_longest_path(start_pos=end_pos, end_pos=start_pos, junctions=reverse_junctions)
+    junctions = {k: set(v.values()) for k, v in junctions.items()}
+
+    return _find_longest_path(start_pos=start_pos, end_pos=end_pos, junctions=junctions)
 
 
 def _find_all_junctions(grid: Grid, start_pos: Xy, end_pos: Xy, cond: str) -> Dict[Xy, Dict[Direction, JunctionPath]]:
@@ -167,7 +144,7 @@ def _is_junction(grid: Grid, pos: Xy) -> bool:
     return sum([1 for n in grid.get_neighbors(pos) if grid[n].value in ".>v<^"]) > 2
 
 
-def _find_longest_path(start_pos: Xy, end_pos: Xy, junctions: Dict[Xy, Dict[Direction, JunctionPath]]) -> int:
+def _find_longest_path(start_pos: Xy, end_pos: Xy, junctions: Dict[Xy, Set[JunctionPath]]) -> int:
     queue = [SearchCtx(start_pos)]
     longest_paths = defaultdict(int)
     # cache: Dict[Xy, Dict[FrozenSet, int]] = defaultdict(dict)
@@ -198,4 +175,4 @@ if __name__ == "__main__":
     timed_run("Star 2", lambda: star2(read_input(__file__)))
 
     # Star 1: 2070
-    # Star 2: > 6162; != 6258; != 6234
+    # Star 2: 6498
