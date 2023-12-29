@@ -35,6 +35,9 @@ class JunctionPath:
     def __repr__(self):
         return f"{self.destination} ({len(self.path)} steps)"
 
+    def __hash__(self):
+        return hash(self.destination)
+
 
 def star1(lines: list[str]):
     """
@@ -57,53 +60,10 @@ def _solve(lines, cond: str):
     start_pos = grid.find_first(".")
     end_pos = grid.find_last(".")
     junctions = _find_all_junctions(grid, start_pos=start_pos, end_pos=end_pos, cond=cond)
-
-    # prune junctions
-    # reverse_junctions = _find_all_junctions(grid, start_pos=end_pos, end_pos=start_pos, cond=cond)
-    # for pos, dirs in junctions.items():
-    #     dirs2 = reverse_junctions[pos]
-    #     if len(dirs.keys()) > len(dirs2.keys()):
-    #     # if dirs.keys() != dirs2.keys():
-    #         log.info(f"Junctions mismatch at {pos}: {dirs.keys()} vs {dirs2.keys()}")
-    #         for k in (dirs2.keys()):
-    #             if k in dirs:
-    #                 log.info(f"Removing {k} from {pos}")
-    #                 del junctions[pos][k]
-
-    # reverse_junctions: Dict[Xy, Dict[Direction, JunctionPath]] = {}
-    # for origin, connected_junctions in junctions.items():
-    #     for direction, junction_path in connected_junctions.items():
-    #         if junction_path.destination not in reverse_junctions:
-    #             reverse_junctions[junction_path.destination] = {}
-    #         reverse_junctions[junction_path.destination][direction] = (JunctionPath(
-    #             path=list(reversed(junction_path.path)),
-    #             destination=origin,
-    #         ))
-    # log.debug(f"Reverse junctions: {pprint.pformat(reverse_junctions)}")
-
-    # junctions = {k: set(v.values()) for k, v in junctions.items()}
-    # log.debug(f"Junctions FLAT: {pprint.pformat(junctions)}")
-
-    # queue: List[Xy] = [end_pos]
-    # while queue:
-    #     pos = queue.pop(0)
-    #     if pos not in reverse_junctions:
-    #         break
-    #     for direction, junction_path in reverse_junctions[pos].items():
-    #         junction_pos = junction_path.destination
-    #         if junction_pos in junctions and direction in junctions[junction_pos]:
-    #             keep = junctions[junction_pos][direction]
-    #             junctions[junction_pos] = {}
-    #             junctions[junction_pos][direction] = keep
-    #         queue.append(junction_pos)
-    # log.debug(f"Junctions after: {pprint.pformat(junctions)}")
-    # return _find_longest_path(start_pos=start_pos, end_pos=end_pos, junctions=junctions)
-    junctions = {k: set(v.values()) for k, v in junctions.items()}
-
     return _find_longest_path(start_pos=start_pos, end_pos=end_pos, junctions=junctions)
 
 
-def _find_all_junctions(grid: Grid, start_pos: Xy, end_pos: Xy, cond: str) -> Dict[Xy, Dict[Direction, JunctionPath]]:
+def _find_all_junctions(grid: Grid, start_pos: Xy, end_pos: Xy, cond: str) -> Dict[Xy, Set[JunctionPath]]:
     """
     >>> len(dict(_find_all_junctions(Grid(read_test_input(__file__)),".<>v^")))
     8
@@ -118,12 +78,11 @@ def _find_all_junctions(grid: Grid, start_pos: Xy, end_pos: Xy, cond: str) -> Di
             if ctx.last_junction:
                 if ctx.last_junction_dir not in junctions[ctx.last_junction]:
                     junctions[ctx.last_junction][ctx.last_junction_dir] = JunctionPath(ctx.last_junction_path, ctx.head)
-                    # junctions[ctx.head][ctx.direction.turn_around()] = JunctionPath(list(reversed(ctx.last_junction_path)), ctx.last_junction)
                 else:
                     continue
 
         for direction, n in grid.get_neighbors(ctx.head, include_directions=True):
-            if n in ctx.visited:  # or junctions[ctx.head].get(direction):
+            if n in ctx.visited:
                 continue
             n_val = grid[n].value
             if n_val in cond or n_val in SLOPES and SLOPES[n_val] == direction:
@@ -137,7 +96,7 @@ def _find_all_junctions(grid: Grid, start_pos: Xy, end_pos: Xy, cond: str) -> Di
                 ))
 
     log.debug(f"Junctions: {pprint.pformat({k: v for k, v in junctions.items() if v})}")
-    return junctions
+    return {k: set(v.values()) for k, v in junctions.items()}
 
 
 def _is_junction(grid: Grid, pos: Xy) -> bool:
@@ -147,18 +106,13 @@ def _is_junction(grid: Grid, pos: Xy) -> bool:
 def _find_longest_path(start_pos: Xy, end_pos: Xy, junctions: Dict[Xy, Set[JunctionPath]]) -> int:
     queue = [SearchCtx(start_pos)]
     longest_paths = defaultdict(int)
-    # cache: Dict[Xy, Dict[FrozenSet, int]] = defaultdict(dict)
     while queue:
         ctx = queue.pop()
-        # if cache[ctx.head].get(frozenset(ctx.visited), -1) >= len(ctx.visited):
-        #     continue
-        # cache[ctx.head][frozenset(ctx.visited)] = len(ctx.visited)
         if ctx.head == end_pos:
             if len(ctx.visited) > longest_paths[end_pos]:
                 log.debug(f"Found path with {len(ctx.visited)} steps, {ctx.head}, queue: {len(queue)}")
                 longest_paths[end_pos] = len(ctx.visited)
             continue
-        # for direction, junction_path in junctions[ctx.head].items():
         for junction_path in junctions[ctx.head]:
             if junction_path.destination in ctx.visited:
                 continue
@@ -170,9 +124,9 @@ def _find_longest_path(start_pos: Xy, end_pos: Xy, junctions: Dict[Xy, Set[Junct
 
 
 if __name__ == "__main__":
-    log.setLevel(logging.DEBUG)
+    log.setLevel(logging.INFO)
     timed_run("Star 1", lambda: star1(read_input(__file__)))
     timed_run("Star 2", lambda: star2(read_input(__file__)))
 
     # Star 1: 2070
-    # Star 2: 6498
+    # Star 2: 6498  # Runs for 15 mins ...
