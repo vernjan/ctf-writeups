@@ -20,7 +20,6 @@ SLOPES = {
 @dataclass(frozen=True)
 class SearchCtx:
     head: Xy
-    direction: Direction = None
     visited: Set[Xy] = field(default_factory=set)
     last_junction: Xy = None
     last_junction_dir: Direction = None
@@ -28,12 +27,12 @@ class SearchCtx:
 
 
 @dataclass(frozen=True)
-class JunctionPath:
-    path: List[Xy]
+class Junction:
     destination: Xy
+    path_len: int
 
     def __repr__(self):
-        return f"{self.destination} ({len(self.path)} steps)"
+        return f"{self.destination} ({self.path_len} steps)"
 
     def __hash__(self):
         return hash(self.destination)
@@ -49,10 +48,10 @@ def star1(lines: list[str]):
 
 def star2(lines: list[str]):
     """
-    >>> star2(read_test_input(__file__))
+    >>> star2(read_test_input(__file__, "input-test-STAR2.txt"))
     154
     """
-    return _solve(lines, ".>v<^")
+    return _solve(lines, ".")
 
 
 def _solve(lines, cond: str):
@@ -63,12 +62,8 @@ def _solve(lines, cond: str):
     return _find_longest_path(start_pos=start_pos, end_pos=end_pos, junctions=junctions)
 
 
-def _find_all_junctions(grid: Grid, start_pos: Xy, end_pos: Xy, cond: str) -> Dict[Xy, Set[JunctionPath]]:
-    """
-    >>> len(dict(_find_all_junctions(Grid(read_test_input(__file__)),".<>v^")))
-    8
-    """
-    junctions: Dict[Xy, Dict[Direction, JunctionPath]] = defaultdict(dict)
+def _find_all_junctions(grid: Grid, start_pos: Xy, end_pos: Xy, cond: str) -> Dict[Xy, Set[Junction]]:
+    junctions: Dict[Xy, Dict[Direction, Junction]] = defaultdict(dict)
     queue = [SearchCtx(start_pos)]
     while queue:
         ctx = queue.pop(0)
@@ -77,7 +72,8 @@ def _find_all_junctions(grid: Grid, start_pos: Xy, end_pos: Xy, cond: str) -> Di
             is_junction_now = True
             if ctx.last_junction:
                 if ctx.last_junction_dir not in junctions[ctx.last_junction]:
-                    junctions[ctx.last_junction][ctx.last_junction_dir] = JunctionPath(ctx.last_junction_path, ctx.head)
+                    junctions[ctx.last_junction][ctx.last_junction_dir] = Junction(ctx.head,
+                                                                                   len(ctx.last_junction_path))
                 else:
                     continue
 
@@ -88,7 +84,6 @@ def _find_all_junctions(grid: Grid, start_pos: Xy, end_pos: Xy, cond: str) -> Di
             if n_val in cond or n_val in SLOPES and SLOPES[n_val] == direction:
                 queue.append(SearchCtx(
                     head=n,
-                    direction=direction,
                     visited=ctx.visited | {ctx.head},
                     last_junction=ctx.head if is_junction_now else ctx.last_junction,
                     last_junction_dir=direction if is_junction_now else ctx.last_junction_dir,
@@ -103,30 +98,31 @@ def _is_junction(grid: Grid, pos: Xy) -> bool:
     return sum([1 for n in grid.get_neighbors(pos) if grid[n].value in ".>v<^"]) > 2
 
 
-def _find_longest_path(start_pos: Xy, end_pos: Xy, junctions: Dict[Xy, Set[JunctionPath]]) -> int:
-    queue = [SearchCtx(start_pos)]
-    longest_paths = defaultdict(int)
+def _find_longest_path(start_pos: Xy, end_pos: Xy, junctions: Dict[Xy, Set[Junction]]) -> int:
+    queue = [(start_pos, set(), 0)]
+    longest_path = 0
     while queue:
-        ctx = queue.pop()
-        if ctx.head == end_pos:
-            if len(ctx.visited) > longest_paths[end_pos]:
-                log.debug(f"Found path with {len(ctx.visited)} steps, {ctx.head}, queue: {len(queue)}")
-                longest_paths[end_pos] = len(ctx.visited)
+        head, visited, total_steps = queue.pop()
+        if head == end_pos:
+            if total_steps > longest_path:
+                log.debug(f"Found path with {total_steps} steps, {head}, queue: {len(queue)}")
+                longest_path = total_steps
             continue
-        for junction_path in junctions[ctx.head]:
-            if junction_path.destination in ctx.visited:
+        for junction in junctions[head]:
+            if junction.destination in visited:
                 continue
-            queue.append(SearchCtx(
-                head=junction_path.destination,
-                visited=(ctx.visited | set(junction_path.path)),
+            queue.append((
+                junction.destination,
+                (visited | {head}),
+                total_steps + junction.path_len,
             ))
-    return longest_paths[end_pos]
+    return longest_path
 
 
 if __name__ == "__main__":
     log.setLevel(logging.INFO)
     timed_run("Star 1", lambda: star1(read_input(__file__)))
-    timed_run("Star 2", lambda: star2(read_input(__file__)))
+    timed_run("Star 2", lambda: star2(read_input(__file__, "input-STAR2.txt")))
 
     # Star 1: 2070
-    # Star 2: 6498  # Runs for 15 mins ...
+    # Star 2: 6498  # Runs for 20 secs

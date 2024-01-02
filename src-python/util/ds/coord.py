@@ -85,6 +85,9 @@ class Xy:
             return self.x < other.x
         return self.y < other.y
 
+    def __eq__(self, other):
+        return self.x == other.x and self.y == other.y
+
     def north(self):
         return Xy(self.x, self.y - 1)
 
