@@ -72,8 +72,10 @@ class Xy:
         """
         >>> Xy.parse("2,3")
         (2,3)
+        >>> Xy.parse("-2,3")
+        (-2,3)
         """
-        coordinates = list(map(int, re.findall("[0-9]+", data)))
+        coordinates = list(map(int, re.findall("-?[0-9]+", data)))
         assert len(coordinates) == 2, "2 numbers expected"
         return Xy(*coordinates)
 
@@ -186,8 +188,10 @@ class Xyz:
         """
         >>> Xyz.parse("2,3,4")
         (2,3,4)
+        >>> Xyz.parse("-2,-3,4")
+        (-2,-3,4)
         """
-        coordinates = list(map(int, re.findall("[0-9]+", data)))
+        coordinates = list(map(int, re.findall("-?[0-9]+", data)))
         assert len(coordinates) == 3, "3 numbers expected"
         return Xyz(*coordinates)
 
