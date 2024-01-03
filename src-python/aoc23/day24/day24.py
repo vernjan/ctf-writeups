@@ -128,13 +128,23 @@ def star2(lines: list[str]):
     """
     hailstones = _parse_hailstones(lines, Hailstone3D)
 
-    for i, h1 in enumerate(hailstones):
-        for h2 in hailstones[i + 1:]:
-            log.debug(f"Checking {h1} vs. {h2}")
-            intersection = h1.intersection(h2)
-            if intersection:
-                x, y, z = intersection
-                log.debug(f"Intersection at x = {x}, y = {y}, z = {z}")
+    for h in hailstones:
+        xs = []
+        ys = []
+        zs = []
+        for i in range(10):
+            xs.append(h.pos.x + h.diff.x * i)
+            ys.append(h.pos.y + h.diff.y * i)
+            zs.append(h.pos.z + h.diff.z * i)
+        log.debug(f"{xs}, {ys}, {zs}")
+
+    # for i, h1 in enumerate(hailstones):
+    #     for h2 in hailstones[i + 1:]:
+    #         log.debug(f"Checking {h1} vs. {h2}")
+    #         intersection = h1.intersection(h2)
+    #         if intersection:
+    #             x, y, z = intersection
+    #             log.debug(f"Intersection at x = {x}, y = {y}, z = {z}")
 
     return -1
 
