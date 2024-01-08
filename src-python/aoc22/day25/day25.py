@@ -122,4 +122,3 @@ if __name__ == "__main__":
     # There is no star 2 for this very last challenge
 
     # Star 1: 2-0=11=-0-2-1==1=-22
-    # Star 2: No star
