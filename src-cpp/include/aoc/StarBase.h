@@ -1,8 +1,8 @@
 #pragma once
 
+#include <fstream>
 #include <string>
 #include <vector>
-#include <fstream>
 
 using std::vector, std::string;
 
@@ -39,7 +39,7 @@ private:
     int star;
 
     int run_star(const string &input_file_name, int expected_result) const {
-        const string data_dir = "../src/aoc21/day0" + std::to_string(day) + "/";  // FIXME day0 formatting
+        const string data_dir = "../src/aoc21/day0" + std::to_string(day) + "/";// FIXME day0 formatting
         vector<string> data;
         read_file_data(data_dir + input_file_name, data);
 
@@ -50,3 +50,16 @@ private:
         return result;
     }
 };
+
+std::vector<std::string> split(string text, const string &delimiter) {
+    std::vector<std::string> tokens;
+    size_t pos = 0;
+    std::string token;
+    while ((pos = text.find(delimiter)) != std::string::npos) {
+        token = text.substr(0, pos);
+        tokens.push_back(token);
+        text.erase(0, pos + delimiter.length());
+    }
+    tokens.push_back(text);
+    return tokens;
+}
