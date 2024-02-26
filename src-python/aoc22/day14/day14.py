@@ -27,7 +27,7 @@ def star2(lines: List[str]):
     return sand_fall("star2", lines)
 
 
-def sand_fall(star, lines):
+def sand_fall(execute, lines):
     shrink_width_by = 0
     width, height = 1000, 200
     if is_test:
@@ -75,9 +75,9 @@ def sand_fall(star, lines):
                 is_moving = False
                 grid.set_value(sand, "o")
                 log.debug(grid)
-                if star == "star1" and sand.y == floor_level - 1:
+                if execute == "star1" and sand.y == floor_level - 1:
                     return sand_count - 1
-                if star == "star2" and sand.y == 0:
+                if execute == "star2" and sand.y == 0:
                     return sand_count
 
 

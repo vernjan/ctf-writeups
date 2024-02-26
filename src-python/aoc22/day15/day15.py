@@ -26,7 +26,7 @@ def star2(lines: List[str], size_limit):
 
     """
     The solution is not optimal and takes tens of seconds.
-    On the other hand, I just reused what I already have from star 1 :-)
+    On the other hand, I just reused what I already have from execute 1 :-)
     """
 
     start = time.time()
