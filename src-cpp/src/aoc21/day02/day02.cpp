@@ -3,9 +3,7 @@
 
 #include <aoc/StarBase.h>
 
-
 using namespace std;
-
 
 struct Day02S1 : public StarBase {
     Day02S1() : StarBase(2, 1) {}
