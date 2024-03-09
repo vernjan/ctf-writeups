@@ -1,22 +1,19 @@
 #pragma once
 
-#include <fstream>
 #include <string>
 #include <vector>
+#include <fstream>
+#include <iomanip>
 
 using std::vector, std::string;
 
 
-void read_file_data(const string &input_file, vector<string> &data) {
-    std::ifstream input("../src/" + input_file);
-    if (!input.is_open()) {
-        throw std::runtime_error("Could not open file: " + input_file);
-    }
-    string line;
-    while (getline(input, line)) {
-        data.push_back(line);
-    }
-}
+void read_file_data(const string &input_file, vector<string> &data);
+
+string to_zero_lead(int value, int precision);
+
+std::vector<std::string> split(string text, const string &delimiter);
+
 
 class StarBase {
 public:
@@ -39,7 +36,7 @@ private:
     int star;
 
     int run_star(const string &input_file_name, int expected_result) const {
-        const string data_dir = "../src/aoc21/day0" + std::to_string(day) + "/";// FIXME day0 formatting
+        const string data_dir = "../src/aoc21/day" + to_zero_lead(day, 2) + "/";
         vector<string> data;
         read_file_data(data_dir + input_file_name, data);
 
@@ -50,6 +47,9 @@ private:
         return result;
     }
 };
+
+
+// utils
 
 std::vector<std::string> split(string text, const string &delimiter) {
     std::vector<std::string> tokens;
@@ -62,4 +62,22 @@ std::vector<std::string> split(string text, const string &delimiter) {
     }
     tokens.push_back(text);
     return tokens;
+}
+
+
+void read_file_data(const string &input_file, vector<string> &data) {
+    std::ifstream input("../src/" + input_file);
+    if (!input.is_open()) {
+        throw std::runtime_error("Could not open file: " + input_file);
+    }
+    string line;
+    while (getline(input, line)) {
+        data.push_back(line);
+    }
+}
+
+string to_zero_lead(int value, int precision) {
+    std::ostringstream oss;
+    oss << std::setw(precision) << std::setfill('0') << value;
+    return oss.str();
 }
