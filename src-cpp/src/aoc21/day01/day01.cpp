@@ -5,8 +5,8 @@
 
 using namespace std;
 
-struct Day01S1 : public StarBase {
-    Day01S1() : StarBase(1, 1) {}
+struct S1 : public StarBase {
+    S1() : StarBase(1, 1) {}
 
     [[nodiscard]] int execute(const vector<string> &data) const override {
         int total = 0;
@@ -22,8 +22,8 @@ struct Day01S1 : public StarBase {
     }
 };
 
-struct Day01S2 : public StarBase {
-    Day01S2() : StarBase(1, 2) {}
+struct S2 : public StarBase {
+    S2() : StarBase(1, 2) {}
 
     [[nodiscard]] int execute(const vector<string> &data) const override {
         int total = 0;
@@ -45,13 +45,13 @@ struct Day01S2 : public StarBase {
 };
 
 int main() {
-    Day01S1 dayS1;
-    dayS1.run_test(7);
-    dayS1.run(1655);
+    S1 s1;
+    s1.run_test(7);
+    s1.run(1655);
 
-    Day01S2 dayS2;
-    dayS2.run_test(5);
-    dayS2.run(1683);
+    S2 s2;
+    s2.run_test(5);
+    s2.run(1683);
 
     return 0;
 }

@@ -5,8 +5,8 @@
 
 using namespace std;
 
-struct Day02S1 : public StarBase {
-    Day02S1() : StarBase(2, 1) {}
+struct S1 : public StarBase {
+    S1() : StarBase(2, 1) {}
 
     [[nodiscard]] int execute(const vector<string> &data) const override {
         int depth = 0;
@@ -29,24 +29,40 @@ struct Day02S1 : public StarBase {
     }
 };
 
-struct Day02S2 : public StarBase {
-    Day02S2() : StarBase(1, 2) {}
+struct S2 : public StarBase {
+    S2() : StarBase(2, 2) {}
 
     [[nodiscard]] int execute(const vector<string> &data) const override {
-        int total = 0;
-        // TBD
-        return total;
+        int depth = 0;
+        int forward = 0;
+        int aim = 0;
+        for (const string &line: data) {
+            vector<string> tokens = split(line, " ");
+            string cmd = tokens[0];
+            int steps = stoi(tokens[1]);
+            if (cmd == "forward") {
+                forward += steps;
+                depth += aim * steps;
+            } else if (cmd == "up") {
+                aim -= steps;
+            } else if (cmd == "down") {
+                aim += steps;
+            } else {
+                throw std::runtime_error("Unknown command: " + cmd);
+            }
+        }
+        return depth * forward;
     }
 };
 
 int main() {
-    Day02S1 dayS1;
-    dayS1.run_test(150);
-    dayS1.run(1947824);
+    S1 s1;
+    s1.run_test(150);
+    s1.run(1947824);
 
-    //    Day02S2 dayS2;
-    //    dayS2.run_test(5);
-    //    dayS2.run(1683);
+    S2 s2;
+    s2.run_test(900);
+    s2.run(1813062561);
 
     return 0;
 }

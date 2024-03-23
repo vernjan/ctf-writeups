@@ -1,9 +1,11 @@
 #pragma once
 
+#include <chrono>
+#include <fstream>
+#include <iostream>
+#include <iomanip>
 #include <string>
 #include <vector>
-#include <fstream>
-#include <iomanip>
 
 using std::vector, std::string;
 
@@ -14,6 +16,13 @@ string to_zero_lead(int value, int precision);
 
 std::vector<std::string> split(string text, const string &delimiter);
 
+int btoi(const string &binary);
+
+
+struct RunResult {
+    int result;
+    long long int duration;
+};
 
 class StarBase {
 public:
@@ -24,8 +33,9 @@ public:
     }
 
     void run(int expected_result, const string &input_file_name = "input.txt") {
-        int result = run_star(input_file_name, expected_result);
-        std::cout << "Star: " << star << ": " << result << "\n";
+
+        RunResult result = run_star(input_file_name, expected_result);
+        std::cout << "Star: " << star << ": " << result.result << " (" << result.duration << " ms)" << "\n";
     }
 
     [[nodiscard]] virtual int execute(const vector<string> &data) const = 0;
@@ -35,16 +45,19 @@ private:
     int day;
     int star;
 
-    int run_star(const string &input_file_name, int expected_result) const {
+    RunResult run_star(const string &input_file_name, int expected_result) const {
         const string data_dir = "../src/aoc21/day" + to_zero_lead(day, 2) + "/";
         vector<string> data;
         read_file_data(data_dir + input_file_name, data);
 
+        auto start = std::chrono::high_resolution_clock::now();
         int result = execute(data);
+        auto stop= std::chrono::high_resolution_clock::now();
+        auto duration = duration_cast<std::chrono::milliseconds>(stop - start);
         if (expected_result > 0 && result != expected_result) {
             throw std::runtime_error("Expected " + std::to_string(expected_result) + " but got " + std::to_string(result));
         }
-        return result;
+        return {result, duration.count()};
     }
 };
 
@@ -80,4 +93,8 @@ string to_zero_lead(int value, int precision) {
     std::ostringstream oss;
     oss << std::setw(precision) << std::setfill('0') << value;
     return oss.str();
+}
+
+int btoi(const string &binary) {
+    return std::stoi(binary, nullptr, 2);
 }
