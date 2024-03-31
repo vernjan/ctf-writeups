@@ -77,6 +77,24 @@ std::vector<std::string> split(string text, const string &delimiter) {
     return tokens;
 }
 
+// TODO Merge with split and accept conversion function
+std::vector<int> split_to_ints(string text, const string &delimiter) {
+    std::vector<int> tokens;
+    size_t pos = 0;
+    std::string token;
+    while ((pos = text.find(delimiter)) != std::string::npos) {
+        token = text.substr(0, pos);
+        if (!token.empty()) {
+            tokens.push_back(std::stoi(token));
+        }
+        text.erase(0, pos + delimiter.length());
+    }
+    if (!text.empty()) {
+        tokens.push_back(std::stoi(text));
+    }
+    return tokens;
+}
+
 
 void read_file_data(const string &input_file, vector<string> &data) {
     std::ifstream input("../src/" + input_file);
