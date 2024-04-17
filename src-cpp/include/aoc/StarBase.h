@@ -2,8 +2,8 @@
 
 #include <chrono>
 #include <fstream>
-#include <iostream>
 #include <iomanip>
+#include <iostream>
 #include <string>
 #include <vector>
 
@@ -17,6 +17,10 @@ string to_zero_lead(int value, int precision);
 std::vector<std::string> split(string text, const string &delimiter);
 
 int btoi(const string &binary);
+
+inline void rtrim(std::string &s);
+inline void ltrim(std::string &s);
+inline void trim(std::string &s);
 
 
 struct RunResult {
@@ -52,7 +56,7 @@ private:
 
         auto start = std::chrono::high_resolution_clock::now();
         int result = execute(data);
-        auto stop= std::chrono::high_resolution_clock::now();
+        auto stop = std::chrono::high_resolution_clock::now();
         auto duration = duration_cast<std::chrono::milliseconds>(stop - start);
         if (expected_result > 0 && result != expected_result) {
             throw std::runtime_error("Expected " + std::to_string(expected_result) + " but got " + std::to_string(result));
@@ -62,17 +66,20 @@ private:
 };
 
 
+// TODO Utils namespace, dedicated header + cpp,
 // utils
 
 std::vector<std::string> split(string text, const string &delimiter) {
     std::vector<std::string> tokens;
-    size_t pos = 0;
+    size_t pos;
     std::string token;
     while ((pos = text.find(delimiter)) != std::string::npos) {
         token = text.substr(0, pos);
+        trim(token);
         tokens.push_back(token);
         text.erase(0, pos + delimiter.length());
     }
+    trim(text);
     tokens.push_back(text);
     return tokens;
 }
@@ -80,7 +87,7 @@ std::vector<std::string> split(string text, const string &delimiter) {
 // TODO Merge with split and accept conversion function
 std::vector<int> split_to_ints(string text, const string &delimiter) {
     std::vector<int> tokens;
-    size_t pos = 0;
+    size_t pos;
     std::string token;
     while ((pos = text.find(delimiter)) != std::string::npos) {
         token = text.substr(0, pos);
@@ -115,4 +122,24 @@ string to_zero_lead(int value, int precision) {
 
 int btoi(const string &binary) {
     return std::stoi(binary, nullptr, 2);
+}
+
+inline void ltrim(std::string &s) {
+    auto first_non_space = std::find_if(s.begin(), s.end(), [](unsigned char ch) {
+        return !std::isspace(ch);
+    });
+    s.erase(s.begin(), first_non_space);
+}
+
+inline void rtrim(std::string &s) {
+    auto last_non_space = std::find_if(s.rbegin(), s.rend(), [](unsigned char ch) {
+                              return !std::isspace(ch);
+                          }).base();
+    s.erase(last_non_space, s.end());
+}
+
+// trim from both ends (in place)
+inline void trim(std::string &s) {
+    rtrim(s);
+    ltrim(s);
 }

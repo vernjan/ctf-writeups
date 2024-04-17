@@ -13,7 +13,7 @@ struct S1 : public StarBase {
 };
 
 struct S2 : public StarBase {
-    S2() : StarBase(3, 2) {}
+    S2() : StarBase(0, 2) {}
 
     [[nodiscard]] int execute(const vector<string> &data) const override {
         return 0;
