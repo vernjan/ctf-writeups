@@ -1,5 +1,6 @@
 #pragma once
 
+#include "aoc_utils.h"
 #include <chrono>
 #include <fstream>
 #include <iomanip>
@@ -11,16 +12,6 @@ using std::vector, std::string;
 
 
 void read_file_data(const string &input_file, vector<string> &data);
-
-string to_zero_lead(int value, int precision);
-
-std::vector<std::string> split(string text, const string &delimiter);
-
-int btoi(const string &binary);
-
-inline void rtrim(std::string &s);
-inline void ltrim(std::string &s);
-inline void trim(std::string &s);
 
 
 struct RunResult {
@@ -50,7 +41,7 @@ private:
     int star;
 
     RunResult run_star(const string &input_file_name, int expected_result) const {
-        const string data_dir = "../src/aoc21/day" + to_zero_lead(day, 2) + "/";
+        const string data_dir = "../src/aoc21/day" + aoc::add_leading_zeroes(day, 2) + "/";
         vector<string> data;
         read_file_data(data_dir + input_file_name, data);
 
@@ -65,44 +56,6 @@ private:
     }
 };
 
-
-// TODO Utils namespace, dedicated header + cpp,
-// utils
-
-std::vector<std::string> split(string text, const string &delimiter) {
-    std::vector<std::string> tokens;
-    size_t pos;
-    std::string token;
-    while ((pos = text.find(delimiter)) != std::string::npos) {
-        token = text.substr(0, pos);
-        trim(token);
-        tokens.push_back(token);
-        text.erase(0, pos + delimiter.length());
-    }
-    trim(text);
-    tokens.push_back(text);
-    return tokens;
-}
-
-// TODO Merge with split and accept conversion function
-std::vector<int> split_to_ints(string text, const string &delimiter) {
-    std::vector<int> tokens;
-    size_t pos;
-    std::string token;
-    while ((pos = text.find(delimiter)) != std::string::npos) {
-        token = text.substr(0, pos);
-        if (!token.empty()) {
-            tokens.push_back(std::stoi(token));
-        }
-        text.erase(0, pos + delimiter.length());
-    }
-    if (!text.empty()) {
-        tokens.push_back(std::stoi(text));
-    }
-    return tokens;
-}
-
-
 void read_file_data(const string &input_file, vector<string> &data) {
     std::ifstream input("../src/" + input_file);
     if (!input.is_open()) {
@@ -112,34 +65,4 @@ void read_file_data(const string &input_file, vector<string> &data) {
     while (getline(input, line)) {
         data.push_back(line);
     }
-}
-
-string to_zero_lead(int value, int precision) {
-    std::ostringstream oss;
-    oss << std::setw(precision) << std::setfill('0') << value;
-    return oss.str();
-}
-
-int btoi(const string &binary) {
-    return std::stoi(binary, nullptr, 2);
-}
-
-inline void ltrim(std::string &s) {
-    auto first_non_space = std::find_if(s.begin(), s.end(), [](unsigned char ch) {
-        return !std::isspace(ch);
-    });
-    s.erase(s.begin(), first_non_space);
-}
-
-inline void rtrim(std::string &s) {
-    auto last_non_space = std::find_if(s.rbegin(), s.rend(), [](unsigned char ch) {
-                              return !std::isspace(ch);
-                          }).base();
-    s.erase(last_non_space, s.end());
-}
-
-// trim from both ends (in place)
-inline void trim(std::string &s) {
-    rtrim(s);
-    ltrim(s);
 }

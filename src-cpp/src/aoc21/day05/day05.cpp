@@ -1,6 +1,7 @@
 #include <vector>
 
 #include <aoc/StarBase.h>
+#include <aoc/aoc_utils.h>
 
 using namespace std;
 
@@ -30,9 +31,9 @@ int countOverlaps(const vector<string> &data, bool include_diagonals) {
     int total = 0;
 
     for (const string &line: data) {
-        vector<string> coords = split(line, "->");
-        vector<int> coord1 = split_to_ints(coords[0], ",");// TODO coord class?
-        vector<int> coord2 = split_to_ints(coords[1], ",");
+        vector<string> coords = aoc::split(line, "->");
+        vector<int> coord1 = aoc::split_to_ints(coords[0], ",");// TODO coord class?
+        vector<int> coord2 = aoc::split_to_ints(coords[1], ",");
         int x1 = coord1[0];
         int x2 = coord2[0];
         int y1 = coord1[1];
@@ -59,7 +60,17 @@ int countOverlaps(const vector<string> &data, bool include_diagonals) {
                 }
             }
         } else if (include_diagonals) {
-            // TODO
+            if (x1 > x2) {// make sure x goes from left to right
+                swap(x1, x2);
+                swap(y1, y2);
+            }
+            int y_diff = aoc::sgn(y2 - y1);// y goes up or down?
+            for (int x = x1, y = y1; x <= x2; x++, y += y_diff) {
+                board[x][y] += 1;
+                if (board[x][y] == 2) {
+                    total++;
+                }
+            }
         }
     }
 
@@ -73,7 +84,7 @@ int main() {
 
     S2 s2;
     s2.run_test(12);
-    s2.run(0);
+    s2.run(17787);
 
     return 0;
 }

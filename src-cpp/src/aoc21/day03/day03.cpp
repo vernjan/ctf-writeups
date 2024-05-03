@@ -1,8 +1,8 @@
 #include <cmath>
-#include <iostream>
 #include <vector>
 
 #include <aoc/StarBase.h>
+#include <aoc/aoc_utils.h>
 
 using namespace std;
 
@@ -40,8 +40,8 @@ struct S2 : public StarBase {
     S2() : StarBase(3, 2) {}
 
     [[nodiscard]] int execute(const vector<string> &data) const override {
-        int o2_rate = btoi(find_rating(Rating::O2, data, 0));
-        int co2_rate = btoi(find_rating(Rating::CO2, data, 0));
+        int o2_rate = aoc::btoi(find_rating(Rating::O2, data, 0));
+        int co2_rate = aoc::btoi(find_rating(Rating::CO2, data, 0));
         return o2_rate * co2_rate;
     }
 };

@@ -2,6 +2,7 @@
 #include <vector>
 
 #include <aoc/StarBase.h>
+#include <aoc/aoc_utils.h>
 
 using namespace std;
 
@@ -59,7 +60,7 @@ struct S1 : public StarBase {
     S1() : StarBase(4, 1) {}
 
     [[nodiscard]] int execute(const vector<string> &data) const override {
-        vector<int> numbers = split_to_ints(data[0], ",");
+        vector<int> numbers = aoc::split_to_ints(data[0], ",");
         vector<Board> boards = parse_boards(data);
 
         for (int number: numbers) {
@@ -80,7 +81,7 @@ struct S2 : public StarBase {
     S2() : StarBase(4, 2) {}
 
     [[nodiscard]] int execute(const vector<string> &data) const override {
-        vector<int> numbers = split_to_ints(data[0], ",");
+        vector<int> numbers = aoc::split_to_ints(data[0], ",");
         vector<Board> boards = parse_boards(data);
 
         for (int number: numbers) {
@@ -115,7 +116,7 @@ vector<Board> parse_boards(const vector<string> &data) {
             board = Board();
             continue;
         } else {
-            vector<int> row_numbers = split_to_ints(line, " ");
+            vector<int> row_numbers = aoc::split_to_ints(line, " ");
             for (int j = 0; j < row_numbers.size(); j++) {
                 board.numbers[row_number * 5 + j] = row_numbers[j];
             }

@@ -2,6 +2,7 @@
 #include <vector>
 
 #include <aoc/StarBase.h>
+#include <aoc/aoc_utils.h>
 
 using namespace std;
 

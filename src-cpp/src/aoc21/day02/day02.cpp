@@ -2,6 +2,7 @@
 #include <vector>
 
 #include <aoc/StarBase.h>
+#include <aoc/aoc_utils.h>
 
 using namespace std;
 
@@ -12,7 +13,7 @@ struct S1 : public StarBase {
         int depth = 0;
         int forward = 0;
         for (const string &line: data) {
-            vector<string> tokens = split(line, " ");
+            vector<string> tokens = aoc::split(line, " ");
             string cmd = tokens[0];
             int steps = stoi(tokens[1]);
             if (cmd == "forward") {
@@ -37,7 +38,7 @@ struct S2 : public StarBase {
         int forward = 0;
         int aim = 0;
         for (const string &line: data) {
-            vector<string> tokens = split(line, " ");
+            vector<string> tokens = aoc::split(line, " ");
             string cmd = tokens[0];
             int steps = stoi(tokens[1]);
             if (cmd == "forward") {
