@@ -15,7 +15,7 @@ void read_file_data(const string &input_file, vector<string> &data);
 
 
 struct RunResult {
-    int result;
+    ulong result;
     long long int duration;
 };
 
@@ -23,30 +23,30 @@ class StarBase {
 public:
     StarBase(int day, int star) : day(day), star(star) {}
 
-    void run_test(int expected_result, const string &input_file_name = "input-test.txt") {
+    void run_test(ulong expected_result, const string &input_file_name = "input-test.txt") {
         run_star(input_file_name, expected_result);
     }
 
-    void run(int expected_result, const string &input_file_name = "input.txt") {
+    void run(ulong expected_result, const string &input_file_name = "input.txt") {
 
         RunResult result = run_star(input_file_name, expected_result);
         std::cout << "Star: " << star << ": " << result.result << " (" << result.duration << " ms)" << "\n";
     }
 
-    [[nodiscard]] virtual int execute(const vector<string> &data) const = 0;
+    [[nodiscard]] virtual ulong execute(const vector<string> &data) const = 0;
 
 
 private:
     int day;
     int star;
 
-    RunResult run_star(const string &input_file_name, int expected_result) const {
+    RunResult run_star(const string &input_file_name, ulong expected_result) const {
         const string data_dir = "../src/aoc21/day" + aoc::add_leading_zeroes(day, 2) + "/";
         vector<string> data;
         read_file_data(data_dir + input_file_name, data);
 
         auto start = std::chrono::high_resolution_clock::now();
-        int result = execute(data);
+        ulong result = execute(data);
         auto stop = std::chrono::high_resolution_clock::now();
         auto duration = duration_cast<std::chrono::milliseconds>(stop - start);
         if (expected_result > 0 && result != expected_result) {

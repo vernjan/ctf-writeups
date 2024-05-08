@@ -1,5 +1,7 @@
 #include "aoc/aoc_utils.h"
 #include <chrono>
+#include <sstream>
+#include <iomanip>
 
 namespace aoc {
 

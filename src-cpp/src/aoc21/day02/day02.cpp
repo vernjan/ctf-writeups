@@ -9,7 +9,7 @@ using namespace std;
 struct S1 : public StarBase {
     S1() : StarBase(2, 1) {}
 
-    [[nodiscard]] int execute(const vector<string> &data) const override {
+    [[nodiscard]] ulong execute(const vector<string> &data) const override {
         int depth = 0;
         int forward = 0;
         for (const string &line: data) {
@@ -33,7 +33,7 @@ struct S1 : public StarBase {
 struct S2 : public StarBase {
     S2() : StarBase(2, 2) {}
 
-    [[nodiscard]] int execute(const vector<string> &data) const override {
+    [[nodiscard]] ulong execute(const vector<string> &data) const override {
         int depth = 0;
         int forward = 0;
         int aim = 0;

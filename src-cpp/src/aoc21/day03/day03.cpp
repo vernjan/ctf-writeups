@@ -16,7 +16,7 @@ string find_rating(Rating rating, const vector<string> &data, int position);
 struct S1 : public StarBase {
     S1() : StarBase(3, 1) {}
 
-    [[nodiscard]] int execute(const vector<string> &data) const override {
+    [[nodiscard]] ulong execute(const vector<string> &data) const override {
         size_t total_numbers = data.size();
         size_t digits = data[0].size();
         int gamma_rate = 0;
@@ -39,7 +39,7 @@ struct S1 : public StarBase {
 struct S2 : public StarBase {
     S2() : StarBase(3, 2) {}
 
-    [[nodiscard]] int execute(const vector<string> &data) const override {
+    [[nodiscard]] ulong execute(const vector<string> &data) const override {
         int o2_rate = aoc::btoi(find_rating(Rating::O2, data, 0));
         int co2_rate = aoc::btoi(find_rating(Rating::CO2, data, 0));
         return o2_rate * co2_rate;
