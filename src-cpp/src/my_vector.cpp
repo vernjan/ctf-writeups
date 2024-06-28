@@ -1,40 +1,39 @@
 #include <iostream>
-using namespace std;
+
+using std::cout;
 
 // https://en.cppreference.com/w/cpp/container/vector
 // https://gcc.gnu.org/onlinedocs/gcc-4.6.2/libstdc++/api/a01069_source.html
 
-void pointer_func(const int *p, std::size_t size) {
-    std::cout << "data = ";
-    for (std::size_t i = 0; i < size; i++) {
-        std::cout << p[i] << ' ';
-    }
-    std::cout << '\n';
-}
+void print_array(const int *p, size_t size);
+
 
 namespace jve {
 
+    static const int DEFAULT_VECTOR_SIZE = 16;
+
     template<typename T>
-    struct vector {
-        // typedef size_t size_type;
+    class vector {
+    public:
 
-        T elms[10]{};
-        size_t index = 0;// TODO -1
+        vector() : elms(
+                new T[DEFAULT_VECTOR_SIZE]) {} // TODO How is this different from vv? Why getting "Usage of non-initialized field 'elms'?"
+//        vector() : vector(DEFAULT_SIZE) {}
 
-        // TODO here - constructors
-        vector() = default;
-        explicit vector(size_t count) {}
+        explicit vector(size_t count) : elms(
+                new T[count]) {} // TODO What are the default values? new T[count] vs. new T[count]() vs. new T[count]{}
 
         T &at(size_t pos) {
-            if (pos >= this->index) {
-                throw out_of_range("index is out of range");// TODO string interpolation?
+            if (pos > this->index) {
+                throw std::out_of_range("index is out of range"); // TODO string interpolation?
             }
             return elms[pos];
         }
 
-        [[nodiscard]] const T &at(size_t pos) const {// TODO why always having const/const overload?
-            if (pos >= this->index) {
-                throw out_of_range("index is out of range");
+        [[nodiscard]] const T &
+        at(size_t pos) const { // TODO Why STL usually has const/const overload for methods? How do I call this overload?
+            if (pos > this->index) {
+                throw std::out_of_range("index is out of range");
             }
             return elms[pos];
         }
@@ -47,49 +46,75 @@ namespace jve {
             return elms[0];
         }
 
-        // TODO back()
+        T &back() {
+            return elms[index];
+        }
 
         T *data() {
             return &elms[0];
         }
 
         [[nodiscard]] size_t size() const {
-            return index;
+            return index + 1;
         }
 
         void push_back(T const &value) {
-            elms[index++] = value;// TODO call the move variant?
+            elms[++index] = value;
+//            push_back(std::move(value)); // TODO Why is this a recursive call?
         }
 
         void push_back(T &&value) {
-            elms[index++] = value;
+            elms[++index] = value;
         }
-
 
         T get(size_t pos) {
             return elms[pos];
         }
+
+    private:
+        T *elms; // TODO Should I initialize to nullptr?
+        size_t index = -1;
+
     };
 }// namespace jve
 
+void print_array(const int *p, size_t size) {
+    cout << "data = ";
+    for (size_t i = 0; i < size; i++) {
+        cout << i << ":" << p[i] << ", ";
+    }
+    cout << '\n';
+}
+
+
 int main() {
-    cout << "Hello, World!\n";
-    jve::vector<int> v;
-    //jve::vector<int> v2{1,2,3};  // TODO not supported yet
-    //cout << "Size: " << v2.size() << "\n";
-    cout << "Size: " << v.size() << "\n";
-    //std::puts("Size: " + v.size()); //???
-    v.push_back(1);
-    cout << "Size: " << v.size() << "\n";
-    //std::puts("Size: " + v.size()); //???
-    v.push_back(std::move(2));
-    cout << "Index 0: " << v.front() << "\n";
-    cout << "Index 1: " << v.get(1) << "\n";
-    v.at(1) = 5;
-    int &index1 = v.at(1);
-    index1 = 7;
-    cout << "Index 1: " << v[1] << "\n";
-    pointer_func(v.data(), v.size());
-    //cout << "Index 2: " << v.at(2) << "\n";
+    cout << "Vector v1:\n";
+    jve::vector<int> v1; // default constructor
+    int x = 2;
+    int y = 4;
+    v1.push_back(1); // calls && (rvalue)
+    v1.push_back(x); // calls & (lvalue)
+    v1.push_back(x + 1); // calls && (rvalue)
+    v1.push_back(std::move(y)); // calls && (rvalue)
+    cout << "size = " << v1.size() << "\n";
+    print_array(v1.data(), v1.size());
+    cout << "front = " << v1.front() << "\n";
+    cout << "back = " << v1.back() << "\n";
+    cout << "index 1 = " << v1.get(1) << "\n";
+    cout << "index 1 = " << v1.at(1) << "\n";
+    cout << "index 1 = " << v1[1] << "\n";
+    // modify the reference
+    int const &z = v1.at(1);  // TODO Why not calling the const overload?
+    cout << z << "\n";
+    v1.at(1) = 12; // returns a reference so we can re-assign
+    v1[2] = 13;
+    int &temp = v1[3]; // returns a reference
+    temp = 14; // re-assign
+    print_array(v1.data(), v1.size());
+
+    cout << "\nVector v2:\n";
+    jve::vector<int> v2(5);
+    print_array(v2.data(), 5);
+
     return 0;
 }
