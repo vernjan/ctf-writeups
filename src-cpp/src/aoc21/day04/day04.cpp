@@ -59,7 +59,7 @@ int sum_board(int number, Board &board);
 struct S1 : public StarBase {
     S1() : StarBase(4, 1) {}
 
-    [[nodiscard]] ulong execute(const vector<string> &data) const override {
+    [[nodiscard]] size_t execute(const vector<string> &data) const override {
         vector<int> numbers = aoc::split_to_ints(data[0], ",");
         vector<Board> boards = parse_boards(data);
 
@@ -80,7 +80,7 @@ struct S1 : public StarBase {
 struct S2 : public StarBase {
     S2() : StarBase(4, 2) {}
 
-    [[nodiscard]] ulong execute(const vector<string> &data) const override {
+    [[nodiscard]] size_t execute(const vector<string> &data) const override {
         vector<int> numbers = aoc::split_to_ints(data[0], ",");
         vector<Board> boards = parse_boards(data);
 

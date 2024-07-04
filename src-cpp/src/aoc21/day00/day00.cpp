@@ -8,7 +8,7 @@ using namespace std;
 struct S1 : public StarBase {
     S1() : StarBase(0, 1) {}
 
-    [[nodiscard]] ulong execute(const vector<string> &data) const override {
+    [[nodiscard]] size_t execute(const vector<string> &data) const override {
         return 0;
     }
 };
@@ -16,7 +16,7 @@ struct S1 : public StarBase {
 struct S2 : public StarBase {
     S2() : StarBase(0, 2) {}
 
-    [[nodiscard]] ulong execute(const vector<string> &data) const override {
+    [[nodiscard]] size_t execute(const vector<string> &data) const override {
         return 0;
     }
 };

@@ -6,12 +6,12 @@
 
 using namespace std;
 
-ulong count_fish(const vector<string> &data, const int days);
+size_t count_fish(const vector<string> &data, const int days);
 
 struct S1 : public StarBase {
     S1() : StarBase(6, 1) {}
 
-    [[nodiscard]] ulong execute(const vector<string> &data) const override {
+    [[nodiscard]] size_t execute(const vector<string> &data) const override {
         return count_fish(data, 80);
 
     }
@@ -20,14 +20,14 @@ struct S1 : public StarBase {
 struct S2 : public StarBase {
     S2() : StarBase(6, 2) {}
 
-    [[nodiscard]] ulong execute(const vector<string> &data) const override {
+    [[nodiscard]] size_t execute(const vector<string> &data) const override {
         return count_fish(data, 256);
     }
 };
 
-ulong count_fish(const vector<string> &data, const int days) {
+size_t count_fish(const vector<string> &data, const int days) {
     // TODO Better way how to initialize this?
-    map<int, ulong> fish_counts;
+    map<int, size_t> fish_counts;
     for (int i = 0; i < 9; ++i) {
         fish_counts[i] = 0;
     }
@@ -43,7 +43,7 @@ ulong count_fish(const vector<string> &data, const int days) {
 //            }
 //            std::cout << "\n";
 
-        ulong newborns = fish_counts[0];
+        size_t newborns = fish_counts[0];
 
         for (int j = 0; j < 6; ++j) {
             fish_counts[j] = fish_counts[j + 1];
@@ -55,7 +55,7 @@ ulong count_fish(const vector<string> &data, const int days) {
     }
 
     // TODO Better way how to sum this?
-    ulong total = 0;
+    size_t total = 0;
     for (const auto &pair: fish_counts) {
         total += pair.second;
     }

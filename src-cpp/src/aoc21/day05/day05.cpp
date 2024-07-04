@@ -12,7 +12,7 @@ int countOverlaps(const vector<string> &data, bool include_diagonals);
 struct S1 : public StarBase {
     S1() : StarBase(5, 1) {}
 
-    [[nodiscard]] ulong execute(const vector<string> &data) const override {
+    [[nodiscard]] size_t execute(const vector<string> &data) const override {
         return countOverlaps(data, false);
     }
 };
@@ -20,7 +20,7 @@ struct S1 : public StarBase {
 struct S2 : public StarBase {
     S2() : StarBase(5, 2) {}
 
-    [[nodiscard]] ulong execute(const vector<string> &data) const override {
+    [[nodiscard]] size_t execute(const vector<string> &data) const override {
         return countOverlaps(data, true);
     }
 };
