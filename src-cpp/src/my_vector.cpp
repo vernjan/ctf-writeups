@@ -1,4 +1,5 @@
 #include <iostream>
+#include <limits>
 
 using std::cout;
 
@@ -10,18 +11,20 @@ void print_array(const int *p, size_t size);
 
 namespace jve {
 
-    static const int DEFAULT_VECTOR_SIZE = 16;
+    constexpr int DEFAULT_VECTOR_SIZE = 16;
 
     template<typename T>
     class vector {
     public:
 
-        vector() : elms(
-                new T[DEFAULT_VECTOR_SIZE]) {} // TODO How is this different from vv? Why getting "Usage of non-initialized field 'elms'?"
-//        vector() : vector(DEFAULT_SIZE) {}
+//        vector() : elms(new T[DEFAULT_VECTOR_SIZE]) {}
+        vector() : vector(DEFAULT_VECTOR_SIZE) {}
 
-        explicit vector(size_t count) : elms(
-                new T[count]) {} // TODO What are the default values? new T[count] vs. new T[count]() vs. new T[count]{}
+        // TODO What are the default values? new T[count] vs. new T[count]() vs. new T[count]{}
+        explicit vector(size_t count) : elms(new T[count]) {}
+//        explicit vector(size_t count) { this->elms = new T[count]; }
+
+        // TBD - push_back and emplace_back, insert, erase, resize
 
         T &at(size_t pos) {
             if (pos > this->index) {
@@ -72,8 +75,8 @@ namespace jve {
         }
 
     private:
-        T *elms; // TODO Should I initialize to nullptr?
-        size_t index = -1;
+        T *elms{nullptr};
+        size_t index = std::numeric_limits<size_t>::max();
 
     };
 }// namespace jve
