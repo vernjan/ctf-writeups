@@ -8,7 +8,6 @@ using std::cout;
 
 void print_array(const int *p, size_t size);
 
-
 namespace jve {
 
     constexpr int DEFAULT_VECTOR_SIZE = 16;
@@ -17,12 +16,14 @@ namespace jve {
     class vector {
     public:
 
-//        vector() : elms(new T[DEFAULT_VECTOR_SIZE]) {}
-        vector() : vector(DEFAULT_VECTOR_SIZE) {}
+        vector() : vector(DEFAULT_VECTOR_SIZE) {
+            cout << "vector()\n";
+        }
 
         // TODO What are the default values? new T[count] vs. new T[count]() vs. new T[count]{}
-        explicit vector(size_t count) : elms(new T[count]) {}
-//        explicit vector(size_t count) { this->elms = new T[count]; }
+        explicit vector(size_t count) : elms(new T[count]) {
+            cout << "vector(size_t)\n";
+        }
 
         // TBD - push_back and emplace_back, insert, erase, resize
 
