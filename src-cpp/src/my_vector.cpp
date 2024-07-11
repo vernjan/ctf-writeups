@@ -6,23 +6,65 @@ using std::cout;
 // https://en.cppreference.com/w/cpp/container/vector
 // https://gcc.gnu.org/onlinedocs/gcc-4.6.2/libstdc++/api/a01069_source.html
 
+struct Foo {
+    int x = -1;
+
+    [[nodiscard]] Foo() {
+        std::cout << "Foo: Constructor()" << std::endl;
+    }
+
+    [[nodiscard]] explicit Foo(int x) : x(x) {
+        std::cout << "Foo: Constructor(x)" << std::endl;
+    }
+
+    // copy constructor
+    [[nodiscard]] Foo(const Foo &other) {
+        std::cout << "Foo: Copy Constructor: " << x << ", other: " << other.x << std::endl;
+        x = other.x;
+    };
+
+    // copy assignment
+    Foo &operator=(const Foo &other) {
+        std::cout << "Foo: Copy assignment: " << x << ", other: " << other.x << std::endl;
+        x = other.x;
+        return *this;
+    }
+
+    // move constructor
+    [[nodiscard]] Foo(Foo &&other) noexcept {
+        std::cout << "Foo: Move Constructor: " << x << ", other: " << other.x << std::endl;
+        x = other.x;
+    }
+
+    // move assignment
+    Foo &operator=(Foo &&other) noexcept {
+        std::cout << "Foo: Move assignment: " << x << ", other: " << other.x << std::endl;
+        x = other.x;
+        return *this;
+    }
+};
+
 void print_array(const int *p, size_t size);
+
+int get_int(int x) {
+    cout << "init: get_int(" << x << ")\n";
+    return x;
+}
 
 namespace jve {
 
     constexpr int DEFAULT_VECTOR_SIZE = 16;
 
     template<typename T>
-    class vector {
+    class Vector {
     public:
 
-        vector() : vector(DEFAULT_VECTOR_SIZE) {
-            cout << "vector()\n";
+        Vector() : Vector(DEFAULT_VECTOR_SIZE) {
+            cout << "Vector() body\n";
         }
 
-        // TODO What are the default values? new T[count] vs. new T[count]() vs. new T[count]{}
-        explicit vector(size_t count) : elms(new T[count]) {
-            cout << "vector(size_t)\n";
+        explicit Vector(size_t count) : x(get_int(2)), elms(new T[count]) {
+            cout << "Vector(size_t) body\n";
         }
 
         // TBD - push_back and emplace_back, insert, erase, resize
@@ -71,11 +113,22 @@ namespace jve {
             elms[++index] = value;
         }
 
+        template<typename... Args>
+        void emplace_back(Args &&... args) {
+            elms[++index] = T(std::forward<Args>(args)...);
+        }
+
+        template<typename Args>
+        void emplace_back2(Args && args) {
+            elms[++index] = T(std::forward<Args>(args));
+        }
+
         T get(size_t pos) {
             return elms[pos];
         }
 
     private:
+        int x = get_int(1);
         T *elms{nullptr};
         size_t index = std::numeric_limits<size_t>::max();
 
@@ -93,7 +146,7 @@ void print_array(const int *p, size_t size) {
 
 int main() {
     cout << "Vector v1:\n";
-    jve::vector<int> v1; // default constructor
+    jve::Vector<int> v1; // default constructor
     int x = 2;
     int y = 4;
     v1.push_back(1); // calls && (rvalue)
@@ -117,8 +170,16 @@ int main() {
     print_array(v1.data(), v1.size());
 
     cout << "\nVector v2:\n";
-    jve::vector<int> v2(5);
+    jve::Vector<int> v2(5);
+    int a = 2;
+    v2.emplace_back(a); // TODO How come this work? What happens here?
     print_array(v2.data(), 5);
+
+    cout << "\nVector v3:\n";
+    jve::Vector<Foo> v3(5);
+    const Foo foo1(123);
+    v3.push_back(foo1);
+    v3.emplace_back(124);
 
     return 0;
 }
