@@ -119,7 +119,7 @@ namespace jve {
         }
 
         template<typename Args>
-        void emplace_back2(Args && args) {
+        void emplace_back2(Args &&args) {
             elms[++index] = T(std::forward<Args>(args));
         }
 
@@ -142,7 +142,6 @@ void print_array(const int *p, size_t size) {
     }
     cout << '\n';
 }
-
 
 int main() {
     cout << "Vector v1:\n";
