@@ -2,10 +2,9 @@
 
 #include <aoc/StarBase.h>
 #include <aoc/aoc_utils.h>
-#include <unordered_map>
-#include <set>
-#include <map>
 #include <cmath>
+#include <map>
+#include <set>
 
 using namespace std;
 
@@ -20,10 +19,7 @@ using namespace std;
 // 8 = 7 = 01111111 = abcdefg   U
 // 9 = 6 = 01111011 = abcdfg
 
-// 6 is one of 0, 6, 9
-// 5 is one of 2, 3, 5
-
-map<set<char>, int> ENCODING = {
+map<set<char>, int> SEVEN_SEGMENT_DISPLAY = {
         {{'a', 'b', 'c', 'e', 'f', 'g'}, 0},
         {{'c', 'f'}, 1},
         {{'a', 'c', 'd', 'e', 'g'}, 2},
@@ -60,77 +56,70 @@ struct S2 : public StarBase {
         size_t total = 0;
 
         for (auto &line: data) {
-            auto digits_out = aoc::split(line, "|")[1];
-            std::set<char> letters = {'a', 'b', 'c', 'd', 'e', 'f', 'g'};
-            std::unordered_map<char, set<char>> replacements = {
-                    {'a', letters},
-                    {'b', letters},
-                    {'c', letters},
-                    {'d', letters},
-                    {'e', letters},
-                    {'f', letters},
-                    {'g', letters},
+
+            auto digits_in = aoc::split(aoc::split(line, "|")[0], " ");
+            auto digits_out = aoc::split(aoc::split(line, "|")[1], " ");
+
+            std::map<char, set<char>> wiring = {
+                    {'a', {'a', 'b', 'c', 'd', 'e', 'f', 'g'}},
+                    {'b', {'a', 'b', 'c', 'd', 'e', 'f', 'g'}},
+                    {'c', {'a', 'b', 'c', 'd', 'e', 'f', 'g'}},
+                    {'d', {'a', 'b', 'c', 'd', 'e', 'f', 'g'}},
+                    {'e', {'a', 'b', 'c', 'd', 'e', 'f', 'g'}},
+                    {'f', {'a', 'b', 'c', 'd', 'e', 'f', 'g'}},
+                    {'g', {'a', 'b', 'c', 'd', 'e', 'f', 'g'}},
             };
-            auto digits = aoc::split(line, " ");
-            // sort from shortest to longest
-            sort(digits.begin(), digits.end(), [](const string &a, const string &b) {
+
+            // sort digits from shortest to longest
+            sort(digits_in.begin(), digits_in.end(), [](const string &a, const string &b) {
                 return a.length() < b.length();
             });
+
             set<char> digit1_letters;
             set<char> digit7_letters;
             set<char> digit4_letters;
-            for (const auto &digit_in: digits) {
-                auto possible_letters = set<char>(digit_in.begin(), digit_in.end());
-                if (digit_in.length() == 2) { // digit 1
+            for (const auto &digit_in: digits_in) {
+                const auto possible_letters = set<char>(digit_in.begin(), digit_in.end());
+                if (digit_in.length() == 2) {// digit 1
                     digit1_letters = possible_letters;
-                    for (const auto &letter: "cf") {
-                        replacements[letter] = aoc::set_isect(replacements[letter], possible_letters);
-                    }
-                } else if (digit_in.length() == 3) { // digit 7
+                    update_wiring(wiring, "cf", possible_letters);
+                } else if (digit_in.length() == 3) {// digit 7
                     digit7_letters = possible_letters;
-                    replacements['e'] = aoc::set_diff(replacements['e'], digit7_letters);
-                    for (const auto &letter: "acf") {
-                        replacements[letter] = aoc::set_isect(replacements[letter], possible_letters);
-                    }
+                    wiring['e'] = aoc::set_diff(wiring['e'], digit7_letters);
+                    update_wiring(wiring, "acf", possible_letters);
                     if (!digit1_letters.empty()) {
                         set<char> possible_letters2 = aoc::set_diff(possible_letters, digit1_letters);
-                        replacements['a'] = aoc::set_isect(replacements['a'], possible_letters2);
+                        wiring['a'] = aoc::set_isect(wiring['a'], possible_letters2);
                     }
-                } else if (digit_in.length() == 4) {
+                } else if (digit_in.length() == 4) {// digit 4
                     digit4_letters = possible_letters;
-                    replacements['e'] = aoc::set_diff(replacements['e'], digit4_letters);
-                    for (const auto &letter: "bcdf") { // digit 4
-                        replacements[letter] = aoc::set_isect(replacements[letter], possible_letters);
-                    }
+                    wiring['e'] = aoc::set_diff(wiring['e'], digit4_letters);
+                    update_wiring(wiring, "bcdf", possible_letters);
                     if (!digit7_letters.empty()) {
                         set<char> possible_letters2 = aoc::set_diff(possible_letters, digit7_letters);
-                        replacements['b'] = aoc::set_isect(replacements['b'], possible_letters2);
-                        replacements['d'] = aoc::set_isect(replacements['d'], possible_letters2);
+                        wiring['b'] = aoc::set_isect(wiring['b'], possible_letters2);
+                        wiring['d'] = aoc::set_isect(wiring['d'], possible_letters2);
                     }
-                } else if (digit_in.length() == 5) {
-                    for (const auto &letter: "adg") { // 2, 3, 5
-                        replacements[letter] = aoc::set_isect(replacements[letter], possible_letters);
-                    }
+                } else if (digit_in.length() == 5) {// digits 2, 3, 5
+                    update_wiring(wiring, "adg", possible_letters);
                     if (!digit4_letters.empty()) {
                         set<char> possible_letters2 = aoc::set_diff(possible_letters, digit4_letters);
-                        replacements['g'] = aoc::set_isect(replacements['g'], possible_letters2);
+                        wiring['g'] = aoc::set_isect(wiring['g'], possible_letters2);
                     }
                     if (!digit7_letters.empty()) {
                         set<char> possible_letters2 = aoc::set_diff(possible_letters, digit7_letters);
-                        replacements['g'] = aoc::set_isect(replacements['g'], possible_letters2);
+                        wiring['g'] = aoc::set_isect(wiring['g'], possible_letters2);
                     }
-                } else if (digit_in.length() == 6) {
-                    for (const auto &letter: "abfg") { // 0, 6, 9
-                        replacements[letter] = aoc::set_isect(replacements[letter], possible_letters);
-                    }
+                } else if (digit_in.length() == 6) {// digits 0, 6, 9
+                    update_wiring(wiring, "abfg", possible_letters);
                 }
             }
 
-            for (auto &item: replacements) {
+            for (auto &item: wiring) {
                 if (item.second.size() > 1) {
                     for (const auto &letter: item.second) {
-                        for (const auto &item2: replacements) {
-                            if (item2.second.contains(letter) && item2.first != item.first) {
+                        for (const auto &item2: wiring) {
+                            if (item2.second.contains(letter) && item.first != item2.first) {
                                 item.second.erase(letter);
                             }
                         }
@@ -138,51 +127,32 @@ struct S2 : public StarBase {
                 }
             }
 
-            map<char, char> replacements2;
-            for (const auto &item: replacements) {
+            map<char, char> wiring_reversed;
+            for (const auto &item: wiring) {
                 if (item.second.size() > 1) {
                     throw std::runtime_error("Multiple replacements");
                 }
-                replacements2[(*item.second.begin())] = item.first;
+                wiring_reversed[(*item.second.begin())] = item.first;
             }
 
-            int counter = 0;
-            int decoded_sum = 0;
-            auto digits22 = aoc::split(digits_out, " ");
-            size_t base = digits22.size() - 1;
-            for (const auto &digit_out: digits22) {
-                set<char> digits_replaced;
-                for (const auto &letter: digit_out) {
-                    digits_replaced.insert(replacements2[letter]);
+            for (int i = 0; i < digits_out.size(); ++i) {
+                set<char> digit_out_letters_rewired;
+                for (const auto &letter: digits_out[i]) {
+                    digit_out_letters_rewired.insert(wiring_reversed[letter]);
                 }
-                size_t decoded = ENCODING[digits_replaced];
-                decoded_sum += decoded * std::pow(10, (base - counter));
-                counter++;
-
-//                cout << ENCODING[digits_replaced];
-//                sort(digits_replaced.begin(), digits_replaced.end());
+                size_t digit_out = SEVEN_SEGMENT_DISPLAY[digit_out_letters_rewired];
+                total += digit_out * std::pow(10, (digits_out.size() - 1 - i));
             }
-            total += decoded_sum;
-//            cout << endl;
-
-//            std::cout << "Input: " << line << std::endl;
-//            for (const auto &letter: replacements) {
-//                std::cout << letter.first << ": ";
-//                if (letter.second.size() > 1) {
-//                    std::cout << "multiple ";
-//                }
-//                for (const auto &letter: letter.second) {
-//                    std::cout << letter << " ";
-//                }
-//                std::cout << std::endl;
-//            }
         }
         return total;
     }
 
-
+    static void update_wiring(map<char, set<char>> &wiring, const string &letters, const set<char> &possible_letters) {
+        for (const auto &letter: letters) {
+            wiring[letter] = aoc::set_isect(wiring[letter], possible_letters);
+        }
+    }
 };
-
 
 int main() {
     S1 s1;
