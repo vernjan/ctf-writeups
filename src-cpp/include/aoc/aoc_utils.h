@@ -3,8 +3,9 @@
 #include <string>
 #include <utility>
 #include <vector>
+#include <set>
 
-using std::vector, std::string;
+using std::vector, std::string, std::set;
 
 namespace aoc {
 
@@ -17,8 +18,10 @@ namespace aoc {
 
     // left trim
     void ltrim(string &s);
+
     // right trim
     void rtrim(string &s);
+
     // trim from both ends
     void trim(string &s);
 
@@ -56,5 +59,10 @@ namespace aoc {
     int sgn(T val) {
         return (T(0) < val) - (val < T(0));
     }
+
+    [[nodiscard]] set<char> set_isect(const set<char> &a, const set<char> &b);
+
+    [[nodiscard]] set<char> set_diff(const set<char> &a, const set<char> &b);
+
 
 }// namespace aoc
