@@ -1,9 +1,9 @@
 #pragma once
 
+#include <set>
 #include <string>
 #include <utility>
 #include <vector>
-#include <set>
 
 using std::vector, std::string, std::set;
 
@@ -30,7 +30,8 @@ namespace aoc {
         vector<T> tokens;
         size_t pos;
         string token;
-        while ((pos = text.find(delimiter)) != string::npos) {
+        while (!text.empty() && (pos = text.find(delimiter)) != string::npos) {
+            pos = std::max(pos, (size_t) 1);
             token = text.substr(0, pos);
             aoc::trim(token);
             if (!token.empty()) {
