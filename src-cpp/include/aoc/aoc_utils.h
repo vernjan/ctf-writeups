@@ -7,7 +7,18 @@
 
 using std::vector, std::string, std::set;
 
+typedef vector<vector<int>> matrix;
+
 namespace aoc {
+
+    struct point {
+        const int x;
+        const int y;
+
+        bool operator<(const point &rhs) const {
+            return x < rhs.x || (x == rhs.x && y < rhs.y);
+        }
+    };
 
     /*
      * Binary to integer

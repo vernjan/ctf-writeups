@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.26)
 project(advent_of_code)
 
 set(CMAKE_CXX_STANDARD 20)
+#set(CMAKE_CXX_FLAGS "-O3")
 
 include_directories(
         include/
@@ -17,4 +18,5 @@ add_executable(AoC21Day06 src/aoc_utils.cpp src/aoc21/day06/day06.cpp)
 add_executable(AoC21Day07 src/aoc_utils.cpp src/aoc21/day07/day07.cpp)
 add_executable(AoC21Day08 src/aoc_utils.cpp src/aoc21/day08/day08.cpp)
 add_executable(AoC21Day09 src/aoc_utils.cpp src/aoc21/day09/day09.cpp)
+add_executable(AoC21Day10 src/aoc_utils.cpp src/aoc21/day10/day10.cpp)
 add_executable(MyVector src/my_vector.cpp)
