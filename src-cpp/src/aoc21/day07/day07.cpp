@@ -16,7 +16,7 @@ size_t calc_fuel(vector<int> &crabs, int pos, int(*calc)(int dist)) {
 }
 
 size_t calc_min_fuel_bf(vector<int> &crabs, int min, int max, int(*calc)(int dist)) {
-    size_t min_fuel = numeric_limits<size_t>::max();;
+    size_t min_fuel = numeric_limits<size_t>::max();
     for (int i = min; i <= max; i++) {
         size_t fuel = calc_fuel(crabs, i, calc);
         //cout << "Fuel[ " << i << "]: " << fuel << "\n";

@@ -7,18 +7,7 @@
 
 using std::vector, std::string, std::set;
 
-typedef vector<vector<int>> matrix;
-
 namespace aoc {
-
-    struct point {
-        const int x;
-        const int y;
-
-        bool operator<(const point &rhs) const {
-            return x < rhs.x || (x == rhs.x && y < rhs.y);
-        }
-    };
 
     /*
      * Binary to integer
@@ -71,6 +60,27 @@ namespace aoc {
     int sgn(T val) {
         return (T(0) < val) - (val < T(0));
     }
+
+    struct matrix {
+        vector<vector<int>> data;
+        const size_t y_size;
+        const size_t x_size;
+
+        explicit matrix(const vector<string> &data) : y_size(data.size()), x_size(data[0].size()) {
+            for (const string &line: data) {
+                this->data.push_back(aoc::split_to_ints(line, ""));
+            }
+        }
+    };
+
+    struct xy {
+        const int x;
+        const int y;
+
+        bool operator<(const xy &rhs) const {
+            return x < rhs.x || (x == rhs.x && y < rhs.y);
+        }
+    };
 
     [[nodiscard]] set<char> set_isect(const set<char> &a, const set<char> &b);
 

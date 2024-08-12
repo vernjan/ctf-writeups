@@ -10,38 +10,32 @@ struct S1 : public StarBase {
     S1() : StarBase(9, 1) {}
 
     [[nodiscard]] size_t execute(const vector<string> &data) const override {
-        matrix grid;
-        for (const string &line: data) {
-            grid.push_back(aoc::split_to_ints(line, ""));
-        }
-
-        const size_t height = data.size();
-        const size_t width = data[0].size();
+        aoc::matrix grid(data);
 
         int total = 0;
-        for (int i = 0; i < height; ++i) {
-            for (int j = 0; j < width; ++j) {
-                if (i > 0) {
-                    if (grid[i][j] >= grid[i - 1][j]) {
+        for (int y = 0; y < grid.y_size; ++y) {
+            for (int x = 0; x < grid.x_size; ++x) {
+                if (y > 0) {
+                    if (grid.data[y][x] >= grid.data[y - 1][x]) {
                         continue;
                     }
                 }
-                if (j < width - 1) {
-                    if (grid[i][j] >= grid[i][j + 1]) {
+                if (x < grid.x_size - 1) {
+                    if (grid.data[y][x] >= grid.data[y][x + 1]) {
                         continue;
                     }
                 }
-                if (i < height - 1) {
-                    if (grid[i][j] >= grid[i + 1][j]) {
+                if (y < grid.y_size - 1) {
+                    if (grid.data[y][x] >= grid.data[y + 1][x]) {
                         continue;
                     }
                 }
-                if (j > 0) {
-                    if (grid[i][j] >= grid[i][j - 1]) {
+                if (x > 0) {
+                    if (grid.data[y][x] >= grid.data[y][x - 1]) {
                         continue;
                     }
                 }
-                total += grid[i][j] + 1;
+                total += grid.data[y][x] + 1;
             }
         }
         return total;
@@ -52,45 +46,39 @@ struct S2 : public StarBase {
     S2() : StarBase(9, 2) {}
 
     [[nodiscard]] size_t execute(const vector<string> &data) const override {
-        matrix grid;
-        for (const string &line: data) {
-            grid.push_back(aoc::split_to_ints(line, ""));
-        }
+        aoc::matrix grid(data);
 
-        const size_t height = data.size();
-        const size_t width = data[0].size();
-
-        set<aoc::point> visited;
+        set<aoc::xy> visited;
         vector<int> pool_sizes;
-        for (int i = 0; i < height; ++i) {
-            for (int j = 0; j < width; ++j) {
-                int value = grid[i][j];
+        for (int y = 0; y < grid.y_size; ++y) {
+            for (int x = 0; x < grid.x_size; ++x) {
+                int value = grid.data[y][x];
                 if (value == 9) {
                     continue;
                 }
                 // BFS
-                aoc::point start_point{i, j};
-                vector<aoc::point> queue;
-                set<aoc::point> pool;
+                aoc::xy start_point{y, x};
+                vector<aoc::xy> queue;
+                set<aoc::xy> pool;
                 queue.push_back(start_point);
                 while (!queue.empty()) {
-                    aoc::point current = queue.back();
+                    aoc::xy current = queue.back();
                     queue.pop_back();
                     if (visited.contains(current)) {
                         continue;
                     }
                     pool.insert(current);
                     visited.insert(current);
-                    if (current.x > 0 && grid[current.x - 1][current.y] != 9) {
+                    if (current.x > 0 && grid.data[current.x - 1][current.y] != 9) {
                         queue.emplace_back(current.x - 1, current.y);
                     }
-                    if (current.y < width - 1 && grid[current.x][current.y + 1] != 9) {
+                    if (current.y < grid.x_size - 1 && grid.data[current.x][current.y + 1] != 9) {
                         queue.emplace_back(current.x, current.y + 1);
                     }
-                    if (current.x < height - 1 && grid[current.x + 1][current.y] != 9) {
+                    if (current.x < grid.y_size - 1 && grid.data[current.x + 1][current.y] != 9) {
                         queue.emplace_back(current.x + 1, current.y);
                     }
-                    if (current.y > 0 && grid[current.x][current.y - 1] != 9) {
+                    if (current.y > 0 && grid.data[current.x][current.y - 1] != 9) {
                         queue.emplace_back(current.x, current.y - 1);
                     }
                 }
