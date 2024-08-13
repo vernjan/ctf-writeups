@@ -10,7 +10,7 @@ struct Bar {
     Bar() = default;
 
     // move constructor
-    Bar(Bar &&b) noexcept : i(b.i), j(b.j), k(b.k) {
+    Bar(Bar &&b) noexcept: i(b.i), j(b.j), k(b.k) {
         std::cout << "move constructor\n";
     }
 
@@ -74,7 +74,6 @@ struct Foo {
         Miau::YYY(std::forward<Q>(q));
     }
 };
-
 
 int main() {
     // B: &Bar

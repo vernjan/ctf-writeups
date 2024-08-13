@@ -11,37 +11,28 @@ struct node {
     set<node *> links;
 };
 
-struct path {
-    vector<string> nodes;
-    set<node> visited;
-};
-
-void update_node(map<string, node> &nodes, const string &node1_name, const string &node2_name) {
+void update_node(map<string, node*> &nodes, const string &node1_name, const string &node2_name) {
     if (!nodes.contains(node1_name)) {
-        nodes[node1_name] = node{node1_name};
+        nodes[node1_name] = new node{node1_name};
     }
     if (!nodes.contains(node2_name)) {
-        nodes[node2_name] = node{node2_name};
+        nodes[node2_name] = new node{node2_name};
     }
-    nodes[node1_name].links.insert(&nodes[node2_name]);
-    nodes[node2_name].links.insert(&nodes[node1_name]);
+    nodes[node1_name]->links.insert(nodes[node2_name]);
+    nodes[node2_name]->links.insert(nodes[node1_name]);
 }
 
 struct S1 : public StarBase {
     S1() : StarBase(12, 1) {}
 
     [[nodiscard]] size_t execute(const vector<string> &data) const override {
-        map<string, node> nodes;
+        map<string, node*> nodes;
         for (const auto &line: data) {
             auto link = aoc::split(line, "-");
             update_node(nodes, link[0], link[1]);
         }
-
-        int total = 0;
-
-
-
-        return total;
+        nodes = {};
+        return 0;
     }
 };
 
