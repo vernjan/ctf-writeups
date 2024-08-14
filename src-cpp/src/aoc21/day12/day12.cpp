@@ -14,7 +14,26 @@ struct node {
 
 struct path {
     vector<node *> nodes;
-    bool double_visit = false;// TODO Here
+    bool double_visit;
+};
+
+
+size_t count_all_paths(const vector<string> &data, bool allow_double_visit);
+
+struct S1 : public StarBase {
+    S1() : StarBase(12, 1) {}
+
+    [[nodiscard]] size_t execute(const vector<string> &data) const override {
+        return count_all_paths(data, false);
+    }
+};
+
+struct S2 : public StarBase {
+    S2() : StarBase(12, 2) {}
+
+    [[nodiscard]] size_t execute(const vector<string> &data) const override {
+        return count_all_paths(data, true);
+    }
 };
 
 void update_node(map<string, node> &nodes, const string &node1_name, const string &node2_name) {
@@ -28,49 +47,48 @@ void update_node(map<string, node> &nodes, const string &node1_name, const strin
     nodes[node2_name].links.insert(&nodes[node1_name]);
 }
 
-struct S1 : public StarBase {
-    S1() : StarBase(12, 1) {}
+bool is_visited(const vector<node *> &nodes, const node *node) {
+    return find(nodes.begin(), nodes.end(), node) != nodes.end();
+}
 
-    [[nodiscard]] size_t execute(const vector<string> &data) const override {
-        map<string, node> nodes_map;
-        for (const auto &line: data) {
-            auto link = aoc::split(line, "-");
-            update_node(nodes_map, link[0], link[1]);
-        }
+size_t count_all_paths(const vector<string> &data, bool allow_double_visit) {
+    map<string, node> nodes_map;
+    for (const auto &line: data) {
+        auto link = aoc::split(line, "-");
+        update_node(nodes_map, link[0], link[1]);
+    }
 
-        int total = 0;
-        node *start_node = &nodes_map["start"];
-        vector<path> paths;
-        paths.emplace_back(vector<node *>{start_node});
-        while (!paths.empty()) {
-            path current_path = paths.back();
-            paths.pop_back();
-            vector<node *> nodes = current_path.nodes;
-            node *current_node = nodes.back();
-            if (current_node->name == "end") {
-                total++;
-            } else {
-                for (node *link: current_node->links) {
-                    if (isupper(link->name[0]) || nodes.end() == find(nodes.begin(), nodes.end(), link)) {
-                        path new_path = current_path;
-                        new_path.nodes.push_back(link);
-                        paths.push_back(new_path);
+    int total = 0;
+    node *start_node = &nodes_map["start"];
+    vector<path> paths;
+    paths.emplace_back(vector<node *>{start_node}, !allow_double_visit);
+    while (!paths.empty()) {
+        path current_path = paths.back();
+        paths.pop_back();
+        vector<node *> nodes = current_path.nodes;
+        node *current_node = nodes.back();
+        if (current_node->name == "end") {
+            total++;
+        } else {
+            for (node *link: current_node->links) {
+                if (isupper(link->name[0]) || !current_path.double_visit || !is_visited(nodes, link)) {
+                    if (link->name == "start") {
+                        continue;
                     }
+                    path new_path = current_path;
+                    new_path.nodes.push_back(link);
+
+                    if (!current_path.double_visit && islower(link->name[0]) && is_visited(nodes, link)) {
+                        new_path.double_visit = true;
+                    }
+                    paths.push_back(new_path);
                 }
             }
         }
-
-        return total;
     }
-};
 
-struct S2 : public StarBase {
-    S2() : StarBase(12, 2) {}
-
-    [[nodiscard]] size_t execute(const vector<string> &data) const override {
-        return 0;
-    }
-};
+    return total;
+}
 
 
 int main() {
@@ -80,7 +98,7 @@ int main() {
 
     S2 s2;
     s2.run_test(36);
-    s2.run(0);
+    s2.run(130094);
 
     return 0;
 }
