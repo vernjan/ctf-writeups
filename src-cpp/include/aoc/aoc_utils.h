@@ -77,6 +77,11 @@ namespace aoc {
         const int x;
         const int y;
 
+        static xy parse(const string &text) {
+            vector<int> xy = aoc::split_to_ints(text, ",");
+            return {xy[0], xy[1]};
+        }
+
         bool operator<(const xy &rhs) const {
             return x < rhs.x || (x == rhs.x && y < rhs.y);
         }
