@@ -48,5 +48,9 @@ namespace aoc {
         return diff;
     }
 
+    std::ostream &operator<<(std::ostream &os, const xy &xy) {
+        return (os << xy.x << "," << xy.y << std::endl);
+    }
+
 
 }// namespace aoc

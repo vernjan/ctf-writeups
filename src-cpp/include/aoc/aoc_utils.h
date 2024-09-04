@@ -1,5 +1,6 @@
 #pragma once
 
+#include <ostream>
 #include <set>
 #include <string>
 #include <utility>
@@ -82,7 +83,11 @@ namespace aoc {
             return {xy[0], xy[1]};
         }
 
-        bool operator<(const xy &rhs) const {
+        inline bool operator==(const xy &rhs) const {
+            return x == rhs.x && y == rhs.y;
+        }
+
+        inline bool operator<(const xy &rhs) const {
             return x < rhs.x || (x == rhs.x && y < rhs.y);
         }
     };
