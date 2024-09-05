@@ -75,8 +75,8 @@ namespace aoc {
     };
 
     struct xy {
-        const int x;
-        const int y;
+        int x;
+        int y;
 
         static xy parse(const string &text) {
             vector<int> xy = aoc::split_to_ints(text, ",");
