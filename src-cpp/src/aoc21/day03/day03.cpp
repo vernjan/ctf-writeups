@@ -76,7 +76,7 @@ string find_rating(Rating rating, const vector<string> &data, int position) {
 int main() {
     S1 s1;
     s1.run_test(198);
-    s1.run(0);
+    s1.run(3009600);
 
     S2 s2;
     s2.run_test(230);

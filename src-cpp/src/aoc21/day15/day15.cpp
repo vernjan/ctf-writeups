@@ -26,14 +26,18 @@ struct S2 : public StarBase {
         vector<string> data_x5;
         for (int i = 0; i < 5; ++i) {
             for (const string &line: data) {
-                char *line_x5 = new char[line.size() * 5]{};
+                char *line_x5 = new char[line.size() * 5 + 1]{};
                 for (int j = 0; j < 5; ++j) {
                     for (int x = 0; x < line.size(); ++x) {
                         int n = line[x] - '0';//convert to int
-                        int n_inc = (n + i + j) % 10;
+                        int n_inc = (n + i + j);
+                        if (n_inc > 9) {
+                            n_inc -= 9;
+                        }
                         line_x5[line.size() * j + x] = char(n_inc + '0');
                     }
                 }
+                line_x5[500] = 0;//null termination
                 string s{line_x5};
                 data_x5.push_back(s);
                 delete[] line_x5;
@@ -69,21 +73,16 @@ size_t calc_min_risk(const matrix &grid) {
         lowest_risks[head] = current.risk;
         if (head == end_point) {
             return current.risk;
-//                            continue;
         }
         for (const xy &neighbor: {xy{head.x + 1, head.y},
                                   xy{head.x, head.y + 1},
                                   xy{head.x - 1, head.y},
                                   xy{head.x, head.y - 1}}) {
             if (0 <= neighbor.x && neighbor.x < grid.x_size && 0 <= neighbor.y && neighbor.y < grid.y_size) {
-                //                    if (lowest_risks.contains(neighbor) && lowest_risks[neighbor] <= current.risk) {
-                //                        continue;
-                //                    }
                 paths.emplace(neighbor, current.risk + grid.data[neighbor.y][neighbor.x]);
             }
         }
     }
-//            return lowest_risks[end_point];
     return 0;
 }
 
@@ -95,7 +94,7 @@ int main() {
 
     S2 s2;
     s2.run_test(315);
-    s2.run(0);
+    s2.run(2819);
 
     return 0;
 }
