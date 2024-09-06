@@ -26,12 +26,17 @@ struct S2 : public StarBase {
         vector<string> data_x5;
         for (int i = 0; i < 5; ++i) {
             for (const string &line: data) {
-                string line_x5{};
+                char *line_x5 = new char[line.size() * 5]{};
                 for (int j = 0; j < 5; ++j) {
-
-                    line_x5 += line;
+                    for (int x = 0; x < line.size(); ++x) {
+                        int n = line[x] - '0';//convert to int
+                        int n_inc = (n + i + j) % 10;
+                        line_x5[line.size() * j + x] = char(n_inc + '0');
+                    }
                 }
-                data_x5.push_back(line_x5);
+                string s{line_x5};
+                data_x5.push_back(s);
+                delete[] line_x5;
             }
         }
         return calc_min_risk(matrix{data_x5});
