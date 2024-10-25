@@ -52,6 +52,7 @@ struct Foo {
         std::cout << "C";
         Miau::YYY(t);
         Miau::YYY(std::forward<const T>(t));
+//        Miau::YYY(std::forward<T>(t));
         //        Miau::YYY(std::move(t));
     }
 

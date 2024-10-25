@@ -72,7 +72,7 @@ site is about Unicode so I focused on that. I registered a new user named `hell‚
 
 But how come that the name I see on the screen is not UPPER cased?
 
-The next thing I tried is how the site handles [diacritics](https://en.wikipedia.org/wiki/Diacritic).
+The next thing I tried is how the site cache_items [diacritics](https://en.wikipedia.org/wiki/Diacritic).
 Being a Czech was kinda an advantage here, we use diacritics in half of the words :-) So I tried
 to register one more user named `Vƒçela`. It worked again. The name was, however, still displayed
 in the original case..
