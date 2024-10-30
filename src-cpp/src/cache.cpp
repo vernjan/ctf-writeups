@@ -2,6 +2,7 @@
 #include <map>
 #include <stdexcept>
 #include <iostream>
+#include <cassert>
 
 const int SALT_SIZE = 4;
 const int DATA_SIZE = 8;
@@ -20,6 +21,10 @@ struct salt {
     bool operator==(const salt &rhs) const {
         return std::equal(salt_, salt_ + SALT_SIZE, rhs.salt_);
     }
+
+    bool operator!=(const salt &rhs) const {
+        return !std::equal(salt_, salt_ + SALT_SIZE, rhs.salt_);
+    }
 };
 
 static salt rand_salt() {
@@ -27,7 +32,6 @@ static salt rand_salt() {
     for (char &ch: result.salt_) {
         ch = static_cast<char>('a' + (rand() % 26));
     }
-//    result.salt_[SALT_SIZE - 1] = '\0';
     return result;
 }
 
@@ -40,6 +44,10 @@ static std::array<char, DATA_SIZE> rand_data() {
 }
 
 struct read_result {
+
+    read_result(const salt &salt, const std::array<char, DATA_SIZE> &data) : salt_(salt), data(data) {
+        print();
+    }
 
     void print() {
         std::cout << "  --> Salt: ";
@@ -72,8 +80,7 @@ struct cache_item {
     }
 
     cache_item() {
-//        std::cout << "  --> Creating cache item: ";
-//        print();
+        std::cout << "  --> Creating new cache item" << std::endl;
     }
 
     salt salt_{};
@@ -87,8 +94,7 @@ struct source_reader {
     explicit source_reader(ushort cache_size) :
             cache_size{cache_size},
             // https://www.geeksforgeeks.org/placement-new-operator-cpp/
-//            cache_items{new char [sizeof(cache_item) * cache_size]} {} // TODO: calls cache_item constructor, use Placement new operator in C++
-            cache_items{new cache_item[cache_size]} {} // TODO: calls cache_item constructor, use Placement new operator in C++
+            cache_items{reinterpret_cast<cache_item *>(new unsigned char[sizeof(cache_item) * cache_size])} {}
 
     ~source_reader() {
         delete[] cache_items;
@@ -96,20 +102,19 @@ struct source_reader {
 
     read_result read(size_t index) {
         std::cout << "Reading index: " << index << std::endl;
+        std::cout << "  --> Loading data into cache (cache_index: " << cache_index << ") ......" << std::endl;
 
-        std::cout << "  --> Loading data ......" << std::endl;
-        auto item = cache_item{};
-        item.salt_ = rand_salt();
-        item.data = rand_data();
+        auto *item = new(cache_items + cache_index) cache_item{}; // placement new
+        item->salt_ = rand_salt();
+        if (source_data.find(index) == source_data.end()) {
+            source_data[index] = rand_data();
+        }
+        item->data = source_data[index];
 
-        cache_items[next_index] = item;
-//        delete std::exchange(item, nullptr);
-//        item = nullptr;
-        cache_mapping[index] = next_index;
+        cache_mapping[index] = cache_index;
+        cache_index = (cache_index + 1) % cache_size; // TODO use least frequently used
 
-        next_index = (next_index + 1) % cache_size; // TODO use least frequently used
-
-        return read_result{item.salt_, item.data};
+        return read_result{item->salt_, item->data};
     }
 
     read_result read(size_t index, salt salt) {
@@ -122,7 +127,8 @@ struct source_reader {
         if (item.salt_ == salt) {
             return read_result{item.salt_, item.data};
         } else {
-            // FIXME delete old cache item? Is it neccesary
+            // FIXME delete old cache item? Is it necessary
+            std::cout << "  --> Salt doesn't match, reading from source ......" << std::endl;
             return read(index); // cache was invalidated
         }
     }
@@ -131,29 +137,32 @@ private:
     ushort cache_size;
     cache_item *cache_items{};
     std::map<size_t, ushort> cache_mapping{}; // FIXME not removing old items
-    ushort next_index{0};
+    ushort cache_index{0};
+
+    std::map<size_t, std::array<char, DATA_SIZE>> source_data;
 };
 
 
 int main() {
-    const int cache_size = 3;
-    source_reader reader{cache_size};
+    source_reader reader{3};
 
-    // fill cache
-    read_result result1;
-    for (size_t i = 0; i < cache_size; i++) {
-        result1 = reader.read(i * DATA_SIZE);
-        result1.print();
-    }
+    read_result result0a = reader.read(0);
+    read_result result0b = reader.read(0, result0a.salt_); // cache is already loaded
+    assert(result0a.data == result0b.data && result0a.salt_ == result0b.salt_);
+    std::cout << std::endl;
 
-    result1 = reader.read((cache_size - 1) * DATA_SIZE, result1.salt_);
-    result1.print(); // same as before
+    read_result result1 = reader.read(1);
+    read_result result2 = reader.read(2); // cache is full now
+    std::cout << std::endl;
 
-    read_result result2 = reader.read(4 * DATA_SIZE); // invalidate first cache item
-    result2.print();
+    read_result result3 = reader.read(3); // cache_index 0 points to index 3 now
+    std::cout << std::endl;
 
-    result1 = reader.read(4 * DATA_SIZE, result1.salt_);
-    result1.print(); // same as before
+    read_result result0c = reader.read(0, result0a.salt_); // cache_index 1 points to index 0
+    assert(result0a.data == result0c.data && result0a.salt_ != result0c.salt_);
+    std::cout << std::endl;
+
+    std::cout << "PASSED" << std::endl;
 
     return 0;
 }
