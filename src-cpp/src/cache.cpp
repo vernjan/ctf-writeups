@@ -23,14 +23,14 @@ struct salt {
     }
 
     bool operator!=(const salt &rhs) const {
-        return !std::equal(salt_, salt_ + SALT_SIZE, rhs.salt_);
+        return !operator==(rhs); // TODO ???
     }
 };
 
 static salt rand_salt() {
     salt result{};
     for (char &ch: result.salt_) {
-        ch = static_cast<char>('a' + (rand() % 26));
+        ch = static_cast<char>('a' + rand() % 26);
     }
     return result;
 }
@@ -38,7 +38,7 @@ static salt rand_salt() {
 static std::array<char, DATA_SIZE> rand_data() {
     std::array<char, DATA_SIZE> result{};
     for (char &ch: result) {
-        ch = static_cast<char>('A' + (rand() % 26));
+        ch = static_cast<char>('A' + rand() % 26);
     }
     return result;
 }
@@ -76,6 +76,7 @@ struct cache_item {
         for (char i: data) {
             std::cout << i;
         }
+        std::cout << ", Source index: " << source_index;
         std::cout << std::endl;
     }
 
@@ -85,7 +86,9 @@ struct cache_item {
 
     salt salt_{};
     std::array<char, DATA_SIZE> data{};
-//    size_t hits{0}; // TODO
+    size_t source_index{};
+    bool valid{true};
+//    size_t hits{0}; // TODO implement least frequently used
 };
 
 
@@ -94,24 +97,32 @@ struct source_reader {
     explicit source_reader(ushort cache_size) :
             cache_size{cache_size},
             // https://www.geeksforgeeks.org/placement-new-operator-cpp/
-            cache_items{reinterpret_cast<cache_item *>(new unsigned char[sizeof(cache_item) * cache_size])} {}
+            cache_items{reinterpret_cast<cache_item *>(new char[sizeof(cache_item) * cache_size])} {}
 
     ~source_reader() {
         delete[] cache_items;
     }
 
-    read_result read(size_t index) {
-        std::cout << "Reading index: " << index << std::endl;
+    read_result read(size_t source_index) {
+        std::cout << "Reading index: " << source_index << std::endl;
         std::cout << "  --> Loading data into cache (cache_index: " << cache_index << ") ......" << std::endl;
+
+        cache_item &old_cache_item = cache_items[cache_index];
+        if (old_cache_item.valid) { // TODO How else do I know it's valid cache item? Could be all 0s ..
+            std::cout << "  --> Removing old cache item: " << old_cache_item.source_index << ":" << cache_index << std::endl;
+            old_cache_item.~cache_item(); // placement delete
+            cache_mapping.erase(old_cache_item.source_index);
+        }
 
         auto *item = new(cache_items + cache_index) cache_item{}; // placement new
         item->salt_ = rand_salt();
-        if (source_data.find(index) == source_data.end()) {
-            source_data[index] = rand_data();
+        if (source_data.find(source_index) == source_data.end()) { // just to always return the same source data
+            source_data[source_index] = rand_data();
         }
-        item->data = source_data[index];
+        item->data = source_data[source_index];
+        item->source_index = source_index;
 
-        cache_mapping[index] = cache_index;
+        cache_mapping[source_index] = cache_index;
         cache_index = (cache_index + 1) % cache_size; // TODO use least frequently used
 
         return read_result{item->salt_, item->data};
@@ -120,23 +131,20 @@ struct source_reader {
     read_result read(size_t index, salt salt) {
         std::cout << "Reading index: " << index << " and salt: " << salt.to_string() << std::endl;
 
-        if (cache_mapping.find(index) == cache_mapping.end()) {
-            throw std::runtime_error("Index not found in cache");
+        if (cache_mapping.find(index) != cache_mapping.end()) {
+            cache_item &item = cache_items[cache_mapping[index]];
+            if (item.salt_ == salt) {
+                return read_result{item.salt_, item.data};
+            }
         }
-        cache_item &item = cache_items[cache_mapping[index]];
-        if (item.salt_ == salt) {
-            return read_result{item.salt_, item.data};
-        } else {
-            // FIXME delete old cache item? Is it necessary
-            std::cout << "  --> Salt doesn't match, reading from source ......" << std::endl;
-            return read(index); // cache was invalidated
-        }
+        std::cout << "  --> Cache item was invalidated, re-reading from source ......" << std::endl;
+        return read(index); // cache was invalidated
     }
 
 private:
     ushort cache_size;
     cache_item *cache_items{};
-    std::map<size_t, ushort> cache_mapping{}; // FIXME not removing old items
+    std::map<size_t, ushort> cache_mapping{};
     ushort cache_index{0};
 
     std::map<size_t, std::array<char, DATA_SIZE>> source_data;
