@@ -4,6 +4,24 @@
 #include <iostream>
 #include <cassert>
 
+
+struct a {
+    int x;
+
+    const int change_x() {
+        x = 5;
+        return x;
+    }
+};
+
+int main() {
+    a a1{};
+    int x = a1.change_x();
+    x = 6;
+    std::cout << a1.x << std::endl;
+    std::cout << x << std::endl;
+}
+
 const int SALT_SIZE = 4;
 const int DATA_SIZE = 8;
 
@@ -44,7 +62,6 @@ static std::array<char, DATA_SIZE> rand_data() {
 }
 
 struct read_result {
-
     read_result(const salt &salt, const std::array<char, DATA_SIZE> &data) : salt_(salt), data(data) {
         print();
     }
@@ -66,7 +83,6 @@ struct read_result {
 };
 
 struct cache_item {
-
     void print() {
         std::cout << "Salt: ";
         for (char i: salt_.salt_) {
@@ -92,23 +108,24 @@ struct cache_item {
     std::array<char, DATA_SIZE> data{};
     size_t source_index{};
     bool valid{true};
-//    size_t hits{0}; // TODO implement least frequently used
+    //    size_t hits{0}; // TODO implement least frequently used
 };
 
 
 struct source_reader {
-
-    explicit source_reader(ushort cache_size) :
-            cache_size{cache_size},
-            // https://www.geeksforgeeks.org/placement-new-operator-cpp/
-            cache_items{reinterpret_cast<cache_item *>(new std::byte[sizeof(cache_item) * cache_size])} {}
+    explicit source_reader(ushort cache_size) : cache_size{cache_size},
+                                                // https://www.geeksforgeeks.org/placement-new-operator-cpp/
+                                                cache_items{
+                                                    reinterpret_cast<cache_item *>(new std::byte[sizeof(cache_item) * cache_size])
+                                                } {
+    }
 
     ~source_reader() {
         for (size_t i = 0; i < cache_size; ++i) {
             cache_items[i].~cache_item();
         }
         delete[] reinterpret_cast<std::byte *>(cache_items);
-//        delete[] cache_items; // FIXME THis is wrong - Think if the cachec was not fully allocated
+        //        delete[] cache_items; // FIXME THis is wrong - Think if the cachec was not fully allocated
     }
 
     read_result read(size_t source_index) {
@@ -116,7 +133,8 @@ struct source_reader {
         std::cout << "  --> Loading data into cache (cache_index: " << cache_index << ") ......" << std::endl;
 
         cache_item &old_cache_item = cache_items[cache_index];
-        if (old_cache_item.valid) { // TODO How else do I know it's valid cache item? Could be all 0s ..
+        if (old_cache_item.valid) {
+            // TODO How else do I know it's valid cache item? Could be all 0s ..
             std::cout << "  --> Removing old cache item: " << old_cache_item.source_index << ":" << cache_index << std::endl;
             old_cache_item.~cache_item(); // placement delete
             cache_mapping.erase(old_cache_item.source_index);
@@ -124,10 +142,10 @@ struct source_reader {
 
         auto *item = new(cache_items + cache_index) cache_item{}; // placement new
 
-        // just to always return the same source data
-        if (source_data.find(source_index) == source_data.end()) {
-            source_data[source_index] = rand_data();
-        }
+        //        // just to always return the same source data
+        //        if (source_data.find(source_index) == source_data.end()) {
+        //            source_data[source_index] = rand_data();
+        //        }
 
         item->data = source_data[source_index];
         item->source_index = source_index;
@@ -159,8 +177,11 @@ private:
     ushort cache_index{0};
 
     // irrelevant
-    std::map<size_t, std::array<char, DATA_SIZE>> source_data;
+    std::map<size_t, std::array<char, DATA_SIZE> > source_data;
 };
+
+// evacuation strategies - oldest, least often used, least recently used
+// next steps - allow changing evac strategies
 
 
 int main() {
