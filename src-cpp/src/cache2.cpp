@@ -1,6 +1,7 @@
 #include <iostream>
 #include <map>
 #include <functional>
+#include <atomic>
 #include <ranges>
 
 
@@ -11,30 +12,32 @@ struct cache_item {
     string key;
     string value;
     size_t counter{0};
+    atomic<int> ptr_counter{0};
+
 
     void print() const {
         cout << key << " -> " << value << ", counter: " << counter << endl;
     }
-
-    // Doesn't work. Because priority_queue stores pointers?
-    // bool operator<(const cache_item *item) const {
-    //     return counter < item->counter;
-    // }
 };
 
 struct cache_item_ptr {
     explicit cache_item_ptr(cache_item *const item) : item(item) {
+        ++item->counter;
     }
 
     const cache_item *operator->() const {
         // cout << "operator -> ";
-        item->counter++;
+        ++item->counter;
 
         return item;
     }
 
     void print() const {
         item->print();
+    }
+
+    ~cache_item_ptr() {
+        --item->counter;
     }
 
 private:
@@ -56,16 +59,18 @@ struct cache {
         if (!items.contains(key)) {
             auto *new_item = new cache_item{key, to_string(key.size())}; // TODO Custom memory management
 
-
             if (items.size() >= size) {
 
                 // TODO How does this work? Cannot get anything from lfu_item
-                // auto cache_values = views::values(items);
-                // auto lfu_item = min_element(cache_values.begin(), cache_values.end(),
-                //       [](const cache_item *l, const cache_item *r) { return l->counter < r->counter; });
+                auto cache_values = views::values(items);
+                auto & lfu_item = *min_element(cache_values.begin(), cache_values.end(),
+                      [](const cache_item *l, const cache_item *r) { return l->counter < r->counter; });
 
-                auto * lfu_item = min_element(items.begin(), items.end(),
-                    [](const auto& l, const auto& r) { return l.second->counter < r.second->counter; })->second;
+                // TODO use ptr_counter and don't evict if >0
+
+
+                // auto * lfu_item = min_element(items.begin(), items.end(),
+                //     [](const auto& l, const auto& r) { return l.second->counter < r.second->counter; })->second;
 
                 cout << "Evicting " << lfu_item->key << " (counter: " << lfu_item->counter << ")" << endl;
 
@@ -104,6 +109,8 @@ int main() {
 
     // evict foo1
     c.get_item("foo4");
+
+    ptr1->value; // boom - cached item was evicted
 
     return 0;
 }
