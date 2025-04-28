@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <iostream>
 #include <map>
 #include <functional>
@@ -5,29 +6,28 @@
 #include <ranges>
 
 
-
-using namespace std;
+// using namespace std;
 
 struct cache_item {
-    string key;
-    string value;
-    size_t counter{0};
-    atomic<int> ptr_counter{0};
+    std::string key;
+    std::string value;
+    size_t usage_counter{0};
+    std::atomic<int> ptr_counter{0};
 
 
     void print() const {
-        cout << key << " -> " << value << ", counter: " << counter << endl;
+        std::cout << key << " -> " << value << ", counter: " << usage_counter << std::endl;
     }
 };
 
 struct cache_item_ptr {
     explicit cache_item_ptr(cache_item *const item) : item(item) {
-        ++item->counter;
+        ++item->ptr_counter;
     }
 
     const cache_item *operator->() const {
         // cout << "operator -> ";
-        ++item->counter;
+        ++item->usage_counter;
 
         return item;
     }
@@ -37,7 +37,8 @@ struct cache_item_ptr {
     }
 
     ~cache_item_ptr() {
-        --item->counter;
+        std::cout << "Deleting " << item->key << std::endl;
+        --item->ptr_counter;
     }
 
 private:
@@ -55,28 +56,36 @@ struct cache {
         }
     }
 
-    cache_item_ptr get_item(const string &key) {
+    cache_item_ptr get_item(const std::string &key) {
         if (!items.contains(key)) {
-            auto *new_item = new cache_item{key, to_string(key.size())}; // TODO Custom memory management
+            auto *new_item = new cache_item{key, std::to_string(key.size())}; // TODO Custom memory management
 
             if (items.size() >= size) {
+                // filter items - keep items with ptr_counter == 0
+                // sort by usage_counter ascendingly
+                // remove first n items where n = items.size - size
 
-                // TODO How does this work? Cannot get anything from lfu_item
-                auto cache_values = views::values(items);
-                auto & lfu_item = *min_element(cache_values.begin(), cache_values.end(),
-                      [](const cache_item *l, const cache_item *r) { return l->counter < r->counter; });
+                auto unused_cache_items_view = items
+                                               | std::views::values
+                                               | std::views::filter([](const cache_item *item) {
+                                                   // | std::views::filter([](auto *item) {
+                                                   return item->ptr_counter == 0;
+                                               });
 
-                // TODO use ptr_counter and don't evict if >0
+                std::vector<cache_item *> evictable_items;
+                std::ranges::copy(unused_cache_items_view, std::back_inserter(evictable_items));
 
+                std::ranges::sort(evictable_items,
+                                  [](auto *a, auto *b) { return a->usage_counter < b->usage_counter; });
 
-                // auto * lfu_item = min_element(items.begin(), items.end(),
-                //     [](const auto& l, const auto& r) { return l.second->counter < r.second->counter; })->second;
-
-                cout << "Evicting " << lfu_item->key << " (counter: " << lfu_item->counter << ")" << endl;
-
-                items.erase(lfu_item->key);
-                delete lfu_item;
-
+                size_t items_to_remove_count = (items.size() - size) + 1;
+                for (size_t i = 0; i < items_to_remove_count && i < evictable_items.size(); ++i) {
+                    auto *item_to_remove = evictable_items[i];
+                    std::cout << "Evicting " << item_to_remove->key
+                            << " (counter: " << item_to_remove->usage_counter << ")" << std::endl;
+                    items.erase(item_to_remove->key);
+                    delete item_to_remove;
+                }
             }
 
             items[key] = new_item;
@@ -86,31 +95,40 @@ struct cache {
 
 private:
     size_t size;
-    map<string, cache_item *> items;
-
+    std::map<std::string, cache_item *> items;
 };
 
 
 int main() {
     cache c(2);
 
-    const auto ptr1 = c.get_item("foo1");
-    ptr1->value;
-    ptr1->value;
+    {
+        {
+            const auto ptr1 = c.get_item("ptr1");
+            ptr1->value;
+            ptr1->value;
+        } // delete ptr1
 
-    const auto ptr2 = c.get_item("foo2");
-    ptr2->value;
+        const auto ptr2 = c.get_item("ptr2");
+        ptr2->value;
 
-    // evict foo2
-    const auto ptr3 = c.get_item("foo3");
-    ptr3->value;
-    ptr3->value;
-    ptr3->value;
+        std::cout << "HERE1" << std::endl;
 
-    // evict foo1
-    c.get_item("foo4");
+        // evict ptr1 because ptr2 (with fewer usages) is still being used
+        const auto ptr3 = c.get_item("ptr3");
+        ptr3->value;
+        ptr3->value;
+        ptr3->value;
 
-    ptr1->value; // boom - cached item was evicted
+        std::cout << "HERE2" << std::endl;
+    } // delete ptr3, ptr2
+
+    std::cout << "HERE3" << std::endl;
+
+    // evict ptr2 with fewer usages
+    c.get_item("ptr4");
+
+    // ptr1->value; // boom - cached item was evicted
 
     return 0;
 }
