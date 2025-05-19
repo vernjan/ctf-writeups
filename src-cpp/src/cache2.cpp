@@ -42,12 +42,12 @@ struct cache_item_ptr {
     }
 
 private:
-    cache_item *const item; // TODO Too many consts?
+    cache_item *const item;
 };
 
 struct cache {
     explicit cache(const size_t size) : size(size) {
-        // TODO std::atomic, + make sure you dont delete records under hands
+
     }
 
     ~cache() {
@@ -61,26 +61,27 @@ struct cache {
             auto *new_item = new cache_item{key, std::to_string(key.size())}; // TODO Custom memory management
 
             if (items.size() >= size) {
-                // filter items - keep items with ptr_counter == 0
-                // sort by usage_counter ascendingly
-                // remove first n items where n = items.size - size
+                // 1) filter items - keep items with ptr_counter == 0
+                // 2) sort by usage_counter ascendingly
+                // 3) remove first n items where n = items.size - size
 
-                auto unused_cache_items_view = items
+                // TODO Pre-fetch usage counters to make sorting more effective,
+                // or avoid sorting and prefer array iterations
+                auto unused_cache_items = items
                                                | std::views::values
                                                | std::views::filter([](const cache_item *item) {
-                                                   // | std::views::filter([](auto *item) {
                                                    return item->ptr_counter == 0;
                                                });
 
                 std::vector<cache_item *> evictable_items;
-                std::ranges::copy(unused_cache_items_view, std::back_inserter(evictable_items));
+                std::ranges::copy(unused_cache_items, std::back_inserter(evictable_items));
 
                 std::ranges::sort(evictable_items,
                                   [](auto *a, auto *b) { return a->usage_counter < b->usage_counter; });
 
-                size_t items_to_remove_count = (items.size() - size) + 1;
-                for (size_t i = 0; i < items_to_remove_count && i < evictable_items.size(); ++i) {
-                    auto *item_to_remove = evictable_items[i];
+                const size_t number_of_items_to_remove = (items.size() - size) + 1;
+                for (size_t i = 0; i < number_of_items_to_remove && i < evictable_items.size(); ++i) {
+                    const auto *item_to_remove = evictable_items[i];
                     std::cout << "Evicting " << item_to_remove->key
                             << " (counter: " << item_to_remove->usage_counter << ")" << std::endl;
                     items.erase(item_to_remove->key);
