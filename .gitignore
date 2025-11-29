@@ -6,3 +6,4 @@
 .DS_Store
 __pycache__/
 cmake-build-debug/
+.venv
