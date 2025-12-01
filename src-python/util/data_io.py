@@ -5,15 +5,15 @@ from typing import List
 from util.log import log
 
 
-def read_input(basefile: str, input_file: str = "input.txt") -> List[str]:
+def read_input(basefile: str, input_file: str = "input.txt") -> list[str]:
     return read_file(basefile, input_file)
 
 
-def read_test_input(basefile: str, input_file: str = "input-test.txt") -> List[str]:
+def read_test_input(basefile: str, input_file: str = "input-test.txt") -> list[str]:
     return read_file(basefile, input_file)
 
 
-def read_file(basefile: str, filename: str) -> List[str]:
+def read_file(basefile: str, filename: str) -> list[str]:
     filename = os.path.join(os.path.dirname(basefile), filename)
     with open(filename, 'r') as data_input:
         return [line.rstrip() for line in (data_input.readlines())]
