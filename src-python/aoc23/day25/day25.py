@@ -15,7 +15,6 @@ def star1(lines: list[str]):
     nodes = _parse_nodes(lines)
     node_keys = list(nodes.keys())
     node_keys_copy = node_keys.copy()
-
     start_node = node_keys_copy.pop()
     # number of unique paths between all nodes
     #  key: total unique paths from start node to end node

@@ -16,16 +16,16 @@ def star1(lines: list[str]):
         lr = line[0]
         steps = int(line[1:]) % 100
         if lr == 'L':
-            pos = pos - steps
+            pos -= steps
             if pos < 0:
-                pos = pos + 100
+                pos += 100
         else:
-            pos = pos + steps
+            pos += steps
             if pos > 99:
-                pos = pos - 100
+                pos -= 100
 
         if pos == 0:
-            zero_counter = zero_counter + 1
+            zero_counter += 1
 
     return zero_counter
 
@@ -47,18 +47,18 @@ def star2(lines: list[str]):
             if pos == 0:  # dont count 0 twice
                 pos = 100 - steps
             else:
-                pos = pos - steps
+                pos -= steps
                 if pos <= 0:
-                    zero_counter = zero_counter + 1
+                    zero_counter += 1
                 if pos < 0:
-                    pos = pos + 100
+                    pos += 100
         else:
             pos = pos + steps
             if pos > 99:
-                zero_counter = zero_counter + 1
-                pos = pos - 100
+                zero_counter += 1
+                pos -= 100
 
-        zero_counter = zero_counter + extra_steps
+        zero_counter += extra_steps
 
     return zero_counter
 
