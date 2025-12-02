@@ -12,7 +12,7 @@ def star1(lines: list[str]):
     result = 0
     for r in lines[0].split(","):
         start, end = map(int, r.split("-"))
-        result += _sum_invalid_ids(start, end, len(str(end)) // 2)
+        result += _sum_invalid_ids(start, end, {2: [1], 4: [2], 6: [3], 8: [4], 10: [5]})
     return result
 
 
@@ -24,40 +24,27 @@ def star2(lines: list[str]):
     result = 0
     for r in lines[0].split(","):
         start, end = map(int, r.split("-"))
-        for pattern_size in [2, 3, 4, 5]:
-            result += _sum_invalid_ids(start, end, pattern_size)
+        result += _sum_invalid_ids(start, end, {2: [1], 3: [1], 4: [2], 5: [1], 6: [2, 3], 7: [1], 8: [4], 9: [3], 10: [2, 5]})
     return result
 
 
-def _sum_invalid_ids(start, end, pattern_size) -> int:
-    # if pattern_size < 2:
-    #     return 0
-
-    start_str = str(start)
-
-    # TODO JVe minus 1 patterns
-
+def _sum_invalid_ids(start, end, pattern_sizes) -> int:
+    patterns_found = set()
     total = 0
-    # pattern = int(start_str[0:pattern_size])
 
     for invalid_id_size in range(len(str(start)), len(str(end)) + 1):
-        if invalid_id_size % pattern_size != 0 or pattern_size > invalid_id_size // 2:
-            continue
-        pattern = 10 ** (pattern_size - 1)
-        while True:
-            if len(set(str(pattern))) == 1:  # need extra handling for 1-size patterns
+        for pattern_size in pattern_sizes.get(invalid_id_size, []):
+            pattern = 10 ** (pattern_size - 1)
+            while True:
+                invalid_id = int(str(pattern) * (invalid_id_size // pattern_size))
+                # print(f"Checking invalid ID: {invalid_id}")
+                if start <= invalid_id <= end and invalid_id not in patterns_found:
+                    # print(f"Invalid ID found: {invalid_id}")
+                    patterns_found.add(invalid_id)
+                    total += invalid_id
+                if invalid_id > end:
+                    break
                 pattern += 1
-                continue
-
-            invalid_id = int(str(pattern) * (invalid_id_size // pattern_size))
-            # print(f"Checking invalid ID: {invalid_id}")
-            if start <= invalid_id <= end:
-                print(f"Invalid ID found: {invalid_id}")
-                total += invalid_id
-            if invalid_id > end:
-                break
-            pattern += 1
-            # pattern %= 10 ** (pattern_size - 1)
     return total
 
 
@@ -67,4 +54,4 @@ if __name__ == "__main__":
     timed_run("Star 2", lambda: star2(read_input(__file__)))
 
     # Star 1: 20223751480
-    # Star 2:
+    # Star 2: 30260171216
