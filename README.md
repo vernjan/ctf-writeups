@@ -1,6 +1,7 @@
 # Write-ups
 
 ## Advent of Code
+- [Advent of Code 2025](src-python/aoc25)
 - [Advent of Code 2023](src-python/aoc23)
 - [Advent of Code 2022](src-python/aoc22)
 - [Advent of Code 2021](src-cpp/src/aoc21)
