@@ -28,8 +28,9 @@ def star2(lines: list[str]):
     return result
 
 
+# generate invalid IDs and check if in range
 def _sum_invalid_ids(start, end, pattern_sizes) -> int:
-    patterns_found = set()
+    invalid_ids = set()
     total = 0
 
     for invalid_id_size in range(len(str(start)), len(str(end)) + 1):
@@ -37,10 +38,9 @@ def _sum_invalid_ids(start, end, pattern_sizes) -> int:
             pattern = 10 ** (pattern_size - 1)
             while True:
                 invalid_id = int(str(pattern) * (invalid_id_size // pattern_size))
-                # print(f"Checking invalid ID: {invalid_id}")
-                if start <= invalid_id <= end and invalid_id not in patterns_found:
-                    # print(f"Invalid ID found: {invalid_id}")
-                    patterns_found.add(invalid_id)
+                if start <= invalid_id <= end and invalid_id not in invalid_ids:
+                    log.debug(f"Invalid ID found: {invalid_id}")
+                    invalid_ids.add(invalid_id)
                     total += invalid_id
                 if invalid_id > end:
                     break
