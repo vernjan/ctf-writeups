@@ -19,8 +19,11 @@ def read_file(basefile: str, filename: str) -> list[str]:
         return [line.rstrip() for line in (data_input.readlines())]
 
 
-def timed_run(desc, m):
+def timed_run(desc, m, expected_result = None):
     start = time.time()
     result = m()
     execution_time = round(time.time() - start, 3)
-    log.info(f"{desc} ({execution_time} sec): {result}")
+    if expected_result and expected_result != result:
+        log.error(f"{desc} ({execution_time} sec): Expected result is {expected_result} but was {result}")
+    else:
+        log.info(f"{desc} ({execution_time} sec): {result}")

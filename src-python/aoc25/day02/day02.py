@@ -24,7 +24,8 @@ def star2(lines: list[str]):
     result = 0
     for r in lines[0].split(","):
         start, end = map(int, r.split("-"))
-        result += _sum_invalid_ids(start, end, {2: [1], 3: [1], 4: [2], 5: [1], 6: [2, 3], 7: [1], 8: [4], 9: [3], 10: [2, 5]})
+        result += _sum_invalid_ids(start, end,
+                                   {2: [1], 3: [1], 4: [2], 5: [1], 6: [2, 3], 7: [1], 8: [4], 9: [3], 10: [2, 5]})
     return result
 
 
@@ -50,8 +51,5 @@ def _sum_invalid_ids(start, end, pattern_sizes) -> int:
 
 if __name__ == "__main__":
     log.setLevel(logging.INFO)
-    timed_run("Star 1", lambda: star1(read_input(__file__)))
-    timed_run("Star 2", lambda: star2(read_input(__file__)))
-
-    # Star 1: 20223751480
-    # Star 2: 30260171216
+    timed_run("Star 1", lambda: star1(read_input(__file__)), expected_result=20223751480)
+    timed_run("Star 2", lambda: star2(read_input(__file__)), expected_result=30260171216)

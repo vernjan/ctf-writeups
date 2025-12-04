@@ -149,9 +149,13 @@ class Grid(Generic[T]):
                       pos: Xy,
                       side=True,
                       diagonal=False,
+                      value=None,
                       include_directions=False) -> Union[List["Xy"], List[Tuple[Direction, "Xy"]]]:
-        return pos.neighbors(
+        neighbors = pos.neighbors(
             side, diagonal, include_directions, min_x=0, max_x=self.width - 1, min_y=0, max_y=self.height - 1)
+        if value:
+            return [n for n in neighbors if self[n].value == value]
+        return neighbors
 
     def _get_cells_between(self, p1: Xy, p2: Xy) -> Generator[GridCell, None, None]:
         # TO-DO mode: rectangle or diagonal
@@ -201,7 +205,7 @@ class Grid(Generic[T]):
         """
         return [cell.value for cell in self.cols[x]]
 
-    def get_all_cells(self) -> Generator[GridCell[T], None, None]:
+    def get_all_cells(self) -> Generator[GridCell, None, None]:
         """
         >>> list(Grid([[1,2],[2,3]]).get_all_cells())
         [1 [(0,0)], 2 [(1,0)], 2 [(0,1)], 3 [(1,1)]]

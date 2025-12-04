@@ -65,8 +65,5 @@ def star2(lines: list[str]):
 
 if __name__ == "__main__":
     log.setLevel(logging.INFO)
-    timed_run("Star 1", lambda: star1(read_input(__file__)))
-    timed_run("Star 2", lambda: star2(read_input(__file__)))
-
-    # Star 1: 1074
-    # Star 2: 6254
+    timed_run("Star 1", lambda: star1(read_input(__file__)), expected_result=1074)
+    timed_run("Star 2", lambda: star2(read_input(__file__)), expected_result=6254)
