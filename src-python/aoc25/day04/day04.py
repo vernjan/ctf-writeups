@@ -1,7 +1,7 @@
 import logging
 
 from util.data_io import read_input, read_test_input, timed_run
-from util.ds.grid import Grid, GridCell
+from util.ds.grid import Grid
 from util.log import log
 
 
@@ -10,13 +10,8 @@ def star1(lines: list[str]):
     >>> star1(read_test_input(__file__))
     13
     """
-    result = 0
     g = Grid(lines)
-    for pos in g.find_all('@'):
-        neighboring_rolls = len(g.get_neighbors(pos, diagonal=True, filter_fce=lambda cell: cell.value == '@'))
-        if neighboring_rolls < 4:
-            result += 1
-    return result
+    return _remove_rolls(g, multi_round=False)
 
 
 def star2(lines: list[str]):
@@ -25,24 +20,24 @@ def star2(lines: list[str]):
     43
     """
     result = 0
-    g = Grid(lines)
-    roll_positions = set(g.find_all('@'))
     while True:
-        removed_positions = set()
-        log.debug(f"Roll positions: {roll_positions}")
-        for pos in roll_positions:
-            neighboring_rolls = len(g.get_neighbors(pos, diagonal=True, filter_fce=lambda cell: cell.value == '@' and cell.pos in roll_positions))
-            if neighboring_rolls < 4:
-                removed_positions.add(pos)
-
-        log.debug(f"Removing positions: {removed_positions}")
-        roll_positions -= removed_positions
-
-        if len(removed_positions) == 0:
+        round_result = _remove_rolls(g, multi_round=True)
+        result += round_result
+        if round_result == 0:
             break
-        result += len(removed_positions)
 
     return result
+
+
+def _remove_rolls(g: Grid[str], multi_round: bool) -> int:
+    removed_rolls_count = 0
+    for pos in g.find_all('@'):
+        neighboring_rolls = len(g.get_neighbors(pos, diagonal=True, filter_fce=lambda cell: cell.value == '@'))
+        if neighboring_rolls < 4:
+            if multi_round:
+                g[pos].value = '.'
+            removed_rolls_count += 1
+    return removed_rolls_count
 
 
 if __name__ == "__main__":
