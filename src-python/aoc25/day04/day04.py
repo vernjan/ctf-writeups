@@ -19,6 +19,7 @@ def star2(lines: list[str]):
     >>> star2(read_test_input(__file__))
     43
     """
+    g = Grid(lines)
     result = 0
     while True:
         round_result = _remove_rolls(g, multi_round=True)
