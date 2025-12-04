@@ -12,13 +12,13 @@ class FlatNode:
 @dataclass
 class TreeNode:
     name: str
-    left: "TreeNode" or None
-    right: "TreeNode" or None
+    left: "TreeNode | None"
+    right: "TreeNode | None"
     value: Any
     depth: int
 
     @staticmethod
-    def from_nodes(nodes: Dict[str, FlatNode], root_name: str, depth: int = 0) -> "TreeNode" or None:
+    def from_nodes(nodes: Dict[str, FlatNode], root_name: str, depth: int = 0) -> "TreeNode | None":
         if root_name is None:
             return None
 
@@ -32,11 +32,11 @@ class TreeNode:
         right = TreeNode.from_nodes(nodes, node.right, depth + 1)
         return TreeNode(root_name, left, right, node.value, depth)
 
-    def find_node(self, name: str) -> "TreeNode" or None:
+    def find_node(self, name: str) -> "TreeNode | None":
         return TreeNode._find_node(self, name)
 
     @staticmethod
-    def _find_node(node: "TreeNode", name: str) -> "TreeNode" or None:
+    def _find_node(node: "TreeNode", name: str) -> "TreeNode | None":
         if node is None:
             return None
         if node.name == name:

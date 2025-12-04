@@ -1,21 +1,19 @@
 from dataclasses import dataclass
-from typing import Deque, List, Any, Union, Sequence, Optional, TypeVar
+from typing import Deque, Any, Union, Sequence, Optional
 
 from util.log import log
-
-T = TypeVar("T")
 
 
 @dataclass(frozen=True)
 class RSequence:
-    seq: Sequence[T]
+    seq: Sequence
     first_index: int
 
     @property
     def rsize(self) -> int:
         return len(self.seq) - self.first_index
 
-    def __getitem__(self, index: int) -> T:
+    def __getitem__(self, index: int):
         """
         First detects a repeating sequence in the given list, then sums the given number of items.
         :return: sum of the given number of items
@@ -64,7 +62,7 @@ class RSequence:
         return f"{self.seq}[{self.first_index}:]"
 
 
-def find_rsequence(seq: Union[str | List[Any]], pattern_size: int, confidence: int = 3) -> Optional[RSequence]:
+def find_rsequence(seq: Union[str | list[Any]], pattern_size: int, confidence: int = 3) -> Optional[RSequence]:
     """
     Detect a repeating sequence in the given list. By default, requires at least 3 occurences
     of the pattern (confidence).
@@ -119,10 +117,7 @@ def find_rsequence(seq: Union[str | List[Any]], pattern_size: int, confidence: i
 def signum(x: int) -> int:
     if x == 0:
         return 0
-    if x < 0:
-        return -1
-    if x > 0:
-        return 1
+    return 1 if x > 0 else -1
 
 
 def array2d(width: int, height: int, value=None) -> list[str]:

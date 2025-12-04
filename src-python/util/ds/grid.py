@@ -1,6 +1,6 @@
 import re
 from itertools import takewhile
-from typing import List, Set, Sequence, Tuple, Generator, TypeVar, Generic, Union
+from typing import Sequence, Tuple, Generator, TypeVar, Generic, Any, Callable
 
 from util.ds.coord import NORTH, EAST, SOUTH, WEST
 from util.ds.coord import Xy, Direction
@@ -48,7 +48,7 @@ class GridCell(Generic[T]):
 
 class Grid(Generic[T]):
 
-    def __init__(self, rows: List[Sequence], padding_size=0, enlarge_factor=1, padding_symbol=EMPTY_SYMBOL) -> None:
+    def __init__(self, rows: list[Sequence], padding_size=0, enlarge_factor=1, padding_symbol=EMPTY_SYMBOL) -> None:
         """
         >>> Grid([[1,2],[3,4]], padding_size=2, enlarge_factor=3, padding_symbol="@")
         @@@@@@@@@@
@@ -64,7 +64,7 @@ class Grid(Generic[T]):
         """
         assert rows, "No data"
 
-        enlarged_rows: List[Sequence] = []
+        enlarged_rows: list[Sequence] = []
         for row in rows:
             enlarged_rows.append(row * enlarge_factor)
         rows = enlarged_rows * enlarge_factor
@@ -149,12 +149,12 @@ class Grid(Generic[T]):
                       pos: Xy,
                       side=True,
                       diagonal=False,
-                      value=None,
-                      include_directions=False) -> Union[List["Xy"], List[Tuple[Direction, "Xy"]]]:
+                      filter_fce: Callable[[GridCell[T]], bool]=None,
+                      include_directions=False) -> list[Xy] | list[Tuple[Direction, Xy]]:
         neighbors = pos.neighbors(
             side, diagonal, include_directions, min_x=0, max_x=self.width - 1, min_y=0, max_y=self.height - 1)
-        if value:
-            return [n for n in neighbors if self[n].value == value]
+        if filter_fce: # TODO JVe Doesn't work with list[Tuple[Direction, Xy]]
+            return [n for n in neighbors if filter_fce(self[n])]
         return neighbors
 
     def _get_cells_between(self, p1: Xy, p2: Xy) -> Generator[GridCell, None, None]:
@@ -166,14 +166,14 @@ class Grid(Generic[T]):
             for x in range(p1_x, p2_x + 1):
                 yield self.get_cell(Xy(x, y))
 
-    def get_cells_between(self, p1: Xy, p2: Xy) -> List[GridCell[T]]:
+    def get_cells_between(self, p1: Xy, p2: Xy) -> list[GridCell[T]]:
         """
         >>> Grid([[1,2,3], [4,5,6], [7,8,9]]).get_cells_between(Xy(1,1), Xy(0,0))
         [1 [(0,0)], 2 [(1,0)], 4 [(0,1)], 5 [(1,1)]]
         """
         return list(self._get_cells_between(p1, p2))
 
-    def get_values_between(self, p1: Xy, p2: Xy) -> List[T]:
+    def get_values_between(self, p1: Xy, p2: Xy) -> list[T]:
         """
         >>> Grid([[1,2,3], [4,5,6], [7,8,9]]).get_values_between(Xy(1,1), Xy(0,0))
         [1, 2, 4, 5]
@@ -258,7 +258,7 @@ class Grid(Generic[T]):
 
         return tuple(takewhile(lambda cell: re.match(pattern, str(cell.value)), cells)) if pattern else cells
 
-    def find_first(self, value: T) -> Xy or None:
+    def find_first(self, value: T) -> Xy | None:
         """
         >>> Grid([[1,2],[2,3]]).find_first(2)
         (1,0)
@@ -271,7 +271,7 @@ class Grid(Generic[T]):
                     return cell.pos
         return None
 
-    def find_last(self, value: T) -> Xy or None:
+    def find_last(self, value: T) -> Xy | None:
         """
         >>> Grid([[1,2],[2,3]]).find_last(2)
         (0,1)
@@ -284,7 +284,7 @@ class Grid(Generic[T]):
                     return cell.pos
         return None
 
-    def find_all(self, value: T) -> List[Xy]:
+    def find_all(self, value: T) -> list[Xy]:
         """
         >>> Grid([[1,2],[2,3]]).find_all(2)
         [(1,0), (0,1)]
@@ -296,7 +296,7 @@ class Grid(Generic[T]):
                     result.append(cell.pos)
         return result
 
-    def find_all_re(self, pattern: str) -> List[Xy]:
+    def find_all_re(self, pattern: str) -> list[Xy]:
         """
         >>> Grid([['a','b'],['a','d']]).find_all_re('a|b')
         [(0,0), (1,0), (0,1)]
@@ -401,7 +401,7 @@ class Grid(Generic[T]):
     def find_shortest_path(
             self,
             start_position: Xy,
-            end_positions: Set[Xy],
+            end_positions: set[Xy],
             has_access) -> int:
         """ Find the shortest path between the start position and possibly multiple end positions.
 
@@ -438,12 +438,12 @@ class Grid(Generic[T]):
             self,
             start_position: Xy,
             has_access,
-            trace=False) -> Set[Xy]:
+            trace=False) -> set[Xy]:
         """Find all positions forming a simple loop (cycle) starting from the given position.
 
         - has_access is a lambda(grid, position, neighbor_position)
         """
-        loop: Set[Xy] = set()
+        loop: set[Xy] = set()
 
         next_moves = [start_position]
         while next_moves:
@@ -479,7 +479,7 @@ class LightGrid:
         """
         return LightGrid(array2d(width, height, value))
 
-    def get_all_positions(self) -> tuple[int, int]:  # TODO test for perf
+    def get_all_positions(self) -> Generator[tuple[int, int], Any, None]:  # TODO test for perf
         for y in range(self.height):
             for x in range(self.width):
                 yield x, y

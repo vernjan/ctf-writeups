@@ -1,7 +1,4 @@
-from typing import List
-
-
-def expand_nonogram_groups(groups: List[int], total_size: int) -> List[str]:
+def expand_nonogram_groups(groups: list[int], total_size: int) -> list[str]:
     """
     >>> expand_nonogram_groups([1], 2)
     ['#_', '_#']

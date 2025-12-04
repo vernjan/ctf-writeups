@@ -1,6 +1,6 @@
-from typing import List, Dict
+from typing import Dict
 
-from util.ds.coord import NORTH as N, EAST as E, SOUTH as S, WEST as W, Xy, Direction
+from util.ds.coord import NORTH as N, EAST as E, SOUTH as S, WEST as W, Direction
 from util.ds.coord import Xy
 from util.ds.grid import Grid
 
@@ -33,7 +33,7 @@ SURFACE_TRANSITIONS = {
 }
 
 
-def parse_2dcube(lines: List[str], cube_size: int) -> Grid:
+def parse_2dcube(lines: list[str], cube_size: int) -> Grid:
     width = max(map(len, lines))
     height = len(lines)
 
@@ -65,7 +65,7 @@ def get_cube_sides(cube2d: Grid) -> Dict[int, Grid]:
     return cube_sides
 
 
-def get_cube_sides_mapping(cube2d: Grid) -> List[Grid]:
+def get_cube_sides_mapping(cube2d: Grid) -> list[Grid]:
     # TO-DO Implement ... Not so easy. See "aoc22/day22/data.py" for what should be returned.
     pass
 

@@ -1,7 +1,7 @@
 import logging
 
 from util.data_io import read_input, read_test_input, timed_run
-from util.ds.grid import Grid
+from util.ds.grid import Grid, GridCell
 from util.log import log
 
 
@@ -13,7 +13,7 @@ def star1(lines: list[str]):
     result = 0
     g = Grid(lines)
     for pos in g.find_all('@'):
-        neighboring_rolls = len(g.get_neighbors(pos, diagonal=True, value='@'))
+        neighboring_rolls = len(g.get_neighbors(pos, diagonal=True, filter_fce=lambda cell: cell.value == '@'))
         if neighboring_rolls < 4:
             result += 1
     return result
@@ -26,27 +26,21 @@ def star2(lines: list[str]):
     """
     result = 0
     g = Grid(lines)
-    # roll_positions = g.find_all('@')
+    roll_positions = set(g.find_all('@'))
     while True:
-        g2 = Grid.empty(g.width, g.height, value='.')  # TODO Clone
-        roll_positions2 = []
-        result2 = 0
-        for pos in g.find_all('@'):
-        # for pos in roll_positions:
-            neighboring_rolls = len(g.get_neighbors(pos, diagonal=True, value='@'))
+        removed_positions = set()
+        log.debug(f"Roll positions: {roll_positions}")
+        for pos in roll_positions:
+            neighboring_rolls = len(g.get_neighbors(pos, diagonal=True, filter_fce=lambda cell: cell.value == '@' and cell.pos in roll_positions))
             if neighboring_rolls < 4:
-                result2 += 1
-            else:
-                g2[pos] = '@'
-                roll_positions2.append(pos)
+                removed_positions.add(pos)
 
-        log.debug(g2.format() + "\n")
+        log.debug(f"Removing positions: {removed_positions}")
+        roll_positions -= removed_positions
 
-        if result2 == 0:
+        if len(removed_positions) == 0:
             break
-        g = g2
-        # roll_positions = roll_positions2
-        result += result2
+        result += len(removed_positions)
 
     return result
 

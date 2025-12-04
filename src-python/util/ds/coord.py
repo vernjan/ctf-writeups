@@ -2,7 +2,7 @@ import re
 from dataclasses import dataclass
 from functools import cached_property
 from math import inf
-from typing import List, Tuple, Union
+from typing import Tuple, Union
 
 from sortedcontainers import SortedSet
 
@@ -138,7 +138,7 @@ class Xy:
                   side=True,
                   diagonal=False,
                   include_directions=False,
-                  min_x=-inf, max_x=inf, min_y=-inf, max_y=inf) -> Union[List["Xy"], List[Tuple[Direction, "Xy"]]]:
+                  min_x=-inf, max_x=inf, min_y=-inf, max_y=inf) -> Union[list["Xy"], list[Tuple[Direction, "Xy"]]]:
         """
         >>> Xy(0,1).neighbors()
         [(0,0), (1,1), (0,2), (-1,1)]
@@ -206,7 +206,7 @@ class Xyz:
         return self.z < other.z
 
     def neighbors(self, side=True, edge=False, corner=False,
-                  min_x=-inf, max_x=inf, min_y=-inf, max_y=inf, min_z=-inf, max_z=inf) -> List["Xyz"]:
+                  min_x=-inf, max_x=inf, min_y=-inf, max_y=inf, min_z=-inf, max_z=inf) -> list["Xyz"]:
         """
         >>> Xyz(0,1,2).neighbors()
         [(-1,1,2), (1,1,2), (0,0,2), (0,2,2), (0,1,1), (0,1,3)]

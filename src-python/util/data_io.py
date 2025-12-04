@@ -1,6 +1,5 @@
 import os
 import time
-from typing import List
 
 from util.log import log
 
