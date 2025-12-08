@@ -15,26 +15,15 @@ class CoordDist:
     coord2: Xyz
 
 
-def star1(lines: list[str]):
+def star1(lines: list[str], limit: int):
     """
-    >>> star1(read_test_input(__file__))
+    >>> star1(read_test_input(__file__), limit=10)
     40
     """
-    SIZE = 1000
-
     coords = [Xyz.parse(line) for line in lines]
 
     # 1) find shortest distances
-    shortest_dists: list[CoordDist] = []
-    for i, coord1 in enumerate(coords[:-1]):
-        for coord2 in coords[i + 1:]:
-            coord_dist = CoordDist(-coord1.euclidean_dist(coord2), coord1, coord2)  # min heap therefore using -dist
-            if len(shortest_dists) < SIZE:
-                heapq.heappush(shortest_dists, coord_dist)
-            elif coord_dist > shortest_dists[0]:
-                heapq.heapreplace(shortest_dists, coord_dist)
-    shortest_dists.sort(reverse=True)
-    log.debug(shortest_dists)
+    shortest_dists = _find_shortest_distances(coords, limit)
 
     # 2) create graph
     graph = {coord: [] for coord in coords}
@@ -62,16 +51,61 @@ def star1(lines: list[str]):
     return reduce(lambda a, b: a * b, sorted(map(len, circuits), reverse=True)[:3])
 
 
-def star2(lines: list[str]):
+def star2(lines: list[str], limit: int | None = None):
     """
     >>> star2(read_test_input(__file__))
-
+    25272
     """
-    for line in lines:
-        pass
+    coords = [Xyz.parse(line) for line in lines]
+
+    # 1) find shortest distances
+    shortest_dists = _find_shortest_distances(coords, limit)
+
+    # 2) keep building the graph and check if all connected
+    def update_circuit(node: Xyz):
+        queue = {node}
+        while queue:
+            node = queue.pop()
+            if node not in circuit:
+                circuit.add(node)
+                queue.update(graph[node])
+
+    graph = {coord: [] for coord in coords}
+    circuit = {coords[0]}  # any circuit will do
+    for dist in shortest_dists:
+        coord1 = dist.coord1
+        coord2 = dist.coord2
+        graph[coord1].append(coord2)
+        graph[coord2].append(coord1)
+
+        if coord1 in circuit and coord2 not in circuit:
+            update_circuit(coord2)
+
+        if coord2 in circuit and coord1 not in circuit:
+            update_circuit(coord1)
+
+        if len(circuit) == len(coords):
+            return coord1.x * coord2.x
+
+    return "FAIL"
+
+
+def _find_shortest_distances(coords: list[Xyz], limit: int | None) -> list[CoordDist]:
+    # 1) find shortest distances
+    shortest_dists: list[CoordDist] = []
+    for i, coord1 in enumerate(coords[:-1]):
+        for coord2 in coords[i + 1:]:
+            coord_dist = CoordDist(-coord1.euclidean_dist(coord2), coord1, coord2)  # min heap therefore using -dist
+            if not limit or len(shortest_dists) < limit:
+                heapq.heappush(shortest_dists, coord_dist)
+            elif coord_dist > shortest_dists[0]:
+                heapq.heapreplace(shortest_dists, coord_dist)
+    shortest_dists.sort(reverse=True)
+    log.debug(shortest_dists)
+    return shortest_dists
 
 
 if __name__ == "__main__":
     log.setLevel(logging.INFO)
-    timed_run("Star 1", lambda: star1(read_input(__file__)), expected_result=46398)
-    timed_run("Star 2", lambda: star2(read_input(__file__)), expected_result=None)
+    timed_run("Star 1", lambda: star1(read_input(__file__), limit=1000), expected_result=46398)
+    timed_run("Star 2", lambda: star2(read_input(__file__), limit=10000), expected_result=8141888143)  # setting limit makes it faster
