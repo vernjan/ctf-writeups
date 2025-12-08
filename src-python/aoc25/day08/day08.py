@@ -1,16 +1,25 @@
 import logging
+import sys
 
 from util.data_io import read_input, read_test_input, timed_run
+from util.ds.coord import Xyz
 from util.log import log
 
 
 def star1(lines: list[str]):
     """
     >>> star1(read_test_input(__file__))
-
+    40
     """
-    for line in lines:
-        pass
+    coords = [Xyz.parse(line) for line in lines]
+
+    circuits: list[set] = []
+
+
+
+
+
+    return sum(sorted(map(len, circuits), reverse=True)[0:3])
 
 
 def star2(lines: list[str]):

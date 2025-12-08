@@ -167,6 +167,15 @@ class Xy:
             return [(direction, xy) for direction, xy in neighbors if min_x <= xy.x <= max_x and min_y <= xy.y <= max_y]
         return [xy for _, xy in neighbors if min_x <= xy.x <= max_x and min_y <= xy.y <= max_y]
 
+    def euclidean_dist(self, other):
+        """
+        >>> round(Xy(1,1).euclidean_dist(Xy(2,2)), 5)
+        1.41421
+        >>> round(Xy(4,5).euclidean_dist(Xy(0,0)), 5)
+        6.40312
+        """
+        return ((self.y - other.y) ** 2 + (self.x - other.x) ** 2) ** 0.5
+
     def manhattan_dist(self, other):
         """
         >>> Xy(1,1).manhattan_dist(Xy(2,2))
@@ -230,6 +239,15 @@ class Xyz:
 
         return [xyz for xyz in neighbors if
                 min_x <= xyz.x <= max_x and min_y <= xyz.y <= max_y and min_z <= xyz.z <= max_z]
+
+    def euclidean_dist(self, other):
+        """
+        >>> round(Xyz(1,1,1).euclidean_dist(Xyz(2,2,2)), 5)
+        1.73205
+        >>> round(Xyz(4,5,6).euclidean_dist(Xyz(0,0,0)), 5)
+        8.77496
+        """
+        return ((self.z - other.z) ** 2 + (self.y - other.y) ** 2 + (self.x - other.x) ** 2) ** 0.5
 
 
 @dataclass(frozen=True)
