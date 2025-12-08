@@ -240,7 +240,7 @@ class Xyz:
         return [xyz for xyz in neighbors if
                 min_x <= xyz.x <= max_x and min_y <= xyz.y <= max_y and min_z <= xyz.z <= max_z]
 
-    def euclidean_dist(self, other):
+    def euclidean_dist(self, other) -> float:
         """
         >>> round(Xyz(1,1,1).euclidean_dist(Xyz(2,2,2)), 5)
         1.73205
