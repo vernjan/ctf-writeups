@@ -298,3 +298,13 @@ class Cube:
             for y in range(self.p1.y, self.p2.y + 1):
                 positions.add(Xy(x, y))
         return positions
+
+
+def calc_rectangle_area(p1: Xy, p2: Xy) -> int:
+    """
+    >>> calc_rectangle_area(Xy(7, 3), Xy(2, 3))
+    6
+    >>> calc_rectangle_area(Xy(2, 5), Xy(11, 1))
+    50
+    """
+    return (abs(p1.x - p2.x) + 1) * (abs(p1.y - p2.y) + 1)
