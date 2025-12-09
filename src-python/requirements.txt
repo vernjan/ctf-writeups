@@ -1,2 +1,3 @@
 sortedcollections
 ordered-set
+matplotlib

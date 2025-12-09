@@ -251,6 +251,47 @@ class Xyz:
 
 
 @dataclass(frozen=True)
+class Line:
+    p1: Xy
+    p2: Xy
+
+    # TODO Assert pros = must be on the same line
+    # len, has, points()
+
+@dataclass(frozen=True)
+class Rectangle:
+    p1: Xy
+    p2: Xy
+
+    # don't use the default constructor
+    @classmethod
+    def of(cls, p1: Xy, p2: Xy) -> "Rectangle":
+        rp1 = p1 if p1 < p2 else p2
+        rp2 = p2 if p2 > p1 else p1
+        return cls(rp1, rp2)
+
+    def area(self) -> int:
+        """
+        >>> Rectangle.of(Xy(7, 3), Xy(2, 3)).area()
+        6
+        >>> Rectangle.of(Xy(2, 5), Xy(11, 1)).area()
+        50
+        """
+        return (abs(self.p1.x - self.p2.x) + 1) * (abs(self.p1.y - self.p2.y) + 1)
+
+    def has(self, p: Xy) -> bool:
+        """
+        >>> Rectangle.of(Xy(0, 0), Xy(0, 0)).has(Xy(0, 0))
+        True
+        >>> Rectangle.of(Xy(0, 0), Xy(3, 3)).has(Xy(2, 4))
+        False
+        >>> Rectangle.of(Xy(10, 10), Xy(9, 9)).has(Xy(10, 9))
+        True
+        """
+        return self.p1.x <= p.x <= self.p2.x and self.p1.y <= p.y <= self.p2.y
+
+
+@dataclass(frozen=True)
 class Cube:
     p1: Xyz
     p2: Xyz
@@ -298,13 +339,3 @@ class Cube:
             for y in range(self.p1.y, self.p2.y + 1):
                 positions.add(Xy(x, y))
         return positions
-
-
-def calc_rectangle_area(p1: Xy, p2: Xy) -> int:
-    """
-    >>> calc_rectangle_area(Xy(7, 3), Xy(2, 3))
-    6
-    >>> calc_rectangle_area(Xy(2, 5), Xy(11, 1))
-    50
-    """
-    return (abs(p1.x - p2.x) + 1) * (abs(p1.y - p2.y) + 1)
