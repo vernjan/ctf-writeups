@@ -62,7 +62,7 @@ NORTH_WEST = Direction("north_west", "⬉")
 DIRECTIONS = [NORTH, EAST, SOUTH, WEST]
 
 
-@dataclass(frozen=True)
+@dataclass(frozen=True, order=True)
 class Xy:
     x: int
     y: int
@@ -81,14 +81,6 @@ class Xy:
 
     def __repr__(self) -> str:
         return f"({self.x},{self.y})"
-
-    def __lt__(self, other):
-        if self.x != other.x:
-            return self.x < other.x
-        return self.y < other.y
-
-    def __eq__(self, other):
-        return self.x == other.x and self.y == other.y
 
     def north(self):
         return Xy(self.x, self.y - 1)
@@ -250,25 +242,62 @@ class Xyz:
         return ((self.z - other.z) ** 2 + (self.y - other.y) ** 2 + (self.x - other.x) ** 2) ** 0.5
 
 
+# not oriented
 @dataclass(frozen=True)
 class Line:
-    p1: Xy
-    p2: Xy
-
-    # TODO Assert pros = must be on the same line
-    # len, has, points()
-
-@dataclass(frozen=True)
-class Rectangle:
+    """
+    p1 is always lesser than p2
+    """
     p1: Xy
     p2: Xy
 
     # don't use the default constructor
     @classmethod
+    def of(cls, p1: Xy, p2: Xy) -> "Line":
+        return cls(p1, p2) if p1 < p2 else cls(p2, p1)
+
+    def __post_init__(self):
+        assert self.p1 <= self.p2, "p1 > p2: Use factory method of()"
+        assert self.p1.x == self.p2.x or self.p1.y == self.p2.y, "This is not a line"
+
+    def is_horizontal(self):
+        return self.p1.y == self.p2.y
+
+    def is_vertical(self):
+        return self.p1.x == self.p2.x
+
+    def has(self, p: Xy) -> bool:
+        return self.p1.x <= p.x <= self.p2.x and self.p1.y <= p.y <= self.p2.y
+
+    def points(self) -> list[Xy]:
+        """
+        >>> Line.of(Xy(0, 0), Xy(0, 0)).points()
+        [(0,0)]
+        >>> Line.of(Xy(0, 0), Xy(0, 1)).points()
+        [(0,0), (0,1)]
+        >>> Line.of(Xy(2, 0), Xy(0, 0)).points()
+        [(0,0), (1,0), (2,0)]
+        """
+        if self.is_horizontal():
+            return [Xy(x, self.p1.y) for x in range(self.p1.x, self.p2.x + 1)]
+        else:
+            return [Xy(self.p1.x, y) for y in range(self.p1.y, self.p2.y + 1)]
+
+
+@dataclass(frozen=True)
+class Rectangle:
+    """
+       p1 is always lesser than p2
+       """
+    p1: Xy
+    p2: Xy
+
+    def __post_init__(self):
+        assert self.p1 <= self.p2, "p1 > p2: Use factory method of()"
+
+    @classmethod
     def of(cls, p1: Xy, p2: Xy) -> "Rectangle":
-        rp1 = p1 if p1 < p2 else p2
-        rp2 = p2 if p2 > p1 else p1
-        return cls(rp1, rp2)
+        return cls(p1, p2) if p1 < p2 else cls(p2, p1)
 
     def area(self) -> int:
         """
@@ -287,8 +316,13 @@ class Rectangle:
         False
         >>> Rectangle.of(Xy(10, 10), Xy(9, 9)).has(Xy(10, 9))
         True
+        >>> Rectangle.of(Xy(10, 1), Xy(9, 9)).has(Xy(10, 9))
+        True
         """
-        return self.p1.x <= p.x <= self.p2.x and self.p1.y <= p.y <= self.p2.y
+        if self.p1.y < self.p2.y:
+            return self.p1.x <= p.x <= self.p2.x and self.p1.y <= p.y <= self.p2.y
+        else:  # TODO JVe We could also transform the rectangle so p1 is always top-left, currently, x is only guaranteed to be smaller
+            return self.p1.x <= p.x <= self.p2.x and self.p2.y <= p.y <= self.p1.y
 
 
 @dataclass(frozen=True)

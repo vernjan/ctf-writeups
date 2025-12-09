@@ -3,7 +3,7 @@ import logging
 import matplotlib
 
 from util.data_io import read_input, read_test_input, timed_run
-from util.ds.coord import Xy, Rectangle
+from util.ds.coord import Xy, Rectangle, Line
 from util.log import log
 
 
@@ -17,7 +17,7 @@ def star1(lines: list[str]):
     biggest_rectangle = 0
     for i, p1 in enumerate(points[:-1]):
         for p2 in points[i + 1:]:
-            area = area(p1, p2)
+            area = Rectangle.of(p1, p2).area()
             if area > biggest_rectangle:
                 biggest_rectangle = area
     return biggest_rectangle
@@ -29,38 +29,58 @@ def star2(lines: list[str]):
     24
     """
     points = [Xy.parse(line) for line in lines]
+    points.append(Xy.parse(lines[0]))  # close the loop
 
     # _visualize(points)
 
-    green_tiles = set()
+    # borders tiles
+    tiles = set()
     start_point = points[0]
     for end_point in points[1:]:
-        # TODO JVe Improve
-        for x in range(start_point.x, end_point.x):
-            green_tiles.add(Xy(x, start_point.y))
-        for y in range(start_point.y, end_point.y):
-            green_tiles.add(Xy(start_point.x, y))
+        line = Line.of(start_point, end_point)
+        tiles.update(line.points())
+        start_point = end_point
 
-    log.debug(green_tiles)
+    log.debug(tiles)
+
+
+
+    # h_lines: dict[int, list[Line]] = defaultdict(list)
+    # v_lines: dict[int, list[Line]] = defaultdict(list)
+    #
+    # start_point = points[0]
+    # for end_point in points[1:]:
+    #     line = Line.of(start_point, end_point)
+    #     if line.is_horizontal():
+    #         h_lines[start_point.y].append(line)
+    #     else:
+    #         v_lines[start_point.x].append(line)
+    #     start_point = end_point
+    #
+    # def within_border(p: Xy, dir: Direction):
+    #     match dir:
+    #         case EAST:
+    #             v_lines[p.x]
+    #         case SOUTH:
+    #         case WEST:
+    #         case NORTH:
+
+    # fill the borders
+    # queue = set(points[0].south_east())
 
     biggest_rectangle = 0
     for i, p1 in enumerate(points[:-1]):
         for p2 in points[i + 1:]:
             rectangle = Rectangle.of(p1, p2)
+
             area = rectangle.area()
             if area > biggest_rectangle:
-                valid = True
-                for green in green_tiles:
-                    if rectangle.has(green):
-                        valid = False
-                        break
-                if valid:
-                    biggest_rectangle = area
+                biggest_rectangle = area
     return biggest_rectangle
 
 
 def _visualize(points: list[Xy]):
-    matplotlib.use('TkAgg')
+    matplotlib.use("TkAgg")
     import matplotlib.pyplot as plt
 
     xs = [p.x for p in points]
