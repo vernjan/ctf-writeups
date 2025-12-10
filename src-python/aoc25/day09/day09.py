@@ -38,7 +38,7 @@ def star2(lines: list[str]):
         line = Line.of(start_point, end_point)
         border.update(line.points())
         start_point = end_point
-    log.info(len(border))
+    log.debug(len(border))
     log.debug(border)
 
     # outer border tiles
@@ -106,7 +106,7 @@ def star2(lines: list[str]):
     # fill the borders
     # queue = set(points[0].south_east())
 
-    _visualize(points, outer_border)
+    # _visualize(points, outer_border)
 
     biggest_rectangle = 0
     for i, p1 in enumerate(points[:-1]):
@@ -150,4 +150,4 @@ def _visualize(border_lines: list[Xy], outer_border_points: set[Xy]):
 if __name__ == "__main__":
     log.setLevel(logging.INFO)
     timed_run("Star 1", lambda: star1(read_input(__file__)), expected_result=4744899849)
-    timed_run("Star 2", lambda: star2(read_input(__file__)), expected_result=None)
+    timed_run("Star 2", lambda: star2(read_input(__file__)), expected_result=1540192500)
