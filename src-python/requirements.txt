@@ -1,3 +1,4 @@
-sortedcollections
-ordered-set
-matplotlib
+sortedcollections==2.1.0
+ordered-set==4.1.0
+matplotlib==3.10.8
+scipy==1.16.3
