@@ -42,7 +42,7 @@ def star1(lines: list[str]):
 
             lights = button_push.lights ^ button_push.button_mask
 
-            if lights not in best_options: # TODO JVe Never updated ..
+            if lights not in best_options:  # TODO JVe Never updated ..
                 best_options[lights] = button_push.counter
             elif button_push.counter >= best_options[lights]:
                 continue
@@ -81,11 +81,10 @@ def star2(lines: list[str]):
     33
     """
     total = 0
-    for line in set(lines):  # TODO JVe random
-    # for line in lines:
-    #     best_options: dict[tuple[int, ...], int] = {}  # accumulated joltage: number of pushes
+    # for line in set(lines):  # TODO JVe random
+    for line in lines:
+        #     best_options: dict[tuple[int, ...], int] = {}  # accumulated joltage: number of pushes
         # best_options2: dict[int, set[tuple[int, ...]]] = {}  # accumulated joltage: number of pushes
-
 
         joltage_str: str = re.findall("\\{([0-9,]+)}", line)[0]
         joltage_desired = tuple(map(int, joltage_str.split(",")))
@@ -106,14 +105,18 @@ def star2(lines: list[str]):
 
         button_joltages.sort(key=sum)
 
-
         min_pushes: int | None = None
         max_joltage_index = joltage_desired.index(max(joltage_desired))
         queue = [ButtonPushS2(joltage, joltage_desired) for joltage in button_joltages if joltage[max_joltage_index] == 1]
+        # queue = [ButtonPushS2(joltage, joltage_desired) for joltage in button_joltages]
         # queue = SortedSet()
         # _add_to_queue((0,) * len(joltage_final), button_joltages, 0, joltage_final, queue, min_pushes)
+        steps = 0
+
+        bad_joltages = set()
         while queue:
             button_push = queue.pop()
+            steps += 1
             log.debug(button_push)
             # if min_pushes and button_push.counter >= min_pushes:
             #     log.debug("  skip min_pushes")
@@ -121,6 +124,9 @@ def star2(lines: list[str]):
 
             remaining_joltage = tuple(map(lambda pair: pair[0] - pair[1], zip(button_push.remaining_joltage, button_push.button_joltage)))
             if any(filter(lambda j: j < 0, remaining_joltage)):
+                bad_joltages.add(remaining_joltage)
+                continue
+            if remaining_joltage in bad_joltages:
                 continue
 
             # for acc_j, final_j in zip(accumulated_joltage, joltage_final):
@@ -143,28 +149,44 @@ def star2(lines: list[str]):
             #     continue
 
             if remaining_joltage == joltage_zero:
-                log.info(f"  Found : {button_push.counter} (qs: {len(queue)})" )
+                log.info(f"  Found : {button_push.counter} (steps: {steps})")
                 min_pushes = button_push.counter
                 break
             else:
-                max_joltage_index = remaining_joltage.index(max(remaining_joltage)) # focus on the biggest value
+                max_joltage_index = max(remaining_joltage)  # focus on the biggest values
                 # queue = [ButtonPushS2(joltage, remaining_joltage, button_push.counter + 1) for joltage in button_joltages if joltage[max_joltage_index] == 1]
-                button_joltage_candidates = []
+                button_joltage_candidates1 = []
+                button_joltage_candidates2 = []
                 for button_joltage in button_joltages:
-                    if button_joltage[max_joltage_index] == 1:
-                        good = True
+                    good = True
+                    for i, rj in enumerate(remaining_joltage):
+                        if rj == 0 and button_joltage[i] == 1:
+                            good = False
+                            break
+                    if good:
+                        button_joltage_candidates2.append(button_joltage)
+                        good = False
                         for i, rj in enumerate(remaining_joltage):
-                            if rj == 0 and button_joltage[i] == 1:
-                                good = False
+                            if rj == max_joltage_index and button_joltage[i] == 1:
+                                good = True
                                 break
                         if good:
-                            button_joltage_candidates.append(button_joltage)
+                            button_joltage_candidates1.append(button_joltage)
+
+                button_joltage_candidates = []
+                if button_joltage_candidates1:
+                    button_joltage_candidates = button_joltage_candidates1
+                elif button_joltage_candidates2:
+                    button_joltage_candidates = button_joltage_candidates2
+
+
+
 
 
                 queue.extend([ButtonPushS2(joltage, remaining_joltage, button_push.counter + 1) for joltage in button_joltage_candidates])
 
-    # _add_to_queue(accumulated_joltage, button_joltages, button_push.counter, joltage_final, queue,
-    #                           min_pushes)
+        # _add_to_queue(accumulated_joltage, button_joltages, button_push.counter, joltage_final, queue,
+        #                           min_pushes)
 
         total += min_pushes
 
@@ -188,7 +210,7 @@ def _add_to_queue(accumulated_joltage, button_joltages, counter, joltage_final, 
 
 
 if __name__ == "__main__":
-    log.setLevel(logging.INFO)
+    log.setLevel(logging.DEBUG)
     # timed_run("Star 1", lambda: star1(read_input(__file__)), expected_result=547)
     # timed_run("Star 2", lambda: star2(read_input(__file__, input_file="input4.txt")), expected_result=None)
     timed_run("Star 2", lambda: star2(read_input(__file__)), expected_result=None)
