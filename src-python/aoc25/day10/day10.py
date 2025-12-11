@@ -81,8 +81,8 @@ def star2(lines: list[str]):
     33
     """
     total = 0
-    # for line in set(lines):  # TODO JVe random
-    for line in lines:
+    for line in set(lines):  # TODO JVe random
+        # for line in lines:
         #     best_options: dict[tuple[int, ...], int] = {}  # accumulated joltage: number of pushes
         # best_options2: dict[int, set[tuple[int, ...]]] = {}  # accumulated joltage: number of pushes
 
@@ -103,57 +103,56 @@ def star2(lines: list[str]):
         # all = reduce(lambda a, b: tuple(map(sum, zip(a, b))), button_joltages)
         # log.debug(all)
 
-        button_joltages.sort(key=sum)
-
-        min_pushes: int | None = None
-        max_joltage_index = joltage_desired.index(max(joltage_desired))
-        queue = [ButtonPushS2(joltage, joltage_desired) for joltage in button_joltages if joltage[max_joltage_index] == 1]
-        # queue = [ButtonPushS2(joltage, joltage_desired) for joltage in button_joltages]
-        # queue = SortedSet()
-        # _add_to_queue((0,) * len(joltage_final), button_joltages, 0, joltage_final, queue, min_pushes)
-        steps = 0
+        button_joltages.sort(key=sum, reverse=True)  # be greedy
 
         bad_joltages = set()
-        while queue:
-            button_push = queue.pop()
-            steps += 1
-            log.debug(button_push)
 
-            remaining_joltage = tuple(map(lambda pair: pair[0] - pair[1], zip(button_push.remaining_joltage, button_push.button_joltage)))
-            if any(filter(lambda j: j < 0, remaining_joltage)):
-                bad_joltages.add(remaining_joltage)
-                continue
+        def solve(button_joltage: tuple, remaining_joltage: tuple, steps: int) -> tuple[bool, int]:
+            remaining_joltage = tuple(map(lambda pair: pair[0] - pair[1], zip(remaining_joltage, button_joltage)))
+
             if remaining_joltage in bad_joltages:
-                continue
+                return False, 0
+
+            log.debug(f"bj={button_joltage}, rj={remaining_joltage}, steps={steps}")
+
+            # if any(filter(lambda j: j < 0, remaining_joltage)):
+            #     bad_joltages.add(remaining_joltage)
+            #     return False, 1
 
             if remaining_joltage == joltage_zero:
-                log.info(f"  Found : {button_push.counter} (steps: {steps})")
-                min_pushes = button_push.counter
+                return True, steps
+
+            max_joltage_index = remaining_joltage.index(max(remaining_joltage))
+            button_joltage_candidates = []
+            for button_joltage in button_joltages:
+                if button_joltage[max_joltage_index] == 1:
+                    good = True
+                    for i, rj in enumerate(remaining_joltage):
+                        if rj == 0 and button_joltage[i] == 1:
+                            good = False
+                            break
+                    if good:
+                        button_joltage_candidates.append(button_joltage)
+
+            for button_joltage in button_joltage_candidates:
+                if remaining_joltage in bad_joltages:
+                    return False, 0
+                res, s = solve(button_joltage, remaining_joltage, steps + 1)
+                if res:
+                    return True, s
+            bad_joltages.add(remaining_joltage)
+            return False, 0
+
+        max_joltage_index = joltage_desired.index(max(joltage_desired))
+        for button_joltage in [bj for bj in button_joltages if bj[max_joltage_index] == 1]:
+            # for button_joltage in button_joltages:
+            res, min_pushes = solve(button_joltage, joltage_desired, 1)
+            if res:
+                log.info(f"  Found: (steps: {min_pushes})")
+                total += min_pushes
                 break
-            else:
-                max_joltage_index = remaining_joltage.index(max(remaining_joltage))  # focus on the biggest values
-                button_joltage_candidates = []
-                for button_joltage in button_joltages:
-                    if button_joltage[max_joltage_index] == 1:
-                        good = True
-                        for i, rj in enumerate(remaining_joltage):
-                            if rj == 0 and button_joltage[i] == 1:
-                                good = False
-                                break
-                        if good:
-                            button_joltage_candidates.append(button_joltage)
-
-                queue.extend([ButtonPushS2(joltage, remaining_joltage, button_push.counter + 1) for joltage in button_joltage_candidates])
-
-        # _add_to_queue(accumulated_joltage, button_joltages, button_push.counter, joltage_final, queue,
-        #                           min_pushes)
-
-        total += min_pushes
 
     return total
-
-def solve(bad_joltages: set, button_joltage: tuple, remaining_joltage: tuple, steps: int):
-
 
 
 # def _add_to_queue(accumulated_joltage, button_joltages, counter, joltage_final, queue: SortedSet, best_so_far):
