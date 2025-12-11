@@ -110,29 +110,39 @@ def star2(lines: list[str]):
         def solve(button_joltage: tuple, remaining_joltage: tuple, steps: int) -> tuple[bool, int]:
             remaining_joltage = tuple(map(lambda pair: pair[0] - pair[1], zip(remaining_joltage, button_joltage)))
 
-            if remaining_joltage in bad_joltages:
-                return False, 0
-
             log.debug(f"bj={button_joltage}, rj={remaining_joltage}, steps={steps}")
 
-            # if any(filter(lambda j: j < 0, remaining_joltage)):
-            #     bad_joltages.add(remaining_joltage)
-            #     return False, 1
+            if remaining_joltage in bad_joltages:
+                log.debug(f"Bad joltage: {remaining_joltage}")
+                return False, 0
+
+            if any(filter(lambda j: j < 0, remaining_joltage)):
+                bad_joltages.add(remaining_joltage)
+                return False, 1
 
             if remaining_joltage == joltage_zero:
                 return True, steps
 
-            max_joltage_index = remaining_joltage.index(max(remaining_joltage))
+            min_joltage_index = min(filter(lambda x: x > 0, remaining_joltage))
+            min_indexes = []
+            for i, rj in enumerate(remaining_joltage):
+                if rj == min_joltage_index:
+                    min_indexes.append(i)
+
             button_joltage_candidates = []
             for button_joltage in button_joltages:
-                if button_joltage[max_joltage_index] == 1:
-                    good = True
-                    for i, rj in enumerate(remaining_joltage):
-                        if rj == 0 and button_joltage[i] == 1:
-                            good = False
-                            break
-                    if good:
+                for mi in min_indexes:
+                    if button_joltage[mi] == 1:
                         button_joltage_candidates.append(button_joltage)
+                        break
+                # if button_joltage[min_joltage_index] == 1:
+                #     # good = True
+                #     # for i, rj in enumerate(remaining_joltage):
+                #     #     if rj == 0 and button_joltage[i] == 1:
+                #     #         good = False
+                #     #         break
+                #     # if good:
+                #     button_joltage_candidates.append(button_joltage)
 
             for button_joltage in button_joltage_candidates:
                 if remaining_joltage in bad_joltages:
@@ -143,8 +153,8 @@ def star2(lines: list[str]):
             bad_joltages.add(remaining_joltage)
             return False, 0
 
-        max_joltage_index = joltage_desired.index(max(joltage_desired))
-        for button_joltage in [bj for bj in button_joltages if bj[max_joltage_index] == 1]:
+        min_joltage_index = joltage_desired.index(min(filter(lambda x: x > 0, joltage_desired)))
+        for button_joltage in [bj for bj in button_joltages if bj[min_joltage_index] == 1]:
             # for button_joltage in button_joltages:
             res, min_pushes = solve(button_joltage, joltage_desired, 1)
             if res:
@@ -172,7 +182,10 @@ def _add_to_queue(accumulated_joltage, button_joltages, counter, joltage_final, 
 
 
 if __name__ == "__main__":
-    log.setLevel(logging.DEBUG)
+    log.setLevel(logging.INFO)
     # timed_run("Star 1", lambda: star1(read_input(__file__)), expected_result=547)
-    # timed_run("Star 2", lambda: star2(read_input(__file__, input_file="input4.txt")), expected_result=None)
-    timed_run("Star 2", lambda: star2(read_input(__file__)), expected_result=None)
+    # timed_run("Star 2", lambda: star2(read_input(__file__, input_file="input1.txt")), expected_result=None)
+    # timed_run("Star 2", lambda: star2(read_input(__file__, input_file="input2.txt")), expected_result=None)
+    # timed_run("Star 2", lambda: star2(read_input(__file__, input_file="input3.txt")), expected_result=None)
+    timed_run("Star 2", lambda: star2(read_input(__file__, input_file="input4.txt")), expected_result=None)
+    # timed_run("Star 2", lambda: star2(read_input(__file__)), expected_result=None)
