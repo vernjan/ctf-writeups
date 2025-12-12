@@ -81,14 +81,9 @@ def star2(lines: list[str]):
     310
     """
 
-    # print("\n".join(sorted(lines, key=len)))
-
     total = 0
-    for line in sorted(lines, key=len):
-        # for line in lines:
-        #     best_options: dict[tuple[int, ...], int] = {}  # accumulated joltage: number of pushes
-        # best_options2: dict[int, set[tuple[int, ...]]] = {}  # accumulated joltage: number of pushes
-
+    # for line in sorted(lines, key=len):
+    for line in lines:
         joltage_str: str = re.findall("\\{([0-9,]+)}", line)[0]
         joltage_desired = tuple(map(int, joltage_str.split(",")))
         joltage_zero = (0,) * len(joltage_desired)
@@ -103,73 +98,64 @@ def star2(lines: list[str]):
                 button_joltage[i] = 1
             button_joltages.append(tuple(button_joltage))
 
-        # all = reduce(lambda a, b: tuple(map(sum, zip(a, b))), button_joltages)
-        # log.debug(all)
-
         button_joltages.sort(key=sum, reverse=True)  # be greedy
 
-        bad_joltages = set()
+        def find_next_button(available_buttons, min_indexes):
+            for button_joltage in available_buttons:
+                for i in min_indexes:
+                    if button_joltage[i] == 1:
+                        return button_joltage
+            return None
 
-        def solve(button_joltage: tuple, remaining_joltage: tuple, steps: int) -> tuple[bool, int]:
+        def solve(available_buttons, button_joltage: tuple, remaining_joltage: tuple, steps: int) -> tuple[bool, int]:
             remaining_joltage = tuple(map(lambda pair: pair[0] - pair[1], zip(remaining_joltage, button_joltage)))
-
             log.debug(f"bj={button_joltage}, rj={remaining_joltage}, steps={steps}")
 
-            if remaining_joltage in bad_joltages:
-                log.debug(f"Bad joltage: {remaining_joltage}")
-                return False, 0
 
-            if any(filter(lambda j: j < 0, remaining_joltage)):
-                bad_joltages.add(remaining_joltage)
-                return False, 1
+            for i, joltage in enumerate(remaining_joltage):
+                if joltage == 0:
+                    for button_joltage in available_buttons.copy():
+                        if button_joltage[i] == 1:
+                            log.debug(f"Removing {button_joltage}")
+                            available_buttons.remove(button_joltage)
+
+            # if any(filter(lambda j: j == 0, remaining_joltage)):
+            #     log.error("FAIL")
+            #     return False, 1
 
             if remaining_joltage == joltage_zero:
                 return True, steps
 
             min_joltage = min(filter(lambda x: x > 0, remaining_joltage))
-            min_joltage_index = remaining_joltage.index(min_joltage)
+            # min_joltage_index = remaining_joltage.index(min_joltage)
             # max_joltage = max(remaining_joltage)
             # max_joltage_index = remaining_joltage.index(max_joltage)
-            # min_indexes = []
-            # for i, rj in enumerate(remaining_joltage):
-            #     if rj == min_joltage:
-            #         min_indexes.append(i)
+            min_indexes = []
+            for i, rj in enumerate(remaining_joltage):
+                if rj == min_joltage:
+                    min_indexes.append(i)
 
-            button_joltage_candidates = []
-            for button_joltage in button_joltages:
-                # for mi in min_indexes:
-                #     if button_joltage[mi] == 1:
-                #         button_joltage_candidates.append(button_joltage)
-                #         break
-                if button_joltage[min_joltage_index] == 1:
-                # if button_joltage[max_joltage_index] == 1:
-                    # good = True
-                    # for i, rj in enumerate(remaining_joltage):
-                    #     if rj == 0 and button_joltage[i] == 1:
-                    #         good = False
-                    #         break
-                    # if good:
-                    button_joltage_candidates.append(button_joltage)
-                    break
+            # Solving 26,20,19,11
+            next_button = find_next_button(available_buttons, min_indexes)
+            if next_button is None:
+                log.error(f"bj={button_joltage}, rj={remaining_joltage}, steps={steps}")
+                log.error(f"leftover: {sum(remaining_joltage)}")
+                log.error(f"No button found: {available_buttons}")
 
-
-            for button_joltage in button_joltage_candidates:
-                if remaining_joltage in bad_joltages:
-                    return False, 0
-                res, s = solve(button_joltage, remaining_joltage, steps + 1)
-                if res:
-                    return True, s
-            bad_joltages.add(remaining_joltage)
-            return False, 0
+            return solve(available_buttons, next_button, remaining_joltage, steps + 1)
 
         min_joltage_index = joltage_desired.index(min(filter(lambda x: x > 0, joltage_desired)))
-        for button_joltage in [bj for bj in button_joltages if bj[min_joltage_index] == 1]:
+        for button_joltage in [bj for bj in button_joltages]:
             # for button_joltage in button_joltages:
-            res, min_pushes = solve(button_joltage, joltage_desired, 1)
-            if res:
-                log.info(f"  Found: (steps: {min_pushes})")
-                total += min_pushes
-                break
+            try:
+                res, min_pushes = solve(button_joltages.copy(), button_joltage, joltage_desired, 1)
+                if res:
+                    log.info(f"  Found: (steps: {min_pushes})")
+                    total += min_pushes
+                    break
+            except:
+                log.error("Retrying")
+
 
     return total
 
@@ -197,5 +183,5 @@ if __name__ == "__main__":
     # timed_run("Star 2", lambda: star2(read_input(__file__, input_file="input2.txt")), expected_result=None)
     # timed_run("Star 2", lambda: star2(read_input(__file__, input_file="input3.txt")), expected_result=None)
     # timed_run("Star 2", lambda: star2(read_input(__file__, input_file="input4.txt")), expected_result=None)
-    timed_run("Star 2", lambda: star2(read_input(__file__, input_file="input-sorted.txt")), expected_result=None)
-    # timed_run("Star 2", lambda: star2(read_input(__file__)), expected_result=None)
+    # timed_run("Star 2", lambda: star2(read_input(__file__, input_file="input-sorted.txt")), expected_result=None)
+    timed_run("Star 2", lambda: star2(read_input(__file__)), expected_result=None)
