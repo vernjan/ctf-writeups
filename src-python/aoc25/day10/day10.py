@@ -150,6 +150,8 @@ def star2(lines: list[str]):
                     #         break
                     # if good:
                     button_joltage_candidates.append(button_joltage)
+                    break
+
 
             for button_joltage in button_joltage_candidates:
                 if remaining_joltage in bad_joltages:
