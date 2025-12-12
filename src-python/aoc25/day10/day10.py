@@ -78,10 +78,13 @@ class ButtonPushS2:
 def star2(lines: list[str]):
     """
     >>> star2(read_test_input(__file__))
-    33
+    310
     """
+
+    # print("\n".join(sorted(lines, key=len)))
+
     total = 0
-    for line in set(lines):  # TODO JVe random
+    for line in sorted(lines, key=len):
         # for line in lines:
         #     best_options: dict[tuple[int, ...], int] = {}  # accumulated joltage: number of pushes
         # best_options2: dict[int, set[tuple[int, ...]]] = {}  # accumulated joltage: number of pushes
@@ -123,26 +126,30 @@ def star2(lines: list[str]):
             if remaining_joltage == joltage_zero:
                 return True, steps
 
-            min_joltage_index = min(filter(lambda x: x > 0, remaining_joltage))
-            min_indexes = []
-            for i, rj in enumerate(remaining_joltage):
-                if rj == min_joltage_index:
-                    min_indexes.append(i)
+            min_joltage = min(filter(lambda x: x > 0, remaining_joltage))
+            min_joltage_index = remaining_joltage.index(min_joltage)
+            # max_joltage = max(remaining_joltage)
+            # max_joltage_index = remaining_joltage.index(max_joltage)
+            # min_indexes = []
+            # for i, rj in enumerate(remaining_joltage):
+            #     if rj == min_joltage:
+            #         min_indexes.append(i)
 
             button_joltage_candidates = []
             for button_joltage in button_joltages:
-                for mi in min_indexes:
-                    if button_joltage[mi] == 1:
-                        button_joltage_candidates.append(button_joltage)
-                        break
-                # if button_joltage[min_joltage_index] == 1:
-                #     # good = True
-                #     # for i, rj in enumerate(remaining_joltage):
-                #     #     if rj == 0 and button_joltage[i] == 1:
-                #     #         good = False
-                #     #         break
-                #     # if good:
-                #     button_joltage_candidates.append(button_joltage)
+                # for mi in min_indexes:
+                #     if button_joltage[mi] == 1:
+                #         button_joltage_candidates.append(button_joltage)
+                #         break
+                if button_joltage[min_joltage_index] == 1:
+                # if button_joltage[max_joltage_index] == 1:
+                    # good = True
+                    # for i, rj in enumerate(remaining_joltage):
+                    #     if rj == 0 and button_joltage[i] == 1:
+                    #         good = False
+                    #         break
+                    # if good:
+                    button_joltage_candidates.append(button_joltage)
 
             for button_joltage in button_joltage_candidates:
                 if remaining_joltage in bad_joltages:
@@ -187,5 +194,6 @@ if __name__ == "__main__":
     # timed_run("Star 2", lambda: star2(read_input(__file__, input_file="input1.txt")), expected_result=None)
     # timed_run("Star 2", lambda: star2(read_input(__file__, input_file="input2.txt")), expected_result=None)
     # timed_run("Star 2", lambda: star2(read_input(__file__, input_file="input3.txt")), expected_result=None)
-    timed_run("Star 2", lambda: star2(read_input(__file__, input_file="input4.txt")), expected_result=None)
+    # timed_run("Star 2", lambda: star2(read_input(__file__, input_file="input4.txt")), expected_result=None)
+    timed_run("Star 2", lambda: star2(read_input(__file__, input_file="input-sorted.txt")), expected_result=None)
     # timed_run("Star 2", lambda: star2(read_input(__file__)), expected_result=None)

@@ -1,0 +1,279 @@
+C:\Users\vernj\AppData\Local\Programs\Python\Python311\python.exe C:\Users\vernj\IdeaProjects\ctf-writeups\src-python\aoc25\day10\day10.py 
+Solving 1,3,1,3
+  Found: (steps: 4)
+Solving 5,4,1,5
+  Found: (steps: 5)
+Solving 13,16,13,29
+  Found: (steps: 29)
+Solving 6,12,19,6
+  Found: (steps: 25)
+Solving 4,9,7,6
+  Found: (steps: 13)
+Solving 12,0,12,12
+  Found: (steps: 12)
+Solving 189,17,172,17
+  Found: (steps: 189)
+Solving 24,10,14,2
+  Found: (steps: 24)
+Solving 27,15,16,16
+  Found: (steps: 31)
+Solving 16,3,16,26
+  Found: (steps: 35)
+Solving 21,149,149,7
+  Found: (steps: 156)
+Solving 9,11,9,9,11
+  Found: (steps: 20)
+Solving 23,9,11,23,9
+  Found: (steps: 34)
+Solving 35,14,33,20
+  Found: (steps: 49)
+Solving 153,28,17,181
+  Found: (steps: 181)
+Solving 1,19,6,1,25
+  Found: (steps: 25)
+Solving 171,12,24,10
+  Found: (steps: 193)
+Solving 26,20,19,11
+  Found: (steps: 31)
+Solving 18,10,11,11
+  Found: (steps: 22)
+Solving 158,7,39,12,158
+  Found: (steps: 197)
+Solving 170,20,154,165
+  Found: (steps: 201)
+Solving 200,188,24,32
+  Found: (steps: 220)
+Solving 13,11,24,13,11
+  Found: (steps: 24)
+Solving 13,66,31,27
+  Found: (steps: 69)
+Solving 16,6,17,33
+  Found: (steps: 33)
+Solving 17,20,19,17,17
+  Found: (steps: 28)
+Solving 184,206,50,38
+  Found: (steps: 234)
+Solving 19,12,14,41
+  Found: (steps: 55)
+Solving 24,19,17,14,17
+  Found: (steps: 43)
+Solving 187,1,28,28
+  Found: (steps: 215)
+Solving 39,39,20,16,23
+  Found: (steps: 39)
+Solving 164,181,179,166,17
+  Found: (steps: 181)
+Solving 176,46,46,19,188
+  Found: (steps: 222)
+Solving 9,19,4,29,9,19
+  Found: (steps: 29)
+Solving 43,45,23,9
+  Found: (steps: 45)
+Solving 26,15,52,55
+  Found: (steps: 70)
+Solving 22,39,45,20
+  Found: (steps: 59)
+Solving 21,29,31,32,50
+  Found: (steps: 50)
+Solving 26,38,36,12,22
+  Found: (steps: 38)
+Solving 14,30,23,27,3
+  Found: (steps: 43)
+Solving 5,38,33,19,24,33
+  Found: (steps: 52)
+Solving 25,22,25,0,16
+  Found: (steps: 25)
+Solving 35,16,31,14,29
+  Found: (steps: 49)
+Solving 26,27,16,12,25
+  Found: (steps: 27)
+Solving 25,25,30,27,47
+  Found: (steps: 47)
+Solving 13,175,7,169,175,165
+  Found: (steps: 182)
+Solving 48,18,33,33,33
+  Found: (steps: 57)
+Solving 122,22,48,133,125
+  Found: (steps: 155)
+Solving 1,199,179,6,20,7
+  Found: (steps: 206)
+Solving 20,26,25,31,23
+  Found: (steps: 56)
+Solving 19,37,37,42,14,14
+  Found: (steps: 65)
+Solving 20,39,47,29,21,9
+  Found: (steps: 47)
+Solving 41,17,12,34,34
+  Found: (steps: 58)
+Solving 34,4,34,20,28,29
+  Found: (steps: 49)
+Solving 23,0,29,27,39,16
+  Found: (steps: 50)
+Solving 126,131,48,139,142
+  Found: (steps: 159)
+Solving 43,29,30,35,26
+  Found: (steps: 68)
+Solving 24,34,34,22,51
+  Found: (steps: 58)
+Solving 16,176,210,210,172,38
+  Found: (steps: 210)
+Solving 19,27,32,15,43
+  Found: (steps: 58)
+Solving 11,29,12,13,15
+  Found: (steps: 32)
+Solving 41,28,31,44,10
+  Found: (steps: 51)
+Solving 45,36,48,3,10,22
+  Found: (steps: 49)
+Solving 13,49,69,58,49
+  Found: (steps: 98)
+Solving 25,22,8,43,60
+  Found: (steps: 60)
+Solving 14,1,29,21,27,28
+  Found: (steps: 30)
+Solving 11,29,11,42,50,39
+  Found: (steps: 51)
+Solving 32,173,11,161,28,12
+  Found: (steps: 193)
+Solving 179,33,190,159,170,185
+  Found: (steps: 223)
+Solving 27,24,34,50,56,54
+  Found: (steps: 90)
+Solving 17,50,27,37,24,28,18
+  Found: (steps: 55)
+Solving 20,40,54,23,35,28
+  Found: (steps: 61)
+Solving 35,18,18,47,35,47,59
+  Found: (steps: 65)
+Solving 37,22,48,8,34,39,28
+  Found: (steps: 56)
+Solving 12,39,32,26,26,5,21
+  Found: (steps: 39)
+Solving 39,41,2,28,55,5
+  Found: (steps: 55)
+Solving 2,30,22,42,42,39,5
+  Found: (steps: 49)
+Solving 23,56,20,25,55,41
+  Found: (steps: 60)
+Solving 54,37,35,39,36,18,3
+  Found: (steps: 54)
+Solving 22,41,13,48,38,31,22
+  Found: (steps: 51)
+Solving 9,5,22,8,21,19,38
+  Found: (steps: 40)
+Solving 40,48,46,32,57,81
+  Found: (steps: 81)
+Solving 41,12,33,40,24,36,18
+  Found: (steps: 53)
+Solving 53,72,50,67,63,20
+  Found: (steps: 99)
+Solving 60,29,9,17,52,54
+  Found: (steps: 71)
+Solving 2,35,16,3,33,46,23
+  Found: (steps: 53)
+Solving 20,22,34,31,25,10,33,22
+  Found: (steps: 55)
+Solving 203,170,150,11,154,28
+  Found: (steps: 231)
+Solving 155,27,128,170,35,53
+  Found: (steps: 170)
+Solving 26,26,9,6,22,8,9,6
+  Found: (steps: 28)
+Solving 17,32,8,34,24,34
+  Found: (steps: 43)
+Solving 47,40,27,54,36,27
+  Found: (steps: 78)
+Solving 31,41,41,17,135,23,131
+  Found: (steps: 158)
+Solving 24,37,38,47,33,69
+  Found: (steps: 82)
+Solving 30,15,216,206,219,211,203
+  Found: (steps: 236)
+Solving 23,34,23,41,25,31,33,35
+  Found: (steps: 49)
+Solving 10,116,8,114,126,25,5
+  Found: (steps: 131)
+Solving 45,36,45,41,38,36,24
+  Found: (steps: 66)
+Solving 38,21,8,30,29,24,46
+  Found: (steps: 47)
+Solving 28,29,88,55,42,65
+  Found: (steps: 91)
+Solving 20,39,15,26,53,27,39
+  Found: (steps: 54)
+Solving 17,25,46,41,55,23,44
+  Found: (steps: 79)
+Solving 199,201,27,31,59,60,50
+  Found: (steps: 251)
+Solving 201,24,14,182,192,32,157,51
+  Found: (steps: 213)
+Solving 64,50,50,174,163,15,50,176
+  Found: (steps: 208)
+Solving 34,49,41,63,47,38
+  Found: (steps: 63)
+Solving 84,82,33,31,48,29,46
+  Found: (steps: 104)
+Solving 29,26,77,33,8,40,42
+  Found: (steps: 80)
+Solving 23,12,19,8,12,7,11,11,11
+  Found: (steps: 39)
+Solving 214,204,215,10,197,194,206,214
+  Found: (steps: 225)
+Solving 18,223,45,35,213,236,35,216
+  Found: (steps: 244)
+Solving 70,41,50,29,39,20,32,32
+  Found: (steps: 70)
+Solving 45,15,30,53,58,67,56
+  Found: (steps: 87)
+Solving 32,21,48,24,44,32,16
+  Found: (steps: 65)
+Solving 31,26,63,49,57,47,19,48,31
+  Found: (steps: 85)
+Solving 31,34,131,26,148,48,168,25
+  Found: (steps: 171)
+Solving 45,28,26,28,25,25,27,43
+  Found: (steps: 53)
+Solving 36,23,33,36,24,30,39,33
+  Found: (steps: 70)
+Solving 37,30,16,36,35,27,21
+  Found: (steps: 44)
+Solving 30,22,22,23,20,5,54,20,1
+  Found: (steps: 72)
+Solving 36,39,55,16,18,54,41,62,25
+  Found: (steps: 79)
+Solving 52,137,170,120,8,26,45,72
+  Found: (steps: 205)
+Solving 57,19,48,23,20,11,23,21
+  Found: (steps: 59)
+Solving 14,16,19,21,14,21,7,15
+  Found: (steps: 25)
+Solving 194,167,174,192,196,15,201,2
+  Found: (steps: 225)
+Solving 7,49,17,188,59,26,25,210
+  Found: (steps: 242)
+Solving 31,41,30,10,18,42,29,21,51
+  Found: (steps: 64)
+Solving 56,38,46,84,23,48,52
+  Found: (steps: 86)
+Solving 206,201,19,200,207,213,11
+  Found: (steps: 223)
+Solving 30,67,220,45,35,56,52,199
+  Found: (steps: 271)
+Solving 27,21,32,149,160,27,28,15
+  Found: (steps: 165)
+Solving 30,41,19,7,31,30,34,38,34
+  Found: (steps: 54)
+Solving 43,47,36,67,51,51,16,51,27,16
+  Found: (steps: 89)
+Solving 39,49,48,187,186,25,27,27,22
+  Found: (steps: 220)
+Solving 4,54,24,55,39,37,23,17,39
+  Found: (steps: 101)
+Solving 16,31,55,56,27,55,8,27,10
+  Found: (steps: 62)
+Solving 79,48,17,16,36,31,68,46
+  Found: (steps: 110)
+Solving 46,59,61,63,74,53,43
+  Found: (steps: 91)
+
+Solving 38,142,135,188,145,45,167,153
