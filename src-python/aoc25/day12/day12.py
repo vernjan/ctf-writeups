@@ -1,5 +1,6 @@
 import logging
 import re
+import sys
 from dataclasses import dataclass
 from functools import cached_property
 
@@ -13,18 +14,14 @@ class Shape:
 
     @cached_property
     def variants(self):
+        """
+        All possible flips and rotations
+        """
         variants = set()
+
+        # TODO JVe Make this generic and move into utils
+
         variants.add(self)
-        # vertical flip
-        variants.add(Shape(
-            self.base[2] + self.base[1] + self.base[0] +
-            self.base[5] + self.base[4] + self.base[3] +
-            self.base[8] + self.base[7] + self.base[6]))
-        # horizontal flip
-        variants.add(Shape(
-            self.base[6] + self.base[7] + self.base[8] +
-            self.base[3] + self.base[4] + self.base[5] +
-            self.base[0] + self.base[1] + self.base[2]))
         # rot 90
         variants.add(Shape(
             self.base[6] + self.base[3] + self.base[0] +
@@ -41,6 +38,26 @@ class Shape:
             self.base[1] + self.base[4] + self.base[7] +
             self.base[0] + self.base[3] + self.base[6]))
 
+        # flip
+        variants.add(Shape(
+            self.base[2] + self.base[1] + self.base[0] +
+            self.base[5] + self.base[4] + self.base[3] +
+            self.base[8] + self.base[7] + self.base[6]))
+        # rot 90
+        variants.add(Shape(
+            self.base[0] + self.base[3] + self.base[6] +
+            self.base[1] + self.base[4] + self.base[7] +
+            self.base[2] + self.base[5] + self.base[8]))
+        # rot 180
+        variants.add(Shape(
+            self.base[6] + self.base[7] + self.base[8] +
+            self.base[3] + self.base[4] + self.base[5] +
+            self.base[0] + self.base[1] + self.base[2]))
+        # rot 270
+        variants.add(Shape(
+            self.base[8] + self.base[5] + self.base[2] +
+            self.base[7] + self.base[4] + self.base[1] +
+            self.base[6] + self.base[3] + self.base[0]))
 
         return variants
 
@@ -80,6 +97,7 @@ def star1(lines: list[str]):
 
 def _solve_task(width: str, height: str, gifts_histo: list[int], shapes: list[Shape]):
     log.debug(f"w={width}, h={height}, gh={gifts_histo}, shapes={shapes}")
+    sys.exit(0)
 
 
 def star2(lines: list[str]):
@@ -92,6 +110,6 @@ def star2(lines: list[str]):
 
 
 if __name__ == "__main__":
-    log.setLevel(logging.INFO)
+    log.setLevel(logging.DEBUG)
     timed_run("Star 1", lambda: star1(read_input(__file__)), expected_result=None)
     timed_run("Star 2", lambda: star2(read_input(__file__)), expected_result=None)
