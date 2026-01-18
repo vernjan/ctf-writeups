@@ -13,8 +13,59 @@ from util.log import log
 class GiftPattern:
     base: str
 
+    # TODO JVe Use this ???
     @cached_property
-    def variants(self) -> set["GiftPattern"]:
+    def variants(self):
+        """
+        All possible flips and rotations
+        """
+        variants = set()
+
+        # TODO JVe Make this generic and move into utils
+
+        variants.add(self)
+        # rot 90
+        variants.add(GiftPattern(
+            self.base[6] + self.base[3] + self.base[0] +
+            self.base[7] + self.base[4] + self.base[1] +
+            self.base[8] + self.base[5] + self.base[2]))
+        # rot 180
+        variants.add(GiftPattern(
+            self.base[8] + self.base[7] + self.base[6] +
+            self.base[5] + self.base[4] + self.base[3] +
+            self.base[2] + self.base[1] + self.base[0]))
+        # rot 270
+        variants.add(GiftPattern(
+            self.base[2] + self.base[5] + self.base[8] +
+            self.base[1] + self.base[4] + self.base[7] +
+            self.base[0] + self.base[3] + self.base[6]))
+
+        # flip
+        variants.add(GiftPattern(
+            self.base[2] + self.base[1] + self.base[0] +
+            self.base[5] + self.base[4] + self.base[3] +
+            self.base[8] + self.base[7] + self.base[6]))
+        # rot 90
+        variants.add(GiftPattern(
+            self.base[0] + self.base[3] + self.base[6] +
+            self.base[1] + self.base[4] + self.base[7] +
+            self.base[2] + self.base[5] + self.base[8]))
+        # rot 180
+        variants.add(GiftPattern(
+            self.base[6] + self.base[7] + self.base[8] +
+            self.base[3] + self.base[4] + self.base[5] +
+            self.base[0] + self.base[1] + self.base[2]))
+        # rot 270
+        variants.add(GiftPattern(
+            self.base[8] + self.base[5] + self.base[2] +
+            self.base[7] + self.base[4] + self.base[1] +
+            self.base[6] + self.base[3] + self.base[0]))
+
+        return variants
+
+
+    @cached_property
+    def variants??(self) -> set["GiftPattern"]:
         variants = set()
         variants.add(self)
         # vertical flip
