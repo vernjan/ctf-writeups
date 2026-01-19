@@ -75,11 +75,9 @@ class GiftPattern:  # TODO JVe Rename to Gift
 @dataclass(frozen=True)
 class SearchContext:
     gifts_histo: list[int]
-    g: list[list[str]]
-    from_x: int
-    from_y: int
-    gifts: list[GiftPattern]
-    score: int  # placed gifts
+    grid: list[list[str]]
+    step: int = 0
+    score: int = 0  # placed gifts
 
 
 def star1(lines: list[str]):
@@ -114,55 +112,67 @@ def star1(lines: list[str]):
                 height = int(m.group(2))
                 gifts_histo = list(map(int, m.group(3).split()))
 
-                col = list("." * height)
-                g: list[list[str]] = []
-                for x in range(width):
-                    g.append(col.copy())
-
-                total += _solve_task(width, height, gifts_histo, gifts, g, 0, 0)
+                total += _solve_task(width, height, gifts_histo, gifts)
 
     return total
 
 
-def _solve_task(width: int, height: int, gifts_histo: list[int], gifts: list[GiftPattern], g: list[list[str]], from_x: int, from_y: int):
-    log.info(f"w={width}, h={height}, gh={gifts_histo}, from_x={from_x}, from_y={from_y}")
+# TODO JVe Prune suboptimal solutions?
+#   Based on x I know how many cols I've already covered, then count how many squares were indeed set!
+#   Fist, I must use depth-first search
+# TODO JVe Look for squares?
+def _solve_task(width: int, height: int, gifts_histo: list[int], gifts: list[GiftPattern]):
+    # TODO JVe Merge gifts_histo + gifts into single dict
+    log.info(f"w={width}, h={height}, gh={gifts_histo}")
 
-    # TODO JVe Prune suboptimal solutions?
-    #   Based on x I know how many cols I've already covered, then count how many squares were indeed set!
-    #   Fist, I must use depth-first search
-    # TODO JVe Look for squares?
-    for x in range(from_x, width - 2):
-        for y in range(from_y, height - 2):
-            required_pattern = (g[x][y + 0] + g[x + 1][y + 0] + g[x + 2][y + 0] +
-                                g[x][y + 1] + g[x + 1][y + 1] + g[x + 2][y + 1] +
-                                g[x][y + 2] + g[x + 1][y + 2] + g[x + 2][y + 2])
-            for i, gift_candidate in enumerate(gifts_histo):
-                if gift_candidate == 0:
-                    continue
+    # start_grid: list[list[str]] = []
+    # col = list("." * height)
+    # for x in range(width):
+    #     start_grid.append(col.copy())
+    start_grid = [["." for _ in range(height)] for _ in range(width)]
+
+    queue = [SearchContext(gifts_histo, start_grid)]
+    while queue:
+        ctx = queue.pop(0)
+        g = ctx.grid
+
+        if ctx.step == (height - 2) * (width - 2):
+            continue
+        x = ctx.step // (height - 2)
+        y = ctx.step % (width - 2)
+        log.debug(f"step={ctx.step}, x={x}, y={y}")
+
+        required_pattern = get_required_pattern(g, x, y)
+        for i, remaining_gifts in enumerate(ctx.gifts_histo):
+            if remaining_gifts > 0:
                 for gift_variant in gifts[i].variants:
                     if gift_variant.does_match(required_pattern):
                         log.debug(f"Match found: {gift_variant.base}")
-                        random_l = random.choice(string.ascii_letters)
-                        new_g = [col[:] for col in g]
-                        for j, p in enumerate(gift_variant.base):
-                            if p != ".":
-                                new_g[x + (j % 3)][y + (j // 3)] = random_l
-                        printg(new_g)
 
-                        new_histo = gifts_histo.copy()
+                        random_letter = random.choice(string.ascii_letters)
+                        new_grid = [col[:] for col in g]  # copy grid
+                        for j, cell in enumerate(gift_variant.base):
+                            if cell != ".":
+                                new_grid[x + (j % 3)][y + (j // 3)] = random_letter
+                        printg(new_grid)
+
+                        new_histo = ctx.gifts_histo.copy()
                         new_histo[i] -= 1
 
                         if sum(new_histo) == 0:
                             log.info("BINGO - Solved!")
                             return 1
 
-                        res = _solve_task(width, height, new_histo, gifts, new_g, x, y)
-                        if res:
-                            return 1
-
-        from_y = 0
-
+                        queue.append(SearchContext(new_histo, new_grid, ctx.step + 1, 0))
+        # TODO JVe Only if no append ^^ ??
+        queue.append(SearchContext(ctx.gifts_histo, ctx.grid, ctx.step + 1, 0))
     return 0
+
+
+def get_required_pattern(g: list[list[str]], x: int, y: int) -> str:
+    return (g[x][y + 0] + g[x + 1][y + 0] + g[x + 2][y + 0] +
+            g[x][y + 1] + g[x + 1][y + 1] + g[x + 2][y + 1] +
+            g[x][y + 2] + g[x + 1][y + 2] + g[x + 2][y + 2])
 
 
 def printg(g: list[list[str]]):
