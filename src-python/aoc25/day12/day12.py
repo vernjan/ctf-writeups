@@ -13,7 +13,6 @@ from util.log import log
 class GiftPattern:
     base: str
 
-    # TODO JVe Use this ???
     @cached_property
     def variants(self):
         """
@@ -63,47 +62,11 @@ class GiftPattern:
 
         return variants
 
-
-    @cached_property
-    def variants??(self) -> set["GiftPattern"]:
-        variants = set()
-        variants.add(self)
-        # vertical flip
-        variants.add(GiftPattern(
-            self.base[2] + self.base[1] + self.base[0] +
-            self.base[5] + self.base[4] + self.base[3] +
-            self.base[8] + self.base[7] + self.base[6]))
-        # horizontal flip
-        variants.add(GiftPattern(
-            self.base[6] + self.base[7] + self.base[8] +
-            self.base[3] + self.base[4] + self.base[5] +
-            self.base[0] + self.base[1] + self.base[2]))
-        # rot 90
-        variants.add(GiftPattern(
-            self.base[6] + self.base[3] + self.base[0] +
-            self.base[7] + self.base[4] + self.base[1] +
-            self.base[8] + self.base[5] + self.base[2]))
-        # rot 180
-        variants.add(GiftPattern(
-            self.base[8] + self.base[7] + self.base[6] +
-            self.base[5] + self.base[4] + self.base[3] +
-            self.base[2] + self.base[1] + self.base[0]))
-        # rot 270
-        variants.add(GiftPattern(
-            self.base[2] + self.base[5] + self.base[8] +
-            self.base[1] + self.base[4] + self.base[7] +
-            self.base[0] + self.base[3] + self.base[6]))
-
-
-        return variants
-
     def does_match(self, pattern: str) -> bool:
         for i, p in enumerate(pattern):
             if p != '.' and self.base[i] == '#':
                 return False
         return True
-
-
 
     def __str__(self):
         return self.base[:3] + "\n" + self.base[3:6] + "\n" + self.base[6:] + "\n"
@@ -150,6 +113,7 @@ def star1(lines: list[str]):
 
     return total
 
+
 def _solve_task(width: int, height: int, gifts_histo: list[int], gifts: list[GiftPattern], g: list[list[str]], from_x: int, from_y: int):
     log.info(f"w={width}, h={height}, gh={gifts_histo}, from_x={from_x}, from_y={from_y}")
 
@@ -170,7 +134,7 @@ def _solve_task(width: int, height: int, gifts_histo: list[int], gifts: list[Gif
                     if gift_variant.does_match(required_pattern):
                         log.debug(f"Match found: {gift_variant.base}")
                         random_l = random.choice(string.ascii_letters)
-                        new_g =[col[:] for col in g]
+                        new_g = [col[:] for col in g]
                         for j, p in enumerate(gift_variant.base):
                             if p != ".":
                                 new_g[x + (j % 3)][y + (j // 3)] = random_l
@@ -183,15 +147,11 @@ def _solve_task(width: int, height: int, gifts_histo: list[int], gifts: list[Gif
                             log.info("BINGO - Solved!")
                             return 1
 
-
-
                         res = _solve_task(width, height, new_histo, gifts, new_g, x, y)
                         if res:
                             return 1
 
                         # TODO Add into grid
-
-
 
     return 0
 
@@ -202,7 +162,6 @@ def printg(g: list[list[str]]):
         for x in range(len(g)):
             line += g[x][y]
         log.debug(line)
-
 
 
 def star2(lines: list[str]):
