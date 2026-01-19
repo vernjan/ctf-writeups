@@ -10,7 +10,7 @@ from util.log import log
 
 
 @dataclass(frozen=True)
-class GiftPattern:
+class GiftPattern:  # TODO JVe Rename to Gift
     base: str
 
     @cached_property
@@ -72,6 +72,16 @@ class GiftPattern:
         return self.base[:3] + "\n" + self.base[3:6] + "\n" + self.base[6:] + "\n"
 
 
+@dataclass(frozen=True)
+class SearchContext:
+    gifts_histo: list[int]
+    g: list[list[str]]
+    from_x: int
+    from_y: int
+    gifts: list[GiftPattern]
+    score: int  # placed gifts
+
+
 def star1(lines: list[str]):
     """
     >>> star1(read_test_input(__file__))
@@ -117,13 +127,12 @@ def star1(lines: list[str]):
 def _solve_task(width: int, height: int, gifts_histo: list[int], gifts: list[GiftPattern], g: list[list[str]], from_x: int, from_y: int):
     log.info(f"w={width}, h={height}, gh={gifts_histo}, from_x={from_x}, from_y={from_y}")
 
-    # TODO JVe FIX from_x & from_y
     # TODO JVe Prune suboptimal solutions?
     #   Based on x I know how many cols I've already covered, then count how many squares were indeed set!
     #   Fist, I must use depth-first search
     # TODO JVe Look for squares?
     for x in range(from_x, width - 2):
-        for y in range(0, height - 2):
+        for y in range(from_y, height - 2):
             required_pattern = (g[x][y + 0] + g[x + 1][y + 0] + g[x + 2][y + 0] +
                                 g[x][y + 1] + g[x + 1][y + 1] + g[x + 2][y + 1] +
                                 g[x][y + 2] + g[x + 1][y + 2] + g[x + 2][y + 2])
@@ -151,7 +160,7 @@ def _solve_task(width: int, height: int, gifts_histo: list[int], gifts: list[Gif
                         if res:
                             return 1
 
-                        # TODO Add into grid
+        from_y = 0
 
     return 0
 
