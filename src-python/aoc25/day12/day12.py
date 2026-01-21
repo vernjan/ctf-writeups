@@ -62,6 +62,10 @@ class GiftPattern:  # TODO JVe Rename to Gift
 
         return variants
 
+    @cached_property
+    def score(self):
+        return self.base.count('#')
+
     def does_match(self, pattern: str) -> bool:
         for i, p in enumerate(pattern):
             if p != '.' and self.base[i] == '#':
@@ -125,29 +129,35 @@ def _solve_task(width: int, height: int, gifts_histo: list[int], gifts: list[Gif
     # TODO JVe Merge gifts_histo + gifts into single dict
     log.info(f"w={width}, h={height}, gh={gifts_histo}")
 
-    # start_grid: list[list[str]] = []
-    # col = list("." * height)
-    # for x in range(width):
-    #     start_grid.append(col.copy())
-    start_grid = [["." for _ in range(height)] for _ in range(width)]
+    best_score = {}  # step: score
 
+    start_grid = [["."] * height for _ in range(width)]
     queue = [SearchContext(gifts_histo, start_grid)]
     while queue:
         ctx = queue.pop(0)
-        g = ctx.grid
 
         if ctx.step == (height - 2) * (width - 2):
             continue
+
+        if ctx.step in best_score and ctx.score <= best_score[ctx.step]:
+            continue
+        else:
+            best_score[ctx.step] = ctx.score
+
+        g = ctx.grid
         x = ctx.step // (height - 2)
-        y = ctx.step % (width - 2)
-        log.debug(f"step={ctx.step}, x={x}, y={y}")
+        y = ctx.step % (height - 2)
+
+        log.debug(f"step={ctx.step}, x={x}, y={y}, score={ctx.score}")
 
         required_pattern = get_required_pattern(g, x, y)
+        was_match = False
         for i, remaining_gifts in enumerate(ctx.gifts_histo):
             if remaining_gifts > 0:
                 for gift_variant in gifts[i].variants:
                     if gift_variant.does_match(required_pattern):
                         log.debug(f"Match found: {gift_variant.base}")
+                        was_match = True
 
                         random_letter = random.choice(string.ascii_letters)
                         new_grid = [col[:] for col in g]  # copy grid
@@ -163,9 +173,10 @@ def _solve_task(width: int, height: int, gifts_histo: list[int], gifts: list[Gif
                             log.info("BINGO - Solved!")
                             return 1
 
-                        queue.append(SearchContext(new_histo, new_grid, ctx.step + 1, 0))
-        # TODO JVe Only if no append ^^ ??
-        queue.append(SearchContext(ctx.gifts_histo, ctx.grid, ctx.step + 1, 0))
+                        queue.append(SearchContext(new_histo, new_grid, ctx.step + 1, ctx.score + gift_variant.score))
+        if not was_match:
+            queue.append(SearchContext(ctx.gifts_histo, ctx.grid, ctx.step + 1, ctx.score))
+
     return 0
 
 
