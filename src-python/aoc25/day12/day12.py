@@ -10,7 +10,7 @@ from util.log import log
 
 
 @dataclass(frozen=True)
-class GiftPattern:  # TODO JVe Rename to Gift
+class GiftPattern:
     base: str
 
     @cached_property
@@ -19,8 +19,6 @@ class GiftPattern:  # TODO JVe Rename to Gift
         All possible flips and rotations
         """
         variants = set()
-
-        # TODO JVe Make this generic and move into utils
 
         variants.add(self)
         # rot 90
@@ -106,12 +104,6 @@ def star1(lines: list[str]):
             m = re.match("([0-9]+)x([0-9]+):(.*)", line)
             if m:
                 gifts: list[GiftPattern] = list(map(GiftPattern, gift_patterns))
-
-                # for gift in gifts:
-                #     log.debug(f"Gift\n{gift.base}:")
-                #     for variant in gift.variants:
-                #         log.debug(variant)
-
                 width = int(m.group(1))
                 height = int(m.group(2))
                 gifts_histo = list(map(int, m.group(3).split()))
@@ -121,10 +113,6 @@ def star1(lines: list[str]):
     return total
 
 
-# TODO JVe Prune suboptimal solutions?
-#   Based on x I know how many cols I've already covered, then count how many squares were indeed set!
-#   Fist, I must use depth-first search
-# TODO JVe Look for squares?
 def _solve_task(width: int, height: int, gifts_histo: list[int], gifts: list[GiftPattern]):
     # TODO JVe Merge gifts_histo + gifts into single dict
     log.info(f"w={width}, h={height}, gh={gifts_histo}")
@@ -164,7 +152,7 @@ def _solve_task(width: int, height: int, gifts_histo: list[int], gifts: list[Gif
                         for j, cell in enumerate(gift_variant.base):
                             if cell != ".":
                                 new_grid[x + (j % 3)][y + (j // 3)] = random_letter
-                        printg(new_grid)
+                        print_grid(new_grid)
 
                         new_histo = ctx.gifts_histo.copy()
                         new_histo[i] -= 1
@@ -186,7 +174,7 @@ def get_required_pattern(g: list[list[str]], x: int, y: int) -> str:
             g[x][y + 2] + g[x + 1][y + 2] + g[x + 2][y + 2])
 
 
-def printg(g: list[list[str]]):
+def print_grid(g: list[list[str]]):
     for y in range(len(g[0])):
         line = ""
         for x in range(len(g)):
@@ -194,16 +182,7 @@ def printg(g: list[list[str]]):
         log.debug(line)
 
 
-def star2(lines: list[str]):
-    """
-    >>> star2(read_test_input(__file__))
-
-    """
-    for line in lines:
-        pass
-
-
 if __name__ == "__main__":
     log.setLevel(logging.INFO)
-    timed_run("Star 1", lambda: star1(read_input(__file__)), expected_result=None)
-    timed_run("Star 2", lambda: star2(read_input(__file__)), expected_result=None)
+    # It's plain stupid but works because how input data is arranged :/
+    timed_run("Star 1", lambda: star1(read_input(__file__)), expected_result=591)
